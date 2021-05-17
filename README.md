@@ -5,6 +5,7 @@ This dashboard has been developed using [Diamond-React](https://www.primefaces.o
 ## Requirements
 
 - NodeJS v14.17.0 LTS: [Download](https://nodejs.org/)
+- NPM v7.13.0 LTS: [Download](https://www.npmjs.com/get-npm)
 
 ### Dependencies
 
