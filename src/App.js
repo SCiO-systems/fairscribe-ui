@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
-import classNames from "classnames";
-import { Route } from "react-router-dom";
-
-import AppTopBar from "./AppTopbar";
-import AppFooter from "./AppFooter";
-import AppMenu from "./AppMenu";
-import AppRightMenu from "./AppRightMenu";
-import PrimeReact from "primereact/api";
-
-import { Dashboard } from "./pages/Dashboard";
-
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-import "primeflex/primeflex.css";
-import "./App.scss";
+import classNames from 'classnames';
+import 'primeflex/primeflex.css';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import React, { useEffect, useState } from 'react';
+import { Route } from 'react-router-dom';
+import './App.scss';
+import AppFooter from './AppFooter';
+import AppMenu from './AppMenu';
+import AppRightMenu from './AppRightMenu';
+import AppTopBar from './AppTopbar';
+import { Dashboard } from './pages/Dashboard';
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
-  const [menuMode, setMenuMode] = useState("static");
-  const [colorScheme, setColorScheme] = useState("light");
-  const [menuTheme, setMenuTheme] = useState("layout-sidebar-darkgray");
+  const [menuMode, setMenuMode] = useState('static');
+  const [colorScheme, setColorScheme] = useState('light');
+  const [menuTheme, setMenuTheme] = useState('layout-sidebar-darkgray');
   const [overlayMenuActive, setOverlayMenuActive] = useState(false);
   const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] =
     useState(false);
@@ -30,7 +26,7 @@ const App = () => {
     useState(false);
   const [rightMenuActive, setRightMenuActive] = useState(false);
   const [configActive, setConfigActive] = useState(false);
-  const [inputStyle, setInputStyle] = useState("outlined");
+  const [inputStyle, setInputStyle] = useState('outlined');
   const [ripple, setRipple] = useState(false);
 
   let menuClick = false;
@@ -42,149 +38,149 @@ const App = () => {
 
   const menu = [
     {
-      label: "Favorites",
-      icon: "pi pi-fw pi-home",
-      items: [{ label: "Dashboard", icon: "pi pi-fw pi-home", to: "/" }],
+      label: 'Favorites',
+      icon: 'pi pi-fw pi-home',
+      items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }],
     },
     { separator: true },
     {
-      label: "UI Kit",
-      icon: "pi pi-fw pi-id-card",
+      label: 'UI Kit',
+      icon: 'pi pi-fw pi-id-card',
       items: [
         {
-          label: "Form Layout",
-          icon: "pi pi-fw pi-id-card",
-          to: "/formlayout",
+          label: 'Form Layout',
+          icon: 'pi pi-fw pi-id-card',
+          to: '/formlayout',
         },
-        { label: "Input", icon: "pi pi-fw pi-check-square", to: "/input" },
+        { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
         {
-          label: "Float Label",
-          icon: "pi pi-fw pi-bookmark",
-          to: "/floatlabel",
-        },
-        {
-          label: "Invalid State",
-          icon: "pi pi-fw pi-exclamation-circle",
-          to: "/invalidstate",
+          label: 'Float Label',
+          icon: 'pi pi-fw pi-bookmark',
+          to: '/floatlabel',
         },
         {
-          label: "Button",
-          icon: "pi pi-fw pi-mobile",
-          to: "/button",
-          className: "rotated-icon",
+          label: 'Invalid State',
+          icon: 'pi pi-fw pi-exclamation-circle',
+          to: '/invalidstate',
         },
-        { label: "Table", icon: "pi pi-fw pi-table", to: "/table" },
-        { label: "List", icon: "pi pi-fw pi-list", to: "/list" },
-        { label: "Tree", icon: "pi pi-fw pi-share-alt", to: "/tree" },
-        { label: "Panel", icon: "pi pi-fw pi-tablet", to: "/panel" },
-        { label: "Overlay", icon: "pi pi-fw pi-clone", to: "/overlay" },
-        { label: "Media", icon: "pi pi-fw pi-image", to: "/media" },
-        { label: "Menu", icon: "pi pi-fw pi-bars", to: "/menu" },
-        { label: "Message", icon: "pi pi-fw pi-comment", to: "/messages" },
-        { label: "File", icon: "pi pi-fw pi-file", to: "/file" },
-        { label: "Chart", icon: "pi pi-fw pi-chart-bar", to: "/chart" },
-        { label: "Misc", icon: "pi pi-fw pi-circle-off", to: "/misc" },
+        {
+          label: 'Button',
+          icon: 'pi pi-fw pi-mobile',
+          to: '/button',
+          className: 'rotated-icon',
+        },
+        { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
+        { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
+        { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree' },
+        { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel' },
+        { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay' },
+        { label: 'Media', icon: 'pi pi-fw pi-image', to: '/media' },
+        { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
+        { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/messages' },
+        { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
+        { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/chart' },
+        { label: 'Misc', icon: 'pi pi-fw pi-circle-off', to: '/misc' },
       ],
     },
     { separator: true },
     {
-      label: "Utilities",
-      icon: "pi pi-fw pi-desktop",
+      label: 'Utilities',
+      icon: 'pi pi-fw pi-desktop',
       items: [
-        { label: "Display", icon: "pi pi-fw pi-desktop", to: "/display" },
+        { label: 'Display', icon: 'pi pi-fw pi-desktop', to: '/display' },
         {
-          label: "Elevation",
-          icon: "pi pi-fw pi-external-link",
-          to: "/elevation",
+          label: 'Elevation',
+          icon: 'pi pi-fw pi-external-link',
+          to: '/elevation',
         },
-        { label: "Flexbox", icon: "pi pi-fw pi-directions", to: "/flexbox" },
-        { label: "Icons", icon: "pi pi-fw pi-search", to: "/icons" },
-        { label: "Text", icon: "pi pi-fw pi-pencil", to: "/text" },
-        { label: "Widgets", icon: "pi pi-fw pi-star-o", to: "/widgets" },
-        { label: "Grid System", icon: "pi pi-fw pi-th-large", to: "/grid" },
-        { label: "Spacing", icon: "pi pi-fw pi-arrow-right", to: "/spacing" },
+        { label: 'Flexbox', icon: 'pi pi-fw pi-directions', to: '/flexbox' },
+        { label: 'Icons', icon: 'pi pi-fw pi-search', to: '/icons' },
+        { label: 'Text', icon: 'pi pi-fw pi-pencil', to: '/text' },
+        { label: 'Widgets', icon: 'pi pi-fw pi-star-o', to: '/widgets' },
+        { label: 'Grid System', icon: 'pi pi-fw pi-th-large', to: '/grid' },
+        { label: 'Spacing', icon: 'pi pi-fw pi-arrow-right', to: '/spacing' },
         {
-          label: "Typography",
-          icon: "pi pi-fw pi-align-center",
-          to: "/typography",
+          label: 'Typography',
+          icon: 'pi pi-fw pi-align-center',
+          to: '/typography',
         },
       ],
     },
     { separator: true },
     {
-      label: "Pages",
-      icon: "pi pi-fw pi-pencil",
+      label: 'Pages',
+      icon: 'pi pi-fw pi-pencil',
       items: [
-        { label: "Crud", icon: "pi pi-fw pi-pencil", to: "/crud" },
+        { label: 'Crud', icon: 'pi pi-fw pi-pencil', to: '/crud' },
         {
-          label: "Calendar",
-          icon: "pi pi-fw pi-calendar-plus",
-          to: "/calendar",
+          label: 'Calendar',
+          icon: 'pi pi-fw pi-calendar-plus',
+          to: '/calendar',
         },
-        { label: "Timeline", icon: "pi pi-fw pi-calendar", to: "/timeline" },
+        { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline' },
         {
-          label: "Landing",
-          icon: "pi pi-fw pi-user-plus",
-          url: "assets/pages/landing.html",
-          target: "_blank",
+          label: 'Landing',
+          icon: 'pi pi-fw pi-user-plus',
+          url: 'assets/pages/landing.html',
+          target: '_blank',
         },
-        { label: "Login", icon: "pi pi-fw pi-sign-in", to: "/login" },
-        { label: "Invoice", icon: "pi pi-fw pi-dollar", to: "/invoice" },
-        { label: "Help", icon: "pi pi-fw pi-question-circle", to: "/help" },
-        { label: "Error", icon: "pi pi-fw pi-times-circle", to: "/error" },
+        { label: 'Login', icon: 'pi pi-fw pi-sign-in', to: '/login' },
+        { label: 'Invoice', icon: 'pi pi-fw pi-dollar', to: '/invoice' },
+        { label: 'Help', icon: 'pi pi-fw pi-question-circle', to: '/help' },
+        { label: 'Error', icon: 'pi pi-fw pi-times-circle', to: '/error' },
         {
-          label: "Not Found",
-          icon: "pi pi-fw pi-exclamation-circle",
-          to: "/notfound",
+          label: 'Not Found',
+          icon: 'pi pi-fw pi-exclamation-circle',
+          to: '/notfound',
         },
-        { label: "Access Denied", icon: "pi pi-fw pi-lock", to: "/access" },
-        { label: "Empty", icon: "pi pi-fw pi-circle-off", to: "/empty" },
+        { label: 'Access Denied', icon: 'pi pi-fw pi-lock', to: '/access' },
+        { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' },
       ],
     },
     { separator: true },
     {
-      label: "Hierarchy",
-      icon: "pi pi-fw pi-align-left",
+      label: 'Hierarchy',
+      icon: 'pi pi-fw pi-align-left',
       items: [
         {
-          label: "Submenu 1",
-          icon: "pi pi-fw pi-align-left",
+          label: 'Submenu 1',
+          icon: 'pi pi-fw pi-align-left',
           items: [
             {
-              label: "Submenu 1.1",
-              icon: "pi pi-fw pi-align-left",
+              label: 'Submenu 1.1',
+              icon: 'pi pi-fw pi-align-left',
               items: [
-                { label: "Submenu 1.1.1", icon: "pi pi-fw pi-align-left" },
-                { label: "Submenu 1.1.2", icon: "pi pi-fw pi-align-left" },
-                { label: "Submenu 1.1.3", icon: "pi pi-fw pi-align-left" },
+                { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-align-left' },
+                { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-align-left' },
+                { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-align-left' },
               ],
             },
             {
-              label: "Submenu 1.2",
-              icon: "pi pi-fw pi-align-left",
+              label: 'Submenu 1.2',
+              icon: 'pi pi-fw pi-align-left',
               items: [
-                { label: "Submenu 1.2.1", icon: "pi pi-fw pi-align-left" },
+                { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-align-left' },
               ],
             },
           ],
         },
         {
-          label: "Submenu 2",
-          icon: "pi pi-fw pi-align-left",
+          label: 'Submenu 2',
+          icon: 'pi pi-fw pi-align-left',
           items: [
             {
-              label: "Submenu 2.1",
-              icon: "pi pi-fw pi-align-left",
+              label: 'Submenu 2.1',
+              icon: 'pi pi-fw pi-align-left',
               items: [
-                { label: "Submenu 2.1.1", icon: "pi pi-fw pi-align-left" },
-                { label: "Submenu 2.1.2", icon: "pi pi-fw pi-align-left" },
+                { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-align-left' },
+                { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-align-left' },
               ],
             },
             {
-              label: "Submenu 2.2",
-              icon: "pi pi-fw pi-align-left",
+              label: 'Submenu 2.2',
+              icon: 'pi pi-fw pi-align-left',
               items: [
-                { label: "Submenu 2.2.1", icon: "pi pi-fw pi-align-left" },
+                { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-align-left' },
               ],
             },
           ],
@@ -193,19 +189,19 @@ const App = () => {
     },
     { separator: true },
     {
-      label: "Start",
-      icon: "pi pi-fw pi-download",
+      label: 'Start',
+      icon: 'pi pi-fw pi-download',
       items: [
         {
-          label: "Buy Now",
-          icon: "pi pi-fw pi-shopping-cart",
+          label: 'Buy Now',
+          icon: 'pi pi-fw pi-shopping-cart',
           command: () =>
-            window.open("https://www.primefaces.org/store", "_blank"),
+            window.open('https://www.primefaces.org/store', '_blank'),
         },
         {
-          label: "Documentation",
-          icon: "pi pi-fw pi-info-circle",
-          to: "/documentation",
+          label: 'Documentation',
+          icon: 'pi pi-fw pi-info-circle',
+          to: '/documentation',
         },
       ],
     },
@@ -213,10 +209,10 @@ const App = () => {
 
   const routers = [
     {
-      path: "/",
+      path: '/',
       component: Dashboard,
       exact: true,
-      meta: { breadcrumb: [{ parent: "Dashboard", label: "Dashboard" }] },
+      meta: { breadcrumb: [{ parent: 'Dashboard', label: 'Dashboard' }] },
     },
   ];
 
@@ -229,13 +225,13 @@ const App = () => {
   }, [staticMenuMobileActive]);
 
   useEffect(() => {
-    changeStyleSheetUrl("layout-css", "layout-" + colorScheme + ".css", 1);
-    changeStyleSheetUrl("theme-css", "theme-" + colorScheme + ".css", 1);
+    changeStyleSheetUrl('layout-css', 'layout-' + colorScheme + '.css', 1);
+    changeStyleSheetUrl('theme-css', 'theme-' + colorScheme + '.css', 1);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const changeStyleSheetUrl = (id, value, from) => {
     const element = document.getElementById(id);
-    const urlTokens = element.getAttribute("href").split("/");
+    const urlTokens = element.getAttribute('href').split('/');
 
     if (from === 1) {
       // which function invoked this function
@@ -250,29 +246,29 @@ const App = () => {
       urlTokens[urlTokens.length - 2] = value;
     }
 
-    const newURL = urlTokens.join("/");
+    const newURL = urlTokens.join('/');
 
     replaceLink(element, newURL);
   };
 
   const replaceLink = (linkElement, href) => {
     if (isIE()) {
-      linkElement.setAttribute("href", href);
+      linkElement.setAttribute('href', href);
     } else {
-      const id = linkElement.getAttribute("id");
+      const id = linkElement.getAttribute('id');
       const cloneLinkElement = linkElement.cloneNode(true);
 
-      cloneLinkElement.setAttribute("href", href);
-      cloneLinkElement.setAttribute("id", id + "-clone");
+      cloneLinkElement.setAttribute('href', href);
+      cloneLinkElement.setAttribute('id', id + '-clone');
 
       linkElement.parentNode.insertBefore(
         cloneLinkElement,
         linkElement.nextSibling
       );
 
-      cloneLinkElement.addEventListener("load", () => {
+      cloneLinkElement.addEventListener('load', () => {
         linkElement.remove();
-        cloneLinkElement.setAttribute("id", id);
+        cloneLinkElement.setAttribute('id', id);
       });
     }
   };
@@ -414,32 +410,32 @@ const App = () => {
 
   const blockBodyScroll = () => {
     if (document.body.classList) {
-      document.body.classList.add("blocked-scroll");
+      document.body.classList.add('blocked-scroll');
     } else {
-      document.body.className += " blocked-scroll";
+      document.body.className += ' blocked-scroll';
     }
   };
 
   const unblockBodyScroll = () => {
     if (document.body.classList) {
-      document.body.classList.remove("blocked-scroll");
+      document.body.classList.remove('blocked-scroll');
     } else {
       document.body.className = document.body.className.replace(
         new RegExp(
-          "(^|\\b)" + "blocked-scroll".split(" ").join("|") + "(\\b|$)",
-          "gi"
+          '(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)',
+          'gi'
         ),
-        " "
+        ' '
       );
     }
   };
 
   const isSlim = () => {
-    return menuMode === "slim";
+    return menuMode === 'slim';
   };
 
   const isOverlay = () => {
-    return menuMode === "overlay";
+    return menuMode === 'overlay';
   };
 
   const isDesktop = () => {
@@ -447,21 +443,21 @@ const App = () => {
   };
 
   const containerClassName = classNames(
-    "layout-wrapper",
+    'layout-wrapper',
     {
-      "layout-overlay": menuMode === "overlay",
-      "layout-static": menuMode === "static",
-      "layout-slim": menuMode === "slim",
-      "layout-sidebar-dim": colorScheme === "dim",
-      "layout-sidebar-dark": colorScheme === "dark",
-      "layout-overlay-active": overlayMenuActive,
-      "layout-mobile-active": staticMenuMobileActive,
-      "layout-static-inactive":
-        staticMenuDesktopInactive && menuMode === "static",
-      "p-input-filled": inputStyle === "filled",
-      "p-ripple-disabled": !ripple,
+      'layout-overlay': menuMode === 'overlay',
+      'layout-static': menuMode === 'static',
+      'layout-slim': menuMode === 'slim',
+      'layout-sidebar-dim': colorScheme === 'dim',
+      'layout-sidebar-dark': colorScheme === 'dark',
+      'layout-overlay-active': overlayMenuActive,
+      'layout-mobile-active': staticMenuMobileActive,
+      'layout-static-inactive':
+        staticMenuDesktopInactive && menuMode === 'static',
+      'p-input-filled': inputStyle === 'filled',
+      'p-ripple-disabled': !ripple,
     },
-    colorScheme === "light" ? menuTheme : ""
+    colorScheme === 'light' ? menuTheme : ''
   );
 
   return (

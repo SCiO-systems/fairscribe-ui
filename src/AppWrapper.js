@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { Route, useLocation, withRouter } from "react-router-dom";
-import App from "./App";
-import { Login } from "./pages/Login";
+import React, { useEffect } from 'react';
+import { Route, useLocation, withRouter } from 'react-router-dom';
+import { Login } from './pages/Login';
 
 const AppWrapper = () => {
   let location = useLocation();
@@ -11,10 +10,10 @@ const AppWrapper = () => {
   }, [location]);
 
   switch (location.pathname) {
-    case "/login":
+    case '/login':
       return <Route path="/login" component={Login} />;
     default:
-      return <App />;
+      return <Login />;
   }
 };
 
