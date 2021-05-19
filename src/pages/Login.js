@@ -17,10 +17,12 @@ export const Login = () => {
 
   return (
     <div className="login-body">
-      <img src={Logo} alt="dataSCRIBE Logo" className="img-logo" />
+      <div className="p-text-center p-mb-6">
+        <img src={Logo} alt="dataSCRIBE Logo" className="img-logo" />
+      </div>
       <div className="p-d-flex p-jc-center p-ai-center p-mt-6">
-        <div className="p-d-flex p-flex-column p-p-6 p-shadow-5">
-          <h3 className="p-d-block p-text-center p-mb-4">Login with</h3>
+        <div className="p-d-flex p-flex-column p-p-6 p-shadow-5 rounded">
+          <h3 className="p-d-block p-text-center p-mb-5">Login with</h3>
           <div className="p-grid">
             <Dropdown
               value={authProvider}

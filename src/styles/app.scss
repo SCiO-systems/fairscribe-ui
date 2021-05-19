@@ -2,15 +2,25 @@
 $gutter: 1rem;
 
 // Add dependencies
-@import "node_modules/primeflex/primeflex.scss";
+@import 'node_modules/primeflex/primeflex.scss';
 
 // Add custom font
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+$mainFont: 'Manrope', sans-serif;
+$mainFontSize: 15px;
+
 *,
 body,
 :root {
-  font-family: "Manrope", sans-serif;
-  font-size: 16px;
+  font-family: $mainFont;
+  font-size: $mainFontSize;
 }
 
-@import "./custom.scss";
+// TODO: Make this better.
+.p-dropdown-label {
+  font-family: $mainFont;
+  font-size: $mainFontSize;
+}
+
+@import './custom.scss';
