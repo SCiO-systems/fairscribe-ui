@@ -9,7 +9,8 @@ $gutter: 1rem;
 
 $mainFont: 'Manrope', sans-serif;
 $mainFontSize: 14px;
-$labelFontWeight: 500;
+$labelFontWeight: 600;
+$labelFontColor: #666;
 
 *,
 body,
@@ -32,6 +33,7 @@ body,
 }
 
 label {
+  color: $labelFontColor;
   font-weight: $labelFontWeight;
 }
 
