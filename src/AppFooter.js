@@ -1,17 +1,42 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import LogoSCiO from "./assets/img/SCiO-sLogo-Dark.png";
 
 const AppFooter = () => {
   return (
     <div className="layout-footer">
       <div className="footer-logo-container">
-        <img
-          id="footer-logo"
-          src="assets/layout/images/logo-dark.svg"
-          alt="diamond-layout"
-        />
-        <span className="app-name">DataScribe</span>
+        <a
+          href="https://creativecommons.org/licenses/by-sa/4.0/"
+          title="Creative Commons Attribution-ShareAlike 4.0 International License"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className="hover-item">
+            <FontAwesomeIcon
+              className="p-mr-3"
+              icon={["fab", "creative-commons"]}
+              size="2x"
+            />
+            <FontAwesomeIcon
+              className="p-mr-3"
+              icon={["fab", "creative-commons-by"]}
+              size="2x"
+            />
+            <FontAwesomeIcon
+              className="p-mr-3"
+              icon={["fab", "creative-commons-sa"]}
+              size="2x"
+            />
+          </span>
+        </a>
       </div>
-      <span className="copyright">&#169; SCiO</span>
+      <span className="copyright p-d-flex p-ai-center p-jc-center">
+        <span className="p-mr-3">powered by</span>
+        <a href="https://scio.systems" rel="noreferrer" target="_blank">
+          <img src={LogoSCiO} alt="SCiO Logo" height="30px" />
+        </a>
+      </span>
     </div>
   );
 };

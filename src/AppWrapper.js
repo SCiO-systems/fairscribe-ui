@@ -1,10 +1,11 @@
-import 'primeicons/primeicons.css';
-import 'primereact/resources/primereact.min.css';
-import React, { useEffect } from 'react';
-import { Route, useLocation, withRouter } from 'react-router-dom';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
-import './styles/app.scss';
+import "primeicons/primeicons.css";
+import "primereact/resources/primereact.min.css";
+import React, { useEffect } from "react";
+import { Route, useLocation, withRouter } from "react-router-dom";
+import { Login } from "./pages/Login";
+import App from "./App";
+import { Register } from "./pages/Register";
+import "./styles/app.scss";
 
 const AppWrapper = () => {
   let location = useLocation();
@@ -14,9 +15,11 @@ const AppWrapper = () => {
   }, [location]);
 
   switch (location.pathname) {
-    case '/login':
+    case "/dashboard":
+      return <Route path="/dashboard" component={App} />;
+    case "/login":
       return <Route path="/login" component={Login} />;
-    case '/register':
+    case "/register":
       return <Route path="/register" component={Register} />;
     default:
       return <Login />;

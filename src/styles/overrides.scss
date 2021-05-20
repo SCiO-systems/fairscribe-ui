@@ -1,0 +1,36 @@
+.rounded {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.p-button-big {
+  padding: 15px 25px;
+  width: 300px;
+
+  .p-button-label {
+    font-size: 17px;
+    letter-spacing: 0.25px;
+    font-weight: 500;
+  }
+}
+
+@media screen and (min-width: $lg) {
+  .layout-static .footer-logo-container {
+    margin-left: 17rem;
+    transition: margin 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+  }
+
+  .layout-static-inactive .footer-logo-container {
+    margin-left: 0;
+  }
+}
+
+.layout-root-menuitem .p-button.p-button-sm.add-team-btn {
+  margin-top: -0.5rem;
+  padding: 0.21875rem 0.4375rem;
+  height: 1.1785rem;
+  width: 1.1785rem;
+}
+
+.layout-root-menuitem .p-button.p-button-sm.add-team-btn .p-button-icon {
+  font-size: 0.675rem !important;
+}

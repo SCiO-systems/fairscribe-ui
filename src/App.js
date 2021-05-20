@@ -3,212 +3,33 @@ import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import AppFooter from "./AppFooter";
 import AppMenu from "./AppMenu";
-import AppRightMenu from "./AppRightMenu";
 import AppTopBar from "./AppTopbar";
 import { Dashboard } from "./pages/Dashboard";
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
-  const [menuMode, setMenuMode] = useState("static");
-  const [colorScheme, setColorScheme] = useState("light");
-  const [menuTheme, setMenuTheme] = useState("layout-sidebar-darkgray");
+  const [menuMode] = useState("static");
+  const [colorScheme] = useState("light");
+  const [menuTheme] = useState("layout-sidebar-darkgray");
   const [overlayMenuActive, setOverlayMenuActive] = useState(false);
   const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] =
     useState(false);
   const [staticMenuMobileActive, setStaticMenuMobileActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
-  const [topbarUserMenuActive, setTopbarUserMenuActive] = useState(false);
-  const [topbarNotificationMenuActive, setTopbarNotificationMenuActive] =
-    useState(false);
-  const [rightMenuActive, setRightMenuActive] = useState(false);
   const [configActive, setConfigActive] = useState(false);
-  const [inputStyle, setInputStyle] = useState("outlined");
-  const [ripple, setRipple] = useState(false);
+  const [inputStyle] = useState("outlined");
+  const [ripple] = useState(false);
 
   let menuClick = false;
   let searchClick = false;
-  let userMenuClick = false;
-  let notificationMenuClick = false;
-  let rightMenuClick = false;
   let configClick = false;
-
-  const menu = [
-    {
-      label: "Favorites",
-      icon: "pi pi-fw pi-home",
-      items: [{ label: "Dashboard", icon: "pi pi-fw pi-home", to: "/" }],
-    },
-    { separator: true },
-    {
-      label: "UI Kit",
-      icon: "pi pi-fw pi-id-card",
-      items: [
-        {
-          label: "Form Layout",
-          icon: "pi pi-fw pi-id-card",
-          to: "/formlayout",
-        },
-        { label: "Input", icon: "pi pi-fw pi-check-square", to: "/input" },
-        {
-          label: "Float Label",
-          icon: "pi pi-fw pi-bookmark",
-          to: "/floatlabel",
-        },
-        {
-          label: "Invalid State",
-          icon: "pi pi-fw pi-exclamation-circle",
-          to: "/invalidstate",
-        },
-        {
-          label: "Button",
-          icon: "pi pi-fw pi-mobile",
-          to: "/button",
-          className: "rotated-icon",
-        },
-        { label: "Table", icon: "pi pi-fw pi-table", to: "/table" },
-        { label: "List", icon: "pi pi-fw pi-list", to: "/list" },
-        { label: "Tree", icon: "pi pi-fw pi-share-alt", to: "/tree" },
-        { label: "Panel", icon: "pi pi-fw pi-tablet", to: "/panel" },
-        { label: "Overlay", icon: "pi pi-fw pi-clone", to: "/overlay" },
-        { label: "Media", icon: "pi pi-fw pi-image", to: "/media" },
-        { label: "Menu", icon: "pi pi-fw pi-bars", to: "/menu" },
-        { label: "Message", icon: "pi pi-fw pi-comment", to: "/messages" },
-        { label: "File", icon: "pi pi-fw pi-file", to: "/file" },
-        { label: "Chart", icon: "pi pi-fw pi-chart-bar", to: "/chart" },
-        { label: "Misc", icon: "pi pi-fw pi-circle-off", to: "/misc" },
-      ],
-    },
-    { separator: true },
-    {
-      label: "Utilities",
-      icon: "pi pi-fw pi-desktop",
-      items: [
-        { label: "Display", icon: "pi pi-fw pi-desktop", to: "/display" },
-        {
-          label: "Elevation",
-          icon: "pi pi-fw pi-external-link",
-          to: "/elevation",
-        },
-        { label: "Flexbox", icon: "pi pi-fw pi-directions", to: "/flexbox" },
-        { label: "Icons", icon: "pi pi-fw pi-search", to: "/icons" },
-        { label: "Text", icon: "pi pi-fw pi-pencil", to: "/text" },
-        { label: "Widgets", icon: "pi pi-fw pi-star-o", to: "/widgets" },
-        { label: "Grid System", icon: "pi pi-fw pi-th-large", to: "/grid" },
-        { label: "Spacing", icon: "pi pi-fw pi-arrow-right", to: "/spacing" },
-        {
-          label: "Typography",
-          icon: "pi pi-fw pi-align-center",
-          to: "/typography",
-        },
-      ],
-    },
-    { separator: true },
-    {
-      label: "Pages",
-      icon: "pi pi-fw pi-pencil",
-      items: [
-        { label: "Crud", icon: "pi pi-fw pi-pencil", to: "/crud" },
-        {
-          label: "Calendar",
-          icon: "pi pi-fw pi-calendar-plus",
-          to: "/calendar",
-        },
-        { label: "Timeline", icon: "pi pi-fw pi-calendar", to: "/timeline" },
-        {
-          label: "Landing",
-          icon: "pi pi-fw pi-user-plus",
-          url: "assets/pages/landing.html",
-          target: "_blank",
-        },
-        { label: "Login", icon: "pi pi-fw pi-sign-in", to: "/login" },
-        { label: "Invoice", icon: "pi pi-fw pi-dollar", to: "/invoice" },
-        { label: "Help", icon: "pi pi-fw pi-question-circle", to: "/help" },
-        { label: "Error", icon: "pi pi-fw pi-times-circle", to: "/error" },
-        {
-          label: "Not Found",
-          icon: "pi pi-fw pi-exclamation-circle",
-          to: "/notfound",
-        },
-        { label: "Access Denied", icon: "pi pi-fw pi-lock", to: "/access" },
-        { label: "Empty", icon: "pi pi-fw pi-circle-off", to: "/empty" },
-      ],
-    },
-    { separator: true },
-    {
-      label: "Hierarchy",
-      icon: "pi pi-fw pi-align-left",
-      items: [
-        {
-          label: "Submenu 1",
-          icon: "pi pi-fw pi-align-left",
-          items: [
-            {
-              label: "Submenu 1.1",
-              icon: "pi pi-fw pi-align-left",
-              items: [
-                { label: "Submenu 1.1.1", icon: "pi pi-fw pi-align-left" },
-                { label: "Submenu 1.1.2", icon: "pi pi-fw pi-align-left" },
-                { label: "Submenu 1.1.3", icon: "pi pi-fw pi-align-left" },
-              ],
-            },
-            {
-              label: "Submenu 1.2",
-              icon: "pi pi-fw pi-align-left",
-              items: [
-                { label: "Submenu 1.2.1", icon: "pi pi-fw pi-align-left" },
-              ],
-            },
-          ],
-        },
-        {
-          label: "Submenu 2",
-          icon: "pi pi-fw pi-align-left",
-          items: [
-            {
-              label: "Submenu 2.1",
-              icon: "pi pi-fw pi-align-left",
-              items: [
-                { label: "Submenu 2.1.1", icon: "pi pi-fw pi-align-left" },
-                { label: "Submenu 2.1.2", icon: "pi pi-fw pi-align-left" },
-              ],
-            },
-            {
-              label: "Submenu 2.2",
-              icon: "pi pi-fw pi-align-left",
-              items: [
-                { label: "Submenu 2.2.1", icon: "pi pi-fw pi-align-left" },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    { separator: true },
-    {
-      label: "Start",
-      icon: "pi pi-fw pi-download",
-      items: [
-        {
-          label: "Buy Now",
-          icon: "pi pi-fw pi-shopping-cart",
-          command: () =>
-            window.open("https://www.primefaces.org/store", "_blank"),
-        },
-        {
-          label: "Documentation",
-          icon: "pi pi-fw pi-info-circle",
-          to: "/documentation",
-        },
-      ],
-    },
-  ];
 
   const routers = [
     {
       path: "/",
       component: Dashboard,
       exact: true,
-      meta: { breadcrumb: [{ parent: "Dashboard", label: "Dashboard" }] },
+      meta: { breadcrumb: [{ parent: "My Dashboard", label: "My Dashboard" }] },
     },
   ];
 
@@ -278,18 +99,6 @@ const App = () => {
       onSearchHide();
     }
 
-    if (!userMenuClick) {
-      setTopbarUserMenuActive(false);
-    }
-
-    if (!notificationMenuClick) {
-      setTopbarNotificationMenuActive(false);
-    }
-
-    if (!rightMenuClick) {
-      setRightMenuActive(false);
-    }
-
     if (!menuClick) {
       if (isSlim()) {
         setMenuActive(false);
@@ -308,9 +117,6 @@ const App = () => {
 
     searchClick = false;
     configClick = false;
-    userMenuClick = false;
-    rightMenuClick = false;
-    notificationMenuClick = false;
     menuClick = false;
   };
 
@@ -320,9 +126,6 @@ const App = () => {
 
   const onMenuButtonClick = (event) => {
     menuClick = true;
-    setTopbarUserMenuActive(false);
-    setTopbarNotificationMenuActive(false);
-    setRightMenuActive(false);
 
     if (isOverlay()) {
       setOverlayMenuActive((prevOverlayMenuActive) => !prevOverlayMenuActive);
@@ -355,47 +158,9 @@ const App = () => {
     setMenuActive((prevMenuActive) => !prevMenuActive);
   };
 
-  const onTopbarUserMenuButtonClick = (event) => {
-    userMenuClick = true;
-    setTopbarUserMenuActive(
-      (prevTopbarUserMenuActive) => !prevTopbarUserMenuActive
-    );
-
-    hideOverlayMenu();
-
-    event.preventDefault();
-  };
-
-  const onTopbarNotificationMenuButtonClick = (event) => {
-    notificationMenuClick = true;
-    setTopbarNotificationMenuActive(
-      (prevTopbarNotificationMenuActive) => !prevTopbarNotificationMenuActive
-    );
-
-    hideOverlayMenu();
-
-    event.preventDefault();
-  };
-
-  const toggleSearch = () => {
-    setSearchActive((prevSearchActive) => !prevSearchActive);
-    searchClick = true;
-  };
-
   const onSearchHide = () => {
     setSearchActive(false);
     searchClick = false;
-  };
-
-  const onRightMenuClick = () => {
-    rightMenuClick = true;
-  };
-
-  const onRightMenuButtonClick = (event) => {
-    rightMenuClick = true;
-    setRightMenuActive((prevRightMenuActive) => !prevRightMenuActive);
-    hideOverlayMenu();
-    event.preventDefault();
   };
 
   const hideOverlayMenu = () => {
@@ -465,14 +230,7 @@ const App = () => {
       <div className="layout-content-wrapper">
         <AppTopBar
           routers={routers}
-          topbarNotificationMenuActive={topbarNotificationMenuActive}
-          topbarUserMenuActive={topbarUserMenuActive}
           onMenuButtonClick={onMenuButtonClick}
-          onSearchClick={toggleSearch}
-          onTopbarNotification={onTopbarNotificationMenuButtonClick}
-          onTopbarUserMenu={onTopbarUserMenuButtonClick}
-          onRightMenuClick={onRightMenuButtonClick}
-          onRightMenuButtonClick={onRightMenuButtonClick}
         ></AppTopBar>
 
         <div className="layout-content">
@@ -502,7 +260,6 @@ const App = () => {
       </div>
 
       <AppMenu
-        model={menu}
         menuMode={menuMode}
         active={menuActive}
         mobileMenuActive={staticMenuMobileActive}
@@ -510,11 +267,6 @@ const App = () => {
         onMenuitemClick={onMenuitemClick}
         onRootMenuitemClick={onRootMenuitemClick}
       ></AppMenu>
-
-      <AppRightMenu
-        rightMenuActive={rightMenuActive}
-        onRightMenuClick={onRightMenuClick}
-      ></AppRightMenu>
 
       <div className="layout-mask modal-in"></div>
     </div>
