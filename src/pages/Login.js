@@ -1,21 +1,27 @@
-import 'primeflex/primeflex.css';
-import 'primeicons/primeicons.css';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import 'primereact/resources/primereact.min.css';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Footer } from '../components/Footer';
-import { Logo } from '../components/Logo';
+import "primeflex/primeflex.css";
+import "primeicons/primeicons.css";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import "primereact/resources/primereact.min.css";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { Footer } from "../components/Footer";
+import { Logo } from "../components/Logo";
 
 const authProviders = [
-  { label: 'Scribe', value: 'scribe' },
-  { label: 'Globus', value: 'globus' },
-  { label: 'Orchid', value: 'orchid' },
+  { label: "Scribe", value: "scribe" },
+  { label: "Globus", value: "globus" },
+  { label: "Orchid", value: "orchid" },
 ];
 
 export const Login = () => {
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
+  const history = useHistory();
+
+  const navigateToDashboard = (e) => {
+    e.preventDefault();
+    history.push("/dashboard");
+  };
 
   return (
     <>
@@ -39,7 +45,8 @@ export const Login = () => {
                   label="Login"
                   className="p-d-inline p-mt-6"
                   type="button"
-                  style={{ maxWidth: '80%' }}
+                  style={{ maxWidth: "80%" }}
+                  onClick={navigateToDashboard}
                 ></Button>
               </div>
               <p className="p-col-12 p-md-12 p-text-center p-mt-4">
