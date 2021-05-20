@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Dashboard = () => (
+const Dashboard = () => (
   <div className="p-grid">
     <div className="p-col-12">
       <div className="card">
@@ -10,3 +10,5 @@ export const Dashboard = () => (
     </div>
   </div>
 );
+
+export default Dashboard;

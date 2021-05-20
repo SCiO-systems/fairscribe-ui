@@ -5,12 +5,14 @@ import { Checkbox } from 'primereact/checkbox';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
 import React, { useEffect, useState } from 'react';
-import { Footer } from '../components/Footer';
-import { Logo } from '../components/Logo';
+import { useTranslation } from 'react-i18next';
+import Footer from '../components/Footer';
+import Logo from '../components/Logo';
 
-export default () => {
+const Register = () => {
   // TODO: Default false.
   // eslint-disable-next-line
+  const { t } = useTranslation();
   const [formValid, setFormValid] = useState(true);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   // eslint-disable-next-line
@@ -46,10 +48,10 @@ export default () => {
           <div className="p-grid">
             <div className="p-col-12 p-md-8" style={{ margin: '0 auto' }}>
               <div className="card p-fluid p-shadow-4 rounded">
-                <h5>New User Registration</h5>
+                <h5>{t('NEW_USER_REGISTRATION_TEXT')}</h5>
                 <div className="p-formgrid p-grid p-mt-3">
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="firstname">First name</label>
+                    <label htmlFor="firstname">{t('FIRSTNAME')}</label>
                     <InputText
                       id="firstname"
                       type="text"
@@ -58,7 +60,7 @@ export default () => {
                     />
                   </div>
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="lastname">Last name</label>
+                    <label htmlFor="lastname">{t('LASTNAME')}</label>
                     <InputText
                       id="lastname"
                       onChange={(e) => setLastName(e.target.value)}
@@ -67,7 +69,7 @@ export default () => {
                     />
                   </div>
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">{t('EMAIL')}</label>
                     <InputText
                       id="email"
                       type="email"
@@ -76,7 +78,7 @@ export default () => {
                     />
                   </div>
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="emailConfirm">Repeat email</label>
+                    <label htmlFor="emailConfirm">{t('REPEAT_EMAIL')}</label>
                     <InputText
                       id="emailConfirm"
                       onChange={(e) => setEmailConfirm(e.target.value)}
@@ -85,7 +87,7 @@ export default () => {
                     />
                   </div>
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">{t('PASSWORD')}</label>
                     <InputText
                       id="password"
                       onChange={(e) => setPassword(e.target.value)}
@@ -93,7 +95,9 @@ export default () => {
                     />
                   </div>
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="passwordConfirm">Repeat password</label>
+                    <label htmlFor="passwordConfirm">
+                      {t('REPEAT_PASSWORD')}
+                    </label>
                     <InputText
                       id="passwordConfirm"
                       onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -120,11 +124,11 @@ export default () => {
                 htmlFor="legalCheck"
                 style={{ cursor: 'pointer' }}
               >
-                I accept the terms and conditions
+                {t('TERMS_ACCEPT')}
               </label>
             </div>
             <Button
-              label="Create account"
+              label={t('CREATE_ACCOUNT_BUTTON')}
               icon="pi pi-user-plus"
               disabled={acceptedTerms === false}
               className="p-button-big p-mr-2 p-mb-2"
@@ -136,3 +140,5 @@ export default () => {
     </>
   );
 };
+
+export default Register;

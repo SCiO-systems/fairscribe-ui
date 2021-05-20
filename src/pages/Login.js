@@ -46,7 +46,7 @@ const Login = () => {
               </div>
               <div className="p-col-12 p-text-center">
                 <Button
-                  label="Login"
+                  label={t('LOGIN_BUTTON_TEXT')}
                   className="p-d-inline p-mt-6"
                   type="button"
                   style={{ maxWidth: '80%' }}
@@ -54,7 +54,7 @@ const Login = () => {
                 />
               </div>
               <p className="p-col-12 p-md-12 p-text-center p-mt-4">
-                <Link to="/register">Sign-up here</Link>
+                <Link to="/register">{t('SIGN_UP_LINK_TEXT')}</Link>
               </p>
             </div>
           </div>
