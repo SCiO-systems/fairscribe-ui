@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { Footer } from '../components/Footer';
 import { Logo } from '../components/Logo';
 
-export const Register = () => {
+export default () => {
   // TODO: Default false.
   // eslint-disable-next-line
   const [formValid, setFormValid] = useState(true);
@@ -128,7 +128,7 @@ export const Register = () => {
               icon="pi pi-user-plus"
               disabled={acceptedTerms === false}
               className="p-button-big p-mr-2 p-mb-2"
-            ></Button>
+            />
           </div>
         </div>
       </div>
