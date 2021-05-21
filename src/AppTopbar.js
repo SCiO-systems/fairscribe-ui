@@ -2,6 +2,7 @@ import { Button } from 'primereact/button';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppBreadcrumb from './AppBreadcrumb';
+import MiniLogo from './assets/img/dataSCRIBE-mini.png';
 
 const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => (
   <div className="layout-topbar">
@@ -25,8 +26,8 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => (
       <img
         id="logo-mobile"
         className="mobile-logo"
-        src="assets/layout/images/logo-dark.svg"
-        alt="diamond-layout"
+        src={MiniLogo}
+        alt="dataSCRIBE"
       />
     </div>
 
