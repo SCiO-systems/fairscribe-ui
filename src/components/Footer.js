@@ -39,7 +39,7 @@ const Footer = () => (
       <div className="p-d-flex p-flex-row p-ai-center">
         <span className="p-mr-3">powered by</span>
         <a href="https://scio.systems" rel="noreferrer" target="_blank">
-          <img src={LogoSCiO} alt="SCiO Logo" height="40px" />
+          <img src={LogoSCiO} alt="SCiO Logo" height="30px" />
         </a>
       </div>
     </div>
