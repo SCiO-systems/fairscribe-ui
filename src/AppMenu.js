@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from './assets/img/dataSCRIBE-Horizontal.png';
 
 const AppMenu = ({ onMenuClick }) => (
   <div
@@ -9,13 +10,9 @@ const AppMenu = ({ onMenuClick }) => (
     onClick={onMenuClick}
   >
     <div className="logo">
-      <img
-        id="app-logo"
-        className="logo-image"
-        src="assets/layout/images/logo-white.svg"
-        alt="diamond layout"
-      />
-      <span className="app-name">dataSCRIBE</span>
+      <Link to="/">
+        <img id="app-logo" className="logo-image" src={Logo} alt="dataSCRIBE" />
+      </Link>
     </div>
 
     <div className="layout-menu-container">
