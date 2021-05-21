@@ -45,7 +45,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => (
           </span>
         </li>
         <li>
-          <Link to="/dashboard/account-settings" style={{ width: '100%' }}>
+          <Link to="/account-settings" style={{ width: '100%' }}>
             <Button
               label="Account Settings"
               icon="pi pi-cog"

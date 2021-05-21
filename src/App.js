@@ -29,17 +29,17 @@ const App = () => {
 
   const routers = [
     {
-      path: '/dashboard',
+      path: '/',
       component: Dashboard,
       exact: true,
       meta: { breadcrumb: [{ parent: 'My Dashboard', label: 'My Dashboard' }] },
     },
     {
-      path: '/dashboard/account-settings',
+      path: '/account-settings',
       component: AccountSettings,
       exact: true,
       meta: {
-        breadcrumb: [{ parent: 'Account Settings', label: 'Account Settings' }],
+        breadcrumb: [{ parent: 'My Dashboard', label: 'Account Settings' }],
       },
     },
   ];

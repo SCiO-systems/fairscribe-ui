@@ -20,7 +20,7 @@ const AppMenu = ({ onMenuClick }) => (
         <li className="layout-root-menuitem" role="menuitem">
           <ul className="layout-menu" role="menu">
             <li className="" role="menuitem">
-              <Link to="/dashboard" className="p-button p-ripple">
+              <Link to="/" className="p-button p-ripple">
                 <i className="layout-menuitem-icon pi pi-fw pi-home" />
                 <span className="layout-menuitem-text">My Dashboard</span>
               </Link>
