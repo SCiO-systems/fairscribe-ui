@@ -2,12 +2,12 @@
 $gutter: 1rem;
 
 // Add dependencies
-@import "node_modules/primeflex/primeflex.scss";
+@import 'node_modules/primeflex/primeflex.scss';
 
 // Add custom font
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
-$mainFont: "Manrope", sans-serif;
+$mainFont: 'Manrope', sans-serif;
 $mainFontSize: 14px;
 $labelFontWeight: 600;
 $labelFontColor: #666;
@@ -37,7 +37,8 @@ label {
   font-weight: $labelFontWeight;
 }
 
-@import "./overrides.scss";
-@import "./register.scss";
-@import "./footer.scss";
-@import "./topbar.scss";
+@import './overrides.scss';
+@import './register.scss';
+@import './account.scss';
+@import './footer.scss';
+@import './topbar.scss';

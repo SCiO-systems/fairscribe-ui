@@ -2,6 +2,11 @@
   border-radius: 4px;
   overflow: hidden;
 }
+.rounded-full {
+  border-radius: 100%;
+  overflow: hidden;
+}
+
 .p-button-big {
   padding: 15px 25px;
   width: 300px;

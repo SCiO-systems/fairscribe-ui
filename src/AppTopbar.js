@@ -1,5 +1,6 @@
 import { Button } from 'primereact/button';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AppBreadcrumb from './AppBreadcrumb';
 
 const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => (
@@ -44,11 +45,13 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => (
           </span>
         </li>
         <li>
-          <Button
-            label="Account Settings"
-            icon="pi pi-cog"
-            className="p-button-secondary p-button-sm"
-          />
+          <Link to="/dashboard/account-settings" style={{ width: '100%' }}>
+            <Button
+              label="Account Settings"
+              icon="pi pi-cog"
+              className="p-button-secondary p-button-sm"
+            />
+          </Link>
         </li>
         <li>
           <Button

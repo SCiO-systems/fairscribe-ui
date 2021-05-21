@@ -12,6 +12,18 @@ const t = {
     REPEAT_PASSWORD: 'Repeat password',
     TERMS_ACCEPT: 'I accept the terms and conditions',
     CREATE_ACCOUNT_BUTTON: 'Create account',
+    USER_PROFILE_TITLE: 'User Profile',
+    PROFILE_PICTURE_TITLE: 'Profile Picture',
+    REPO_MANAGER_REQUEST: 'Request Repo Manager Access',
+    REPO_MANAGER_DIALOG_TITLE: 'Request Repo Manager Access',
+    USER_INTERFACE_PREFERENCES_TITLE: 'User Interface Preferences',
+    UI_LANGUAGE_TITLE: 'UI Language',
+    SELECT_UI_LANGUAGE: 'Select UI Language',
+    UI_LANGUAGES_DISPLAY: 'How languages are displayed',
+    SELECT_UI_LANGUAGE_DISPLAY: 'ISO Language name',
+    UI_DATES_DISPLAY: 'How dates are displayed',
+    SELECT_UI_DATES_DISPLAY: 'YYYY-MM-DD',
+    USER_TARGETED_REPOSITORIES_TITLE: 'My targeted repositories',
   },
 };
 

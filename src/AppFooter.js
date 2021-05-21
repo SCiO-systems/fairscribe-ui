@@ -3,6 +3,7 @@ import React from 'react';
 import LogoSCiO from './assets/img/SCiO-sLogo-Dark.png';
 
 const AppFooter = () => (
+  // TODO: Make this footer same as Footer.
   <div className="layout-footer">
     <div className="footer-logo-container">
       <a

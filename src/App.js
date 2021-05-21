@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import AppFooter from './AppFooter';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
+import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
 import { UserContext } from './store/index';
 
@@ -28,10 +29,18 @@ const App = () => {
 
   const routers = [
     {
-      path: '/',
+      path: '/dashboard',
       component: Dashboard,
       exact: true,
       meta: { breadcrumb: [{ parent: 'My Dashboard', label: 'My Dashboard' }] },
+    },
+    {
+      path: '/dashboard/account-settings',
+      component: AccountSettings,
+      exact: true,
+      meta: {
+        breadcrumb: [{ parent: 'Account Settings', label: 'Account Settings' }],
+      },
     },
   ];
 
