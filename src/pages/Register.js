@@ -51,7 +51,7 @@ const Register = () => {
     <>
       <div className="register-page">
         <Logo />
-        <div className="layout-content">
+        <div className="layout-content layout-content-fixed">
           <div className="p-grid">
             <div className="p-col-12 p-md-8" style={{ margin: '0 auto' }}>
               <div className="card p-fluid p-shadow-4 rounded">

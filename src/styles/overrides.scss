@@ -39,3 +39,25 @@
 .layout-root-menuitem .p-button.p-button-sm.add-team-btn .p-button-icon {
   font-size: 0.675rem !important;
 }
+
+.widget-overview-box .overview-title {
+  font-size: 1.45rem;
+  text-transform: uppercase;
+  margin-left: 0.8rem;
+}
+
+.widget-overview-box .overview-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.widget-overview-box .overview-icon i {
+  font-size: 1.25rem;
+}
+
+.layout-sidebar .logo-image {
+  width: 100%;
+  height: 100%;
+  margin-right: 0;
+}
