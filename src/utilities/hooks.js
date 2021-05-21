@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const useLocalStorage = (key, initialValue) => {
+export const useLocalStorage = (key, initialValue) => {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
@@ -32,4 +32,23 @@ const useLocalStorage = (key, initialValue) => {
   return [storedValue, setValue];
 };
 
-export default { useLocalStorage };
+export const useDebounce = (value, delay) => {
+  // State and setters for debounced value
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(
+    () => {
+      // Update debounced value after delay
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+      // Cancel the timeout if value changes (also on delay change or unmount)
+      // This is how we prevent debounced value from updating if value is changed ...
+      // .. within the delay period. Timeout gets cleared and restarted.
+      return () => {
+        clearTimeout(handler);
+      };
+    },
+    [value, delay], // Only re-call effect if value or delay changes
+  );
+  return debouncedValue;
+};
