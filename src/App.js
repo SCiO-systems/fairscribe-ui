@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
-import { Route } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import AppFooter from './AppFooter';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Dashboard from './pages/Dashboard';
+import store from './store/index';
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -19,6 +20,7 @@ const App = () => {
   const [configActive, setConfigActive] = useState(false);
   const [inputStyle] = useState('outlined');
   const [ripple] = useState(false);
+  const user = useContext(store.UserContext);
 
   let menuClick = false;
   let searchClick = false;
@@ -214,6 +216,19 @@ const App = () => {
     colorScheme === 'light' ? menuTheme : '',
   );
 
+  const signOut = () => {
+    user.setData({
+      userId: '',
+      name: '',
+      token: '',
+      language: 'en',
+    });
+  };
+
+  if (!user.token) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <div
       className={containerClassName}
@@ -223,7 +238,12 @@ const App = () => {
       tabIndex="0"
     >
       <div className="layout-content-wrapper">
-        <AppTopBar routers={routers} onMenuButtonClick={onMenuButtonClick} />
+        <AppTopBar
+          displayName={user.name}
+          signOut={signOut}
+          routers={routers}
+          onMenuButtonClick={onMenuButtonClick}
+        />
 
         <div className="layout-content">
           {routers.map((router) => {

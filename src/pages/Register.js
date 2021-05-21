@@ -4,10 +4,12 @@ import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
+import store from '../store';
 
 const Register = () => {
   // TODO: Default false.
@@ -23,6 +25,7 @@ const Register = () => {
   const [emailConfirm, setEmailConfirm] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const user = useContext(store.UserContext);
 
   useEffect(() => {
     // TODO: For register button to be enabled form also needs to be valid.
@@ -39,6 +42,10 @@ const Register = () => {
       console.error('Invalid email');
     }
   }, [password, passwordConfirm, email, emailConfirm]);
+
+  if (user.token) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>

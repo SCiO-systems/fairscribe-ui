@@ -3,11 +3,12 @@ import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import 'primereact/resources/primereact.min.css';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
+import store from '../store';
 
 const authProviders = [
   { label: 'Scribe', value: 'scribe' },
@@ -17,13 +18,22 @@ const authProviders = [
 
 const Login = () => {
   const { t } = useTranslation();
+  const { token, setData } = useContext(store.UserContext);
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
-  const history = useHistory();
 
-  const navigateToDashboard = (e) => {
-    e.preventDefault();
-    history.push('/dashboard');
+  const login = () => {
+    // TODO: Change this with actual login logic
+    // There's no need to redirect, since the component will re-render anyway
+    setData({
+      userId: 1,
+      name: 'John Doe',
+      token: 'test-auth',
+    });
   };
+
+  if (token) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -50,7 +60,7 @@ const Login = () => {
                   className="p-d-inline p-mt-6"
                   type="button"
                   style={{ maxWidth: '80%' }}
-                  onClick={navigateToDashboard}
+                  onClick={login}
                 />
               </div>
               <p className="p-col-12 p-md-12 p-text-center p-mt-4">

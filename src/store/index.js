@@ -3,6 +3,7 @@ import hooks from '../utilities/hooks';
 
 const initialState = {
   userId: '',
+  name: '',
   token: '',
   language: 'en',
 };
@@ -16,9 +17,7 @@ function UserProvider({ children }) {
     <UserContext.Provider
       value={{
         ...user,
-        setUserId: (id) => setUser({ ...user, id }),
-        setToken: (token) => setUser({ ...user, token }),
-        setLanguage: (language) => setUser({ ...user, language }),
+        setData: (data) => setUser({ ...user, ...data }),
       }}
     >
       {children}

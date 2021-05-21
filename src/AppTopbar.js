@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import React from 'react';
 import AppBreadcrumb from './AppBreadcrumb';
 
-const AppTopbar = ({ onMenuButtonClick, routers }) => (
+const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => (
   <div className="layout-topbar">
     <div className="topbar-left">
       <button
@@ -40,7 +40,7 @@ const AppTopbar = ({ onMenuButtonClick, routers }) => (
           <span className="p-mr-4 profile-name">
             <small>Logged in as:</small>
             <br />
-            Test User with long name
+            {displayName}
           </span>
         </li>
         <li>
@@ -48,6 +48,14 @@ const AppTopbar = ({ onMenuButtonClick, routers }) => (
             label="Account Settings"
             icon="pi pi-cog"
             className="p-button-secondary p-button-sm"
+          />
+        </li>
+        <li>
+          <Button
+            onClick={signOut}
+            label=""
+            icon="pi pi-sign-out"
+            className="p-button-info p-button-sm"
           />
         </li>
       </ul>
