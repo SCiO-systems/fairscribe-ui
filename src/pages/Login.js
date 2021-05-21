@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
-import store from '../store';
+import { UserContext } from '../store';
 
 const authProviders = [
   { label: 'Scribe', value: 'scribe' },
@@ -18,7 +18,7 @@ const authProviders = [
 
 const Login = () => {
   const { t } = useTranslation();
-  const { token, setData } = useContext(store.UserContext);
+  const { token, setData } = useContext(UserContext);
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
 
   const login = () => {

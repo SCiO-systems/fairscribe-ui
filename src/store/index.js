@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import hooks from '../utilities/hooks';
+import { useLocalStorage } from '../utilities/hooks';
 
 const initialState = {
   userId: '',
@@ -8,10 +8,10 @@ const initialState = {
   language: 'en',
 };
 
-const UserContext = createContext(initialState);
+export const UserContext = createContext(initialState);
 
-function UserProvider({ children }) {
-  const [user, setUser] = hooks.useLocalStorage('user', initialState);
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useLocalStorage('user', initialState);
 
   return (
     <UserContext.Provider
@@ -23,9 +23,4 @@ function UserProvider({ children }) {
       {children}
     </UserContext.Provider>
   );
-}
-
-export default {
-  UserContext,
-  UserProvider,
 };

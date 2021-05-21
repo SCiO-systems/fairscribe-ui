@@ -5,7 +5,7 @@ import AppFooter from './AppFooter';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Dashboard from './pages/Dashboard';
-import store from './store/index';
+import { UserContext } from './store/index';
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -20,7 +20,7 @@ const App = () => {
   const [configActive, setConfigActive] = useState(false);
   const [inputStyle] = useState('outlined');
   const [ripple] = useState(false);
-  const user = useContext(store.UserContext);
+  const user = useContext(UserContext);
 
   let menuClick = false;
   let searchClick = false;

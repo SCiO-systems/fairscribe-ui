@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
-import store from '../store';
+import { UserContext } from '../store';
 
 const Register = () => {
   // TODO: Default false.
@@ -25,7 +25,7 @@ const Register = () => {
   const [emailConfirm, setEmailConfirm] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const user = useContext(store.UserContext);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     // TODO: For register button to be enabled form also needs to be valid.

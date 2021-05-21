@@ -5,7 +5,7 @@ import { Route, useLocation, withRouter } from 'react-router-dom';
 import App from './App';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import store from './store';
+import { UserProvider } from './store';
 import './styles/app.scss';
 
 const findRoute = (pathname) => {
@@ -26,9 +26,7 @@ const AppWrapper = () => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  return (
-    <store.UserProvider>{findRoute(location.pathname)}</store.UserProvider>
-  );
+  return <UserProvider>{findRoute(location.pathname)}</UserProvider>;
 };
 
 export default withRouter(AppWrapper);
