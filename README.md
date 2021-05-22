@@ -7,6 +7,20 @@ This dashboard has been developed using [Diamond-React](https://www.primefaces.o
 - NodeJS v14.17.0 LTS: [Download](https://nodejs.org/)
 - NPM v7.13.0 LTS: [Download](https://www.npmjs.com/get-npm)
 
+### Setup the environment
+
+Using nodeenv:
+
+    nodeenv --prebuilt -n 14.17.0 env
+
+Then activate the environment:
+
+    . env/bin/activate
+
+And install the proper npm version:
+
+    npm i -g npm@7.13.0
+
 ### Dependencies
 
 To install the dependencies:
