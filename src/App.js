@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import AppFooter from './AppFooter';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
@@ -22,6 +23,7 @@ const App = () => {
   const [inputStyle] = useState('outlined');
   const [ripple] = useState(false);
   const user = useContext(UserContext);
+  const { t } = useTranslation();
 
   let menuClick = false;
   let searchClick = false;
@@ -32,14 +34,16 @@ const App = () => {
       path: '/',
       component: Dashboard,
       exact: true,
-      meta: { breadcrumb: [{ parent: 'My Dashboard', label: 'My Dashboard' }] },
+      meta: { breadcrumb: [{ parent: t('DASHBOARD'), label: t('DASHBOARD') }] },
     },
     {
       path: '/account-settings',
       component: AccountSettings,
       exact: true,
       meta: {
-        breadcrumb: [{ parent: 'My Dashboard', label: 'Account Settings' }],
+        breadcrumb: [
+          { parent: t('ACCOUNT_SETTINGS'), label: t('ACCOUNT_SETTINGS') },
+        ],
       },
     },
   ];

@@ -21,7 +21,7 @@ const Dashboard = () => {
     <span>
       <strong>{rowData.tasks}</strong>
       <br />
-      Active Tasks
+      {t('ACTIVE_TASKS')}
     </span>
   );
 
@@ -29,7 +29,7 @@ const Dashboard = () => {
     <span>
       <strong>{rowData.reviews}</strong>
       <br />
-      Pending Reviews
+      {t('PENDING_REVIEWS')}
     </span>
   );
 
@@ -37,7 +37,7 @@ const Dashboard = () => {
     <span>
       <strong>{rowData.uploads}</strong>
       <br />
-      Pending Uploads
+      {t('PENDING_UPLOADS')}
     </span>
   );
 
@@ -46,21 +46,21 @@ const Dashboard = () => {
       <div className="p-grid">
         <InformationPanel
           sizeClasses="p-col-12 p-md-6 p-xl-4"
-          name="My Active Tasks"
+          name={t('MY_ACTIVE_TASKS')}
           value="21"
           icon="pi pi-pencil"
           extraClass="widget-overview-box-3"
         />
         <InformationPanel
           sizeClasses="p-col-12 p-md-6 p-xl-4"
-          name="Pending Reviews"
+          name={t('PENDING_REVIEWS')}
           value="123"
           icon="pi pi-list"
           extraClass="widget-overview-box-2"
         />
         <InformationPanel
           sizeClasses="p-col-12 p-md-6 p-xl-4"
-          name="Pending Uploads"
+          name={t('PENDING_UPLOADS')}
           value="42"
           icon="pi pi-upload"
           extraClass="widget-overview-box-1"
@@ -68,26 +68,26 @@ const Dashboard = () => {
         <div className="p-col-12">
           <div className="card">
             <div className="p-d-flex p-jc-between">
-              <h4>My Teams</h4>
+              <h4>{t('MY_TEAMS')}</h4>
               <span>
-                <Button label="Create Team" icon="pi pi-plus-circle" />
+                <Button label={t('CREATE_TEAM')} icon="pi pi-plus-circle" />
               </span>
             </div>
             <DataTable value={myTeams} className="p-mt-2">
-              <Column field="name" header="Name" body={nameTemplate} />
+              <Column field="name" header={t('NAME')} body={nameTemplate} />
               <Column
                 field="tasks"
-                header="Active Tasks"
+                header={t('ACTIVE_TASKS')}
                 body={tasksTemplate}
               />
               <Column
                 field="reviews"
-                header="Pending Reviews"
+                header={t('PENDING_REVIEWS')}
                 body={reviewsTemplate}
               />
               <Column
                 field="uploads"
-                header="Pending Uploads"
+                header={t('PENDING_UPLOADS')}
                 body={uploadsTemplate}
               />
               <Column
@@ -102,7 +102,7 @@ const Dashboard = () => {
                       className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
                     />
                     <Button
-                      label="View Details"
+                      label={t('VIEW_DETAILS')}
                       icon="pi pi-eye"
                       className="p-button-secondary"
                     />
@@ -112,17 +112,17 @@ const Dashboard = () => {
             </DataTable>
           </div>
           <div className="card p-mt-4">
-            <h4>Shared Teams</h4>
+            <h4>{t('SHARED_TEAMS')}</h4>
             <DataTable value={sharedTeams} className="p-mt-2">
-              <Column field="name" header="Name" body={nameTemplate} />
+              <Column field="name" header={t('NAME')} body={nameTemplate} />
               <Column
                 field="tasks"
-                header="Active Tasks"
+                header={t('ACTIVE_TASKS')}
                 body={tasksTemplate}
               />
               <Column
                 field="reviews"
-                header="Pending Reviews"
+                header={t('PENDING_REVIEWS')}
                 body={reviewsTemplate}
               />
               <Column header="" />
@@ -130,7 +130,7 @@ const Dashboard = () => {
                 body={(rowData) => (
                   <div className="p-text-right">
                     <Button
-                      label="View Details"
+                      label={t('VIEW_DETAILS')}
                       icon="pi pi-eye"
                       className="p-button-secondary"
                     />
