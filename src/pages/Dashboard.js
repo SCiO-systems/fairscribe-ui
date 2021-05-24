@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import InformationPanel from '../components/InformationPanel';
+import CreateTeamDialog from '../components/CreateTeamDialog';
 
 const myTeams = [{ name: 'EiA', tasks: '4', reviews: '13', uploads: '21' }];
 
@@ -14,6 +15,7 @@ const sharedTeams = [
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false);
 
   const nameTemplate = (rowData) => <h5>{rowData.name}</h5>;
 
@@ -70,7 +72,11 @@ const Dashboard = () => {
             <div className="p-d-flex p-jc-between">
               <h4>{t('MY_TEAMS')}</h4>
               <span>
-                <Button label={t('CREATE_TEAM')} icon="pi pi-plus-circle" />
+                <Button
+                  label={t('CREATE_TEAM')}
+                  icon="pi pi-plus-circle"
+                  onClick={() => setCreateTeamDialogOpen(true)}
+                />
               </span>
             </div>
             <DataTable value={myTeams} className="p-mt-2">
@@ -141,6 +147,10 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <CreateTeamDialog
+        dialogOpen={createTeamDialogOpen}
+        setDialogOpen={setCreateTeamDialogOpen}
+      />
     </div>
   );
 };

@@ -1,9 +1,6 @@
-import 'primeflex/primeflex.css';
-import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { Dialog } from 'primereact/dialog';
-import 'primereact/resources/primereact.min.css';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
