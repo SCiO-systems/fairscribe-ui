@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
-import CreateTeamDialog from './components/CreateTeamDialog';
+import CreateTeamDialog from './components/dialogs/CreateTeamDialog';
 
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();

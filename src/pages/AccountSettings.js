@@ -4,7 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Footer from '../components/Footer';
-import RepoAccessManagerDialog from '../components/RepoManagerAccessDialog';
+import RepoAccessManagerDialog from '../components/dialogs/RepoManagerAccessDialog';
 import UserInterfacePreferences from '../components/UserInterfacePreferences';
 import UserProfile from '../components/UserProfile';
 import UserTargetedRepositories from '../components/UserTargetedRepositories';

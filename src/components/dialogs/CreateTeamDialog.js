@@ -30,7 +30,7 @@ const CreateTeamDialog = ({ dialogOpen, setDialogOpen }) => {
                 onChange={(e) => setTeamName(e.target.value)}
               />
             </div>
-            <div className="p-mt-2">
+            <div className="p-mt-4">
               <label htmlFor="teamDescription">{t('YOUR_TEAM_DESC')}</label>
               <InputTextarea
                 id="teamDescription"

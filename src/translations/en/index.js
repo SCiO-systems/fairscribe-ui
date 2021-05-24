@@ -40,6 +40,10 @@ const t = {
     YOUR_TEAM_DESC: 'Your team description',
     CREATE_A_NEW_TEAM: 'Create A New Team',
     VIEW_DETAILS: 'View Details',
+    INVITE_MEMBERS_TO_TEAM: 'Invite Members to {{teamName}}',
+    INVITE_BY_EMAIL: 'Invite by email',
+    CHOOSE_MEMBERS: 'Choose members',
+    SEND_INVITES: 'Send Invites',
   },
 };
 
