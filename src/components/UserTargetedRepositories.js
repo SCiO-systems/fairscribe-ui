@@ -23,9 +23,15 @@ const nameTemplate = (rowData) => <div>{rowData.name}</div>;
 const connectionTemplate = (rowData) => (
   <div className="p-text-left">
     {rowData.connection ? (
-      <i className="pi pi-check green" style={{ fontSize: '1.25rem' }} />
+      <i
+        className="pi pi-check text-green bg-green rounded-full p-p-2"
+        style={{ fontSize: '1.25rem' }}
+      />
     ) : (
-      <i className="pi pi-times red" style={{ fontSize: '1.25rem' }} />
+      <i
+        className="pi pi-times text-red bg-red rounded-full p-p-2"
+        style={{ fontSize: '1.25rem' }}
+      />
     )}
   </div>
 );

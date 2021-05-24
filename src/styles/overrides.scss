@@ -1,15 +1,24 @@
 .rounded {
   border-radius: 4px;
 }
+
 .rounded-full {
   border-radius: 100%;
 }
 
-.green {
+.bg-green {
+  background: #c8e6c9;
+}
+
+.text-green {
   color: #256029;
 }
 
-.red {
+.bg-red {
+  background: #ffcdd2;
+}
+
+.text-red {
   color: #c63737;
 }
 
