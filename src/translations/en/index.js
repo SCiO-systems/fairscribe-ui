@@ -44,6 +44,15 @@ const t = {
     INVITE_BY_EMAIL: 'Invite by email',
     CHOOSE_MEMBERS: 'Choose members',
     SEND_INVITES: 'Send Invites',
+    REPOSITORY_TYPE: 'Repository Type',
+    REPOSITORY_NAME: 'Repository Name',
+    REPOSITORY_CONNECTION_VERIFIED: 'Connection Status',
+    SELECT_REPOSITORY_TYPE: 'Select repository type',
+    REPOSITORY_API_ENDPOINT: 'Repository API Endpoint',
+    REPOSITORY_CLIENT_SECRET: 'Repository Client Secret',
+    ADD_REPOSITORY: 'Add new repository',
+    NO_REPOSITORIES_FOUND:
+      'No repositories were found, use the form below to add a repository.',
   },
 };
 
