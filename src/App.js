@@ -7,6 +7,7 @@ import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
+import Team from './pages/Team';
 import { UserContext } from './store/index';
 
 const App = () => {
@@ -44,6 +45,14 @@ const App = () => {
         breadcrumb: [
           { parent: t('ACCOUNT_SETTINGS'), label: t('ACCOUNT_SETTINGS') },
         ],
+      },
+    },
+    {
+      path: '/team/:id',
+      component: Team,
+      exact: true,
+      meta: {
+        breadcrumb: [{ parent: t('DASHBOARD'), label: t('TEAM_DASHBOARD') }],
       },
     },
   ];

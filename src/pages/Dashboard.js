@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
   const [viewTeam, setViewTeam] = useState(null);
   const [inviteMembersDialogOpen, setInviteMembersDialogOpen] = useState(false);
+  const history = useHistory();
 
   const nameTemplate = (rowData) => <h5>{rowData.name}</h5>;
 
@@ -124,6 +126,7 @@ const Dashboard = () => {
                     <Button
                       label={t('VIEW_DETAILS')}
                       icon="pi pi-eye"
+                      onClick={() => history.push('/team/1')}
                       className="p-button-secondary"
                     />
                   </div>

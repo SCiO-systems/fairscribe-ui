@@ -54,6 +54,11 @@ const t = {
     ADD_REPOSITORY: 'Add new repository',
     NO_REPOSITORIES_FOUND:
       'No repositories were found, use the form below to add a repository.',
+    TEAM_DASHBOARD: 'Team Dashboard',
+    TEAM_MEMBERS: 'Team Members',
+    RESOURCES: 'Resources',
+    AVERAGE_FAIR_SCORING: 'Average Fair Scoring',
+    TEAM_COLLECTIONS: 'Team Collections',
   },
 };
 
