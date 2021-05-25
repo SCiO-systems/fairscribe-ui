@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
-import CreateTeamDialog from './components/dialogs/CreateTeamDialog';
+import TeamDialog from './components/dialogs/TeamDialog';
 
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
-  const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false);
+  const [teamDialogOpen, setTeamDialogOpen] = useState(false);
 
   return (
     <div
@@ -50,7 +50,7 @@ const AppMenu = ({ onMenuClick }) => {
               <button
                 type="button"
                 title={t('CREATE_TEAM')}
-                onClick={() => setCreateTeamDialogOpen(true)}
+                onClick={() => setTeamDialogOpen(true)}
                 className="add-team-btn p-button p-button-sm p-component p-button-rounded p-button-icon-only"
               >
                 <span className="p-button-icon p-c pi pi-plus" />
@@ -96,9 +96,9 @@ const AppMenu = ({ onMenuClick }) => {
         </ul>
       </div>
 
-      <CreateTeamDialog
-        dialogOpen={createTeamDialogOpen}
-        setDialogOpen={setCreateTeamDialogOpen}
+      <TeamDialog
+        dialogOpen={teamDialogOpen}
+        setDialogOpen={setTeamDialogOpen}
       />
     </div>
   );

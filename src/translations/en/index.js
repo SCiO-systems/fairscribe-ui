@@ -36,6 +36,7 @@ const t = {
     MY_TEAMS: 'My Teams',
     SHARED_TEAMS: 'Shared Teams',
     CREATE_TEAM: 'Create Team',
+    EDIT_TEAM: 'Edit Team',
     YOUR_TEAM_NAME: 'Your team name',
     YOUR_TEAM_DESC: 'Your team description',
     CREATE_A_NEW_TEAM: 'Create A New Team',

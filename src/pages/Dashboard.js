@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import InformationPanel from '../components/InformationPanel';
-import CreateTeamDialog from '../components/dialogs/CreateTeamDialog';
+import TeamDialog from '../components/dialogs/TeamDialog';
 import InviteTeamMembersDialog from '../components/dialogs/InviteTeamMembersDialog';
 
 const myTeams = [{ name: 'EiA', tasks: '4', reviews: '13', uploads: '21' }];
@@ -16,7 +16,8 @@ const sharedTeams = [
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false);
+  const [teamDialogOpen, setTeamDialogOpen] = useState(false);
+  const [viewTeam, setViewTeam] = useState(null);
   const [inviteMembersDialogOpen, setInviteMembersDialogOpen] = useState(false);
 
   const nameTemplate = (rowData) => <h5>{rowData.name}</h5>;
@@ -77,7 +78,10 @@ const Dashboard = () => {
                 <Button
                   label={t('CREATE_TEAM')}
                   icon="pi pi-plus-circle"
-                  onClick={() => setCreateTeamDialogOpen(true)}
+                  onClick={() => {
+                    setViewTeam(null);
+                    setTeamDialogOpen(true);
+                  }}
                 />
               </span>
             </div>
@@ -108,6 +112,13 @@ const Dashboard = () => {
                     />
                     <Button
                       icon="pi pi-cog"
+                      onClick={() => {
+                        setViewTeam({
+                          name: 'EiA',
+                          description: 'My sample description',
+                        });
+                        setTeamDialogOpen(true);
+                      }}
                       className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
                     />
                     <Button
@@ -150,9 +161,10 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <CreateTeamDialog
-        dialogOpen={createTeamDialogOpen}
-        setDialogOpen={setCreateTeamDialogOpen}
+      <TeamDialog
+        team={viewTeam}
+        dialogOpen={teamDialogOpen}
+        setDialogOpen={setTeamDialogOpen}
       />
       <InviteTeamMembersDialog
         dialogOpen={inviteMembersDialogOpen}

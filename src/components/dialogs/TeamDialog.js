@@ -2,13 +2,23 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const CreateTeamDialog = ({ dialogOpen, setDialogOpen }) => {
+const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
   const { t } = useTranslation();
   const [teamName, setTeamName] = useState('');
   const [teamDescription, setTeamDescription] = useState('');
+
+  useEffect(() => {
+    if (team && team.name && team.description) {
+      setTeamName(team.name);
+      setTeamDescription(team.description);
+    } else {
+      setTeamName('');
+      setTeamDescription('');
+    }
+  }, [team]);
 
   return (
     <Dialog
@@ -44,8 +54,8 @@ const CreateTeamDialog = ({ dialogOpen, setDialogOpen }) => {
           <div className="p-col-12 p-text-center p-mt-4">
             <div className="p-d-inline-flex p-col-6 p-ai-center p-jc-center">
               <Button
-                label={t('CREATE_TEAM')}
-                icon="pi pi-plus"
+                label={team ? t('EDIT_TEAM') : t('CREATE_TEAM')}
+                icon={team ? 'pi pi-save' : 'pi pi-plus'}
                 className="p-mr-2 p-mb-2"
                 onClick={() => setDialogOpen(false)}
               />
@@ -57,4 +67,4 @@ const CreateTeamDialog = ({ dialogOpen, setDialogOpen }) => {
   );
 };
 
-export default CreateTeamDialog;
+export default TeamDialog;
