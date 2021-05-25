@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import React, { useEffect, useState, useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Redirect, Route } from 'react-router-dom';
 import AppFooter from './AppFooter';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
@@ -48,7 +48,7 @@ const App = () => {
       },
     },
     {
-      path: '/team/:id',
+      path: '/teams/:id',
       component: Team,
       exact: true,
       meta: {

@@ -1,12 +1,12 @@
+import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'primereact/button';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import InformationPanel from '../components/InformationPanel';
-import TeamDialog from '../components/dialogs/TeamDialog';
 import InviteTeamMembersDialog from '../components/dialogs/InviteTeamMembersDialog';
+import TeamDialog from '../components/dialogs/TeamDialog';
+import InformationPanel from '../components/InformationPanel';
 
 const myTeams = [{ name: 'EiA', tasks: '4', reviews: '13', uploads: '21' }];
 
@@ -126,7 +126,7 @@ const Dashboard = () => {
                     <Button
                       label={t('VIEW_DETAILS')}
                       icon="pi pi-eye"
-                      onClick={() => history.push('/team/1')}
+                      onClick={() => history.push('/teams/1')}
                       className="p-button-secondary"
                     />
                   </div>

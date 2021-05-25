@@ -3,9 +3,9 @@ import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import 'primereact/resources/primereact.min.css';
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import { UserContext } from '../store';
@@ -64,7 +64,7 @@ const Login = () => {
                 />
               </div>
               <p className="p-col-12 p-md-12 p-text-center p-mt-4">
-                <Link to="/register">{t('SIGN_UP_LINK_TEXT')}</Link>
+                <NavLink to="/register">{t('SIGN_UP_LINK_TEXT')}</NavLink>
               </p>
             </div>
           </div>

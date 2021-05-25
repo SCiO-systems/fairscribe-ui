@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import AppBreadcrumb from './AppBreadcrumb';
 import MiniLogo from './assets/img/dataSCRIBE-mini.png';
 
@@ -50,13 +50,13 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
             </span>
           </li>
           <li>
-            <Link to="/account-settings" style={{ width: '100%' }}>
+            <NavLink to="/account-settings" style={{ width: '100%' }}>
               <Button
                 label={t('ACCOUNT_SETTINGS')}
                 icon="pi pi-cog"
                 className="p-button-secondary p-button-sm"
               />
-            </Link>
+            </NavLink>
           </li>
           <li>
             <Button

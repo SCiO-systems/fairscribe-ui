@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { TabPanel, TabView } from 'primereact/tabview';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TabView, TabPanel } from 'primereact/tabview';
-import { UserContext } from '../store';
-import Loading from '../components/Loading';
+import { useParams } from 'react-router-dom';
 import CollectionsTable from '../components/CollectionsTable';
+import Loading from '../components/Loading';
+import { UserContext } from '../store';
 
 // TODO: Remove this mock data
 const allTeams = [

@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
 import TeamDialog from './components/dialogs/TeamDialog';
 import { UserContext } from './store';
@@ -8,7 +8,8 @@ import { UserContext } from './store';
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
-  const { currentlyViewingTeam } = useContext(UserContext);
+  const { currentlyViewingTeam, ownTeams, sharedTeams } =
+    useContext(UserContext);
 
   return (
     <div
@@ -18,14 +19,14 @@ const AppMenu = ({ onMenuClick }) => {
       onClick={onMenuClick}
     >
       <div className="logo">
-        <Link to="/">
+        <NavLink to="/">
           <img
             id="app-logo"
             className="logo-image"
             src={Logo}
             alt="dataSCRIBE"
           />
-        </Link>
+        </NavLink>
       </div>
 
       <div className="layout-menu-container">
@@ -33,10 +34,10 @@ const AppMenu = ({ onMenuClick }) => {
           <li className="layout-root-menuitem" role="menuitem">
             <ul className="layout-menu" role="menu">
               <li className="" role="menuitem">
-                <Link to="/" className="p-button p-ripple">
+                <NavLink to="/" activeClassName="p-button" exact>
                   <i className="layout-menuitem-icon pi pi-fw pi-home" />
                   <span className="layout-menuitem-text">{t('DASHBOARD')}</span>
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </li>
@@ -60,12 +61,19 @@ const AppMenu = ({ onMenuClick }) => {
               </button>
             </div>
             <ul className="layout-menu" role="menu">
-              <li className="" role="menuitem">
-                <Link to="/dashboard" className="p-ripple">
-                  <i className="layout-menuitem-icon pi pi-fw pi-users" />
-                  <span className="layout-menuitem-text">EiA Team</span>
-                </Link>
-              </li>
+              {ownTeams &&
+                ownTeams.map((team) => (
+                  <li key={`${team.name}-${team.id}`} role="menuitem">
+                    <NavLink
+                      to={`/teams/${team.id}`}
+                      activeClassName="p-button"
+                      exact
+                    >
+                      <i className="layout-menuitem-icon pi pi-fw pi-users" />
+                      <span className="layout-menuitem-text">{team.name}</span>
+                    </NavLink>
+                  </li>
+                ))}
             </ul>
           </li>
           <li className="menu-separator" role="separator" />
@@ -81,20 +89,18 @@ const AppMenu = ({ onMenuClick }) => {
               </div>
             </div>
             <ul className="layout-menu" role="menu">
-              <li className="" role="menuitem">
-                <Link to="/dashboard" className="p-ripple">
-                  <i className="layout-menuitem-icon pi pi-fw pi-users" />
-                  <span className="layout-menuitem-text">CSI Team</span>
-                </Link>
-              </li>
-              <li className="" role="menuitem">
-                <Link to="/dashboard" className="p-ripple">
-                  <i className="layout-menuitem-icon pi pi-fw pi-users" />
-                  <span className="layout-menuitem-text">Org Data Team</span>
-                </Link>
-              </li>
+              {sharedTeams &&
+                sharedTeams.map((team) => (
+                  <li key={`${team.name}-${team.id}`} role="menuitem">
+                    <NavLink to={`/teams/${team.id}`} className="p-ripple">
+                      <i className="layout-menuitem-icon pi pi-fw pi-users" />
+                      <span className="layout-menuitem-text">{team.name}</span>
+                    </NavLink>
+                  </li>
+                ))}
             </ul>
           </li>
+          {/* TODO: Split to team members component */}
           {currentlyViewingTeam && (
             <>
               <li className="menu-separator" role="separator" />
@@ -126,10 +132,10 @@ const AppMenu = ({ onMenuClick }) => {
                     currentlyViewingTeam.members.length &&
                     currentlyViewingTeam.members.map((m) => (
                       <li key={m} className="" role="menuitem">
-                        <Link to="#" className="p-ripple">
+                        <NavLink to="#" className="p-ripple">
                           <i className="layout-menuitem-icon pi pi-fw pi-user" />
                           <span className="layout-menuitem-text">{m}</span>
-                        </Link>
+                        </NavLink>
                       </li>
                     ))}
                 </ul>
