@@ -1,6 +1,7 @@
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Checkbox } from 'primereact/checkbox';
+import { Column, DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
@@ -14,7 +15,48 @@ const availableLanguages = [
   { label: 'Italian', value: 'it' },
 ];
 
-const CollectionDialog = ({ dialogOpen, setDialogOpen }) => {
+const CollectionItemsTable = ({ type, items }) => {
+  const { t } = useTranslation();
+  const languageTemplate = (rowData) => <span>{rowData.language}</span>;
+  const itemTemplate = (rowData) => (
+    <span>{type === 'title' ? rowData.title : rowData.description}</span>
+  );
+  const actionsTemplate = (rowData) => (
+    <div className="p-text-right">
+      <Button
+        icon="pi pi-trash"
+        className="p-button p-component p-button-rounded p-button-danger p-button-text p-mr-2 p-mb-2 p-button-icon-only"
+      />
+    </div>
+  );
+  return items.length ? (
+    <DataTable value={items} className="p-mb-3 p-datatable-sm">
+      <Column
+        field={type}
+        sortable
+        body={itemTemplate}
+        header={
+          type === 'title' ? t('COLLECTION_TITLE') : t('COLLECTION_DESCRIPTION')
+        }
+      />
+      <Column
+        field="language"
+        body={languageTemplate}
+        sortable
+        header={
+          type === 'title'
+            ? t('COLLECTION_TITLE_LANGUAGE')
+            : t('COLLECTION_DESCRIPTION_LANGUAGE')
+        }
+      />
+      <Column body={actionsTemplate} />
+    </DataTable>
+  ) : (
+    <></>
+  );
+};
+
+const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
   const { t } = useTranslation();
 
   const [title, setTitle] = useState('');
@@ -46,6 +88,10 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen }) => {
         <div className="p-formgrid p-grid">
           <div className="p-col-12">
             {/* Collection title */}
+            <CollectionItemsTable
+              type="title"
+              items={(collection && collection.titles) || []}
+            />
             <div className="p-field">
               <label htmlFor="collection-title">{t('COLLECTION_TITLE')}</label>
               <InputTextarea
@@ -83,6 +129,10 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen }) => {
             </div>
             {/* Collection description */}
             <div className="p-mt-5">
+              <CollectionItemsTable
+                type="description"
+                items={(collection && collection.descriptions) || []}
+              />
               <div className="p-field">
                 <label htmlFor="collection-description">
                   {t('COLLECTION_DESCRIPTION')}
@@ -173,7 +223,7 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen }) => {
               </div>
               {/* DOI */}
               <div className="p-field">
-                <label htmlFor="title-language">{t('DOI')}</label>
+                <label htmlFor="title-language">{t('DOI_TITLE')}</label>
                 <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center">
                   <div className="p-col-9">
                     <InputText

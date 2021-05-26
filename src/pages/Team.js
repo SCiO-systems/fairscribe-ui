@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import CollectionsTable from '../components/CollectionsTable';
 import CollectionDialog from '../components/dialogs/CollectionDialog';
-import ResourcesTable from '../components/ResourcesTable';
 import Loading from '../components/Loading';
+import ResourcesTable from '../components/ResourcesTable';
 import { UserContext } from '../store';
 
 // TODO: Remove this mock data
