@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
-import AppFooter from './AppFooter';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
+import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
@@ -290,7 +290,7 @@ const App = () => {
           })}
         </div>
 
-        <AppFooter />
+        <Footer />
       </div>
 
       <AppMenu

@@ -7,13 +7,15 @@ import LogoSCiO from '../assets/img/SCiO-sLogo-Dark.png';
 library.add(fab);
 
 const Footer = () => (
-  <div className="footer">
-    <div className="footer-phantom" />
-    <div className="layout-footer">
+  <div className="layout-footer">
+    <div
+      className="footer-logo-container p-d-flex p-flex-row"
+      style={{ width: '100%', justifyContent: 'space-between' }}
+    >
       <div className="p-d-flex p-flex-row p-ai-center">
         <a
-          href="https://creativecommons.org/licenses/by-sa/4.0/"
-          title="Creative Commons Attribution-ShareAlike 4.0 International License"
+          href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+          title="Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)"
           target="_blank"
           rel="noreferrer"
         >
@@ -30,6 +32,11 @@ const Footer = () => (
             />
             <FontAwesomeIcon
               className="p-mr-3"
+              icon={['fab', 'creative-commons-nc']}
+              size="2x"
+            />
+            <FontAwesomeIcon
+              className="p-mr-3"
               icon={['fab', 'creative-commons-sa']}
               size="2x"
             />
@@ -39,7 +46,11 @@ const Footer = () => (
       <div className="p-d-flex p-flex-row p-ai-center">
         <span className="p-mr-3">powered by</span>
         <a href="https://scio.systems" rel="noreferrer" target="_blank">
-          <img src={LogoSCiO} alt="SCiO Logo" height="30px" />
+          <img
+            src={LogoSCiO}
+            alt="SCiO Logo"
+            style={{ height: '30px', width: 'auto' }}
+          />
         </a>
       </div>
     </div>
