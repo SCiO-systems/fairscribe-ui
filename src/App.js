@@ -2,6 +2,9 @@ import classNames from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
+import * as am4core from '@amcharts/amcharts4/core';
+// eslint-disable-next-line
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Footer from './components/Footer';
@@ -11,6 +14,9 @@ import Team from './pages/Team';
 import { UserContext } from './store/index';
 
 const App = () => {
+  // Setup AMCharts
+  am4core.useTheme(am4themes_animated);
+
   const [menuActive, setMenuActive] = useState(false);
   const [menuMode] = useState('static');
   const [colorScheme] = useState('light');

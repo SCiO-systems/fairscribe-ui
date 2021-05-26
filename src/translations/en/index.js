@@ -83,6 +83,14 @@ const t = {
     TEMPORAL_COVERAGE_COLLECTION_RESOURCES:
       'Temporal coverage calculated from collection resources',
     CREATE_COLLECTION_BUTTON: 'Create Collection',
+    IN_X_COLLECTIONS: 'in {{count}} collections',
+    ISSUE_DATE: 'Issue Date',
+    TITLE: 'Title',
+    TYPE: 'Type',
+    COLLECTIONS: 'Collections',
+    PII_STATUS: 'PII Status',
+    CERTIFIED: 'Certified',
+    FAIR_SCORING: 'Fair Scoring',
   },
 };
 

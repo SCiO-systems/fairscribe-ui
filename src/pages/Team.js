@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import CollectionsTable from '../components/CollectionsTable';
 import CollectionDialog from '../components/dialogs/CollectionDialog';
+import ResourcesTable from '../components/ResourcesTable';
 import Loading from '../components/Loading';
 import { UserContext } from '../store';
 
@@ -30,7 +31,7 @@ const Team = () => {
   const [team, setTeam] = useState({});
   const [collectionDialogOpen, setCollectionDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
 
   // when mounted
   useEffect(() => {
@@ -79,7 +80,9 @@ const Team = () => {
                 setDialogOpen={setCollectionDialogOpen}
               />
             </TabPanel>
-            <TabPanel header="Resources">resources</TabPanel>
+            <TabPanel header="Resources">
+              <ResourcesTable />
+            </TabPanel>
             <TabPanel header="My Tasks">tasks</TabPanel>
             <TabPanel header="My Reviews">reviews</TabPanel>
             <TabPanel header="Publish">publish</TabPanel>
