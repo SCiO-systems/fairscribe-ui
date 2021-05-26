@@ -1,9 +1,10 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CollectionDialog from './dialogs/CollectionDialog';
+import CollectionDialog from '../dialogs/CollectionDialog';
 
 const sampleCollections = [
   { id: 1, name: 'Collection A', resources: 3, averageScoring: 3.5 },
@@ -38,6 +39,27 @@ const CollectionsTable = () => {
   const { t } = useTranslation();
 
   const [collectionDialogOpen, setCollectionDialogOpen] = useState(false);
+  const [filter, setFilter] = useState('');
+
+  const tableHeader = (
+    <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
+      <h4 className="p-my-0">{t('TEAM_COLLECTIONS')}</h4>
+      <span className="p-input-icon-left">
+        <i className="pi pi-search" />
+        <InputText
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="p-mr-3"
+          placeholder={t('SEARCH_FOR_COLLECTIONS')}
+        />
+        <Button
+          onClick={() => setCollectionDialogOpen(true)}
+          label={t('CREATE_NEW_COLLECTION')}
+          icon="pi pi-plus"
+        />
+      </span>
+    </div>
+  );
 
   const nameTemplate = (rowData) => <strong>{rowData.name}</strong>;
 
@@ -59,10 +81,32 @@ const CollectionsTable = () => {
 
   return (
     <>
-      <DataTable value={sampleCollections} className="p-mt-2">
-        <Column field="name" body={nameTemplate} />
-        <Column field="resources" body={resourcesTemplate} />
-        <Column field="averageScoring" body={averageScoringTemplate} />
+      <DataTable
+        header={tableHeader}
+        globalFilter={filter}
+        paginator
+        rows={10}
+        value={sampleCollections}
+        className="p-mt-2"
+      >
+        <Column
+          sortable
+          field="name"
+          header={t('COLLECTION_NAME')}
+          body={nameTemplate}
+        />
+        <Column
+          sortable
+          field="resources"
+          header={t('COLLECTION_RESOURCES')}
+          body={resourcesTemplate}
+        />
+        <Column
+          sortable
+          field="averageScoring"
+          header={t('COLLECTION_FAIR_SCORING')}
+          body={averageScoringTemplate}
+        />
         <Column
           body={(rowData) => (
             <div className="p-text-right">

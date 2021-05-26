@@ -1,12 +1,9 @@
-import { Button } from 'primereact/button';
 import { TabPanel, TabView } from 'primereact/tabview';
 import React, { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import CollectionsTable from '../components/CollectionsTable';
-import CollectionDialog from '../components/dialogs/CollectionDialog';
 import Loading from '../components/Loading';
-import ResourcesTable from '../components/ResourcesTable';
+import CollectionsTable from '../components/tables/CollectionsTable';
+import ResourcesTable from '../components/tables/ResourcesTable';
 import { UserContext } from '../store';
 
 // TODO: Remove this mock data
@@ -26,10 +23,8 @@ const fetchTeam = (id) => allTeams.find((t) => t.id == id);
 
 const Team = () => {
   const { setData } = useContext(UserContext);
-  const { t } = useTranslation();
   const { id } = useParams();
   const [team, setTeam] = useState({});
-  const [collectionDialogOpen, setCollectionDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(1);
 
@@ -42,7 +37,7 @@ const Team = () => {
       setTeam(response);
       setData({ currentlyViewingTeam: response });
       setLoading(false);
-    }, 500);
+    }, 300);
     // when component is going to be un-mounted
     return function cleanup() {
       setData({ currentlyViewingTeam: null });
@@ -65,20 +60,7 @@ const Team = () => {
             onTabChange={(e) => setActiveIndex(e.index)}
           >
             <TabPanel header="Collections">
-              <div className="p-d-flex p-flex-row p-ai-center p-jc-between">
-                <h4>{t('TEAM_COLLECTIONS')}</h4>
-                <Button
-                  onClick={() => setCollectionDialogOpen(true)}
-                  label={t('CREATE_NEW_COLLECTION')}
-                  icon="pi pi-plus"
-                  className="p-button-rounded p-mr-2"
-                />
-              </div>
               <CollectionsTable />
-              <CollectionDialog
-                dialogOpen={collectionDialogOpen}
-                setDialogOpen={setCollectionDialogOpen}
-              />
             </TabPanel>
             <TabPanel header="Resources">
               <ResourcesTable />

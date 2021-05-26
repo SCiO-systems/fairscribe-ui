@@ -1,11 +1,12 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button } from 'primereact/button';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
-import FairScoreMiniChart from './charts/FairScoreMini';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import FairScoreMiniChart from '../charts/FairScoreMini';
 
 const sampleResources = [
   {
@@ -83,6 +84,22 @@ const sampleResources = [
 const ResourcesTable = () => {
   const { t } = useTranslation();
 
+  const [filter, setFilter] = useState('');
+
+  const tableHeader = (
+    <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
+      <h4 className="p-my-0">{t('TEAM_RESOURCES')}</h4>
+      <span className="p-input-icon-left">
+        <i className="pi pi-search" />
+        <InputText
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          placeholder={t('SEARCH_FOR_RESOURCES')}
+        />
+      </span>
+    </div>
+  );
+
   const titleTemplate = (rowData) => <strong>{rowData.title}</strong>;
 
   const collectionsTemplate = (rowData) => (
@@ -101,21 +118,32 @@ const ResourcesTable = () => {
   );
 
   return (
-    <DataTable value={sampleResources} className="p-mt-2">
-      <Column field="issueDate" header={t('ISSUE_DATE')} />
-      <Column field="title" body={titleTemplate} header={t('TITLE')} />
-      <Column field="type" header={t('TYPE')} />
+    <DataTable
+      header={tableHeader}
+      globalFilter={filter}
+      paginator
+      rows={10}
+      emptyMessage="No resources were found."
+      value={sampleResources}
+      className="p-mt-2"
+    >
+      <Column sortable field="issueDate" header={t('ISSUE_DATE')} />
+      <Column sortable field="title" body={titleTemplate} header={t('TITLE')} />
+      <Column sortable field="type" header={t('TYPE')} />
       <Column
+        sortable
         field="collections"
         body={collectionsTemplate}
         header={t('COLLECTIONS')}
       />
       <Column
+        sortable
         field="piiStatus"
         body={piiStatusTemplate}
         header={t('PII_STATUS')}
       />
       <Column
+        sortable
         field="fairScore"
         body={fairScoringTemplate}
         header={t('FAIR_SCORING')}

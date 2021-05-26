@@ -91,6 +91,13 @@ const t = {
     PII_STATUS: 'PII Status',
     CERTIFIED: 'Certified',
     FAIR_SCORING: 'Fair Scoring',
+    SEARCH_FOR_TEAMS: 'Search for teams...',
+    SEARCH_FOR_COLLECTIONS: 'Search for collections...',
+    SEARCH_FOR_RESOURCES: 'Search for resources...',
+    COLLECTION_NAME: 'Name',
+    COLLECTION_RESOURCES: 'Resources',
+    COLLECTION_FAIR_SCORING: 'Fair Scoring',
+    TEAM_RESOURCES: 'Team Resources',
   },
 };
 
