@@ -59,6 +59,30 @@ const t = {
     RESOURCES: 'Resources',
     AVERAGE_FAIR_SCORING: 'Average Fair Scoring',
     TEAM_COLLECTIONS: 'Team Collections',
+    CREATE_NEW_COLLECTION: 'Create New Collection',
+    CREATE_A_NEW_COLLECTION: 'Create A New Collection',
+    COLLECTION_TITLE: 'Title',
+    COLLECTION_DESCRIPTION: 'Description',
+    COLLECTION_TITLE_LANGUAGE: 'Language',
+    COLLECTION_DESCRIPTION_LANGUAGE: 'Language',
+    COLLECTION_TITLE_ADD: 'Add',
+    COLLECTION_DESCRIPTION_ADD: 'Add',
+    INHERIT_COLLECTION_INFORMATION:
+      'Inherit collection information to metadata of related resources',
+    COLLECTION_KEYWORDS_EXTRACTED_FROM_RESOURCES:
+      'Collection keywords extracted from collection resources',
+    PUBLISH_COLLECTION_AS_CATALOGUE_OF_RESOURCES:
+      'Publish collection as catalogue of resources',
+    GARDIAN_PID_TITLE: 'Gardian PID',
+    DOI_TITLE: 'DOI',
+    GET_DOI: 'Get DOI',
+    PUBLISHER_TITLE: 'Publisher',
+    EMBARGO_DATE_TITLE: 'Embargo Date',
+    GEOSPATIAL_COVERAGE_COLLECTION_RESOURCES:
+      'Geospatial coverage calculated from collection resources',
+    TEMPORAL_COVERAGE_COLLECTION_RESOURCES:
+      'Temporal coverage calculated from collection resources',
+    CREATE_COLLECTION_BUTTON: 'Create Collection',
   },
 };
 

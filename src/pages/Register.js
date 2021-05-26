@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -34,12 +34,10 @@ const Register = () => {
     // TODO: For error handling later on.
     if (password !== passwordConfirm) {
       setFormValid(false);
-      console.error('Invalid password');
     }
 
     if (email !== emailConfirm) {
       setFormValid(false);
-      console.error('Invalid email');
     }
   }, [password, passwordConfirm, email, emailConfirm]);
 
