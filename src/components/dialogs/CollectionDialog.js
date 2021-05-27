@@ -9,13 +9,19 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const availableLanguages = [
-  { label: 'English', value: 'en-us' },
-  { label: 'French', value: 'fr' },
-  { label: 'Italian', value: 'it' },
+const languages = [
+  { label: 'English', value: 'English' },
+  { label: 'French', value: 'French' },
+  { label: 'Italian', value: 'Italian' },
+  { label: 'Spanish', value: 'Spanish' },
 ];
 
-const CollectionItemsTable = ({ type, items }) => {
+const CollectionItemsTable = ({
+  type,
+  items,
+  removeTitle,
+  removeDescription,
+}) => {
   const { t } = useTranslation();
   const languageTemplate = (rowData) => <span>{rowData.language}</span>;
   const itemTemplate = (rowData) => (
@@ -26,11 +32,22 @@ const CollectionItemsTable = ({ type, items }) => {
       <Button
         icon="pi pi-trash"
         className="p-button p-component p-button-rounded p-button-danger p-button-text p-mr-2 p-mb-2 p-button-icon-only"
+        onClick={() => {
+          type === 'title' ? removeTitle(rowData) : removeDescription(rowData);
+        }}
       />
     </div>
   );
-  return items.length ? (
-    <DataTable value={items} className="p-mb-3 p-datatable-sm">
+  return (
+    <DataTable
+      emptyMessage={
+        type === 'title'
+          ? t('NO_AVAILABLE_TITLES')
+          : t('NO_AVAILABLE_DESCRIPTIONS')
+      }
+      value={items}
+      className="p-mb-3 p-datatable-sm"
+    >
       <Column
         field={type}
         sortable
@@ -51,19 +68,22 @@ const CollectionItemsTable = ({ type, items }) => {
       />
       <Column body={actionsTemplate} />
     </DataTable>
-  ) : (
-    <></>
   );
 };
 
 const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
   const { t } = useTranslation();
 
+  const [titles, setTitles] = useState((collection && collection.titles) || []);
+  const [descriptions, setDescriptions] = useState(
+    (collection && collection.descriptions) || [],
+  );
+
   const [title, setTitle] = useState('');
-  const [titleLanguage, setTitleLanguage] = useState(availableLanguages[0]);
+  const [titleLanguage, setTitleLanguage] = useState(languages[0].value);
   const [description, setDescription] = useState('');
   const [descriptionLanguage, setDescriptionLanguage] = useState(
-    availableLanguages[0],
+    languages[0].value,
   );
   const [inheritCollectionInformation, setInheritCollectionInformation] =
     useState(false);
@@ -74,6 +94,8 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
   const [Doi, setDoi] = useState('');
   const [publisher, setPublisher] = useState('');
   const [embargoDate, setEmbargoDate] = useState('');
+  const [geospatialCoverage, setGeospatialCoverage] = useState(false);
+  const [temporalCoverage, setTemporalCoverage] = useState(false);
 
   return (
     <Dialog
@@ -90,32 +112,33 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
             {/* Collection title */}
             <CollectionItemsTable
               type="title"
-              items={(collection && collection.titles) || []}
+              items={titles}
+              removeTitle={(rowData) => {
+                setTitles(
+                  titles.filter((item) => item.title !== rowData.title),
+                );
+              }}
             />
-            <div className="p-field">
-              <label htmlFor="collection-title">{t('COLLECTION_TITLE')}</label>
-              <InputTextarea
-                id="collection-title"
-                autoResize
-                rows="3"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
             {/* Collection title language */}
             <div className="p-field">
               <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center">
-                <div className="p-col-2">
-                  <label htmlFor="title-language">
-                    {t('COLLECTION_TITLE_LANGUAGE')}
-                  </label>
-                </div>
-                <div className="p-col-8">
+                <div className="p-col-3">
                   <Dropdown
                     id="title-language"
                     value={titleLanguage}
-                    options={availableLanguages}
+                    placeholder={t('COLLECTION_TITLE_LANGUAGE')}
+                    options={languages}
                     onChange={(e) => setTitleLanguage(e.value)}
+                  />
+                </div>
+                <div className="p-col-7">
+                  <InputText
+                    id="collection-title"
+                    autoResize
+                    rows="3"
+                    value={title}
+                    placeholder={t('COLLECTION_ENTER_TITLE')}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
                 <div className="p-col-2 p-text-right">
@@ -123,6 +146,14 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                     label={t('COLLECTION_TITLE_ADD')}
                     icon="pi pi-plus"
                     className="p-button-sm p-component"
+                    onClick={() => {
+                      setTitles([
+                        ...titles,
+                        { title, language: titleLanguage },
+                      ]);
+                      setTitle('');
+                      setTitleLanguage(languages[0].value);
+                    }}
                   />
                 </div>
               </div>
@@ -131,34 +162,35 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
             <div className="p-mt-5">
               <CollectionItemsTable
                 type="description"
-                items={(collection && collection.descriptions) || []}
+                items={descriptions}
+                removeDescription={(rowData) => {
+                  setDescriptions(
+                    descriptions.filter(
+                      (item) => item.description !== rowData.description,
+                    ),
+                  );
+                }}
               />
-              <div className="p-field">
-                <label htmlFor="collection-description">
-                  {t('COLLECTION_DESCRIPTION')}
-                </label>
-                <InputTextarea
-                  id="collection-description"
-                  value={description}
-                  autoResize
-                  rows="5"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
               {/* Collection description language */}
               <div className="p-field">
-                <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center">
-                  <div className="p-col-2">
-                    <label htmlFor="description-language">
-                      {t('COLLECTION_DESCRIPTION_LANGUAGE')}
-                    </label>
-                  </div>
-                  <div className="p-col-8">
+                <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-start">
+                  <div className="p-col-3">
                     <Dropdown
                       id="description-language"
                       value={descriptionLanguage}
-                      options={availableLanguages}
+                      options={languages}
+                      placeholder={t('COLLECTION_DESCRIPTION_LANGUAGE')}
                       onChange={(e) => setDescriptionLanguage(e.value)}
+                    />
+                  </div>
+                  <div className="p-col-7">
+                    <InputTextarea
+                      id="collection-description"
+                      value={description}
+                      placeholder={t('COLLECTION_ENTER_DESCRIPTION')}
+                      autoResize
+                      rows={3}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
                   <div className="p-col-2 p-text-right">
@@ -166,6 +198,14 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                       label={t('COLLECTION_DESCRIPTION_ADD')}
                       icon="pi pi-plus"
                       className="p-button-sm p-component"
+                      onClick={() => {
+                        setDescriptions([
+                          ...descriptions,
+                          { description, language: descriptionLanguage },
+                        ]);
+                        setDescription('');
+                        setDescriptionLanguage(languages[0].value);
+                      }}
                     />
                   </div>
                 </div>
@@ -266,8 +306,8 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                 <Checkbox
                   inputId="geospatial-coverage"
                   name="geospatial-coverage"
-                  checked={publishCollection}
-                  onChange={(e) => setPublishCollection(e.checked)}
+                  checked={geospatialCoverage}
+                  onChange={(e) => setGeospatialCoverage(e.checked)}
                 />
                 <label htmlFor="geospatial-coverage">
                   {t('GEOSPATIAL_COVERAGE_COLLECTION_RESOURCES')}
@@ -278,8 +318,8 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                 <Checkbox
                   inputId="temporal-coverage"
                   name="temporal-coverage"
-                  checked={publishCollection}
-                  onChange={(e) => setPublishCollection(e.checked)}
+                  checked={temporalCoverage}
+                  onChange={(e) => setTemporalCoverage(e.checked)}
                 />
                 <label htmlFor="temporal-coverage">
                   {t('TEMPORAL_COVERAGE_COLLECTION_RESOURCES')}
