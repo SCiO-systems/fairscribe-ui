@@ -1,8 +1,8 @@
-import React, { useRef, useLayoutEffect } from 'react';
-import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
+import * as am4core from '@amcharts/amcharts4/core';
 // eslint-disable-next-line
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import React, { useLayoutEffect, useRef } from 'react';
 
 const FairScoreMiniChart = ({ resourceId, data }) => {
   const chart = useRef(null);
@@ -94,7 +94,13 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     };
   }, []);
 
-  return <div id={chartId} style={{ width: '120px', height: '120px' }} />;
+  return (
+    <div
+      id={chartId}
+      className="chart"
+      style={{ height: '160px', width: '160px' }}
+    />
+  );
 };
 
 export default FairScoreMiniChart;
