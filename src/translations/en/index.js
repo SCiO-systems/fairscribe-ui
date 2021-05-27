@@ -101,7 +101,13 @@ const t = {
     COLLECTION_NAME: 'Name',
     COLLECTION_RESOURCES: 'Resources',
     COLLECTION_FAIR_SCORING: 'Fair Scoring',
-    TEAM_RESOURCES: 'Team Resources',
+    PUBLISHED_RESOURCES: 'Published Resources',
+    RESOURCES_UNDER_PREPARATION: 'Resources Under Preparation',
+    RESOURCES_UNDER_REVIEW: 'Resources Under Review',
+    UNPUBLISHED_RESOURCES: 'Unpublished Resources',
+    PUBLISHED: 'Published',
+    UNPUBLISHED: 'Unpublished',
+    CREATE_NEW_TASK: 'Create new task',
   },
 };
 

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { InputSwitch } from 'primereact/inputswitch';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -81,22 +82,46 @@ const sampleResources = [
   },
 ];
 
-const ResourcesTable = () => {
+const ResourcesTable = ({ type, title }) => {
   const { t } = useTranslation();
 
   const [filter, setFilter] = useState('');
+  const [unpublished, setUnpublished] = useState(true);
+  const [taskDialogOpen, setTaskDialogOpen] = useState(false);
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
-      <h4 className="p-my-0">{t('TEAM_RESOURCES')}</h4>
-      <span className="p-input-icon-left">
-        <i className="pi pi-search" />
-        <InputText
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          placeholder={t('SEARCH_FOR_RESOURCES')}
-        />
-      </span>
+      <h4 className="p-my-0 p-text-uppercase">{title}</h4>
+      <div className="p-d-flex p-flex-row p-ai-center">
+        <span className="p-input-icon-left p-mr-3">
+          <i className="pi pi-search" />
+          <InputText
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder={t('SEARCH_FOR_RESOURCES')}
+          />
+        </span>
+        {type === 'tasks' && (
+          <Button
+            onClick={() => setTaskDialogOpen(true)}
+            label={t('CREATE_NEW_TASK')}
+            icon="pi pi-plus"
+          />
+        )}
+        {type === 'unpublished' && (
+          <span className="p-d-flex p-flex-row p-ai-center">
+            <InputSwitch
+              id="published"
+              className="p-my-0 p-py-0 p-mr-2"
+              checked={unpublished}
+              onChange={(e) => setUnpublished(e.value)}
+            />
+            <label htmlFor="published" style={{ minWidth: '90px' }}>
+              {unpublished ? t('UNPUBLISHED') : t('PUBLISHED')}
+            </label>
+          </span>
+        )}
+      </div>
     </div>
   );
 

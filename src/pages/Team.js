@@ -1,5 +1,6 @@
 import { TabPanel, TabView } from 'primereact/tabview';
 import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import CollectionsTable from '../components/tables/CollectionsTable';
@@ -24,6 +25,7 @@ const fetchTeam = (id) => allTeams.find((t) => t.id == id);
 const Team = () => {
   const { setData } = useContext(UserContext);
   const { id } = useParams();
+  const { t } = useTranslation();
   const [team, setTeam] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(1);
@@ -63,11 +65,29 @@ const Team = () => {
               <CollectionsTable />
             </TabPanel>
             <TabPanel header="Resources">
-              <ResourcesTable />
+              <ResourcesTable
+                type="resources"
+                title={t('PUBLISHED_RESOURCES')}
+              />
             </TabPanel>
-            <TabPanel header="My Tasks">tasks</TabPanel>
-            <TabPanel header="My Reviews">reviews</TabPanel>
-            <TabPanel header="Publish">publish</TabPanel>
+            <TabPanel header="My Tasks">
+              <ResourcesTable
+                type="tasks"
+                title={t('RESOURCES_UNDER_PREPARATION')}
+              />
+            </TabPanel>
+            <TabPanel header="My Reviews">
+              <ResourcesTable
+                type="reviews"
+                title={t('RESOURCES_UNDER_REVIEW')}
+              />
+            </TabPanel>
+            <TabPanel header="Publish">
+              <ResourcesTable
+                type="unpublished"
+                title={t('UNPUBLISHED_RESOURCES')}
+              />
+            </TabPanel>
           </TabView>
         </div>
       </div>

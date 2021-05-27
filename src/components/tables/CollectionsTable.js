@@ -43,7 +43,7 @@ const CollectionsTable = () => {
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
-      <h4 className="p-my-0">{t('TEAM_COLLECTIONS')}</h4>
+      <h4 className="p-my-0 p-text-uppercase">{t('TEAM_COLLECTIONS')}</h4>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
