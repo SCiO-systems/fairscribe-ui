@@ -28,9 +28,8 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     categoryAxis.renderer.grid.template.strokeOpacity = 0;
     categoryAxis.renderer.labels.template.horizontalCenter = 'right';
     categoryAxis.renderer.labels.template.fontWeight = 500;
-
-    categoryAxis.renderer.labels.template.fontSize = '0em';
-
+    categoryAxis.renderer.labels.template.fillOpacity = 0;
+    categoryAxis.renderer.labels.template.fontSize = '0px';
     categoryAxis.renderer.labels.template.adapter.add(
       'fill',
       (fill, target) => '#08429e',
@@ -39,17 +38,18 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
 
     const label = c.createChild(am4core.Label);
     label.text = 'FAIR';
-    label.fontSize = 12;
+    label.fontSize = '16px';
     label.align = 'left';
     label.isMeasured = false;
     label.x = 0;
-    label.y = 12;
+    label.y = 15;
 
     const valueAxis = c.xAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.grid.template.strokeOpacity = 0;
     valueAxis.min = 0;
     valueAxis.max = 5;
     valueAxis.renderer.labels.template.fontSize = '0em';
+    valueAxis.renderer.labels.template.fillOpacity = 0;
 
     // Create series
     const series1 = c.series.push(new am4charts.RadarColumnSeries());
@@ -97,8 +97,8 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
   return (
     <div
       id={chartId}
-      className="chart"
-      style={{ height: '160px', width: '160px' }}
+      className="chart fair-score-mini"
+      style={{ height: '120px', width: '120px' }}
     />
   );
 };
