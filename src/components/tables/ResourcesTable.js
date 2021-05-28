@@ -8,6 +8,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FairScoreMiniChart from '../charts/FairScoreMini';
+import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
 
 const sampleResources = [
   {
@@ -88,6 +89,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
   const [filter, setFilter] = useState('');
   const [unpublished, setUnpublished] = useState(true);
   const [rows, setRows] = useState(10);
+  const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -143,53 +145,72 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
   );
 
   return (
-    <DataTable
-      header={tableHeader}
-      globalFilter={filter}
-      paginator
-      rows={rows}
-      rowsPerPageOptions={[10, 20, 50]}
-      onPage={(event) => setRows(event.rows)}
-      emptyMessage="No resources were found."
-      value={sampleResources}
-      className="p-mt-2"
-    >
-      <Column sortable field="issueDate" header={t('ISSUE_DATE')} />
-      <Column sortable field="title" body={titleTemplate} header={t('TITLE')} />
-      <Column sortable field="type" header={t('TYPE')} />
-      <Column
-        sortable
-        field="collections"
-        body={collectionsTemplate}
-        header={t('COLLECTIONS')}
+    <>
+      <DataTable
+        header={tableHeader}
+        globalFilter={filter}
+        paginator
+        rows={rows}
+        rowsPerPageOptions={[10, 20, 50]}
+        onPage={(event) => setRows(event.rows)}
+        emptyMessage="No resources were found."
+        value={sampleResources}
+        className="p-mt-2"
+      >
+        <Column sortable field="issueDate" header={t('ISSUE_DATE')} />
+        <Column
+          sortable
+          field="title"
+          body={titleTemplate}
+          header={t('TITLE')}
+        />
+        <Column sortable field="type" header={t('TYPE')} />
+        <Column
+          sortable
+          field="collections"
+          body={collectionsTemplate}
+          header={t('COLLECTIONS')}
+        />
+        <Column
+          sortable
+          field="piiStatus"
+          body={piiStatusTemplate}
+          header={t('PII_STATUS')}
+        />
+        <Column
+          sortable
+          field="fairScore"
+          body={fairScoringTemplate}
+          header={t('FAIR_SCORING')}
+        />
+        <Column
+          body={(rowData) => (
+            <div className="p-text-right">
+              {type === 'unpublished' ? (
+                <Button
+                  icon="pi pi-upload"
+                  className="p-button-icon-only p-button-rounded p-mr-2"
+                  onClick={() => setUploadToRepoDialog(true)}
+                />
+              ) : (
+                <Button
+                  icon="pi pi-pencil"
+                  className="p-button-icon-only p-button-rounded p-mr-2"
+                />
+              )}
+              <Button
+                icon="pi pi-eye"
+                className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
+              />
+            </div>
+          )}
+        />
+      </DataTable>
+      <UploadToRepoDialog
+        dialogOpen={uploadToRepoDialogOpen}
+        setDialogOpen={setUploadToRepoDialog}
       />
-      <Column
-        sortable
-        field="piiStatus"
-        body={piiStatusTemplate}
-        header={t('PII_STATUS')}
-      />
-      <Column
-        sortable
-        field="fairScore"
-        body={fairScoringTemplate}
-        header={t('FAIR_SCORING')}
-      />
-      <Column
-        body={(rowData) => (
-          <div className="p-text-right">
-            <Button
-              icon="pi pi-pencil"
-              className="p-button-icon-only p-button-rounded p-mr-2"
-            />
-            <Button
-              icon="pi pi-eye"
-              className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
-            />
-          </div>
-        )}
-      />
-    </DataTable>
+    </>
   );
 };
 

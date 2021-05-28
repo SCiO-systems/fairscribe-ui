@@ -137,6 +137,8 @@ const t = {
     RESOURCE_METADATA_AUTHORING_TEAM: 'Metadata Authoring Team',
     CREATE_TASK_AND_SEND_INVITES: 'Create Task & Send Invites',
     CLEAR_ALL_FIELDS: 'Clear all fields',
+    PUBLISH_RESOURCE: 'Publish Resource',
+    SELECT_TARGET_REPOSITORY: 'Select target repository',
   },
 };
 
