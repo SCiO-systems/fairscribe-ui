@@ -82,12 +82,11 @@ const sampleResources = [
   },
 ];
 
-const ResourcesTable = ({ type, title }) => {
+const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
   const { t } = useTranslation();
 
   const [filter, setFilter] = useState('');
   const [unpublished, setUnpublished] = useState(true);
-  const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [rows, setRows] = useState(10);
 
   const tableHeader = (
@@ -104,7 +103,7 @@ const ResourcesTable = ({ type, title }) => {
         </span>
         {type === 'tasks' && (
           <Button
-            onClick={() => setTaskDialogOpen(true)}
+            onClick={() => setTaskFormOpen(true)}
             label={t('CREATE_NEW_TASK')}
             icon="pi pi-plus"
           />

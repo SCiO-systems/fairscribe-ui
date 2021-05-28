@@ -93,11 +93,11 @@ const MyTeamsTable = ({
       />
       <Column
         body={(rowData) => (
-          <div className="p-text-right">
+          <div className="p-d-flex p-flex-row p-ai-center p-jc-end p-flex-wrap">
             <Button
               onClick={() => setInviteMembersDialogOpen(true)}
               icon="pi pi-user-plus"
-              className="p-button-outlined p-button-icon-only p-button-rounded p-mr-2"
+              className="p-button-outlined p-button-icon-only p-button-rounded p-mb-1 p-mr-2"
             />
             <Button
               icon="pi pi-cog"
@@ -108,13 +108,13 @@ const MyTeamsTable = ({
                 });
                 setTeamDialogOpen(true);
               }}
-              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
+              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mb-1 p-mr-2"
             />
             <Button
               label={t('VIEW_DETAILS')}
               icon="pi pi-eye"
               onClick={() => history.push('/teams/1')}
-              className="p-button-secondary"
+              className="p-button-secondary p-mb-1"
             />
           </div>
         )}

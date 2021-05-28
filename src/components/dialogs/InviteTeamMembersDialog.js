@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
-import { Dialog } from 'primereact/dialog';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -28,7 +28,7 @@ const InviteTeamMembersDialog = ({ dialogOpen, setDialogOpen }) => {
       <div className="p-fluid">
         <div className="p-formgrid p-grid">
           <div className="p-col-12">
-            <div>
+            <div className="p-field">
               <label htmlFor="members">{t('CHOOSE_MEMBERS')}</label>
               <MultiSelect
                 id="members"
@@ -37,7 +37,7 @@ const InviteTeamMembersDialog = ({ dialogOpen, setDialogOpen }) => {
                 onChange={(e) => setTeamMembers(e.value)}
               />
             </div>
-            <div className="p-mt-4">
+            <div className="p-mt-2 p-field">
               <label htmlFor="invite_by_email">{t('INVITE_BY_EMAIL')}</label>
               <InputText
                 id="invite_by_email"
@@ -46,7 +46,7 @@ const InviteTeamMembersDialog = ({ dialogOpen, setDialogOpen }) => {
               />
             </div>
           </div>
-          <div className="p-col-12 p-text-center p-mt-4">
+          <div className="p-col-12 p-text-center p-mt-3">
             <div className="p-d-inline-flex p-col-6 p-ai-center p-jc-center">
               <Button
                 label={t('SEND_INVITES')}
