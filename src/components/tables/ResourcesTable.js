@@ -88,6 +88,7 @@ const ResourcesTable = ({ type, title }) => {
   const [filter, setFilter] = useState('');
   const [unpublished, setUnpublished] = useState(true);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
+  const [rows, setRows] = useState(10);
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -147,7 +148,9 @@ const ResourcesTable = ({ type, title }) => {
       header={tableHeader}
       globalFilter={filter}
       paginator
-      rows={10}
+      rows={rows}
+      rowsPerPageOptions={[10, 20, 50]}
+      onPage={(event) => setRows(event.rows)}
       emptyMessage="No resources were found."
       value={sampleResources}
       className="p-mt-2"

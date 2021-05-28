@@ -38,8 +38,11 @@ const demoCollection = {
 const CollectionsTable = () => {
   const { t } = useTranslation();
 
-  const [collectionDialogOpen, setCollectionDialogOpen] = useState(false);
+  const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
+  const [editCollectionDialogOpen, setEditCollectionDialogOpen] =
+    useState(false);
   const [filter, setFilter] = useState('');
+  const [rows, setRows] = useState(10);
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -53,7 +56,7 @@ const CollectionsTable = () => {
           placeholder={t('SEARCH_FOR_COLLECTIONS')}
         />
         <Button
-          onClick={() => setCollectionDialogOpen(true)}
+          onClick={() => setNewCollectionDialogOpen(true)}
           label={t('CREATE_NEW_COLLECTION')}
           icon="pi pi-plus"
         />
@@ -85,8 +88,10 @@ const CollectionsTable = () => {
         header={tableHeader}
         globalFilter={filter}
         paginator
-        rows={10}
+        rows={rows}
+        rowsPerPageOptions={[10, 20, 50]}
         value={sampleCollections}
+        onPage={(event) => setRows(event.rows)}
         className="p-mt-2"
       >
         <Column
@@ -112,20 +117,25 @@ const CollectionsTable = () => {
             <div className="p-text-right">
               <Button
                 icon="pi pi-pencil"
-                className="p-button-icon-only p-button-rounded p-mr-2"
-                onClick={() => setCollectionDialogOpen(true)}
+                className="p-button-icon-only p-button-rounded p-mr-3"
+                onClick={() => setEditCollectionDialogOpen(true)}
               />
               <Button
                 icon="pi pi-eye"
-                className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
+                label={t('VIEW_COLLECTION_RESOURCES')}
+                className="p-button-secondary"
               />
             </div>
           )}
         />
       </DataTable>
       <CollectionDialog
-        dialogOpen={collectionDialogOpen}
-        setDialogOpen={setCollectionDialogOpen}
+        dialogOpen={newCollectionDialogOpen}
+        setDialogOpen={setNewCollectionDialogOpen}
+      />
+      <CollectionDialog
+        dialogOpen={editCollectionDialogOpen}
+        setDialogOpen={setEditCollectionDialogOpen}
         collection={demoCollection}
       />
     </>

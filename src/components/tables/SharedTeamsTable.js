@@ -14,6 +14,7 @@ const SharedTeamsTable = () => {
   const { t } = useTranslation();
 
   const [filter, setFilter] = useState('');
+  const [rows, setRows] = useState(10);
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -51,8 +52,10 @@ const SharedTeamsTable = () => {
     <DataTable
       header={tableHeader}
       globalFilter={filter}
-      rows={10}
       paginator
+      rows={rows}
+      rowsPerPageOptions={[10, 20, 50]}
+      onPage={(event) => setRows(event.rows)}
       emptyMessage="No teams were found."
       value={sharedTeams}
       className="p-mt-2"

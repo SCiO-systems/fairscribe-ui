@@ -15,6 +15,7 @@ const MyTeamsTable = ({
 }) => {
   const { t } = useTranslation();
   const [filter, setFilter] = useState('');
+  const [rows, setRows] = useState(10);
   const history = useHistory();
 
   const tableHeader = (
@@ -70,8 +71,10 @@ const MyTeamsTable = ({
     <DataTable
       header={tableHeader}
       globalFilter={filter}
-      rows={10}
       paginator
+      rows={rows}
+      rowsPerPageOptions={[10, 20, 50]}
+      onPage={(event) => setRows(event.rows)}
       emptyMessage="No teams were found."
       value={myTeams}
       className="p-mt-2"

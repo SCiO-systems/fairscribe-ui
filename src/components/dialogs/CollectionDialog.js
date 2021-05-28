@@ -16,6 +16,75 @@ const languages = [
   { label: 'Spanish', value: 'Spanish' },
 ];
 
+const temporalCoverageOptions = [
+  { label: 'Period', value: 'period' },
+  { label: 'Timepoint', value: 'timepoint' },
+];
+
+const CollectionKeywordsTable = ({ keywords, removeKeyword }) => {
+  const { t } = useTranslation();
+  const keywordTemplate = (rowData) => <span>{rowData.keyword}</span>;
+  const actionsTemplate = (rowData) => (
+    <div className="p-text-right">
+      <Button
+        icon="pi pi-trash"
+        className="p-button p-component p-button-rounded p-button-danger p-button-text p-mr-2 p-mb-2 p-button-icon-only"
+        onClick={() => {
+          removeKeyword(rowData);
+        }}
+      />
+    </div>
+  );
+  return (
+    <DataTable
+      paginator
+      rows={5}
+      emptyMessage={t('NO_AVAILABLE_KEYWORDS')}
+      value={keywords}
+      className="p-my-3 p-datatable-sm"
+    >
+      <Column
+        field="keyword"
+        sortable
+        body={keywordTemplate}
+        header={t('COLLECTION_KEYWORD')}
+      />
+      <Column body={actionsTemplate} />
+    </DataTable>
+  );
+};
+
+const GeospatialCoverageTable = ({ countries, removeCountry }) => {
+  const { t } = useTranslation();
+  const countryTemplate = (rowData) => <span>{rowData.country}</span>;
+  const actionsTemplate = (rowData) => (
+    <div className="p-text-right">
+      <Button
+        icon="pi pi-trash"
+        className="p-button p-component p-button-rounded p-button-danger p-button-text p-mr-2 p-mb-2 p-button-icon-only"
+        onClick={() => removeCountry(rowData)}
+      />
+    </div>
+  );
+  return (
+    <DataTable
+      paginator
+      rows={5}
+      emptyMessage={t('NO_AVAILABLE_COUNTRIES')}
+      value={countries}
+      className="p-my-3 p-datatable-sm"
+    >
+      <Column
+        field="keyword"
+        sortable
+        body={countryTemplate}
+        header={t('COLLECTION_COUNTRY')}
+      />
+      <Column body={actionsTemplate} />
+    </DataTable>
+  );
+};
+
 const CollectionItemsTable = ({
   type,
   items,
@@ -49,14 +118,6 @@ const CollectionItemsTable = ({
       className="p-mb-3 p-datatable-sm"
     >
       <Column
-        field={type}
-        sortable
-        body={itemTemplate}
-        header={
-          type === 'title' ? t('COLLECTION_TITLE') : t('COLLECTION_DESCRIPTION')
-        }
-      />
-      <Column
         field="language"
         body={languageTemplate}
         sortable
@@ -64,6 +125,14 @@ const CollectionItemsTable = ({
           type === 'title'
             ? t('COLLECTION_TITLE_LANGUAGE')
             : t('COLLECTION_DESCRIPTION_LANGUAGE')
+        }
+      />
+      <Column
+        field={type}
+        sortable
+        body={itemTemplate}
+        header={
+          type === 'title' ? t('COLLECTION_TITLE') : t('COLLECTION_DESCRIPTION')
         }
       />
       <Column body={actionsTemplate} />
@@ -75,6 +144,12 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
   const { t } = useTranslation();
 
   const [titles, setTitles] = useState((collection && collection.titles) || []);
+  const [keywords, setKeywords] = useState(
+    (collection && collection.keywords) || [],
+  );
+  const [countries, setCountries] = useState(
+    (collection && collection.countries) || [],
+  );
   const [descriptions, setDescriptions] = useState(
     (collection && collection.descriptions) || [],
   );
@@ -88,20 +163,26 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
   const [inheritCollectionInformation, setInheritCollectionInformation] =
     useState(false);
   const [collectionKeywordsExtracted, setCollectionKeywordsExtracted] =
-    useState(false);
+    useState(true);
   const [publishCollection, setPublishCollection] = useState(false);
-  const [gardianPID, setGardianPID] = useState('');
   const [Doi, setDoi] = useState('');
   const [publisher, setPublisher] = useState('');
   const [embargoDate, setEmbargoDate] = useState('');
-  const [geospatialCoverage, setGeospatialCoverage] = useState(false);
-  const [temporalCoverage, setTemporalCoverage] = useState(false);
+  const [geospatialCoverage, setGeospatialCoverage] = useState(true);
+  const [temporalCoverage, setTemporalCoverage] = useState(true);
+  const [keyword, setKeyword] = useState('');
+  const [country, setCountry] = useState('');
+  const [temporalDate, setTemporalDate] = useState('');
+  const [temporalFromDate, setTemporalFromDate] = useState('');
+  const [temporalToDate, setTemporalToDate] = useState('');
+  const [temporalCoverageType, setTemporalCoverageType] = useState('');
+  const [temporalDescription, setTemporalDescription] = useState('');
 
   return (
     <Dialog
-      header={t('CREATE_A_NEW_COLLECTION')}
+      header={collection ? t('EDIT_COLLECTION') : t('CREATE_A_NEW_COLLECTION')}
       visible={dialogOpen}
-      style={{ width: '600px' }}
+      style={{ width: '800px' }}
       draggable={false}
       modal
       onHide={() => setDialogOpen(false)}
@@ -134,8 +215,6 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                 <div className="p-col-7">
                   <InputText
                     id="collection-title"
-                    autoResize
-                    rows="3"
                     value={title}
                     placeholder={t('COLLECTION_ENTER_TITLE')}
                     onChange={(e) => setTitle(e.target.value)}
@@ -238,6 +317,46 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                   {t('COLLECTION_KEYWORDS_EXTRACTED_FROM_RESOURCES')}
                 </label>
               </div>
+              {/* Add collection keywords */}
+              {!collectionKeywordsExtracted && (
+                <div className="p-field">
+                  <CollectionKeywordsTable
+                    keywords={keywords}
+                    removeKeyword={(rowData) => {
+                      setKeywords(
+                        keywords.filter(
+                          (item) => item.keyword !== rowData.keyword,
+                        ),
+                      );
+                    }}
+                  />
+                  <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center">
+                    <div className="p-col-2 p-text-center">
+                      <label htmlFor="new-keyword">{t('NEW_KEYWORD')}</label>
+                    </div>
+                    <div className="p-col-8">
+                      <InputText
+                        id="new-keyword"
+                        value={keyword}
+                        placeholder={t('COLLECTION_ENTER_KEYWORD')}
+                        onChange={(e) => setKeyword(e.target.value)}
+                      />
+                    </div>
+                    <div className="p-col-2 p-text-right">
+                      <Button
+                        label={t('COLLECTION_ADD_KEYWORD')}
+                        icon="pi pi-plus"
+                        className="p-button-sm p-component"
+                        disabled={keyword.length === 0}
+                        onClick={() => {
+                          setKeywords([...keywords, { keyword }]);
+                          setKeyword('');
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
               {/* Publish collection as catalogue of resources */}
               <div className="p-field-checkbox">
                 <Checkbox
@@ -252,17 +371,6 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
               </div>
             </div>
             <div className="p-mt-5">
-              {/* Gardian PID */}
-              <div className="p-field">
-                <label htmlFor="gardian-pid-title">
-                  {t('GARDIAN_PID_TITLE')}
-                </label>
-                <InputText
-                  id="gardian-pid-title"
-                  value={gardianPID}
-                  onChange={(e) => setGardianPID(e.target.value)}
-                />
-              </div>
               {/* DOI */}
               <div className="p-field">
                 <label htmlFor="title-language">{t('DOI_TITLE')}</label>
@@ -315,6 +423,46 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                   {t('GEOSPATIAL_COVERAGE_COLLECTION_RESOURCES')}
                 </label>
               </div>
+              {/* Add collection keywords */}
+              {!geospatialCoverage && (
+                <div className="p-field">
+                  <GeospatialCoverageTable
+                    countries={countries}
+                    removeCountry={(rowData) => {
+                      setCountries(
+                        countries.filter(
+                          (item) => item.country !== rowData.country,
+                        ),
+                      );
+                    }}
+                  />
+                  <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center">
+                    <div className="p-col-2 p-text-center">
+                      <label htmlFor="new-country">{t('NEW_COUNTRY')}</label>
+                    </div>
+                    <div className="p-col-8">
+                      <InputText
+                        id="new-country"
+                        value={country}
+                        placeholder={t('COLLECTION_ENTER_COUNTRY')}
+                        onChange={(e) => setCountry(e.target.value)}
+                      />
+                    </div>
+                    <div className="p-col-2 p-text-right">
+                      <Button
+                        label={t('COLLECTION_ADD_COUNTRY')}
+                        icon="pi pi-plus"
+                        className="p-button-sm p-component"
+                        disabled={country.length === 0}
+                        onClick={() => {
+                          setCountries([...countries, { country }]);
+                          setCountry('');
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
               {/* Temporal coverage */}
               <div className="p-field-checkbox">
                 <Checkbox
@@ -327,13 +475,88 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                   {t('TEMPORAL_COVERAGE_COLLECTION_RESOURCES')}
                 </label>
               </div>
+              {!temporalCoverage && (
+                <div>
+                  <div className="p-field">
+                    <label htmlFor="temporal-coverage-type">
+                      {t('TEMPORAL_COVERAGE_TYPE')}
+                    </label>
+                    <Dropdown
+                      id="temporal-coverage-type"
+                      value={temporalCoverageType}
+                      placeholder={t('TEMPORAL_COVERAGE_TYPE')}
+                      options={temporalCoverageOptions}
+                      onChange={(e) => setTemporalCoverageType(e.value)}
+                    />
+                  </div>
+                  {temporalCoverageType === 'period' && (
+                    <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center">
+                      <div className="p-col-6 p-field">
+                        <label htmlFor="temporal-from-date">
+                          {t('TEMPORAL_FROM_DATE')}
+                        </label>
+                        <Calendar
+                          showIcon
+                          showButtonBar
+                          id="temporal-from-date"
+                          value={temporalFromDate}
+                          onChange={(e) => setTemporalFromDate(e.value)}
+                        />
+                      </div>
+                      <div className="p-col-6 p-field">
+                        <label htmlFor="temporal-to-date">
+                          {t('TEMPORAL_TO_DATE')}
+                        </label>
+                        <Calendar
+                          showIcon
+                          showButtonBar
+                          id="temporal-to-date"
+                          value={temporalToDate}
+                          onChange={(e) => setTemporalToDate(e.value)}
+                        />
+                      </div>
+                      <div className="p-col-12 p-field">
+                        <label htmlFor="temporal-description">
+                          {t('TEMPORAL_DESCRIPTION')}
+                        </label>
+                        <InputText
+                          id="temporal-description"
+                          value={temporalDescription}
+                          placeholder={t('TEMPORAL_ENTER_DESCRIPTION')}
+                          onChange={(e) =>
+                            setTemporalDescription(e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {temporalCoverageType === 'timepoint' && (
+                    <div className="p-field">
+                      <label htmlFor="temporal-date">
+                        {t('TEMPORAL_DATE')}
+                      </label>
+                      <Calendar
+                        showIcon
+                        showButtonBar
+                        id="temporal-date"
+                        value={temporalDate}
+                        onChange={(e) => setTemporalDate(e.value)}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className="p-col-12 p-text-center p-mt-4">
             <div className="p-d-inline-flex p-col-6 p-ai-center p-jc-center">
               <Button
-                icon="pi pi-plus"
-                label={t('CREATE_COLLECTION_BUTTON')}
+                icon={collection ? 'pi pi-save' : 'pi pi-plus'}
+                label={
+                  collection
+                    ? t('SAVE_COLLECTION_BUTTON')
+                    : t('CREATE_COLLECTION_BUTTON')
+                }
                 className="p-mr-2 p-mb-2"
                 onClick={() => setDialogOpen(false)}
               />
