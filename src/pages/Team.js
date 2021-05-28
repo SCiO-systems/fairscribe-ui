@@ -2,6 +2,7 @@ import { TabPanel, TabView } from 'primereact/tabview';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import ResourceForm from '../components/forms/ResourceForm';
 import Loading from '../components/Loading';
 import CollectionsTable from '../components/tables/CollectionsTable';
 import ResourcesTable from '../components/tables/ResourcesTable';
@@ -15,7 +16,13 @@ const allTeams = [
     tasks: '4',
     reviews: '13',
     uploads: '21',
-    members: ['John Baraka', 'Anjali Gupta'],
+    members: [
+      'John Doe',
+      'Anjali Gupta',
+      'Alice Doe',
+      'John Baraka',
+      'Jane Doe',
+    ],
   },
 ];
 
@@ -28,7 +35,8 @@ const Team = () => {
   const { t } = useTranslation();
   const [team, setTeam] = useState({});
   const [loading, setLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [taskFormOpen, setTaskFormOpen] = useState(false);
 
   // when mounted
   useEffect(() => {
@@ -71,10 +79,15 @@ const Team = () => {
               />
             </TabPanel>
             <TabPanel header="My Tasks">
-              <ResourcesTable
-                type="tasks"
-                title={t('RESOURCES_UNDER_PREPARATION')}
-              />
+              {taskFormOpen ? (
+                <ResourceForm setTaskFormOpen={setTaskFormOpen} />
+              ) : (
+                <ResourcesTable
+                  setTaskFormOpen={setTaskFormOpen}
+                  type="tasks"
+                  title={t('RESOURCES_UNDER_PREPARATION')}
+                />
+              )}
             </TabPanel>
             <TabPanel header="My Reviews">
               <ResourcesTable

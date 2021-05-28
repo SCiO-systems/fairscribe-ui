@@ -1,7 +1,9 @@
+import { Button } from 'primereact/button';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
+import InviteTeamMembersDialog from './components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from './components/dialogs/TeamDialog';
 import { UserContext } from './store';
 
@@ -10,6 +12,7 @@ const AppMenu = ({ onMenuClick }) => {
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
   const { currentlyViewingTeam, ownTeams, sharedTeams } =
     useContext(UserContext);
+  const [inviteTeamMembersDialog, setInviteTeamMembersDialog] = useState(false);
 
   return (
     <div
@@ -105,13 +108,11 @@ const AppMenu = ({ onMenuClick }) => {
             <>
               <li className="menu-separator" role="separator" />
               <li className="layout-root-menuitem" role="menuitem">
-                <button type="button" className="p-ripple p-link">
-                  <i className="layout-menuitem-icon pi pi-fw pi-users" />
-                  <span className="layout-menuitem-text">
-                    {t('TEAM_MEMBERS')}
-                  </span>
-                  <i className="pi pi-fw pi-angle-down layout-submenu-toggler" />
-                </button>
+                <Button
+                  label={t('TEAM_MEMBERS')}
+                  className="p-ripple p-link"
+                  icon="pi pi-fw pi-users"
+                />
                 <div className="layout-root-menuitem p-d-flex p-ai-center p-jc-between">
                   <div className="layout-menuitem-root-text">
                     {t('TEAM_MEMBERS')}
@@ -121,6 +122,7 @@ const AppMenu = ({ onMenuClick }) => {
                     title={t('INVITE_MEMBERS_TO_TEAM', {
                       teamName: currentlyViewingTeam.name,
                     })}
+                    onClick={() => setInviteTeamMembersDialog(true)}
                     className="add-team-btn p-button p-button-sm p-component p-button-rounded p-button-icon-only"
                   >
                     <span className="p-button-icon p-c pi pi-plus" />
@@ -148,6 +150,11 @@ const AppMenu = ({ onMenuClick }) => {
       <TeamDialog
         dialogOpen={teamDialogOpen}
         setDialogOpen={setTeamDialogOpen}
+      />
+
+      <InviteTeamMembersDialog
+        dialogOpen={inviteTeamMembersDialog}
+        setDialogOpen={setInviteTeamMembersDialog}
       />
     </div>
   );
