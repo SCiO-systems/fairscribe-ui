@@ -146,6 +146,7 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                     label={t('COLLECTION_TITLE_ADD')}
                     icon="pi pi-plus"
                     className="p-button-sm p-component"
+                    disabled={title.length === 0}
                     onClick={() => {
                       setTitles([
                         ...titles,
@@ -198,6 +199,7 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                       label={t('COLLECTION_DESCRIPTION_ADD')}
                       icon="pi pi-plus"
                       className="p-button-sm p-component"
+                      disabled={description.length === 0}
                       onClick={() => {
                         setDescriptions([
                           ...descriptions,
