@@ -123,6 +123,7 @@ const t = {
     TEMPORAL_FROM_DATE: 'From date',
     TEMPORAL_TO_DATE: 'To date',
     VIEW_COLLECTION_RESOURCES: 'View Resources',
+    HIDE_COLLECTION_RESOURCES: 'Hide Resources',
     TEMPORAL_COVERAGE_TYPE: 'Type',
     TEMPORAL_DATE: 'Date',
     TEMPORAL_DESCRIPTION: 'Description',

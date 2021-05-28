@@ -5,6 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CollectionDialog from '../dialogs/CollectionDialog';
+import ResourcesTable from './ResourcesTable';
 
 const sampleCollections = [
   { id: 1, name: 'Collection A', resources: 3, averageScoring: 3.5 },
@@ -39,10 +40,23 @@ const CollectionsTable = () => {
   const { t } = useTranslation();
 
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
+  const [expandedRows, setExpandedRows] = useState(null);
   const [editCollectionDialogOpen, setEditCollectionDialogOpen] =
     useState(false);
   const [filter, setFilter] = useState('');
   const [rows, setRows] = useState(10);
+
+  const rowExpansionTemplate = (data) => <ResourcesTable />;
+
+  const toggleExpandRow = (id) => {
+    const exp = expandedRows == null ? [] : [...expandedRows];
+    if (exp[id]) {
+      delete exp[id];
+    } else {
+      exp[id] = true;
+    }
+    setExpandedRows(exp);
+  };
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -89,6 +103,9 @@ const CollectionsTable = () => {
         globalFilter={filter}
         paginator
         rows={rows}
+        dataKey="id"
+        expandedRows={expandedRows}
+        rowExpansionTemplate={rowExpansionTemplate}
         rowsPerPageOptions={[10, 20, 50]}
         value={sampleCollections}
         onPage={(event) => setRows(event.rows)}
@@ -121,9 +138,18 @@ const CollectionsTable = () => {
                 onClick={() => setEditCollectionDialogOpen(true)}
               />
               <Button
-                icon="pi pi-eye"
-                label={t('VIEW_COLLECTION_RESOURCES')}
+                icon={
+                  expandedRows && expandedRows[rowData.id]
+                    ? 'pi pi-eye-slash'
+                    : 'pi pi-eye'
+                }
+                label={
+                  expandedRows && expandedRows[rowData.id]
+                    ? t('HIDE_COLLECTION_RESOURCES')
+                    : t('VIEW_COLLECTION_RESOURCES')
+                }
                 className="p-button-secondary"
+                onClick={() => toggleExpandRow(rowData.id)}
               />
             </div>
           )}
