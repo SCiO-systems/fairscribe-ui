@@ -127,6 +127,15 @@ const t = {
     TEMPORAL_DATE: 'Date',
     TEMPORAL_DESCRIPTION: 'Description',
     TEMPORAL_ENTER_DESCRIPTION: 'Enter a description for the time period.',
+    NEW_RESOURCE: 'New Resource',
+    EDIT_RESOURCE: 'Edit Resource',
+    RESOURCE_TITLE: 'Resource Title',
+    RESOURCE_DESCRIPTION: 'Resource Description',
+    RESOURCE_TYPE: 'Resource Type',
+    RESOURCE_SUBTYPE: 'Resource Subtype',
+    RESOURCE_METADATA_AUTHORING_TEAM: 'Metadata Authoring Team',
+    CREATE_TASK_AND_SEND_INVITES: 'Create Task & Send Invites',
+    CLEAR_ALL_FIELDS: 'Clear all fields',
   },
 };
 
