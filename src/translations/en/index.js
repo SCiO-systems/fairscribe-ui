@@ -139,6 +139,15 @@ const t = {
     CLEAR_ALL_FIELDS: 'Clear all fields',
     PUBLISH_RESOURCE: 'Publish Resource',
     SELECT_TARGET_REPOSITORY: 'Select target repository',
+    CHECK: 'Check',
+    METADATA_PROPERTY_CONDITION: 'Metadata Property Condition',
+    SCORING_IN_FAIR: 'Scoring in FAIR',
+    RESOURCE_MEETS_CONDITION: 'Resource meets the condition',
+    RECOMMENDATION: 'Recommendation',
+    FINDABLE: 'Findable',
+    ACCESSIBLE: 'Accessible',
+    INTEROPERABLE: 'Interoperable',
+    REUSABLE: 'Reusable',
   },
 };
 

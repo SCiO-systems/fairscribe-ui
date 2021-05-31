@@ -8,6 +8,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FairScoreMiniChart from '../charts/FairScoreMini';
+import FairScoreDialog from '../dialogs/FairScoreDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
 
 const sampleResources = [
@@ -89,7 +90,9 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
   const [filter, setFilter] = useState('');
   const [unpublished, setUnpublished] = useState(true);
   const [rows, setRows] = useState(10);
+  const [editRowId, setEditRowId] = useState(null);
   const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
+  const [fairScoreDialogOpen, setFairScoreDialogOpen] = useState(false);
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -141,7 +144,17 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
   );
 
   const fairScoringTemplate = (rowData) => (
-    <FairScoreMiniChart resourceId={rowData.id} data={rowData.fairScore} />
+    <div>
+      <FairScoreMiniChart resourceId={rowData.id} data={rowData.fairScore} />
+      {rowData.id === editRowId && (
+        <Button
+          onClick={() => setFairScoreDialogOpen(true)}
+          className="p-button-sm"
+          label={t('CHECK')}
+          icon="pi pi-table"
+        />
+      )}
+    </div>
   );
 
   return (
@@ -195,6 +208,9 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
               ) : (
                 <Button
                   icon="pi pi-pencil"
+                  onClick={() =>
+                    setEditRowId(editRowId === null ? rowData.id : null)
+                  }
                   className="p-button-icon-only p-button-rounded p-mr-2"
                 />
               )}
@@ -209,6 +225,10 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
       <UploadToRepoDialog
         dialogOpen={uploadToRepoDialogOpen}
         setDialogOpen={setUploadToRepoDialog}
+      />
+      <FairScoreDialog
+        dialogOpen={fairScoreDialogOpen}
+        setDialogOpen={setFairScoreDialogOpen}
       />
     </>
   );
