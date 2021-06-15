@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import FairScoreMiniChart from '../charts/FairScoreMini';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
+import EditResourceForm from '../forms/EditResourceForm';
 
 const sampleResources = [
   {
@@ -230,6 +231,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
         dialogOpen={fairScoreDialogOpen}
         setDialogOpen={setFairScoreDialogOpen}
       />
+      {editRowId !== null && <EditResourceForm resourceId={editRowId} />}
     </>
   );
 };
