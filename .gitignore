@@ -6,3 +6,7 @@ build
 *.tgz
 npm-debug.log*
 env/
+.env
+cert.pem
+key.pem
+keytmp.pem
