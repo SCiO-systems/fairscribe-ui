@@ -1,18 +1,29 @@
 import { Button } from 'primereact/button';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
 import InviteTeamMembersDialog from './components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from './components/dialogs/TeamDialog';
 import { UserContext } from './store';
+import { getOwnedTeams, getSharedTeams } from './services/teams';
 
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
-  const { currentlyViewingTeam, ownTeams, sharedTeams } =
+  const { currentlyViewingTeam, ownTeams, sharedTeams, id, setData } =
     useContext(UserContext);
   const [inviteTeamMembersDialog, setInviteTeamMembersDialog] = useState(false);
+
+  // eslint-disable-next-line
+  useEffect(async () => {
+    const ownTeamsRes = await getOwnedTeams(id);
+    const sharedTeamsRes = await getSharedTeams();
+    setData({
+      ownTeams: ownTeamsRes,
+      sharedTeams: sharedTeamsRes,
+    });
+  }, []);
 
   return (
     <div

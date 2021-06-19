@@ -14,6 +14,7 @@ import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import { UserContext } from '../store';
 import { login } from '../services/auth';
+import { getOwnedTeams, getSharedTeams } from '../services/teams';
 
 const authProviders = [
   { label: 'Scribe', value: 'scribe' },
@@ -27,16 +28,20 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { isLoggedIn, setData } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(null);
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
 
   const loginHandler = async () => {
+    setIsLoading(true);
     try {
       const user = await login(email, password);
+      setIsLoading(null);
       setData({
         ...user,
         isLoggedIn: true,
       });
     } catch (e) {
+      setIsLoading(null);
       if (e.response.status === 422) {
         toast.current.show({
           severity: 'error',
@@ -64,7 +69,10 @@ const Login = () => {
       <div className="login-body">
         <Logo />
         <div className="p-d-flex p-jc-center p-ai-center p-mt-6">
-          <div className="p-d-flex p-flex-column p-p-6 p-shadow-5 rounded">
+          <div
+            className="p-d-flex p-flex-column p-p-6 p-shadow-5 rounded"
+            style={{ minWidth: '535px' }}
+          >
             <h3 className="p-d-block p-text-center p-mb-5">
               {t('LOGIN_WITH')}
             </h3>
@@ -100,13 +108,15 @@ const Login = () => {
                 <div className="p-col-12 p-text-center">
                   <Button
                     label={t('LOGIN_BUTTON_TEXT')}
-                    className="p-d-inline p-mt-6"
+                    className="p-d-inline p-mt-4"
+                    icon={isLoading ? 'pi pi-spin pi-spinner' : null}
                     type="submit"
+                    disabled={isLoading}
                     style={{ maxWidth: '80%' }}
                     onClick={loginHandler}
                   />
                 </div>
-                <p className="p-col-12 p-md-12 p-text-center p-mt-4">
+                <p className="p-col-12 p-md-12 p-text-center p-mt-2">
                   <NavLink to="/register">{t('SIGN_UP_LINK_TEXT')}</NavLink>
                 </p>
               </div>

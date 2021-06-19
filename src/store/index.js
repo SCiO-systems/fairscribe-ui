@@ -2,11 +2,12 @@ import React, { createContext } from 'react';
 import { useLocalStorage } from '../utilities/hooks';
 
 const initialState = {
+  id: null,
   firstname: null,
   lastname: null,
   email: null,
   role: null,
-  profile_picture_url: null,
+  avatar_url: null,
   ui_language: null,
   ui_language_display_format: null,
   ui_date_display_format: null,

@@ -169,6 +169,9 @@ const t = {
     HDL_URL: 'HDL / URL',
     HDLS_URLS: 'HDL(s) / URL(s)',
     SELECT_LANGUAGE: 'Select a language',
+    INVITED_TEXT: 'has invited you to join the team',
+    ACCEPT_INVITE: 'Accept invite',
+    REJECT_INVITE: 'Reject invite',
   },
 };
 

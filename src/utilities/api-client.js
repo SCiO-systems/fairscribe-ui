@@ -42,10 +42,10 @@ class ApiClient {
 
 export const setupMiddleware = (rejectionCb) => {
   ApiClient.instance.session.interceptors.response.use(
-    (response) => response,
+    (response) => (response.status !== 204 ? response.data.data : response),
     (err) => {
       rejectionCb(err);
-      Promise.reject(err);
+      throw err;
     },
   );
 };

@@ -1,12 +1,31 @@
 import { Button } from 'primereact/button';
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import AppBreadcrumb from './AppBreadcrumb';
+import { UserContext } from './store';
 import MiniLogo from './assets/img/dataSCRIBE-mini.png';
+import { getSharedTeams } from './services/teams';
+import { getMyInvites, acceptInvite, rejectInvite } from './services/invites';
 
 const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
   const { t } = useTranslation();
+  const [notificationMenuVisible, setNotificationMenuVisible] = useState(false);
+  const [invitations, setInvitations] = useState([]);
+  const { id: userId, setData } = useContext(UserContext);
+
+  useEffect(() => {
+    getMyInvites(userId).then((invites) => setInvitations(invites));
+  }, []);
+
+  const refreshInvites = () =>
+    getMyInvites(userId).then((invites) => setInvitations(invites));
+  const reject = (invId) => rejectInvite(userId, invId).then(refreshInvites);
+  const accept = (invId) =>
+    acceptInvite(userId, invId)
+      .then(getSharedTeams)
+      .then((sharedTeams) => setData({ sharedTeams }))
+      .then(refreshInvites);
 
   return (
     <div className="layout-topbar">
@@ -48,6 +67,51 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
               <br />
               {displayName}
             </span>
+          </li>
+          <li className="notifications-item active-menuitem">
+            <button
+              type="button"
+              className="p-link"
+              onClick={() =>
+                invitations.length &&
+                setNotificationMenuVisible(!notificationMenuVisible)
+              }
+            >
+              <i className="pi pi-bell" />
+              {invitations && invitations.length > 0 && (
+                <span className="topbar-badge">{invitations.length}</span>
+              )}
+            </button>
+            {notificationMenuVisible && (
+              <ul className="notifications-menu fade-in-up p-pt-2">
+                {invitations.map((i) => (
+                  <li key={i.id} role="menuitem" className="p-mb-2">
+                    <div className="p-d-flex p-jc-between">
+                      <div>
+                        <strong>{i.user.name}</strong> {t('INVITED_TEXT')}{' '}
+                        <strong>{i.team.name}</strong>.
+                      </div>
+                      <div className="actionable-buttons">
+                        <Button
+                          title={t('ACCEPT_INVITE')}
+                          label=""
+                          icon="pi pi-check"
+                          className="p-button-success p-button-sm"
+                          onClick={() => accept(i.id)}
+                        />
+                        <Button
+                          title={t('REJECT_INVITE')}
+                          label=""
+                          icon="pi pi-times"
+                          className="p-button-danger p-button-sm p-ml-2"
+                          onClick={() => reject(i.id)}
+                        />
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
           <li>
             <NavLink to="/account-settings" style={{ width: '100%' }}>

@@ -33,6 +33,19 @@
   }
 }
 
+ul.notifications-menu {
+  min-width: 350px !important;
+}
+
+ul.notifications-menu li {
+  padding: 1rem 0;
+  border-bottom: 1px dotted #dee2e6;
+}
+
+ul.notifications-menu li div.actionable-buttons {
+  min-width: 6rem;
+}
+
 @media screen and (min-width: $lg) {
   .layout-static .footer-logo-container {
     margin-left: 17rem;
