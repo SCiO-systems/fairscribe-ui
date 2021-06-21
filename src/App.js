@@ -3,18 +3,16 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
 import * as am4core from '@amcharts/amcharts4/core';
-import { Toast } from 'primereact/toast';
 // eslint-disable-next-line
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { UserContext } from './store';
+import { logout } from './services/auth';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
-import { UserContext } from './store/index';
-import { setupMiddleware } from './utilities/api-client';
-import { logout } from './services/auth';
 
 const App = () => {
   // Setup AMCharts
@@ -32,7 +30,6 @@ const App = () => {
   const [configActive, setConfigActive] = useState(false);
   const [inputStyle] = useState('outlined');
   const [ripple] = useState(false);
-  const toast = useRef();
   const { resetData, isLoggedIn, firstname, lastname } =
     useContext(UserContext);
   const { t } = useTranslation();
@@ -253,24 +250,6 @@ const App = () => {
     return <Redirect to="/login" />;
   }
 
-  setupMiddleware((error) => {
-    if (
-      (error.response && error.response.status === 419) ||
-      error.response.status === 401 ||
-      error.response.status === 403
-    ) {
-      logout().then(() => {
-        resetData();
-      });
-    } else {
-      toast.current.show({
-        severity: 'error',
-        summary: 'Oops!',
-        detail: 'Something went wrong.',
-      });
-    }
-  });
-
   return (
     <div
       className={containerClassName}
@@ -279,7 +258,6 @@ const App = () => {
       role="button"
       tabIndex="0"
     >
-      <Toast ref={toast} position="top-right" />
       <div className="layout-content-wrapper">
         <AppTopBar
           displayName={`${firstname} ${lastname}`}

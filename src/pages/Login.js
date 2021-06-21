@@ -13,8 +13,7 @@ import { NavLink, Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import { UserContext } from '../store';
-import { login } from '../services/auth';
-import { getOwnedTeams, getSharedTeams } from '../services/teams';
+import { login, getUser } from '../services/auth';
 
 const authProviders = [
   { label: 'Scribe', value: 'scribe' },
@@ -42,19 +41,21 @@ const Login = () => {
       });
     } catch (e) {
       setIsLoading(null);
-      if (e.response.status === 422) {
+      if (e.response && e.response.status === 422) {
         toast.current.show({
           severity: 'error',
           summary: 'Oops!',
           detail:
             e.response.data.errors[Object.keys(e.response.data.errors)[0]][0],
         });
-      } else {
+      } else if (e.response) {
         toast.current.show({
           severity: 'error',
           summary: 'Oops!',
           detail: e.response.data.error,
         });
+      } else {
+        console.error(e);
       }
     }
   };

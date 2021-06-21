@@ -20,6 +20,8 @@ class ApiClient {
     });
   }
 
+  static authMiddleware;
+
   static get instance() {
     // Try to get an efficient singleton
     if (!this[singleton]) {
@@ -41,13 +43,22 @@ class ApiClient {
 }
 
 export const setupMiddleware = (rejectionCb) => {
-  ApiClient.instance.session.interceptors.response.use(
-    (response) => (response.status !== 204 ? response.data.data : response),
-    (err) => {
-      rejectionCb(err);
-      throw err;
-    },
-  );
+  ApiClient.authMiddleware =
+    ApiClient.instance.session.interceptors.response.use(
+      (response) => (response.status !== 204 ? response.data.data : response),
+      (err) => {
+        rejectionCb(err);
+        throw err;
+      },
+    );
+};
+
+export const removeMiddleware = () => {
+  if (ApiClient.authMiddleware) {
+    ApiClient.instance.session.interceptors.response.eject(
+      ApiClient.authMiddleware,
+    );
+  }
 };
 
 export default ApiClient.instance;
