@@ -75,7 +75,7 @@ const AppMenu = ({ onMenuClick }) => {
               </button>
             </div>
             <ul className="layout-menu" role="menu">
-              {ownTeams &&
+              {ownTeams.length &&
                 ownTeams.map((team) => (
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink
@@ -103,7 +103,7 @@ const AppMenu = ({ onMenuClick }) => {
               </div>
             </div>
             <ul className="layout-menu" role="menu">
-              {sharedTeams &&
+              {sharedTeams.length &&
                 sharedTeams.map((team) => (
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink to={`/teams/${team.id}`} className="p-ripple">
