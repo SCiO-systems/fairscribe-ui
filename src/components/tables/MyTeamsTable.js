@@ -2,11 +2,11 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-
-const myTeams = [{ name: 'EiA', tasks: '4', reviews: '13', uploads: '21' }];
+import { UserContext } from '../../store';
+import { getOwnedTeams } from '../../services/teams';
 
 const MyTeamsTable = ({
   setTeamDialogOpen,
@@ -15,8 +15,37 @@ const MyTeamsTable = ({
 }) => {
   const { t } = useTranslation();
   const [filter, setFilter] = useState('');
-  const [rows, setRows] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [rows, setRows] = useState(15);
+  const [myTeams, setMyTeams] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const { id } = useContext(UserContext);
   const history = useHistory();
+  const dt = useRef(null);
+  const [lazyParams, setLazyParams] = useState({
+    first: 1,
+    rows: 15,
+    page: 1,
+  });
+
+  useEffect(() => {
+    loadLazyData();
+  }, [lazyParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const loadLazyData = () => {
+    setLoading(true);
+    getOwnedTeams(id, lazyParams.page + 1).then(({ data, meta }) => {
+      setMyTeams(data);
+      setRows(meta.per_page);
+      setTotalRecords(meta.total);
+      setLoading(false);
+    });
+  };
+
+  const onPage = (event) => {
+    const lp = { ...lazyParams, ...event };
+    setLazyParams(lp);
+  };
 
   const tableHeader = (
     <div className="p-d-flex p-flex-row p-jc-between p-ai-center">
@@ -45,7 +74,7 @@ const MyTeamsTable = ({
 
   const tasksTemplate = (rowData) => (
     <span>
-      <strong>{rowData.tasks}</strong>
+      <strong>{rowData.activeTasks}</strong>
       <br />
       {t('ACTIVE_TASKS')}
     </span>
@@ -53,7 +82,7 @@ const MyTeamsTable = ({
 
   const reviewsTemplate = (rowData) => (
     <span>
-      <strong>{rowData.reviews}</strong>
+      <strong>{rowData.pendingReviewTasks}</strong>
       <br />
       {t('PENDING_REVIEWS')}
     </span>
@@ -61,7 +90,7 @@ const MyTeamsTable = ({
 
   const uploadsTemplate = (rowData) => (
     <span>
-      <strong>{rowData.uploads}</strong>
+      <strong>{rowData.pendingUploadTasks}</strong>
       <br />
       {t('PENDING_UPLOADS')}
     </span>
@@ -72,12 +101,16 @@ const MyTeamsTable = ({
       header={tableHeader}
       globalFilter={filter}
       paginator
+      lazy
+      first={lazyParams.first}
       rows={rows}
-      rowsPerPageOptions={[10, 20, 50]}
-      onPage={(event) => setRows(event.rows)}
+      onPage={onPage}
+      totalRecords={totalRecords}
       emptyMessage="No teams were found."
       value={myTeams}
       className="p-mt-2"
+      loading={loading}
+      ref={dt}
     >
       <Column field="name" header={t('NAME')} body={nameTemplate} />
       <Column field="tasks" header={t('ACTIVE_TASKS')} body={tasksTemplate} />
@@ -103,8 +136,8 @@ const MyTeamsTable = ({
               icon="pi pi-cog"
               onClick={() => {
                 setViewTeam({
-                  name: 'EiA',
-                  description: 'My sample description',
+                  name: rowData.name,
+                  description: rowData.description,
                 });
                 setTeamDialogOpen(true);
               }}
