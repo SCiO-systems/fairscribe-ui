@@ -45,7 +45,7 @@ class ApiClient {
 export const setupMiddleware = (rejectionCb) => {
   ApiClient.authMiddleware =
     ApiClient.instance.session.interceptors.response.use(
-      (response) => (response.status !== 204 ? response.data.data : response),
+      (response) => (response.data ? response.data : response),
       (err) => {
         rejectionCb(err);
         throw err;

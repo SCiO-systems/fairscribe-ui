@@ -1,15 +1,16 @@
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.min.css';
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useEffect, useContext, useRef, useState } from 'react';
 import { Route, useLocation, withRouter } from 'react-router-dom';
 import { Toast } from 'primereact/toast';
 import App from './App';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { UserProvider, UserContext } from './store';
-import { setupMiddleware, removeMiddleware } from './utilities/api-client';
+import { setupMiddleware } from './utilities/api-client';
 import { logout } from './services/auth';
 import './styles/app.scss';
+import Loading from './components/Loading';
 
 const findRoute = (pathname) => {
   switch (pathname) {
@@ -25,6 +26,7 @@ const findRoute = (pathname) => {
 const AppWrapper = () => {
   const { resetData } = useContext(UserContext);
   const location = useLocation();
+  const [appIsReady, setAppIsReady] = useState(false);
   const toast = useRef();
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const AppWrapper = () => {
         });
       }
     });
-    return () => removeMiddleware();
+    setAppIsReady(true);
   }, []);
 
   useEffect(() => {
@@ -59,7 +61,8 @@ const AppWrapper = () => {
   return (
     <UserProvider>
       <Toast ref={toast} position="top-right" />
-      {findRoute(location.pathname)}
+      {appIsReady && findRoute(location.pathname)}
+      {!appIsReady && <Loading />}
     </UserProvider>
   );
 };
