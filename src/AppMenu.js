@@ -11,7 +11,7 @@ import { getOwnedTeams, getSharedTeams } from './services/teams';
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
-  const { currentlyViewingTeam, ownTeams, sharedTeams, id, setData } =
+  const { currentlyViewingTeam, ownTeams, sharedTeams, id, setUser } =
     useContext(UserContext);
   const [inviteTeamMembersDialog, setInviteTeamMembersDialog] = useState(false);
 
@@ -19,9 +19,9 @@ const AppMenu = ({ onMenuClick }) => {
   useEffect(async () => {
     const ownTeamsRes = await getOwnedTeams(id);
     const sharedTeamsRes = await getSharedTeams();
-    setData({
-      ownTeams: ownTeamsRes,
-      sharedTeams: sharedTeamsRes,
+    setUser({
+      ownTeams: ownTeamsRes.data,
+      sharedTeams: sharedTeamsRes.data,
     });
   }, []);
 

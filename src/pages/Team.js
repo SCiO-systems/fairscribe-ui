@@ -30,7 +30,7 @@ const allTeams = [
 const fetchTeam = (id) => allTeams.find((t) => t.id == id);
 
 const Team = () => {
-  const { setData } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { id } = useParams();
   const { t } = useTranslation();
   const [team, setTeam] = useState({});
@@ -45,12 +45,12 @@ const Team = () => {
     setTimeout(() => {
       const response = fetchTeam(id);
       setTeam(response);
-      setData({ currentlyViewingTeam: response });
+      setUser({ currentlyViewingTeam: response });
       setLoading(false);
     }, 300);
     // when component is going to be un-mounted
     return function cleanup() {
-      setData({ currentlyViewingTeam: null });
+      setUser({ currentlyViewingTeam: null });
     };
   }, []);
 

@@ -2,6 +2,8 @@ import React, { createContext } from 'react';
 import { useLocalStorage } from '../utilities/hooks';
 
 const initialState = {
+  access_token: null,
+  isLoggedIn: false,
   id: null,
   firstname: null,
   lastname: null,
@@ -11,7 +13,6 @@ const initialState = {
   ui_language: null,
   ui_language_display_format: null,
   ui_date_display_format: null,
-  isLoggedIn: false,
   currentlyViewingTeam: null,
   ownTeams: [],
   sharedTeams: [],
@@ -20,16 +21,19 @@ const initialState = {
 export const UserContext = createContext(initialState);
 
 export const UserProvider = ({ children }) => {
-  // md5sum: scio-datascribe-v1.0.0
-  const localStorageKey = 'user-9C9B69C14E32B146599D0F6E30902C0C';
-  const [user, setUser] = useLocalStorage(localStorageKey, initialState);
+  // md5sum: scio-datascribe-v1.1.0
+  const localStorageKey = 'user-35d0c79fd3a72c59350dc4b1f4ffe786';
+  const [userData, setUserData] = useLocalStorage(
+    localStorageKey,
+    initialState,
+  );
 
   return (
     <UserContext.Provider
       value={{
-        ...user,
-        setData: (data) => setUser({ ...user, ...data }),
-        resetData: () => setUser({ ...initialState }),
+        ...userData,
+        setUser: (user) => setUserData({ ...userData, ...user }),
+        resetData: () => setUserData({ ...initialState }),
       }}
     >
       {children}

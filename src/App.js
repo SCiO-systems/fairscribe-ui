@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
 import * as am4core from '@amcharts/amcharts4/core';
@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
+import axiosInstance, { setup } from './utilities/api-client';
 
 const App = () => {
   // Setup AMCharts
@@ -30,8 +31,13 @@ const App = () => {
   const [configActive, setConfigActive] = useState(false);
   const [inputStyle] = useState('outlined');
   const [ripple] = useState(false);
-  const { resetData, isLoggedIn, firstname, lastname } =
-    useContext(UserContext);
+  const {
+    resetData,
+    isLoggedIn,
+    firstname,
+    lastname,
+    access_token: accessToken,
+  } = useContext(UserContext);
   const { t } = useTranslation();
 
   let menuClick = false;
@@ -244,6 +250,14 @@ const App = () => {
       'p-ripple-disabled': !ripple,
     },
     colorScheme === 'light' ? menuTheme : '',
+  );
+
+  setup(
+    axiosInstance,
+    () => {
+      resetData();
+    },
+    accessToken,
   );
 
   if (!isLoggedIn) {

@@ -26,37 +26,33 @@ const Login = () => {
   const toast = useRef();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isLoggedIn, setData } = useContext(UserContext);
+  const { isLoggedIn, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(null);
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
 
   const loginHandler = async () => {
     setIsLoading(true);
     try {
-      const user = await login(email, password);
+      const { data: responseData } = await login(email, password);
       setIsLoading(null);
-      setData({
-        ...user,
+      setUser({
+        ...responseData.data.user,
+        access_token: responseData.data.access_token,
         isLoggedIn: true,
       });
     } catch (e) {
       setIsLoading(null);
-      if (e.response && e.response.status === 422) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'Oops!',
-          detail:
-            e.response.data.errors[Object.keys(e.response.data.errors)[0]][0],
-        });
-      } else if (e.response) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'Oops!',
-          detail: e.response.data.error,
-        });
-      } else {
-        console.error(e);
-      }
+      const statusCode = e.response && e.response.status;
+      console.log(e, e.response);
+      const error =
+        statusCode === 422
+          ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+          : e.response.data.error;
+      toast.current.show({
+        severity: 'error',
+        summary: 'Oops!',
+        detail: error,
+      });
     }
   };
 

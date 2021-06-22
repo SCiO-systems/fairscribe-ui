@@ -1,64 +1,25 @@
 import axios from 'axios';
 
-const singleton = Symbol('API Singleton');
-const singletonEnforcer = Symbol('API Singleton Enforcer');
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+  timeout: 5000,
+  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+});
 
-class ApiClient {
-  constructor(enforcer) {
-    if (enforcer !== singletonEnforcer) {
-      throw new Error('Cannot construct singleton');
-    }
+export function setup(axiosInstance, cb, token) {
+  axiosInstance.interceptors.response.use(
+    (response) => (response.data ? response.data : response),
+    (error) => {
+      if (error.response.status === 401) {
+        cb();
+      }
+    },
+  );
 
-    // eslint-disable-next-line
-    console.log(
-      `Initialized API client for: ${process.env.REACT_APP_API_BASE_URL}`,
-    );
-
-    this.session = axios.create({
-      baseURL: process.env.REACT_APP_API_BASE_URL,
-      withCredentials: true,
-    });
-  }
-
-  static authMiddleware;
-
-  static get instance() {
-    // Try to get an efficient singleton
-    if (!this[singleton]) {
-      this[singleton] = new ApiClient(singletonEnforcer);
-    }
-
-    return this[singleton];
-  }
-
-  get = (...params) => this.session.get(...params);
-
-  post = (...params) => this.session.post(...params);
-
-  put = (...params) => this.session.put(...params);
-
-  patch = (...params) => this.session.patch(...params);
-
-  remove = (...params) => this.session.delete(...params);
+  axiosInstance.interceptors.request.use((config) => {
+    config.headers['Authorization'] = `Bearer ${token}`; //eslint-disable-line
+    return config;
+  });
 }
 
-export const setupMiddleware = (rejectionCb) => {
-  ApiClient.authMiddleware =
-    ApiClient.instance.session.interceptors.response.use(
-      (response) => (response.data ? response.data : response),
-      (err) => {
-        rejectionCb(err);
-        throw err;
-      },
-    );
-};
-
-export const removeMiddleware = () => {
-  if (ApiClient.authMiddleware) {
-    ApiClient.instance.session.interceptors.response.eject(
-      ApiClient.authMiddleware,
-    );
-  }
-};
-
-export default ApiClient.instance;
+export default instance;

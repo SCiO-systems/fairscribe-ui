@@ -12,19 +12,19 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
   const { t } = useTranslation();
   const [notificationMenuVisible, setNotificationMenuVisible] = useState(false);
   const [invitations, setInvitations] = useState([]);
-  const { id: userId, setData } = useContext(UserContext);
+  const { id: userId, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    getMyInvites(userId).then((invites) => setInvitations(invites));
+    getMyInvites(userId).then((resp) => setInvitations(resp.data));
   }, []);
 
   const refreshInvites = () =>
-    getMyInvites(userId).then((invites) => setInvitations(invites));
+    getMyInvites(userId).then((resp) => setInvitations(resp.data));
   const reject = (invId) => rejectInvite(userId, invId).then(refreshInvites);
   const accept = (invId) =>
     acceptInvite(userId, invId)
       .then(getSharedTeams)
-      .then((sharedTeams) => setData({ sharedTeams }))
+      .then((sharedTeamsRes) => setUser({ sharedTeams: sharedTeamsRes.data }))
       .then(refreshInvites);
 
   return (
