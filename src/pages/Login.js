@@ -104,29 +104,29 @@ const Login = () => {
   return (
     <>
       <Toast ref={toast} position="top-right" />
-      <div className="login-body">
-        <Logo />
-        <div className="p-d-flex p-jc-center p-ai-center p-mt-6">
+      <div className="p-d-flex p-jc-center p-ai-center p-flex-column" style={{ height: '85vh' }}>
+        <div className="p-d-flex p-jc-center p-ai-center p-flex-column">
+          <Logo />
           <div
             className="p-d-flex p-flex-column p-p-6 p-shadow-5 rounded"
-            style={{ minWidth: '535px' }}
+            style={{ width: '500px', maxWidth: '100%' }}
           >
             <h3 className="p-d-block p-text-center p-mb-5">
               {t('LOGIN_WITH')}
             </h3>
             <form onSubmit={(e) => e.preventDefault()}>
-              <div className="p-grid p-fluid p-mt-2">
-                <div className="p-col-12">
+              <div className="p-grid p-fluid p-formgrid p-justify-center p-mb-6">
+                <div className="p-col-12 p-md-8">
                   <Dropdown
                     value={authProvider}
                     options={authProviders}
                     onChange={(e) => setAuthProvider(e.value)}
-                    placeholder="Select"
-                    className="p-d-flex"
                   />
                 </div>
+              </div>
+              <div className="p-grid p-fluid p-formgrid p-justify-center">
                 {authProvider === 'scribe' && (
-                  <div className="p-col-12">
+                  <div className="p-col-12 p-md-8">
                     <InputText
                       id="email"
                       value={email}
@@ -134,7 +134,7 @@ const Login = () => {
                       placeholder="Enter your email"
                     />
                     <Password
-                      className="p-mt-4"
+                      className="p-mt-3"
                       id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -143,18 +143,18 @@ const Login = () => {
                     />
                   </div>
                 )}
-                <div className="p-col-12 p-text-center">
+              </div>
+              <div className="p-grid p-formgrid p-justify-center p-mt-2">
+                <div className="p-col-12 p-md-8 p-fluid p-text-center">
                   <Button
                     label={t('LOGIN_BUTTON_TEXT')}
                     className="p-d-inline p-mt-4"
-                    icon={isLoading ? 'pi pi-spin pi-spinner' : null}
+                    loading={isLoading}
                     type="submit"
-                    disabled={isLoading}
-                    style={{ maxWidth: '80%' }}
                     onClick={loginHandler}
                   />
                 </div>
-                <p className="p-col-12 p-md-12 p-text-center p-mt-2">
+                <p className="p-col-12 p-md-12 p-text-center p-mt-6">
                   <NavLink to="/register">{t('SIGN_UP_LINK_TEXT')}</NavLink>
                 </p>
               </div>
