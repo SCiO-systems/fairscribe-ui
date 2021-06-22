@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
 import { useLocalStorage } from '../utilities/hooks';
+import axiosIntance from '../utilities/api-client';
 
 const initialState = {
   access_token: null,
@@ -32,8 +33,18 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         ...userData,
-        setUser: (user) => setUserData({ ...userData, ...user }),
-        resetData: () => setUserData({ ...initialState }),
+        setUser: (user) => {
+          if (user.access_token) {
+            axiosIntance.setup(() => {
+              setUserData({ ...initialState });
+            }, user.access_token);
+          }
+          setUserData({ ...userData, ...user });
+        },
+        resetData: () => {
+          axiosIntance.resetInterceptors();
+          setUserData({ ...initialState });
+        },
       }}
     >
       {children}
