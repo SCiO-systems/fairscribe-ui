@@ -15,6 +15,7 @@ const Register = () => {
   // TODO: Default false.
   // eslint-disable-next-line
   const { t } = useTranslation();
+  // eslint-disable-next-line
   const [formValid, setFormValid] = useState(true);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   // eslint-disable-next-line

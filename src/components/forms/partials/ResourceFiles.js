@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import placeholderImage from '../../../assets/img/placeholder.png';
 

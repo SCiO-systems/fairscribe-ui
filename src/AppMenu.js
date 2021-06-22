@@ -23,7 +23,7 @@ const AppMenu = ({ onMenuClick }) => {
       ownTeams: ownTeamsRes.data,
       sharedTeams: sharedTeamsRes.data,
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div

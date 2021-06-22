@@ -27,6 +27,7 @@ const allTeams = [
 ];
 
 // TODO: Remove this mock fetch
+// eslint-disable-next-line
 const fetchTeam = (id) => allTeams.find((t) => t.id == id);
 
 const Team = () => {
@@ -52,7 +53,7 @@ const Team = () => {
     return function cleanup() {
       setUser({ currentlyViewingTeam: null });
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return <Loading />;

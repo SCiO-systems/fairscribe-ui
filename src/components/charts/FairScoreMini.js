@@ -92,7 +92,7 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     return () => {
       c.dispose();
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div

@@ -16,7 +16,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
 
   useEffect(() => {
     getMyInvites(userId).then((resp) => setInvitations(resp.data));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refreshInvites = () =>
     getMyInvites(userId).then((resp) => setInvitations(resp.data));
