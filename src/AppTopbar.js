@@ -1,12 +1,12 @@
 import { Button } from 'primereact/button';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import AppBreadcrumb from './AppBreadcrumb';
-import { UserContext } from './store';
 import MiniLogo from './assets/img/dataSCRIBE-mini.png';
+import { acceptInvite, getMyInvites, rejectInvite } from './services/invites';
 import { getSharedTeams } from './services/teams';
-import { getMyInvites, acceptInvite, rejectInvite } from './services/invites';
+import { UserContext } from './store';
 
 const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
   const { t } = useTranslation();
@@ -73,7 +73,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
               type="button"
               className="p-link"
               onClick={() =>
-                invitations.length &&
+                invitations && invitations.length &&
                 setNotificationMenuVisible(!notificationMenuVisible)
               }
             >
@@ -84,12 +84,11 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
             </button>
             {notificationMenuVisible && (
               <ul className="notifications-menu fade-in-up p-pt-2">
-                {invitations.map((i) => (
+                {invitations && invitations.map((i) => (
                   <li key={i.id} role="menuitem" className="p-mb-2">
                     <div className="p-d-flex p-jc-between">
                       <div>
-                        <strong>{i.user.name}</strong> {t('INVITED_TEXT')}{' '}
-                        <strong>{i.team.name}</strong>.
+                        {t('INVITED_TEXT')} <strong>{i.team.name}</strong>.
                       </div>
                       <div className="actionable-buttons">
                         <Button

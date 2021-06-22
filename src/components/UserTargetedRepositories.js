@@ -6,72 +6,94 @@ import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const repositoryTypes = [
-  { label: 'CKAN', value: 'CKAN' },
-  { label: 'DKAN', value: 'DKAN' },
-  { label: 'DSpace', value: 'DSpace' },
-  { label: 'Dataverse', value: 'Dataverse' },
-  { label: 'GeoNetwork', value: 'GeoNetwork' },
-  { label: 'GeoNode', value: 'GeoNode' },
-];
+import { getRepositories, getRepositoryTypes } from '../services/user';
 
 const typeTemplate = (rowData) => <div>{rowData.type}</div>;
 const nameTemplate = (rowData) => <div>{rowData.name}</div>;
+const endpointTemplate = (rowData) => <div>{rowData.api_endpoint}</div>;
 const connectionTemplate = (rowData) => (
-  <div className="p-text-left">
-    {rowData.connection ? (
+  <div className="p-text-center">
+    {rowData.connection_verified ? (
       <i
-        className="pi pi-check text-green bg-green rounded-full p-p-2"
-        style={{ fontSize: '1.25rem' }}
+        className="pi pi-check text-green bg-green rounded-full p-p-1"
+        style={{ fontSize: '1rem' }}
       />
     ) : (
       <i
-        className="pi pi-times text-red bg-red rounded-full p-p-2"
-        style={{ fontSize: '1.25rem' }}
+        className="pi pi-times text-red bg-red rounded-full p-p-1"
+        style={{ fontSize: '1rem' }}
       />
     )}
   </div>
 );
 
-const UserTargetedRepositories = () => {
+const UserTargetedRepositories = ({ userId }) => {
   // TODO: Default false.
   // eslint-disable-next-line
   const { t } = useTranslation();
   const [repositories, setRepositories] = useState([]);
-  const [repositoryType, setRepositoryType] = useState(repositoryTypes[0]);
+  const [repositoryTypes, setRepositoryTypes] = useState([]);
+  const [repositoryType, setRepositoryType] = useState([]);
   const [repositoryName, setRepositoryName] = useState('');
   const [repositoryEndpoint, setRepositoryEndpoint] = useState('');
   const [repositoryClientSecret, setRepositoryClientSecret] = useState('');
 
+  const fetchRepositoryTypes = async () => {
+    try {
+      const { data: types } = await getRepositoryTypes();
+      setRepositoryTypes(types.map((type) => ({ label: type.name, value: type.value })));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchUserRepositories = async () => {
+    try {
+      const { data } = await getRepositories(userId);
+      setRepositories(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    Promise.all([fetchUserRepositories(), fetchRepositoryTypes()]);
+  }, []);
+
   const addRepository = (name, type, endpoint) => {
     setRepositories(repositories.concat({ name, type, connection: true }));
     setRepositoryName('');
-    setRepositoryType(repositoryTypes[0]);
+    setRepositoryType(repositoryTypes[0] || null);
     setRepositoryEndpoint('');
     setRepositoryClientSecret('');
   };
 
   return (
-    <div className="p-grid p-my-3">
+    <div className="p-grid p-mt-1 p-mb-3">
       <div className="p-col-12">
         <div className="card p-fluid p-shadow-4 rounded">
           <h5>{t('USER_TARGETED_REPOSITORIES_TITLE')}</h5>
           <div className="p-formgrid p-grid p-justify-start">
-            <div className="p-field p-col-12 p-md-6">
-              {repositories.length > 0 ? (
+            <div className="p-field p-col-12 p-md-12">
+              {repositories && repositories.length > 0 ? (
                 <DataTable value={repositories} className="p-mt-2">
+                  <Column
+                    field="name"
+                    header={t('REPOSITORY_NAME')}
+                    body={nameTemplate}
+                  />
                   <Column
                     field="type"
                     header={t('REPOSITORY_TYPE')}
                     body={typeTemplate}
                   />
                   <Column
-                    field="name"
-                    header={t('REPOSITORY_NAME')}
-                    body={nameTemplate}
+                    field="api_endpoint"
+                    header={t('REPOSITORY_API_ENDPOINT')}
+                    body={endpointTemplate}
                   />
                   <Column
                     field="connection"

@@ -2,11 +2,11 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../../store';
 import { getOwnedTeams } from '../../services/teams';
+import { UserContext } from '../../store';
 
 const MyTeamsTable = ({
   setTeamDialogOpen,
@@ -35,10 +35,13 @@ const MyTeamsTable = ({
   const loadLazyData = () => {
     setLoading(true);
     getOwnedTeams(id, lazyParams.page + 1).then(({ data, meta }) => {
-      setMyTeams(data);
-      setRows(meta.per_page);
-      setTotalRecords(meta.total);
-      setLoading(false);
+      // TODO: Fix this.
+      if (data && meta) {
+        setMyTeams(data);
+        setRows(meta.per_page);
+        setTotalRecords(meta.total);
+        setLoading(false);
+      }
     });
   };
 

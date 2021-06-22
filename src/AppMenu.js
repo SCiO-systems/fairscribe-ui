@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
 import InviteTeamMembersDialog from './components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from './components/dialogs/TeamDialog';
-import { UserContext } from './store';
 import { getOwnedTeams, getSharedTeams } from './services/teams';
+import { UserContext } from './store';
 
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
@@ -75,7 +75,7 @@ const AppMenu = ({ onMenuClick }) => {
               </button>
             </div>
             <ul className="layout-menu" role="menu">
-              {ownTeams.length &&
+              {ownTeams && ownTeams.length &&
                 ownTeams.map((team) => (
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink
@@ -103,7 +103,7 @@ const AppMenu = ({ onMenuClick }) => {
               </div>
             </div>
             <ul className="layout-menu" role="menu">
-              {sharedTeams.length &&
+              {sharedTeams && sharedTeams.length &&
                 sharedTeams.map((team) => (
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink to={`/teams/${team.id}`} className="p-ripple">

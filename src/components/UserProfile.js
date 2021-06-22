@@ -5,20 +5,44 @@ import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getProfile, updateAvatar } from '../services/user';
 
-const UserProfile = ({ dialogOpen, setDialogOpen }) => {
+const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
   // TODO: Default false.
-  // eslint-disable-next-line
   const { t } = useTranslation();
-  const userImage = useRef(null);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const userAvatar = useRef(null);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userAvatarUrl, setUserAvatarUrl] = useState(null);
+
+  const uploadAvatar = async (file) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    try {
+      const { avatar_url: avatarUrl } = await updateAvatar(userId, formData);
+      setUserAvatarUrl(avatarUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    // TODO: For register button to be enabled form also needs to be valid.
-  }, [password, email]);
+    async function fetchProfile() {
+      try {
+        const { data } = await getProfile(userId);
+        if (data) {
+          setFirstname(data.firstname);
+          setLastname(data.lastname);
+          setEmail(data.email);
+          setUserAvatarUrl(data.avatar_url);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProfile();
+  }, []);
 
   return (
     <div className="p-grid">
@@ -31,8 +55,8 @@ const UserProfile = ({ dialogOpen, setDialogOpen }) => {
               <InputText
                 id="firstname"
                 type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
                 required
               />
             </div>
@@ -41,8 +65,8 @@ const UserProfile = ({ dialogOpen, setDialogOpen }) => {
               <InputText
                 id="lastname"
                 type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
                 required
               />
             </div>
@@ -51,26 +75,20 @@ const UserProfile = ({ dialogOpen, setDialogOpen }) => {
               <InputText
                 id="email"
                 type="email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="password">{t('PASSWORD')}</label>
-              <InputText
-                id="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
           </div>
-          <div className="p-formgrid p-grid p-justify-start p-mt-2">
+          <div className="p-grid p-formgrid">
             <div className="p-field p-col-12 p-md-6">
               <Button
+                id="repoManagerAccess"
+                name="repoManagerAccess"
                 label={t('REPO_MANAGER_REQUEST')}
                 icon="pi pi-id-card"
-                className="p-button-secondary p-mr-2 p-mb-2"
+                className="p-button-secondary p-mr-2 p-mt-2"
                 onClick={() => setDialogOpen(!dialogOpen)}
               />
             </div>
@@ -79,34 +97,42 @@ const UserProfile = ({ dialogOpen, setDialogOpen }) => {
       </div>
       <div className="p-col-12 p-md-4">
         <div className="card p-fluid p-shadow-4 rounded">
-          <h5>{t('PROFILE_PICTURE_TITLE')}</h5>
+          <h5 className="p-text-center">{t('PROFILE_PICTURE_TITLE')}</h5>
           <div className="p-formgrid p-grid">
             <div className="p-field p-col-12 p-text-center">
-              <img
-                src="https://picsum.photos/140/140"
-                height="138px"
-                className="rounded-full"
-                alt="Avatar"
-              />
+              { userAvatarUrl ? (
+                <img
+                  src={userAvatarUrl}
+                  height="130px"
+                  className="rounded-full"
+                  alt="Avatar"
+                />
+              ) : (
+                <img src="/assets/img/user-default.png" style={{ height: '130px' }} alt="Default Avatar" />
+              )}
             </div>
             <div className="p-field p-col-12">
+              <input
+                className="hidden"
+                type="file"
+                multiple={false}
+                ref={userAvatar}
+                onClick={async (e) => {
+                  await uploadAvatar(e.target.files[0]);
+                }}
+                onChange={async (e) => {
+                  await uploadAvatar(e.target.files[0]);
+                }}
+              />
               <Button
-                label="Select image"
+                label={t('CHANGE_PICTURE')}
                 icon="pi pi-image"
                 className="p-button-secondary p-mr-2 p-mb-2"
-                onClick={() => {
-                  userImage.current.click();
+                onClick={(e) => {
+                  userAvatar.current.click();
                 }}
               />
             </div>
-            <form>
-              <input
-                type="file"
-                id="file"
-                ref={userImage}
-                style={{ display: 'none' }}
-              />
-            </form>
           </div>
         </div>
       </div>
