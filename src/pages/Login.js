@@ -2,23 +2,22 @@ import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
-import { Toast } from 'primereact/toast';
-import 'primereact/resources/primereact.min.css';
-import React, { useContext, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Password } from 'primereact/password';
 import { InputText } from 'primereact/inputtext';
-
-import { NavLink, Redirect } from 'react-router-dom';
+import { Password } from 'primereact/password';
+import 'primereact/resources/primereact.min.css';
+import { Toast } from 'primereact/toast';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { NavLink, Redirect, useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
+import { login, verify } from '../services/auth';
 import { UserContext } from '../store';
-import { login, getUser } from '../services/auth';
 
 const authProviders = [
   { label: 'Scribe', value: 'scribe' },
+  { label: 'ORCID', value: 'orcid' },
   { label: 'Globus', value: 'globus' },
-  { label: 'OrchID', value: 'orchid' },
 ];
 
 const Login = () => {
@@ -29,21 +28,37 @@ const Login = () => {
   const { isLoggedIn, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(null);
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
+  const { search } = useLocation();
 
-  const loginHandler = async () => {
-    setIsLoading(true);
+  useEffect(() => {
+    const accessToken = new URLSearchParams(search).get('access_token');
+    if (accessToken) {
+      setIsLoading(true);
+      verify(accessToken)
+        .then(({ data }) => {
+          setUser({
+            ...data.data,
+            access_token: accessToken,
+            isLoggedIn: true,
+          });
+        })
+        .catch((error) => {
+          //
+        });
+      setIsLoading(false);
+    }
+  }, []);
+
+  const authWithScribe = async () => {
     try {
       const { data: responseData } = await login(email, password);
-      setIsLoading(null);
       setUser({
         ...responseData.data.user,
         access_token: responseData.data.access_token,
         isLoggedIn: true,
       });
     } catch (e) {
-      setIsLoading(null);
       const statusCode = e.response && e.response.status;
-      console.log(e, e.response);
       const error =
         statusCode === 422
           ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
@@ -54,6 +69,32 @@ const Login = () => {
         detail: error,
       });
     }
+  };
+
+  const authWithORCID = async () => {
+    window.location.href = process.env.REACT_APP_ORCID_REDIRECT_URL;
+  };
+
+  const authWithGlobus = async () => {
+    // eslint-disable-next-line no-alert
+    alert('Not yet implemented');
+  };
+
+  const loginHandler = async () => {
+    setIsLoading(true);
+    switch (authProvider) {
+      case 'scribe':
+        await authWithScribe();
+        break;
+      case 'orcid':
+        await authWithORCID();
+        break;
+      case 'globus':
+        await authWithGlobus();
+        break;
+      default:
+    }
+    setIsLoading(false);
   };
 
   if (isLoggedIn) {

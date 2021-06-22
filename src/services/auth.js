@@ -5,4 +5,9 @@ export const login = async (email, password) =>
 
 export const logout = async () => apiClient.post('/logout');
 
-export const getUser = async () => apiClient.get('/auth/token/check');
+export const verify = async (token) =>
+  apiClient.get('/auth/token/check', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
