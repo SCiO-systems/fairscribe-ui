@@ -29,6 +29,12 @@ export const UserProvider = ({ children }) => {
     initialState,
   );
 
+  if (userData.access_token !== null) {
+    axiosIntance.setup(() => {
+      setUserData({ ...initialState });
+    }, userData.access_token);
+  }
+
   return (
     <UserContext.Provider
       value={{
