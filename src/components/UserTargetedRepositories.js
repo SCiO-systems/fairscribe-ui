@@ -18,7 +18,7 @@ import { ToastContext } from '../store';
 
 const UserTargetedRepositories = ({ userId }) => {
   const { t } = useTranslation();
-  const { setError } = useContext(ToastContext);
+  const { setError, setSuccess } = useContext(ToastContext);
   const [isLoading, setIsLoading] = useState(false);
   const [repositories, setRepositories] = useState([]);
   const [repositoryTypes, setRepositoryTypes] = useState([]);
@@ -59,8 +59,9 @@ const UserTargetedRepositories = ({ userId }) => {
   );
 
   const handleError = (e) => {
+    let error = e && e.message;
     const statusCode = e.response && e.response.status;
-    const error =
+    error =
       statusCode === 422
         ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
         : e.response.data.error;
@@ -71,6 +72,7 @@ const UserTargetedRepositories = ({ userId }) => {
     try {
       await deleteUserRepository(id, userId);
       await fetchUserRepositories();
+      setSuccess('Repository', `The repository has been deleted.`);
     } catch (e) {
       handleError(e);
     }
@@ -85,6 +87,7 @@ const UserTargetedRepositories = ({ userId }) => {
         api_endpoint: repositoryEndpoint,
         client_secret: repositoryClientSecret,
       });
+      setSuccess('Repository', `The new repository has beed added.`);
       setRepositoryEndpoint('');
       setRepositoryName('');
       setRepositoryClientSecret('');
