@@ -11,7 +11,7 @@ const RepoAccessManagerDialog = ({ dialogOpen, setDialogOpen }) => {
     <Dialog
       header={t('REPO_MANAGER_DIALOG_TITLE')}
       visible={dialogOpen}
-      style={{ width: '400px' }}
+      style={{ width: '800px', maxWidth: '100%' }}
       modal
       onHide={() => setDialogOpen(false)}
     >
