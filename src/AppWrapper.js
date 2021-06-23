@@ -5,7 +5,7 @@ import { Route, useLocation, withRouter } from 'react-router-dom';
 import App from './App';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { UserProvider } from './store';
+import { UserProvider, ToastProvider } from './store';
 import './styles/app.scss';
 
 const findRoute = (pathname) => {
@@ -15,7 +15,11 @@ const findRoute = (pathname) => {
     case '/register':
       return <Route path="/register" component={Register} />;
     default:
-      return <App />;
+      return (
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      );
   }
 };
 

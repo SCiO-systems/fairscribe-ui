@@ -1,11 +1,12 @@
 import classNames from 'classnames';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
+import { Toast } from 'primereact/toast';
 import * as am4core from '@amcharts/amcharts4/core';
 // eslint-disable-next-line
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import { UserContext } from './store';
+import { UserContext, ToastContext, ToastProvider } from './store';
 import { logout } from './services/auth';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
@@ -18,6 +19,7 @@ const App = () => {
   // Setup AMCharts
   am4core.useTheme(am4themes_animated);
 
+  const toast = useRef();
   const [menuActive, setMenuActive] = useState(false);
   const [menuMode] = useState('static');
   const [colorScheme] = useState('light');
@@ -32,6 +34,7 @@ const App = () => {
   const [ripple] = useState(false);
   const { resetData, isLoggedIn, firstname, lastname } =
     useContext(UserContext);
+  const { content: toastContent, clear: toastClear } = useContext(ToastContext);
   const { t } = useTranslation();
 
   let menuClick = false;
@@ -64,6 +67,11 @@ const App = () => {
       },
     },
   ];
+
+  useEffect(() => {
+    if (toastContent === null) return;
+    toast.current.show({ ...toastContent });
+  }, [toastContent]);
 
   const onRootMenuitemClick = () => {
     setMenuActive((prevMenuActive) => !prevMenuActive);
@@ -251,58 +259,66 @@ const App = () => {
   }
 
   return (
-    <div
-      className={containerClassName}
-      data-theme={colorScheme}
-      onClick={onDocumentClick}
-      role="button"
-      tabIndex="0"
-    >
-      <div className="layout-content-wrapper">
-        <AppTopBar
-          displayName={`${firstname} ${lastname}`}
-          signOut={() => logout().then(() => resetData())}
-          routers={routers}
-          onMenuButtonClick={onMenuButtonClick}
-        />
+    <>
+      <Toast
+        ref={toast}
+        position="top-right"
+        onHide={toastClear}
+        onRemove={toastClear}
+      />
+      <div
+        className={containerClassName}
+        data-theme={colorScheme}
+        onClick={onDocumentClick}
+        role="button"
+        tabIndex="0"
+      >
+        <div className="layout-content-wrapper">
+          <AppTopBar
+            displayName={`${firstname} ${lastname}`}
+            signOut={() => logout().then(() => resetData())}
+            routers={routers}
+            onMenuButtonClick={onMenuButtonClick}
+          />
 
-        <div className="layout-content">
-          {routers.map((router) => {
-            if (router.exact) {
+          <div className="layout-content">
+            {routers.map((router) => {
+              if (router.exact) {
+                return (
+                  <Route
+                    key={router.path}
+                    path={router.path}
+                    exact
+                    component={router.component}
+                  />
+                );
+              }
+
               return (
                 <Route
                   key={router.path}
                   path={router.path}
-                  exact
                   component={router.component}
                 />
               );
-            }
+            })}
+          </div>
 
-            return (
-              <Route
-                key={router.path}
-                path={router.path}
-                component={router.component}
-              />
-            );
-          })}
+          <Footer />
         </div>
 
-        <Footer />
+        <AppMenu
+          menuMode={menuMode}
+          active={menuActive}
+          mobileMenuActive={staticMenuMobileActive}
+          onMenuClick={onMenuClick}
+          onMenuitemClick={onMenuitemClick}
+          onRootMenuitemClick={onRootMenuitemClick}
+        />
+
+        <div className="layout-mask modal-in" />
       </div>
-
-      <AppMenu
-        menuMode={menuMode}
-        active={menuActive}
-        mobileMenuActive={staticMenuMobileActive}
-        onMenuClick={onMenuClick}
-        onMenuitemClick={onMenuitemClick}
-        onRootMenuitemClick={onRootMenuitemClick}
-      />
-
-      <div className="layout-mask modal-in" />
-    </div>
+    </>
   );
 };
 
