@@ -6,33 +6,20 @@ import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getRepositories, getRepositoryTypes } from '../services/user';
-
-const typeTemplate = (rowData) => <div>{rowData.type}</div>;
-const nameTemplate = (rowData) => <div>{rowData.name}</div>;
-const endpointTemplate = (rowData) => <div>{rowData.api_endpoint}</div>;
-const connectionTemplate = (rowData) => (
-  <div className="p-text-center">
-    {rowData.connection_verified ? (
-      <i
-        className="pi pi-check text-green bg-green rounded-full p-p-1"
-        style={{ fontSize: '1rem' }}
-      />
-    ) : (
-      <i
-        className="pi pi-times text-red bg-red rounded-full p-p-1"
-        style={{ fontSize: '1rem' }}
-      />
-    )}
-  </div>
-);
+import getRepositoryTypes from '../services/repositories';
+import {
+  createUserRepository,
+  deleteUserRepository,
+  getUserRepositories,
+} from '../services/users';
+import { ToastContext } from '../store';
 
 const UserTargetedRepositories = ({ userId }) => {
-  // TODO: Default false.
-  // eslint-disable-next-line
   const { t } = useTranslation();
+  const { setError } = useContext(ToastContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [repositories, setRepositories] = useState([]);
   const [repositoryTypes, setRepositoryTypes] = useState([]);
   const [repositoryType, setRepositoryType] = useState([]);
@@ -40,38 +27,97 @@ const UserTargetedRepositories = ({ userId }) => {
   const [repositoryEndpoint, setRepositoryEndpoint] = useState('');
   const [repositoryClientSecret, setRepositoryClientSecret] = useState('');
 
+  const typeTemplate = (rowData) => <div>{rowData.type}</div>;
+  const nameTemplate = (rowData) => <div>{rowData.name}</div>;
+  const endpointTemplate = (rowData) => <div>{rowData.api_endpoint}</div>;
+  const connectionTemplate = (rowData) => (
+    <div className="p-text-center">
+      {rowData.connection_verified ? (
+        <i
+          className="pi pi-check text-green bg-green rounded-full p-p-1"
+          style={{ fontSize: '1rem' }}
+        />
+      ) : (
+        <i
+          className="pi pi-times text-red bg-red rounded-full p-p-1"
+          style={{ fontSize: '1rem' }}
+        />
+      )}
+    </div>
+  );
+
+  const actionsTemplate = (rowData) => (
+    <div className="p-text-center">
+      <Button
+        icon="pi pi-trash"
+        className="p-button p-component p-button-rounded p-button-danger p-button-text p-mr-2 p-mb-2 p-button-icon-only"
+        onClick={() => {
+          deleteRepository(rowData.id);
+        }}
+      />
+    </div>
+  );
+
+  const handleError = (e) => {
+    const statusCode = e.response && e.response.status;
+    const error =
+      statusCode === 422
+        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+        : e.response.data.error;
+    setError('Error', error);
+  };
+
+  const deleteRepository = async (id) => {
+    try {
+      await deleteUserRepository(id, userId);
+      await fetchUserRepositories();
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
+  const createRepository = async () => {
+    setIsLoading(true);
+    try {
+      await createUserRepository(userId, {
+        name: repositoryName,
+        type: repositoryType,
+        api_endpoint: repositoryEndpoint,
+        client_secret: repositoryClientSecret,
+      });
+      setRepositoryEndpoint('');
+      setRepositoryName('');
+      setRepositoryClientSecret('');
+      await fetchUserRepositories();
+    } catch (e) {
+      handleError(e);
+    }
+    setIsLoading(false);
+  };
+
   const fetchRepositoryTypes = async () => {
     try {
       const { data: types } = await getRepositoryTypes();
       setRepositoryTypes(
         types.map((type) => ({ label: type.name, value: type.value })),
       );
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      handleError(e);
     }
   };
 
   const fetchUserRepositories = async () => {
     try {
-      const { data } = await getRepositories(userId);
+      const { data } = await getUserRepositories(userId);
       setRepositories(data);
-      console.log(data);
     } catch (error) {
-      console.error(error);
+      handleError(error);
     }
   };
 
   useEffect(() => {
     Promise.all([fetchUserRepositories(), fetchRepositoryTypes()]);
   }, []);
-
-  const addRepository = (name, type, endpoint) => {
-    setRepositories(repositories.concat({ name, type, connection: true }));
-    setRepositoryName('');
-    setRepositoryType(repositoryTypes[0] || null);
-    setRepositoryEndpoint('');
-    setRepositoryClientSecret('');
-  };
 
   return (
     <div className="p-grid p-mt-1 p-mb-3">
@@ -101,6 +147,12 @@ const UserTargetedRepositories = ({ userId }) => {
                     field="connection"
                     header={t('REPOSITORY_CONNECTION_VERIFIED')}
                     body={connectionTemplate}
+                    className="p-text-center"
+                  />
+                  <Column
+                    header={t('REPOSITORY_ACTIONS')}
+                    body={actionsTemplate}
+                    className="p-text-center"
                   />
                 </DataTable>
               ) : (
@@ -108,81 +160,83 @@ const UserTargetedRepositories = ({ userId }) => {
               )}
             </div>
           </div>
-          <div className="p-formgrid p-grid p-justify-start p-mt-3">
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="ui-language">{t('REPOSITORY_TYPE')}</label>
-              <Dropdown
-                id="ui-language"
-                value={repositoryType}
-                options={repositoryTypes}
-                onChange={(e) => setRepositoryType(e.value)}
-                placeholder={t('SELECT_REPOSITORY_TYPE')}
-                className="p-d-flex"
-              />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className="p-formgrid p-grid p-justify-start p-mt-3">
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="ui-language">{t('REPOSITORY_TYPE')}</label>
+                <Dropdown
+                  id="ui-language"
+                  value={repositoryType}
+                  options={repositoryTypes}
+                  onChange={(e) => setRepositoryType(e.value)}
+                  placeholder={t('SELECT_REPOSITORY_TYPE')}
+                  className="p-d-flex"
+                />
+              </div>
             </div>
-          </div>
-          <div className="p-formgrid p-grid p-justify-start">
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="repositoryName">{t('REPOSITORY_NAME')}</label>
-              <InputText
-                id="repositoryName"
-                type="text"
-                value={repositoryName}
-                onChange={(e) => setRepositoryName(e.target.value)}
-                required
-              />
+            <div className="p-formgrid p-grid p-justify-start">
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="repositoryName">{t('REPOSITORY_NAME')}</label>
+                <InputText
+                  id="repositoryName"
+                  type="text"
+                  value={repositoryName}
+                  onChange={(e) => setRepositoryName(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-          </div>
-          <div className="p-formgrid p-grid p-justify-start">
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="repositoryEndpoint">
-                {t('REPOSITORY_API_ENDPOINT')}
-              </label>
-              <InputText
-                id="repositoryEndpoint"
-                type="text"
-                value={repositoryEndpoint}
-                placeholder="https://example.com/api"
-                onChange={(e) => setRepositoryEndpoint(e.target.value)}
-                required
-              />
+            <div className="p-formgrid p-grid p-justify-start">
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="repositoryEndpoint">
+                  {t('REPOSITORY_API_ENDPOINT')}
+                </label>
+                <InputText
+                  id="repositoryEndpoint"
+                  type="text"
+                  value={repositoryEndpoint}
+                  placeholder="https://example.com/api"
+                  onChange={(e) => setRepositoryEndpoint(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-          </div>
-          <div className="p-formgrid p-grid p-justify-start">
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="repositoryClientSecret">
-                {t('REPOSITORY_CLIENT_SECRET')}
-              </label>
-              <InputText
-                id="repositoryClientSecret"
-                type="text"
-                value={repositoryClientSecret}
-                onChange={(e) => setRepositoryClientSecret(e.target.value)}
-                required
-              />
+            <div className="p-formgrid p-grid p-justify-start">
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="repositoryClientSecret">
+                  {t('REPOSITORY_CLIENT_SECRET')}
+                </label>
+                <InputText
+                  id="repositoryClientSecret"
+                  type="text"
+                  value={repositoryClientSecret}
+                  onChange={(e) => setRepositoryClientSecret(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-          </div>
-          <div className="p-formgrid p-grid p-justify-start">
-            <div className="p-field p-col-12 p-md-6">
-              <Button
-                label={t('ADD_REPOSITORY')}
-                icon="pi pi-plus-circle"
-                className="p-button-primary p-mr-2 p-mb-2"
-                disabled={
-                  repositoryName.length === 0 ||
-                  repositoryType.length === 0 ||
-                  repositoryEndpoint.length === 0
-                }
-                onClick={() => {
-                  addRepository(
-                    repositoryName,
-                    repositoryType,
-                    repositoryEndpoint,
-                  );
-                }}
-              />
+            <div className="p-formgrid p-grid p-justify-start">
+              <div className="p-field p-col-12 p-md-6">
+                <Button
+                  label={t('ADD_REPOSITORY')}
+                  icon="pi pi-plus-circle"
+                  className="p-button-primary p-mr-2 p-mb-2"
+                  loading={isLoading}
+                  type="submit"
+                  disabled={
+                    repositoryName.length === 0 ||
+                    repositoryType.length === 0 ||
+                    repositoryEndpoint.length === 0
+                  }
+                  onClick={createRepository}
+                />
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

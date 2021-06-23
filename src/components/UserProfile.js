@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getProfile, updateAvatar } from '../services/user';
+import { getUserProfile, updateUserAvatar } from '../services/users';
 
 const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
   // TODO: Default false.
@@ -20,7 +20,10 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
     const formData = new FormData();
     formData.append('avatar', file);
     try {
-      const { avatar_url: avatarUrl } = await updateAvatar(userId, formData);
+      const { avatar_url: avatarUrl } = await updateUserAvatar(
+        userId,
+        formData,
+      );
       setUserAvatarUrl(avatarUrl);
     } catch (error) {
       console.error(error);
@@ -30,7 +33,7 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const { data } = await getProfile(userId);
+        const { data } = await getUserProfile(userId);
         if (data) {
           setFirstname(data.firstname);
           setLastname(data.lastname);
@@ -100,7 +103,7 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
           <h5 className="p-text-center">{t('PROFILE_PICTURE_TITLE')}</h5>
           <div className="p-formgrid p-grid">
             <div className="p-field p-col-12 p-text-center">
-              { userAvatarUrl ? (
+              {userAvatarUrl ? (
                 <img
                   src={userAvatarUrl}
                   height="130px"
@@ -108,7 +111,11 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
                   alt="Avatar"
                 />
               ) : (
-                <img src="/assets/img/user-default.png" style={{ height: '130px' }} alt="Default Avatar" />
+                <img
+                  src="/assets/img/user-default.png"
+                  style={{ height: '130px' }}
+                  alt="Default Avatar"
+                />
               )}
             </div>
             <div className="p-field p-col-12">

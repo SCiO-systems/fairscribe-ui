@@ -49,6 +49,7 @@ const t = {
     REPOSITORY_NAME: 'Name',
     REPOSITORY_CONNECTION_VERIFIED: 'Connection',
     SELECT_REPOSITORY_TYPE: 'Select repository type',
+    REPOSITORY_ACTIONS: 'Actions',
     REPOSITORY_API_ENDPOINT: 'API Endpoint',
     REPOSITORY_CLIENT_SECRET: 'Client Secret',
     ADD_REPOSITORY: 'Add new repository',

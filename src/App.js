@@ -1,19 +1,19 @@
-import classNames from 'classnames';
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Redirect, Route } from 'react-router-dom';
-import { Toast } from 'primereact/toast';
 import * as am4core from '@amcharts/amcharts4/core';
 // eslint-disable-next-line
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import { UserContext, ToastContext, ToastProvider } from './store';
-import { logout } from './services/auth';
+import classNames from 'classnames';
+import { Toast } from 'primereact/toast';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Redirect, Route } from 'react-router-dom';
 import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
+import { logout } from './services/auth';
+import { ToastContext, UserContext } from './store';
 
 const App = () => {
   // Setup AMCharts
