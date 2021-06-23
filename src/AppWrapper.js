@@ -5,7 +5,7 @@ import { Route, useLocation, withRouter } from 'react-router-dom';
 import App from './App';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { UserProvider, ToastProvider } from './store';
+import { ToastProvider, UserProvider } from './store';
 import './styles/app.scss';
 
 const findRoute = (pathname) => {

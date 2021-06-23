@@ -83,7 +83,8 @@ const Login = () => {
     alert('Not yet implemented');
   };
 
-  const loginHandler = async () => {
+  const loginHandler = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     switch (authProvider) {
       case 'scribe':
@@ -120,7 +121,7 @@ const Login = () => {
             <h3 className="p-d-block p-text-center p-mb-5">
               {t('LOGIN_WITH')}
             </h3>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={loginHandler}>
               <div className="p-grid p-fluid p-formgrid p-justify-center p-mb-6">
                 <div className="p-col-12 p-md-8">
                   <Dropdown

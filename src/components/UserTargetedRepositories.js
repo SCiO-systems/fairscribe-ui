@@ -78,7 +78,8 @@ const UserTargetedRepositories = ({ userId }) => {
     }
   };
 
-  const createRepository = async () => {
+  const createRepository = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
       await createUserRepository(userId, {
@@ -92,8 +93,8 @@ const UserTargetedRepositories = ({ userId }) => {
       setRepositoryName('');
       setRepositoryClientSecret('');
       await fetchUserRepositories();
-    } catch (e) {
-      handleError(e);
+    } catch (error) {
+      handleError(error);
     }
     setIsLoading(false);
   };
@@ -163,11 +164,7 @@ const UserTargetedRepositories = ({ userId }) => {
               )}
             </div>
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
+          <form onSubmit={createRepository}>
             <div className="p-formgrid p-grid p-justify-start p-mt-3">
               <div className="p-field p-col-12 p-md-6">
                 <label htmlFor="ui-language">{t('REPOSITORY_TYPE')}</label>

@@ -26,7 +26,8 @@ const UserPassword = ({ userId }) => {
     setError('Error', error);
   };
 
-  const changePassword = async () => {
+  const changePassword = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
       await changeUserPassword(userId, {
@@ -37,8 +38,8 @@ const UserPassword = ({ userId }) => {
       setNewPassword('');
       setNewPasswordRepeat('');
       setSuccess('Changed password', 'Your password has been changed.');
-    } catch (e) {
-      handleError(e);
+    } catch (error) {
+      handleError(error);
     }
     setIsLoading(false);
   };
@@ -55,6 +56,7 @@ const UserPassword = ({ userId }) => {
                 <Password
                   id="oldPassword"
                   feedback={false}
+                  autoComplete="off"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   required
@@ -67,6 +69,7 @@ const UserPassword = ({ userId }) => {
                 <Password
                   id="newPassword"
                   value={newPassword}
+                  autoComplete="off"
                   toggleMask
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
@@ -82,6 +85,7 @@ const UserPassword = ({ userId }) => {
                 <Password
                   id="newPasswordRepeat"
                   value={newPasswordRepeat}
+                  autoComplete="off"
                   feedback={false}
                   toggleMask
                   onChange={(e) => setNewPasswordRepeat(e.target.value)}

@@ -13,7 +13,6 @@ import {
 import { ToastContext } from '../store';
 
 const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
-  // TODO: Default false.
   const { t } = useTranslation();
   const userAvatar = useRef(null);
   const { setError, setSuccess } = useContext(ToastContext);
@@ -61,12 +60,10 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
     }
   };
 
-  const updateProfile = async () => {
+  const updateProfile = async (e) => {
+    e.preventDefault();
     try {
-      const { data } = await updateUserProfile(userId, {
-        firstname,
-        lastname,
-      });
+      await updateUserProfile(userId, { firstname, lastname });
       setSuccess('Profile', 'Your profile has been updated!');
     } catch (error) {
       handleError(error);
@@ -82,7 +79,7 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
       <div className="p-col-12 p-md-8">
         <div className="card p-fluid p-shadow-4 rounded">
           <h5>{t('USER_PROFILE_TITLE')}</h5>
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={updateProfile}>
             <div className="p-formgrid p-grid">
               <div className="p-field p-col-12 p-md-6">
                 <label htmlFor="firstname">{t('FIRSTNAME')}</label>
