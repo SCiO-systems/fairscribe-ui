@@ -16,3 +16,8 @@ export const createTeam = async (userId, data) =>
 
 export const updateTeam = async (userId, teamId, data) =>
   apiClient.put(`/users/${userId}/teams/${teamId}`, { ...data });
+
+export const inviteEmails = async (teamId, emails) =>
+  apiClient.post(`/teams/${teamId}/invite`, {
+    emails,
+  });

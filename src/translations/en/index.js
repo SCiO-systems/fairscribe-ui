@@ -43,7 +43,7 @@ const t = {
     VIEW_DETAILS: 'View Details',
     INVITE_MEMBERS_TO_TEAM: 'Invite Members to {{teamName}}',
     INVITE_BY_EMAIL: 'Invite by email',
-    CHOOSE_MEMBERS: 'Choose members',
+    SEARCH_MEMBERS_BY_NAME: 'Search members by name',
     SEND_INVITES: 'Send Invites',
     REPOSITORY_TYPE: 'Type',
     REPOSITORY_NAME: 'Name',

@@ -63,7 +63,7 @@ const Team = () => {
     <div className="layout-dashboard">
       <div className="p-grid">
         <div className="p-col-12 p-pb-0">
-          <h1 className="p-mb-0">{team.name}</h1>
+          <h1 className="p-mb-0">{team && team.name}</h1>
         </div>
         <div className="p-col-12">
           <TabView

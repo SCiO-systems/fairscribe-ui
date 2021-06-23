@@ -56,6 +56,7 @@ const Dashboard = () => {
         setDialogOpen={setTeamDialogOpen}
       />
       <InviteTeamMembersDialog
+        team={viewTeam}
         dialogOpen={inviteMembersDialogOpen}
         setDialogOpen={setInviteMembersDialogOpen}
       />

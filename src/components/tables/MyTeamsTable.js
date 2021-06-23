@@ -153,7 +153,14 @@ const MyTeamsTable = ({
         body={(rowData) => (
           <div className="p-d-flex p-flex-row p-ai-center p-jc-end p-flex-wrap">
             <Button
-              onClick={() => setInviteMembersDialogOpen(true)}
+              onClick={() => {
+                setViewTeam({
+                  id: rowData.id,
+                  name: rowData.name,
+                  description: rowData.description,
+                });
+                setInviteMembersDialogOpen(true);
+              }}
               icon="pi pi-user-plus"
               className="p-button-outlined p-button-icon-only p-button-rounded p-mb-1 p-mr-2"
             />

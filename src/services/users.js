@@ -26,3 +26,6 @@ export const changeUserPassword = async (id, data) =>
 
 // Registration
 export const registerUser = async (data) => apiClient.post(`/register`, data);
+
+// Search
+export const searchUsers = async (name) => apiClient.get(`/users?name=${name}`);
