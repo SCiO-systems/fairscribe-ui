@@ -72,7 +72,7 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="p-grid">

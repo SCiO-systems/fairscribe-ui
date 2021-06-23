@@ -121,7 +121,7 @@ const UserTargetedRepositories = ({ userId }) => {
 
   useEffect(() => {
     Promise.all([fetchUserRepositories(), fetchRepositoryTypes()]);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="p-grid p-mt-1 p-mb-3">

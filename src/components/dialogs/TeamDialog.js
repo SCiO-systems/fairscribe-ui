@@ -34,14 +34,14 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
           name: teamName,
           description: teamDescription,
         });
-        setSuccess('Done!', 'Your team has been created.');
+        setSuccess('Done!', 'Your changes were saved.');
       } else {
         // we're making a new team
         await createTeam(userId, {
           name: teamName,
           description: teamDescription,
         });
-        setSuccess('Done!', 'Your changes were saved.');
+        setSuccess('Done!', 'Your team has been created.');
       }
       // update our user context
       const ownTeamsRes = await getAllOwnedTeams(userId);
