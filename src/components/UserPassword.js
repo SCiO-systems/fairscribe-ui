@@ -67,8 +67,10 @@ const UserPassword = ({ userId }) => {
                 <Password
                   id="newPassword"
                   value={newPassword}
+                  toggleMask
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
+                  className={newPassword !== newPasswordRepeat && 'p-invalid'}
                 />
               </div>
             </div>
@@ -81,15 +83,23 @@ const UserPassword = ({ userId }) => {
                   id="newPasswordRepeat"
                   value={newPasswordRepeat}
                   feedback={false}
+                  toggleMask
                   onChange={(e) => setNewPasswordRepeat(e.target.value)}
                   required
+                  className={newPassword !== newPasswordRepeat && 'p-invalid'}
                 />
+                {newPassword !== newPasswordRepeat && (
+                  <small className="p-error p-d-block">
+                    The two passwords do not match.
+                  </small>
+                )}
               </div>
             </div>
             <div className="p-formgrid p-grid p-justify-start">
               <div className="p-field p-col-12 p-md-6">
                 <Button
                   label={t('CHANGE_PASSWORD')}
+                  icon="pi pi-check"
                   loading={isLoading}
                   type="submit"
                   disabled={
