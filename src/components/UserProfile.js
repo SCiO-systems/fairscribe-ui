@@ -3,18 +3,34 @@ import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.min.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getUserProfile, updateUserAvatar } from '../services/users';
+import {
+  getUserProfile,
+  updateUserAvatar,
+  updateUserProfile,
+} from '../services/users';
+import { ToastContext } from '../store';
 
 const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
   // TODO: Default false.
   const { t } = useTranslation();
   const userAvatar = useRef(null);
+  const { setError, setSuccess } = useContext(ToastContext);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [userAvatarUrl, setUserAvatarUrl] = useState(null);
+
+  const handleError = (e) => {
+    let error = e && e.message;
+    const statusCode = e.response && e.response.status;
+    error =
+      statusCode === 422
+        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+        : e.response.data.error;
+    setError('Error', error);
+  };
 
   const uploadAvatar = async (file) => {
     const formData = new FormData();
@@ -25,25 +41,39 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
         formData,
       );
       setUserAvatarUrl(avatarUrl);
+      setSuccess('Avatar', 'Your avatar has been updated.');
     } catch (error) {
-      console.error(error);
+      handleError(error);
+    }
+  };
+
+  const fetchProfile = async () => {
+    try {
+      const { data } = await getUserProfile(userId);
+      if (data) {
+        setFirstname(data.firstname);
+        setLastname(data.lastname);
+        setEmail(data.email);
+        setUserAvatarUrl(data.avatar_url);
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const updateProfile = async () => {
+    try {
+      const { data } = await updateUserProfile(userId, {
+        firstname,
+        lastname,
+      });
+      setSuccess('Profile', 'Your profile has been updated!');
+    } catch (error) {
+      handleError(error);
     }
   };
 
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const { data } = await getUserProfile(userId);
-        if (data) {
-          setFirstname(data.firstname);
-          setLastname(data.lastname);
-          setEmail(data.email);
-          setUserAvatarUrl(data.avatar_url);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
     fetchProfile();
   }, []);
 
@@ -52,50 +82,66 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
       <div className="p-col-12 p-md-8">
         <div className="card p-fluid p-shadow-4 rounded">
           <h5>{t('USER_PROFILE_TITLE')}</h5>
-          <div className="p-formgrid p-grid">
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="firstname">{t('FIRSTNAME')}</label>
-              <InputText
-                id="firstname"
-                type="text"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
-                required
-              />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div className="p-formgrid p-grid">
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="firstname">{t('FIRSTNAME')}</label>
+                <InputText
+                  id="firstname"
+                  type="text"
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="lastname">{t('LASTNAME')}</label>
+                <InputText
+                  id="lastname"
+                  type="text"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="email">{t('EMAIL')}</label>
+                <InputText
+                  id="email"
+                  type="email"
+                  value={email}
+                  disabled
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="repoManagerAccess">
+                  {t('REPO_MANAGER_PERMISSIONS')}
+                </label>
+                <Button
+                  id="repoManagerAccess"
+                  name="repoManagerAccess"
+                  label={t('REPO_MANAGER_REQUEST')}
+                  type="button"
+                  icon="pi pi-id-card"
+                  className="p-button-secondary"
+                  onClick={() => setDialogOpen(!dialogOpen)}
+                />
+              </div>
             </div>
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="lastname">{t('LASTNAME')}</label>
-              <InputText
-                id="lastname"
-                type="text"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                required
-              />
+            <div className="p-grid p-formgrid">
+              <div className="p-field p-col-12 p-md-6">
+                <Button
+                  label={t('SAVE_CHANGES')}
+                  type="submit"
+                  onClick={updateProfile}
+                  icon="pi pi-check"
+                  className="p-button-primary p-mr-2 p-mt-2"
+                />
+              </div>
             </div>
-            <div className="p-field p-col-12 p-md-6">
-              <label htmlFor="email">{t('EMAIL')}</label>
-              <InputText
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <div className="p-grid p-formgrid">
-            <div className="p-field p-col-12 p-md-6">
-              <Button
-                id="repoManagerAccess"
-                name="repoManagerAccess"
-                label={t('REPO_MANAGER_REQUEST')}
-                icon="pi pi-id-card"
-                className="p-button-secondary p-mr-2 p-mt-2"
-                onClick={() => setDialogOpen(!dialogOpen)}
-              />
-            </div>
-          </div>
+          </form>
         </div>
       </div>
       <div className="p-col-12 p-md-4">
