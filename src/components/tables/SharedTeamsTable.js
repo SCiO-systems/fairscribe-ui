@@ -40,7 +40,7 @@ const SharedTeamsTable = ({
 
   const loadLazyData = () => {
     setLoading(true);
-    getSharedTeams(id, lazyParams.page + 1).then(({ data, meta }) => {
+    getSharedTeams(lazyParams.page + 1).then(({ data, meta }) => {
       setSharedTeams(data);
       setTotalRecords(meta.total);
       setLoading(false);
