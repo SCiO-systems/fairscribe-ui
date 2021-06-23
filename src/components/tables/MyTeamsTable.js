@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { getOwnedTeams } from '../../services/teams';
 import { UserContext } from '../../store';
+import { useDebounce } from '../../utilities/hooks';
 
 const MyTeamsTable = ({
   setTeamDialogOpen,
@@ -14,9 +15,9 @@ const MyTeamsTable = ({
   setInviteMembersDialogOpen,
 }) => {
   const { t } = useTranslation();
-  const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(false);
-  const [rows, setRows] = useState(15);
+  const [globalFilter, setGlobalFilter] = useState('');
+  const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [myTeams, setMyTeams] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const { id } = useContext(UserContext);
@@ -32,22 +33,33 @@ const MyTeamsTable = ({
     loadLazyData();
   }, [lazyParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    onFilter();
+  }, [debouncedGlobalFilter]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const loadLazyData = () => {
     setLoading(true);
-    getOwnedTeams(id, lazyParams.page + 1).then(({ data, meta }) => {
-      // TODO: Fix this.
-      if (data && meta) {
-        setMyTeams(data);
-        setRows(meta.per_page);
-        setTotalRecords(meta.total);
-        setLoading(false);
-      }
+    getOwnedTeams(id, lazyParams.page).then(({ data, meta }) => {
+      setMyTeams(data);
+      setTotalRecords(meta.total);
+      setLoading(false);
     });
   };
 
   const onPage = (event) => {
     const lp = { ...lazyParams, ...event };
+    setGlobalFilter('');
     setLazyParams(lp);
+  };
+
+  const onFilter = () => {
+    const f = debouncedGlobalFilter;
+    if (f === '') {
+      loadLazyData();
+      return;
+    }
+    const myTeamsFiltered = myTeams.filter((m) => m.name.includes(f));
+    setMyTeams(myTeamsFiltered);
   };
 
   const tableHeader = (
@@ -56,9 +68,9 @@ const MyTeamsTable = ({
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
-          value={filter}
+          value={globalFilter}
           className="p-mr-3"
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder={t('SEARCH_FOR_TEAMS')}
         />
         <Button
@@ -102,11 +114,10 @@ const MyTeamsTable = ({
   return (
     <DataTable
       header={tableHeader}
-      globalFilter={filter}
       paginator
       lazy
+      rows={lazyParams.rows}
       first={lazyParams.first}
-      rows={rows}
       onPage={onPage}
       totalRecords={totalRecords}
       emptyMessage="No teams were found."
@@ -149,7 +160,7 @@ const MyTeamsTable = ({
             <Button
               label={t('VIEW_DETAILS')}
               icon="pi pi-eye"
-              onClick={() => history.push('/teams/1')}
+              onClick={() => history.push(`/teams/${rowData.id}`)}
               className="p-button-secondary p-mb-1"
             />
           </div>
