@@ -49,8 +49,9 @@ class ApiClient {
         (response) => (response.data ? response.data : response),
         (error) => {
           if (error.response.status === 401) {
-            cb();
+            return cb();
           }
+          throw error;
         },
       ),
     );
