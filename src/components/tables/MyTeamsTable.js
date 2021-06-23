@@ -10,6 +10,7 @@ import { UserContext } from '../../store';
 import { useDebounce } from '../../utilities/hooks';
 
 const MyTeamsTable = ({
+  teamDialogOpen,
   setTeamDialogOpen,
   setViewTeam,
   setInviteMembersDialogOpen,
@@ -26,7 +27,7 @@ const MyTeamsTable = ({
   const [lazyParams, setLazyParams] = useState({
     first: 1,
     rows: 15,
-    page: 1,
+    page: 0,
   });
 
   useEffect(() => {
@@ -34,12 +35,19 @@ const MyTeamsTable = ({
   }, [lazyParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    // essentially reload teams table when the teamDialog closes
+    if (teamDialogOpen === false && myTeams.length !== 0) {
+      loadLazyData();
+    }
+  }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     onFilter();
   }, [debouncedGlobalFilter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadLazyData = () => {
     setLoading(true);
-    getOwnedTeams(id, lazyParams.page).then(({ data, meta }) => {
+    getOwnedTeams(id, lazyParams.page + 1).then(({ data, meta }) => {
       setMyTeams(data);
       setTotalRecords(meta.total);
       setLoading(false);
@@ -53,12 +61,15 @@ const MyTeamsTable = ({
   };
 
   const onFilter = () => {
-    const f = debouncedGlobalFilter;
+    const f = debouncedGlobalFilter.toLowerCase();
     if (f === '') {
       loadLazyData();
       return;
     }
-    const myTeamsFiltered = myTeams.filter((m) => m.name.includes(f));
+    const myTeamsFiltered = myTeams.filter((m) => {
+      const name = m.name.toLowerCase();
+      return name.includes(f.toLowerCase());
+    });
     setMyTeams(myTeamsFiltered);
   };
 
@@ -150,6 +161,7 @@ const MyTeamsTable = ({
               icon="pi pi-cog"
               onClick={() => {
                 setViewTeam({
+                  id: rowData.id,
                   name: rowData.name,
                   description: rowData.description,
                 });

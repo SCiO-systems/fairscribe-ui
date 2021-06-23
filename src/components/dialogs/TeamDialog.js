@@ -2,16 +2,20 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { createTeam, updateTeam } from '../../services/teams';
+import { ToastContext, UserContext } from '../../store';
 
 const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
   const { t } = useTranslation();
   const [teamName, setTeamName] = useState('');
   const [teamDescription, setTeamDescription] = useState('');
+  const { id: userId } = useContext(UserContext);
+  const { setSuccess, setError } = useContext(ToastContext);
 
   useEffect(() => {
-    if (team && team.name && team.description) {
+    if (team && team.id && team.name && team.description) {
       setTeamName(team.name);
       setTeamDescription(team.description);
     } else {
@@ -20,9 +24,40 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
     }
   }, [team]);
 
+  const handleSubmit = async () => {
+    try {
+      if (team && team.id) {
+        // we're updating
+        await updateTeam(userId, team.id, {
+          name: teamName,
+          description: teamDescription,
+        });
+        setSuccess('Done!', 'Your team has been created.');
+      } else {
+        // we're making a new team
+        await createTeam(userId, {
+          name: teamName,
+          description: teamDescription,
+        });
+        setSuccess('Done!', 'Your changes were saved.');
+      }
+    } catch (e) {
+      if (e.response) {
+        setError(
+          'Oops!',
+          e.response.data.errors[Object.keys(e.response.data.errors)[0]][0],
+        );
+      } else {
+        setError('Oops!', 'Something went wrong');
+      }
+    } finally {
+      setDialogOpen(false);
+    }
+  };
+
   return (
     <Dialog
-      header={t('CREATE_A_NEW_TEAM')}
+      header={team ? t('EDIT_TEAM') : t('CREATE_A_NEW_TEAM')}
       visible={dialogOpen}
       style={{ width: '400px' }}
       draggable={false}
@@ -57,7 +92,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
                 label={team ? t('EDIT_TEAM') : t('CREATE_TEAM')}
                 icon={team ? 'pi pi-save' : 'pi pi-plus'}
                 className="p-mr-2 p-mb-2"
-                onClick={() => setDialogOpen(false)}
+                onClick={() => handleSubmit()}
               />
             </div>
           </div>

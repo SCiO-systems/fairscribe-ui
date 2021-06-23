@@ -39,6 +39,7 @@ const Dashboard = () => {
         <div className="p-col-12">
           <div className="card">
             <MyTeamsTable
+              teamDialogOpen={teamDialogOpen}
               setInviteMembersDialogOpen={setInviteMembersDialogOpen}
               setTeamDialogOpen={setTeamDialogOpen}
               setViewTeam={setViewTeam}
