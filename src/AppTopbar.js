@@ -12,7 +12,11 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
   const { t } = useTranslation();
   const [notificationMenuVisible, setNotificationMenuVisible] = useState(false);
   const [invitations, setInvitations] = useState([]);
-  const { id: userId, setUser } = useContext(UserContext);
+  const {
+    id: userId,
+    avatar_url: avatarUrl,
+    setUser,
+  } = useContext(UserContext);
 
   useEffect(() => {
     getMyInvites(userId).then((resp) => setInvitations(resp.data));
@@ -58,7 +62,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
         <ul className="topbar-menu">
           <li className="p-d-flex p-ai-center">
             <img
-              src="/assets/img/user-default.png"
+              src={avatarUrl || '/assets/img/user-default.png'}
               alt="user"
               className="profile-image p-mr-4"
             />
@@ -73,7 +77,8 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
               type="button"
               className="p-link"
               onClick={() =>
-                invitations && invitations.length &&
+                invitations &&
+                invitations.length &&
                 setNotificationMenuVisible(!notificationMenuVisible)
               }
             >
@@ -84,31 +89,32 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
             </button>
             {notificationMenuVisible && (
               <ul className="notifications-menu fade-in-up p-pt-2">
-                {invitations && invitations.map((i) => (
-                  <li key={i.id} role="menuitem" className="p-mb-2">
-                    <div className="p-d-flex p-jc-between">
-                      <div>
-                        {t('INVITED_TEXT')} <strong>{i.team.name}</strong>.
+                {invitations &&
+                  invitations.map((i) => (
+                    <li key={i.id} role="menuitem" className="p-mb-2">
+                      <div className="p-d-flex p-jc-between">
+                        <div>
+                          {t('INVITED_TEXT')} <strong>{i.team.name}</strong>.
+                        </div>
+                        <div className="actionable-buttons">
+                          <Button
+                            title={t('ACCEPT_INVITE')}
+                            label=""
+                            icon="pi pi-check"
+                            className="p-button-success p-button-sm"
+                            onClick={() => accept(i.id)}
+                          />
+                          <Button
+                            title={t('REJECT_INVITE')}
+                            label=""
+                            icon="pi pi-times"
+                            className="p-button-danger p-button-sm p-ml-2"
+                            onClick={() => reject(i.id)}
+                          />
+                        </div>
                       </div>
-                      <div className="actionable-buttons">
-                        <Button
-                          title={t('ACCEPT_INVITE')}
-                          label=""
-                          icon="pi pi-check"
-                          className="p-button-success p-button-sm"
-                          onClick={() => accept(i.id)}
-                        />
-                        <Button
-                          title={t('REJECT_INVITE')}
-                          label=""
-                          icon="pi pi-times"
-                          className="p-button-danger p-button-sm p-ml-2"
-                          onClick={() => reject(i.id)}
-                        />
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  ))}
               </ul>
             )}
           </li>
