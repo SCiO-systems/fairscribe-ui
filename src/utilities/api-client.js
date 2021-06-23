@@ -41,7 +41,7 @@ class ApiClient {
   }
 
   setup = (cb, token) => {
-    if (this.session.isInitialised) return;
+    if (this.isInitialised) return;
 
     console.log(`Setting up API client interceptors.`);
     this.responseInterceptors.push(
