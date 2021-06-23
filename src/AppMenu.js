@@ -5,25 +5,51 @@ import { NavLink } from 'react-router-dom';
 import Logo from './assets/img/dataSCRIBE-Horizontal.png';
 import InviteTeamMembersDialog from './components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from './components/dialogs/TeamDialog';
-import { getOwnedTeams, getSharedTeams } from './services/teams';
-import { UserContext } from './store';
+import { getAllOwnedTeams, getAllSharedTeams } from './services/teams';
+import { UserContext, ToastContext } from './store';
 
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
+  const [showOwnTeams, setShowOwnTeams] = useState(false);
+  const [showSharedTeams, setShowSharedTeams] = useState(false);
   const { currentlyViewingTeam, ownTeams, sharedTeams, id, setUser } =
     useContext(UserContext);
+  const { setError } = useContext(ToastContext);
   const [inviteTeamMembersDialog, setInviteTeamMembersDialog] = useState(false);
 
+  const loadTeams = async () => {
+    try {
+      const ownTeamsRes = await getAllOwnedTeams(id);
+      const sharedTeamsRes = await getAllSharedTeams();
+      setUser({
+        ownTeams: ownTeamsRes.data,
+        sharedTeams: sharedTeamsRes.data,
+      });
+      if (ownTeamsRes.data.length > 0) {
+        setShowOwnTeams(true);
+      }
+      if (sharedTeamsRes.data.length > 0) {
+        setShowSharedTeams(true);
+      }
+    } catch (e) {
+      if (e.response) {
+        setError('Oops!', e.response.data.error);
+      }
+    }
+  };
+
   // eslint-disable-next-line
-  useEffect(async () => {
-    const ownTeamsRes = await getOwnedTeams(id);
-    const sharedTeamsRes = await getSharedTeams();
-    setUser({
-      ownTeams: ownTeamsRes.data,
-      sharedTeams: sharedTeamsRes.data,
-    });
+  useEffect(() => {
+    loadTeams();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // essentially reload teams table when the teamDialog closes
+    if (teamDialogOpen === false) {
+      loadTeams();
+    }
+  }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -75,7 +101,7 @@ const AppMenu = ({ onMenuClick }) => {
               </button>
             </div>
             <ul className="layout-menu" role="menu">
-              {ownTeams && ownTeams.length &&
+              {showOwnTeams &&
                 ownTeams.map((team) => (
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink
@@ -103,7 +129,7 @@ const AppMenu = ({ onMenuClick }) => {
               </div>
             </div>
             <ul className="layout-menu" role="menu">
-              {sharedTeams && sharedTeams.length &&
+              {showSharedTeams &&
                 sharedTeams.map((team) => (
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink to={`/teams/${team.id}`} className="p-ripple">

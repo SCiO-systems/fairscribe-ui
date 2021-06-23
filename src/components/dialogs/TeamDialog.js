@@ -4,14 +4,15 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createTeam, updateTeam } from '../../services/teams';
+import { createTeam, getAllOwnedTeams, updateTeam } from '../../services/teams';
 import { ToastContext, UserContext } from '../../store';
 
 const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
   const { t } = useTranslation();
   const [teamName, setTeamName] = useState('');
   const [teamDescription, setTeamDescription] = useState('');
-  const { id: userId } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const { id: userId, setUser } = useContext(UserContext);
   const { setSuccess, setError } = useContext(ToastContext);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
 
   const handleSubmit = async () => {
     try {
+      setIsLoading(true);
       if (team && team.id) {
         // we're updating
         await updateTeam(userId, team.id, {
@@ -41,6 +43,11 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
         });
         setSuccess('Done!', 'Your changes were saved.');
       }
+      // update our user context
+      const ownTeamsRes = await getAllOwnedTeams(userId);
+      setUser({
+        ownTeams: ownTeamsRes.data,
+      });
     } catch (e) {
       if (e.response) {
         setError(
@@ -51,6 +58,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
         setError('Oops!', 'Something went wrong');
       }
     } finally {
+      setIsLoading(false);
       setDialogOpen(false);
     }
   };
@@ -93,6 +101,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
                 icon={team ? 'pi pi-save' : 'pi pi-plus'}
                 className="p-mr-2 p-mb-2"
                 onClick={() => handleSubmit()}
+                loading={isLoading}
               />
             </div>
           </div>
