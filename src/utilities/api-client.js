@@ -51,7 +51,7 @@ class ApiClient {
           if (error.response.status === 401) {
             return cb();
           }
-          throw error;
+          return Promise.reject(error);
         },
       ),
     );
@@ -75,6 +75,8 @@ class ApiClient {
     this.responseInterceptors.forEach((i) => {
       this.session.interceptors.response.eject(i);
     });
+
+    this.isInitialised = false;
   };
 
   get = (...params) => this.session.get(...params);

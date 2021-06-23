@@ -58,11 +58,14 @@ const Login = () => {
         isLoggedIn: true,
       });
     } catch (e) {
-      const statusCode = e.response && e.response.status;
-      const error =
-        statusCode === 422
-          ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-          : e.response.data.error;
+      let error = 'Something went wrong';
+      if (e.response) {
+        const statusCode = e.response && e.response.status;
+        error =
+          statusCode === 422
+            ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+            : e.response.data.error;
+      }
       toast.current.show({
         severity: 'error',
         summary: 'Oops!',
@@ -104,7 +107,10 @@ const Login = () => {
   return (
     <>
       <Toast ref={toast} position="top-right" />
-      <div className="p-d-flex p-jc-center p-ai-center p-flex-column" style={{ height: '85vh' }}>
+      <div
+        className="p-d-flex p-jc-center p-ai-center p-flex-column"
+        style={{ height: '85vh' }}
+      >
         <div className="p-d-flex p-jc-center p-ai-center p-flex-column">
           <Logo />
           <div
