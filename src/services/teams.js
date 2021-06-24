@@ -11,6 +11,9 @@ export const getAllSharedTeams = async () => apiClient.get(`/teams/all`);
 export const getSharedTeams = async (page = 1) =>
   apiClient.get(`/teams?page=${page}`);
 
+export const getSingleTeam = async (teamId) =>
+  apiClient.get(`/teams/${teamId}`);
+
 export const createTeam = async (userId, data) =>
   apiClient.post(`/users/${userId}/teams`, { ...data });
 

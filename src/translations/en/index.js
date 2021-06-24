@@ -41,7 +41,7 @@ const t = {
     YOUR_TEAM_DESC: 'Your team description',
     CREATE_A_NEW_TEAM: 'Create A New Team',
     VIEW_DETAILS: 'View Details',
-    INVITE_MEMBERS_TO_TEAM: 'Invite Members to ',
+    INVITE_MEMBERS_TO_TEAM: 'Invite Members to {{teamName}}',
     INVITE_BY_EMAIL: 'Invite by email',
     SEARCH_MEMBERS_BY_NAME: 'Search members by name',
     SEND_INVITES: 'Send Invites',

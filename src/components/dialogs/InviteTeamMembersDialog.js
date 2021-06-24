@@ -76,7 +76,7 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
 
   return (
     <Dialog
-      header={t('INVITE_MEMBERS_TO_TEAM', { teamName: team && team.name })}
+      header={t('INVITE_MEMBERS_TO_TEAM', { teamName: team ? team.name : '' })}
       visible={dialogOpen}
       style={{ width: '500px' }}
       draggable={false}

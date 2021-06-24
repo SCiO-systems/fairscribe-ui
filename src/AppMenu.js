@@ -165,13 +165,13 @@ const AppMenu = ({ onMenuClick }) => {
                   </button>
                 </div>
                 <ul className="layout-menu" role="menu">
-                  {currentlyViewingTeam.members &&
-                    currentlyViewingTeam.members.length &&
-                    currentlyViewingTeam.members.map((m) => (
-                      <li key={m} className="" role="menuitem">
+                  {currentlyViewingTeam.users &&
+                    currentlyViewingTeam.users.length &&
+                    currentlyViewingTeam.users.map((u) => (
+                      <li key={u.id} className="" role="menuitem">
                         <NavLink to="#" className="p-ripple">
                           <i className="layout-menuitem-icon pi pi-fw pi-user" />
-                          <span className="layout-menuitem-text">{m}</span>
+                          <span className="layout-menuitem-text">{`${u.firstname} ${u.lastname}`}</span>
                         </NavLink>
                       </li>
                     ))}
@@ -187,6 +187,7 @@ const AppMenu = ({ onMenuClick }) => {
       />
 
       <InviteTeamMembersDialog
+        team={currentlyViewingTeam}
         dialogOpen={inviteTeamMembersDialog}
         setDialogOpen={setInviteTeamMembersDialog}
       />

@@ -7,28 +7,7 @@ import Loading from '../components/Loading';
 import CollectionsTable from '../components/tables/CollectionsTable';
 import ResourcesTable from '../components/tables/ResourcesTable';
 import { UserContext } from '../store';
-
-// TODO: Remove this mock data
-const allTeams = [
-  {
-    id: 1,
-    name: 'EiA',
-    tasks: '4',
-    reviews: '13',
-    uploads: '21',
-    members: [
-      'John Doe',
-      'Anjali Gupta',
-      'Alice Doe',
-      'John Baraka',
-      'Jane Doe',
-    ],
-  },
-];
-
-// TODO: Remove this mock fetch
-// eslint-disable-next-line
-const fetchTeam = (id) => allTeams.find((t) => t.id == id);
+import { getSingleTeam } from '../services/teams';
 
 const Team = () => {
   const { setUser } = useContext(UserContext);
@@ -41,19 +20,18 @@ const Team = () => {
 
   // when mounted
   useEffect(() => {
-    // Simulate API call...
-    // TODO: Replace with an actual API
-    setTimeout(() => {
-      const response = fetchTeam(id);
-      setTeam(response);
-      setUser({ currentlyViewingTeam: response });
-      setLoading(false);
-    }, 300);
-    // when component is going to be un-mounted
-    return function cleanup() {
+    setLoading(true);
+    getSingleTeam(id)
+      .then(({ data }) => setTeam({ ...data }))
+      .then(() => setLoading(false));
+    return () => {
       setUser({ currentlyViewingTeam: null });
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setUser({ currentlyViewingTeam: team });
+  }, [team]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return <Loading />;
