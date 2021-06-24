@@ -26,7 +26,11 @@ const Register = () => {
   const [emailConfirm, setEmailConfirm] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const user = useContext(UserContext);
+  const { isLoggedIn, resetData } = useContext(UserContext);
+
+  useEffect(() => {
+    resetData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleError = (e) => {
     let error = e && e.message;
@@ -79,7 +83,7 @@ const Register = () => {
     }
   }, [firstname, lastname, password, passwordConfirm, email, emailConfirm]);
 
-  if (user.token) {
+  if (isLoggedIn) {
     return <Redirect to="/" />;
   }
 

@@ -11,6 +11,8 @@ class ApiClient {
 
   responseInterceptors = [];
 
+  cancellationSource = null;
+
   constructor(enforcer) {
     if (enforcer !== singletonEnforcer) {
       throw new Error('Cannot construct singleton');
@@ -43,11 +45,14 @@ class ApiClient {
   setup = (cb, token) => {
     if (this.isInitialised) return;
 
+    this.cancellationSource = axios.CancelToken.source();
+
     console.log(`Setting up API client interceptors.`);
     this.responseInterceptors.push(
       this.session.interceptors.response.use(
         (response) => (response.data ? response.data : response),
         (error) => {
+          if (axios.isCancel(error)) return () => {};
           if (error && error.response && error.response.status === 401) {
             return cb();
           }
@@ -76,18 +81,51 @@ class ApiClient {
       this.session.interceptors.response.eject(i);
     });
 
+    if (this.cancellationSource) {
+      console.log(`Cancelling running requests.`);
+      this.cancellationSource.cancel();
+    }
+
     this.isInitialised = false;
+    setTimeout(() => {
+      this.cancellationSource = null;
+    }, 1500);
   };
 
-  get = (...params) => this.session.get(...params);
+  get = (...params) =>
+    this.session.get(...params, {
+      cancelToken: this.cancellationSource
+        ? this.cancellationSource.token
+        : null,
+    });
 
-  post = (...params) => this.session.post(...params);
+  post = (...params) =>
+    this.session.post(...params, {
+      cancelToken: this.cancellationSource
+        ? this.cancellationSource.token
+        : null,
+    });
 
-  put = (...params) => this.session.put(...params);
+  put = (...params) =>
+    this.session.put(...params, {
+      cancelToken: this.cancellationSource
+        ? this.cancellationSource.token
+        : null,
+    });
 
-  patch = (...params) => this.session.patch(...params);
+  patch = (...params) =>
+    this.session.patch(...params, {
+      cancelToken: this.cancellationSource
+        ? this.cancellationSource.token
+        : null,
+    });
 
-  remove = (...params) => this.session.delete(...params);
+  remove = (...params) =>
+    this.session.delete(...params, {
+      cancelToken: this.cancellationSource
+        ? this.cancellationSource.token
+        : null,
+    });
 }
 
 export default ApiClient.instance;

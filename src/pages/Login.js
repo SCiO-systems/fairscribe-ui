@@ -25,12 +25,13 @@ const Login = () => {
   const toast = useRef();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isLoggedIn, setUser } = useContext(UserContext);
+  const { isLoggedIn, setUser, resetData } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(null);
   const [authProvider, setAuthProvider] = useState(authProviders[0]);
   const { search } = useLocation();
 
   useEffect(() => {
+    resetData();
     const accessToken = new URLSearchParams(search).get('access_token');
     if (accessToken) {
       setIsLoading(true);
@@ -58,6 +59,7 @@ const Login = () => {
         isLoggedIn: true,
       });
     } catch (e) {
+      console.error(e);
       let error = 'Something went wrong';
       if (e.response) {
         const statusCode = e.response && e.response.status;

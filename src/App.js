@@ -3,6 +3,7 @@ import * as am4core from '@amcharts/amcharts4/core';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import classNames from 'classnames';
 import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
@@ -12,8 +13,9 @@ import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
-import { logout } from './services/auth';
+import { logout, verify } from './services/auth';
 import { ToastContext, UserContext } from './store';
+import apiClient from './utilities/api-client';
 
 const App = () => {
   // Setup AMCharts
@@ -25,6 +27,7 @@ const App = () => {
   const [colorScheme] = useState('light');
   const [menuTheme] = useState('layout-sidebar-darkgray');
   const [overlayMenuActive, setOverlayMenuActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] =
     useState(false);
   const [staticMenuMobileActive, setStaticMenuMobileActive] = useState(false);
@@ -32,8 +35,14 @@ const App = () => {
   const [configActive, setConfigActive] = useState(false);
   const [inputStyle] = useState('outlined');
   const [ripple] = useState(false);
-  const { resetData, isLoggedIn, firstname, lastname } =
-    useContext(UserContext);
+  const {
+    resetData,
+    isLoggedIn,
+    firstname,
+    lastname,
+    access_token: accessToken,
+    setUser,
+  } = useContext(UserContext);
   const { content: toastContent, clear: toastClear } = useContext(ToastContext);
   const { t } = useTranslation();
 
@@ -72,6 +81,14 @@ const App = () => {
     if (toastContent === null) return;
     toast.current.show({ ...toastContent });
   }, [toastContent]);
+
+  useEffect(() => {
+    verify(accessToken)
+      .then(() => setIsLoading(false))
+      .catch(() => {
+        resetData();
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onRootMenuitemClick = () => {
     setMenuActive((prevMenuActive) => !prevMenuActive);
@@ -258,6 +275,17 @@ const App = () => {
     return <Redirect to="/login" />;
   }
 
+  if (isLoading) {
+    return (
+      <ProgressSpinner
+        style={{ display: isLoading ? 'block' : 'none' }}
+        className="app-base-progress-spinner"
+        strokeWidth="4"
+        fill="rgba(255,255,255, 0.8)"
+      />
+    );
+  }
+
   return (
     <>
       <Toast
@@ -303,7 +331,6 @@ const App = () => {
               );
             })}
           </div>
-
           <Footer />
         </div>
 
