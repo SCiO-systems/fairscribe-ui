@@ -178,6 +178,7 @@ const t = {
     HDLS_URLS: 'HDL(s) / URL(s)',
     SELECT_LANGUAGE: 'Select a language',
     INVITED_TEXT: 'You were invited to join the team',
+    BY: 'by',
     ACCEPT_INVITE: 'Accept invite',
     REJECT_INVITE: 'Reject invite',
   },

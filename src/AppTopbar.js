@@ -12,6 +12,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
   const { t } = useTranslation();
   const [notificationMenuVisible, setNotificationMenuVisible] = useState(false);
   const [invitations, setInvitations] = useState([]);
+  const [loadingInvitation, setLoadingInvitation] = useState(0);
   const {
     id: userId,
     avatar_url: avatarUrl,
@@ -22,11 +23,17 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
     getMyInvites(userId).then((resp) => setInvitations(resp.data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const setLoading = async (id) => Promise.resolve(setLoadingInvitation(id));
+
   const refreshInvites = () =>
-    getMyInvites(userId).then((resp) => setInvitations(resp.data));
-  const reject = (invId) => rejectInvite(userId, invId).then(refreshInvites);
+    getMyInvites(userId)
+      .then((resp) => setInvitations(resp.data))
+      .finally(setLoadingInvitation(0));
+  const reject = (invId) =>
+    setLoading(invId).then(rejectInvite(userId, invId)).then(refreshInvites);
   const accept = (invId) =>
-    acceptInvite(userId, invId)
+    setLoading(invId)
+      .then(acceptInvite(userId, invId))
       .then(getSharedTeams)
       .then((sharedTeamsRes) => setUser({ sharedTeams: sharedTeamsRes.data }))
       .then(refreshInvites);
@@ -93,13 +100,17 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
                   invitations.map((i) => (
                     <li key={i.id} role="menuitem" className="p-mb-2">
                       <div className="p-d-flex p-jc-between">
-                        <div>
-                          {t('INVITED_TEXT')} <strong>{i.team.name}</strong>.
+                        <div style={{ paddingRight: '.5rem' }}>
+                          {t('INVITED_TEXT')} <strong>{i.team.name}</strong>{' '}
+                          {t('BY')}{' '}
+                          <strong>{`${i.inviter.firstname} ${i.inviter.lastname}`}</strong>
+                          .
                         </div>
                         <div className="actionable-buttons">
                           <Button
                             title={t('ACCEPT_INVITE')}
                             label=""
+                            disabled={loadingInvitation === i.id}
                             icon="pi pi-check"
                             className="p-button-success p-button-sm"
                             onClick={() => accept(i.id)}
@@ -107,6 +118,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
                           <Button
                             title={t('REJECT_INVITE')}
                             label=""
+                            disabled={loadingInvitation === i.id}
                             icon="pi pi-times"
                             className="p-button-danger p-button-sm p-ml-2"
                             onClick={() => reject(i.id)}

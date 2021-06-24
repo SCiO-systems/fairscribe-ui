@@ -2,11 +2,12 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { getSharedTeams } from '../../services/teams';
 import { useDebounce } from '../../utilities/hooks';
+import { UserContext } from '../../store';
 
 const SharedTeamsTable = ({
   teamDialogOpen,
@@ -20,6 +21,7 @@ const SharedTeamsTable = ({
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [sharedTeams, setSharedTeams] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const { sharedTeams: sharedTeamsContext } = useContext(UserContext);
   const history = useHistory();
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
@@ -27,6 +29,10 @@ const SharedTeamsTable = ({
     rows: 15,
     page: 0,
   });
+
+  useEffect(() => {
+    loadLazyData();
+  }, [sharedTeamsContext]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     loadLazyData();
