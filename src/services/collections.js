@@ -1,7 +1,7 @@
 import apiClient from '../utilities/api-client';
 
-export const getTeamCollections = async (teamId) =>
-  apiClient.get(`/teams/${teamId}/collections`);
+export const getTeamCollections = async (teamId, page = 1) =>
+  apiClient.get(`/teams/${teamId}/collections?page=${page}`);
 
 export const getSingleTeamCollection = async (teamId, collectionId) =>
   apiClient.get(`/teams/${teamId}/collections/${collectionId}`);

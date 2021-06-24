@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   createTeamCollection,
@@ -22,6 +22,16 @@ const CurrentCollectionDialog = ({
   const [description, setDescription] = useState(
     (collection && collection.description) || '',
   );
+
+  useEffect(() => {
+    if (collection && collection.title && collection.description) {
+      setTitle(collection.title);
+      setDescription(collection.description);
+    } else {
+      setTitle('');
+      setDescription('');
+    }
+  }, [collection]);
 
   const handleError = (e) => {
     let error = e && e.message;

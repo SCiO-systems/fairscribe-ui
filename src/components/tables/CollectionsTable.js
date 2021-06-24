@@ -2,31 +2,83 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getTeamCollections } from '../../services/collections';
+import { useDebounce } from '../../utilities/hooks';
 import CurrentCollectionDialog from '../dialogs/CurrentCollectionDialog';
 import ResourcesTable from './ResourcesTable';
 
-const sampleCollections = [
-  { id: 1, name: 'Collection A', resources: 3, averageScoring: 3.5 },
-  { id: 2, name: 'Collection B', resources: 4, averageScoring: 2.3 },
-  { id: 4, name: 'Collection C', resources: 8, averageScoring: 5.1 },
-];
-
-const demoCollection = {
-  title: 'Demo Title',
-  description: 'Demo Description',
-};
-
 const CollectionsTable = ({ team }) => {
   const { t } = useTranslation();
-
+  const [loading, setLoading] = useState(false);
+  const [globalFilter, setGlobalFilter] = useState('');
+  const debouncedGlobalFilter = useDebounce(globalFilter, 300);
+  const [collections, setCollections] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
-  const [expandedRows, setExpandedRows] = useState(null);
   const [editCollectionDialogOpen, setEditCollectionDialogOpen] =
     useState(false);
-  const [filter, setFilter] = useState('');
-  const [rows, setRows] = useState(10);
+  const [editableCollection, setEditableCollection] = useState(null);
+  const [expandedRows, setExpandedRows] = useState(null);
+  const dt = useRef(null);
+  const [lazyParams, setLazyParams] = useState({
+    first: 1,
+    rows: 15,
+    page: 0,
+  });
+
+  useEffect(() => {
+    loadLazyData();
+  }, [lazyParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Reload the the collections when the new collections dialog closes.
+  useEffect(() => {
+    // essentially reload teams table when the teamDialog closes
+    if (newCollectionDialogOpen === false && collections.length !== 0) {
+      loadLazyData();
+    }
+  }, [newCollectionDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Reload the collections when the edit collections dialog closes.
+  useEffect(() => {
+    // essentially reload teams table when the teamDialog closes
+    if (editCollectionDialogOpen === false && collections.length !== 0) {
+      loadLazyData();
+    }
+  }, [editCollectionDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    onFilter();
+  }, [debouncedGlobalFilter]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const loadLazyData = () => {
+    setLoading(true);
+    getTeamCollections(team.id, lazyParams.page + 1).then(({ data, meta }) => {
+      setCollections(data);
+      setTotalRecords(meta.total);
+      setLoading(false);
+    });
+  };
+
+  const onPage = (event) => {
+    const lp = { ...lazyParams, ...event };
+    setGlobalFilter('');
+    setLazyParams(lp);
+  };
+
+  const onFilter = () => {
+    const f = debouncedGlobalFilter.toLowerCase();
+    if (f === '') {
+      loadLazyData();
+      return;
+    }
+    const collectionsFiltered = collections.filter((m) => {
+      const title = m.title.toLowerCase();
+      return title.includes(f.toLowerCase());
+    });
+    setCollections(collectionsFiltered);
+  };
 
   const rowExpansionTemplate = (data) => <ResourcesTable />;
 
@@ -46,8 +98,8 @@ const CollectionsTable = ({ team }) => {
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
           className="p-mr-3"
           placeholder={t('SEARCH_FOR_COLLECTIONS')}
         />
@@ -60,7 +112,7 @@ const CollectionsTable = ({ team }) => {
     </div>
   );
 
-  const nameTemplate = (rowData) => <strong>{rowData.name}</strong>;
+  const titleTemplate = (rowData) => <strong>{rowData.title}</strong>;
 
   const resourcesTemplate = (rowData) => (
     <span>
@@ -72,7 +124,7 @@ const CollectionsTable = ({ team }) => {
 
   const averageScoringTemplate = (rowData) => (
     <span>
-      <strong>{rowData.averageScoring}</strong>
+      <strong>{`${rowData.fair_scoring}`}</strong>
       <br />
       {t('AVERAGE_FAIR_SCORING')}
     </span>
@@ -82,22 +134,26 @@ const CollectionsTable = ({ team }) => {
     <>
       <DataTable
         header={tableHeader}
-        globalFilter={filter}
         paginator
-        rows={rows}
+        lazy
+        rows={lazyParams.rows}
+        first={lazyParams.first}
+        onPage={onPage}
+        totalRecords={totalRecords}
         dataKey="id"
         expandedRows={expandedRows}
         rowExpansionTemplate={rowExpansionTemplate}
-        rowsPerPageOptions={[10, 20, 50]}
-        value={sampleCollections}
-        onPage={(event) => setRows(event.rows)}
+        emptyMessage="No collections were found."
+        value={collections}
         className="p-mt-2"
+        loading={loading}
+        ref={dt}
       >
         <Column
           sortable
-          field="name"
-          header={t('COLLECTION_NAME')}
-          body={nameTemplate}
+          field="title"
+          header={t('COLLECTION_TITLE')}
+          body={titleTemplate}
         />
         <Column
           sortable
@@ -117,7 +173,10 @@ const CollectionsTable = ({ team }) => {
               <Button
                 icon="pi pi-pencil"
                 className="p-button-icon-only p-button-rounded p-mr-3"
-                onClick={() => setEditCollectionDialogOpen(true)}
+                onClick={() => {
+                  setEditableCollection(rowData);
+                  setEditCollectionDialogOpen(true);
+                }}
               />
               <Button
                 icon={
@@ -145,7 +204,7 @@ const CollectionsTable = ({ team }) => {
       <CurrentCollectionDialog
         dialogOpen={editCollectionDialogOpen}
         setDialogOpen={setEditCollectionDialogOpen}
-        collection={demoCollection}
+        collection={editableCollection}
         team={team}
       />
     </>
