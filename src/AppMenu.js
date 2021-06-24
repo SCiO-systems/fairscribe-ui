@@ -13,6 +13,7 @@ const AppMenu = ({ onMenuClick }) => {
   const [teamDialogOpen, setTeamDialogOpen] = useState(false);
   const [showOwnTeams, setShowOwnTeams] = useState(false);
   const [showSharedTeams, setShowSharedTeams] = useState(false);
+  const [showTeamMembers, setShowTeamMembers] = useState(false);
   const { currentlyViewingTeam, ownTeams, sharedTeams, id, setUser } =
     useContext(UserContext);
   const { setError } = useContext(ToastContext);
@@ -39,7 +40,6 @@ const AppMenu = ({ onMenuClick }) => {
     }
   };
 
-  // eslint-disable-next-line
   useEffect(() => {
     loadTeams();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -50,6 +50,16 @@ const AppMenu = ({ onMenuClick }) => {
       loadTeams();
     }
   }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (
+      currentlyViewingTeam &&
+      currentlyViewingTeam.users &&
+      currentlyViewingTeam.users.length
+    ) {
+      setShowTeamMembers(true);
+    }
+  }, [currentlyViewingTeam]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -106,7 +116,7 @@ const AppMenu = ({ onMenuClick }) => {
                   <li key={`${team.name}-${team.id}`} role="menuitem">
                     <NavLink
                       to={`/teams/${team.id}`}
-                      activeClassName="p-button"
+                      activeClassName="p-button p-text-left"
                       exact
                     >
                       <i className="layout-menuitem-icon pi pi-fw pi-users" />
@@ -140,7 +150,6 @@ const AppMenu = ({ onMenuClick }) => {
                 ))}
             </ul>
           </li>
-          {/* TODO: Split to team members component */}
           {currentlyViewingTeam && (
             <>
               <li className="menu-separator" role="separator" />
@@ -165,8 +174,7 @@ const AppMenu = ({ onMenuClick }) => {
                   </button>
                 </div>
                 <ul className="layout-menu" role="menu">
-                  {currentlyViewingTeam.users &&
-                    currentlyViewingTeam.users.length &&
+                  {showTeamMembers &&
                     currentlyViewingTeam.users.map((u) => (
                       <li key={u.id} className="" role="menuitem">
                         <NavLink to="#" className="p-ripple">

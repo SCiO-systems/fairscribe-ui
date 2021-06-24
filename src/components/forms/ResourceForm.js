@@ -3,59 +3,16 @@ import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { MultiSelect } from 'primereact/multiselect';
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const sampleMembers = [
-  { label: 'John Doe', value: 123 },
-  { label: 'Jane Doe', value: 425 },
-  { label: 'Peter Jackson', value: 982 },
-];
+import { PickList } from 'primereact/picklist';
+import { UserContext, ToastContext } from '../../store';
 
 const resourceTypes = [
   { label: 'Document', value: 'document' },
   { label: 'Digital Asset', value: 'digitalasset' },
-  { label: 'Geospatial Asset', value: 'geospatialasset' },
-  { label: 'Data', value: 'data' },
+  { label: 'Dataset', value: 'dataset' },
 ];
-
-const resourceSubtypes = {
-  document: [
-    { label: 'Journal Article', value: 'journal' },
-    {
-      label: 'Conference Paper / Poster / Presentation',
-      value: 'conferencepaper',
-    },
-    {
-      label: 'Book Chapter',
-      value: 'bookchapter',
-    },
-    {
-      label: 'Maganize Article / Press Item',
-      value: 'magazinearticle',
-    },
-    {
-      label: 'Journal',
-      value: 'journal',
-    },
-  ],
-  digitalasset: [
-    { label: 'Infographic', value: 'infographic' },
-    {
-      label: 'Multimedia',
-      value: 'multimedia',
-    },
-    {
-      label: 'Software',
-      value: 'software',
-    },
-    {
-      label: 'Source Code',
-      value: 'sourcecode',
-    },
-  ],
-};
 
 const ResourceForm = ({ setTaskFormOpen, resource }) => {
   const { t } = useTranslation();
@@ -64,19 +21,53 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     (resource && resource.description) || '',
   );
   const [type, setType] = useState('');
-  const [subtype, setSubtype] = useState('');
+  const {
+    firstname,
+    lastname,
+    email,
+    currentlyViewingTeam,
+    id: userId,
+  } = useContext(UserContext);
+  const { setWarn } = useContext(ToastContext);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [authoringTeamMembers, setAuthoringTeamMembers] = useState([]);
+  const [reviewTeamMembers, setReviewTeamMembers] = useState([]);
+
+  useEffect(() => {
+    const loggedInUser = { firstname, lastname, email, id: userId };
+    setTeamMembers(currentlyViewingTeam.users);
+    setAuthoringTeamMembers([loggedInUser]);
+    setReviewTeamMembers([currentlyViewingTeam.owner]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onAuthoringTeamChange = ({ source, target }) => {
+    if (source.find((u) => u.id === userId)) {
+      // the creator of the task is always in the authoring team
+      setWarn('Warning!', t('AUTHORING_TASK_OWNER_WARNING'));
+      return;
+    }
+    setTeamMembers(source);
+    setAuthoringTeamMembers(target);
+  };
+
+  const onReviewTeamChange = ({ source, target }) => {
+    if (source.find((u) => u.id === userId)) {
+      // the team owner is always in the review team
+      setWarn('Warning!', t('REVIEW_TEAM_OWNER_WARNING'));
+      return;
+    }
+    setTeamMembers(source);
+    setReviewTeamMembers(target);
+  };
 
   return (
-    <Fieldset
-      className="p-my-2"
-      legend={resource ? t('EDIT_RESOURCE') : t('NEW_RESOURCE')}
-    >
-      {/* Title */}
+    <Fieldset className="p-my-2 p-col-8" legend={t('NEW_RESOURCE')}>
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-5">
+        <div className="p-col-12 p-md-6 p-lg-12">
           <div className="p-field">
-            <label htmlFor="resource-title">{t('RESOURCE_TITLE')}</label>
+            <label htmlFor="resource-title">
+              {t('RESOURCE_TITLE')} (in English)
+            </label>
             <InputText
               id="resource-title"
               value={title}
@@ -85,12 +76,11 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
           </div>
         </div>
       </div>
-      {/* Description */}
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-5">
+        <div className="p-col-12 p-md-6 p-lg-12">
           <div className="p-field">
             <label htmlFor="resource-description">
-              {t('RESOURCE_DESCRIPTION')}
+              {t('RESOURCE_DESCRIPTION')} (in English)
             </label>
             <InputTextarea
               id="resource-description"
@@ -101,9 +91,8 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
           </div>
         </div>
       </div>
-      {/* Type */}
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-5">
+        <div className="p-col-12 p-md-6 p-lg-12">
           <div className="p-field">
             <label htmlFor="resource-type">{t('RESOURCE_TYPE')}</label>
             <Dropdown
@@ -116,52 +105,49 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
           </div>
         </div>
       </div>
-      {/* Subtypes */}
-      {resourceSubtypes[type] && resourceSubtypes[type].length && (
-        <div className="p-fluid p-grid p-justify-start">
-          <div className="p-col-12 p-md-6 p-lg-5">
-            <div className="p-field">
-              <label htmlFor="resource-subtype">{t('RESOURCE_SUBTYPE')}</label>
-              <Dropdown
-                id="resource-subtype"
-                value={subtype}
-                options={resourceSubtypes[type]}
-                placeholder={t('RESOURCE_SUBTYPE')}
-                onChange={(e) => setSubtype(e.value)}
-              />
-            </div>
-          </div>
-        </div>
-      )}
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-5">
+        <div className="p-col-12 p-md-6 p-lg-12">
           <div className="p-field">
             <label htmlFor="authoring-team">
               {t('RESOURCE_METADATA_AUTHORING_TEAM')}
             </label>
-            <MultiSelect
-              id="members"
-              value={authoringTeamMembers}
-              options={sampleMembers}
-              onChange={(e) => setAuthoringTeamMembers(e.value)}
+            <PickList
+              id="authoring-team"
+              source={teamMembers}
+              target={authoringTeamMembers}
+              itemTemplate={(item) => `${item.firstname} ${item.lastname}`}
+              onChange={onAuthoringTeamChange}
+              showSourceControls={false}
+              showTargetControls={false}
+              sourceHeader={t('TEAM_MEMBERS')}
+              targetHeader={t('RESOURCE_METADATA_AUTHORING_TEAM')}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="p-fluid p-grid p-justify-start">
+        <div className="p-col-12 p-md-6 p-lg-12">
+          <div className="p-field">
+            <label htmlFor="review-team">
+              {t('RESOURCE_METADATA_REVIEW_TEAM')}
+            </label>
+            <PickList
+              id="review-team"
+              source={teamMembers}
+              target={reviewTeamMembers}
+              itemTemplate={(item) => `${item.firstname} ${item.lastname}`}
+              onChange={onReviewTeamChange}
+              showSourceControls={false}
+              showTargetControls={false}
+              sourceHeader={t('TEAM_MEMBERS')}
+              targetHeader={t('RESOURCE_METADATA_REVIEW_TEAM')}
             />
           </div>
         </div>
       </div>
       <div className="p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-5">
-          <div className="p-d-flex p-jc-between">
-            <Button
-              label={t('CLEAR_ALL_FIELDS')}
-              className="p-mr-4 p-button-secondary"
-              onClick={() => {
-                setTitle('');
-                setDescription('');
-                setType('');
-                setSubtype('');
-                setAuthoringTeamMembers('');
-              }}
-            />
+        <div className="p-col-12 p-md-6 p-lg-12">
+          <div className="p-d-flex">
             <Button
               label={t('CREATE_TASK_AND_SEND_INVITES')}
               onClick={() => setTaskFormOpen(false)}

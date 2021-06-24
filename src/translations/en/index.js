@@ -144,6 +144,7 @@ const t = {
     RESOURCE_TYPE: 'Resource Type',
     RESOURCE_SUBTYPE: 'Resource Subtype',
     RESOURCE_METADATA_AUTHORING_TEAM: 'Metadata Authoring Team',
+    RESOURCE_METADATA_REVIEW_TEAM: 'Metadata Review Team',
     CREATE_TASK_AND_SEND_INVITES: 'Create Task & Send Invites',
     CLEAR_ALL_FIELDS: 'Clear all fields',
     PUBLISH_RESOURCE: 'Publish Resource',
@@ -181,6 +182,10 @@ const t = {
     BY: 'by',
     ACCEPT_INVITE: 'Accept invite',
     REJECT_INVITE: 'Reject invite',
+    AUTHORING_TASK_OWNER_WARNING:
+      'The task owner is by default in the metadata authoring team.',
+    REVIEW_TEAM_OWNER_WARNING:
+      'The team owner is by default in the metadata review team.',
   },
 };
 

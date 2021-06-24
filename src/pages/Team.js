@@ -18,20 +18,21 @@ const Team = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskFormOpen, setTaskFormOpen] = useState(false);
 
+  const loadTeam = async () => {
+    setLoading(true);
+    const teamRes = await getSingleTeam(id);
+    setTeam(teamRes.data);
+    setUser({ currentlyViewingTeam: teamRes.data });
+    setLoading(false);
+  };
+
   // when mounted
   useEffect(() => {
-    setLoading(true);
-    getSingleTeam(id)
-      .then(({ data }) => setTeam({ ...data }))
-      .then(() => setLoading(false));
+    loadTeam();
     return () => {
       setUser({ currentlyViewingTeam: null });
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    setUser({ currentlyViewingTeam: team });
-  }, [team]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return <Loading />;
