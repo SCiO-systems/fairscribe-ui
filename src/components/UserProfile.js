@@ -10,11 +10,12 @@ import {
   updateUserAvatar,
   updateUserProfile,
 } from '../services/users';
-import { ToastContext } from '../store';
+import { ToastContext, UserContext } from '../store';
 
 const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
   const { t } = useTranslation();
   const userAvatar = useRef(null);
+  const { setUser } = useContext(UserContext);
   const { setError, setSuccess } = useContext(ToastContext);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -35,11 +36,9 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
     const formData = new FormData();
     formData.append('avatar', file);
     try {
-      const { avatar_url: avatarUrl } = await updateUserAvatar(
-        userId,
-        formData,
-      );
-      setUserAvatarUrl(avatarUrl);
+      const { data } = await updateUserAvatar(userId, formData);
+      setUserAvatarUrl(data.avatar_url);
+      setUser({ avatar_url: data.avatar_url });
       setSuccess('Avatar', 'Your avatar has been updated.');
     } catch (error) {
       handleError(error);
@@ -167,12 +166,7 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
                 type="file"
                 multiple={false}
                 ref={userAvatar}
-                onClick={async (e) => {
-                  await uploadAvatar(e.target.files[0]);
-                }}
-                onChange={async (e) => {
-                  await uploadAvatar(e.target.files[0]);
-                }}
+                onChange={(e) => uploadAvatar(e.target.files[0])}
               />
               <Button
                 label={t('CHANGE_PICTURE')}

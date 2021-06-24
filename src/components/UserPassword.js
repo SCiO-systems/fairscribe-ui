@@ -73,7 +73,9 @@ const UserPassword = ({ userId }) => {
                   toggleMask
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
-                  className={newPassword !== newPasswordRepeat && 'p-invalid'}
+                  className={
+                    newPassword !== newPasswordRepeat ? 'p-invalid' : ''
+                  }
                 />
               </div>
             </div>
@@ -90,7 +92,9 @@ const UserPassword = ({ userId }) => {
                   toggleMask
                   onChange={(e) => setNewPasswordRepeat(e.target.value)}
                   required
-                  className={newPassword !== newPasswordRepeat && 'p-invalid'}
+                  className={
+                    newPassword !== newPasswordRepeat ? 'p-invalid' : ''
+                  }
                 />
                 {newPassword !== newPasswordRepeat && (
                   <small className="p-error p-d-block">
