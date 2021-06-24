@@ -116,7 +116,7 @@ const CollectionsTable = ({ team }) => {
 
   const resourcesTemplate = (rowData) => (
     <span>
-      <strong>{rowData.resources}</strong>
+      <strong>{`${rowData.resources_count}`}</strong>
       <br />
       {t('RESOURCES')}
     </span>
