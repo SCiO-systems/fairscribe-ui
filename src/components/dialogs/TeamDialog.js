@@ -1,8 +1,8 @@
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Dialog } from 'primereact/dialog';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createTeam, getAllOwnedTeams, updateTeam } from '../../services/teams';
 import { ToastContext, UserContext } from '../../store';
@@ -25,7 +25,8 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
     }
   }, [team]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       setIsLoading(true);
       if (team && team.id) {
@@ -48,11 +49,13 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
       setUser({
         ownTeams: ownTeamsRes.data,
       });
-    } catch (e) {
-      if (e.response) {
+    } catch (error) {
+      if (error.response) {
         setError(
           'Oops!',
-          e.response.data.errors[Object.keys(e.response.data.errors)[0]][0],
+          error.response.data.errors[
+            Object.keys(error.response.data.errors)[0]
+          ][0],
         );
       } else {
         setError('Oops!', 'Something went wrong');
@@ -74,37 +77,39 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
     >
       <div className="p-fluid">
         <div className="p-formgrid p-grid">
-          <div className="p-col-12">
-            <div>
-              <label htmlFor="teamName">{t('YOUR_TEAM_NAME')}</label>
-              <InputText
-                id="teamName"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-              />
+          <form onSubmit={handleSubmit}>
+            <div className="p-col-12">
+              <div>
+                <label htmlFor="teamName">{t('YOUR_TEAM_NAME')}</label>
+                <InputText
+                  id="teamName"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                />
+              </div>
+              <div className="p-mt-4">
+                <label htmlFor="teamDescription">{t('YOUR_TEAM_DESC')}</label>
+                <InputTextarea
+                  id="teamDescription"
+                  rows={5}
+                  cols={30}
+                  value={teamDescription}
+                  onChange={(e) => setTeamDescription(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="p-mt-4">
-              <label htmlFor="teamDescription">{t('YOUR_TEAM_DESC')}</label>
-              <InputTextarea
-                id="teamDescription"
-                rows={5}
-                cols={30}
-                value={teamDescription}
-                onChange={(e) => setTeamDescription(e.target.value)}
-              />
+            <div className="p-col-12 p-text-center p-mt-4">
+              <div className="p-d-inline-flex p-col-6 p-ai-center p-jc-center">
+                <Button
+                  label={team ? t('EDIT_TEAM') : t('CREATE_TEAM')}
+                  icon={team ? 'pi pi-save' : 'pi pi-plus'}
+                  className="p-mr-2 p-mb-2"
+                  onClick={() => handleSubmit()}
+                  loading={isLoading}
+                />
+              </div>
             </div>
-          </div>
-          <div className="p-col-12 p-text-center p-mt-4">
-            <div className="p-d-inline-flex p-col-6 p-ai-center p-jc-center">
-              <Button
-                label={team ? t('EDIT_TEAM') : t('CREATE_TEAM')}
-                icon={team ? 'pi pi-save' : 'pi pi-plus'}
-                className="p-mr-2 p-mb-2"
-                onClick={() => handleSubmit()}
-                loading={isLoading}
-              />
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </Dialog>
