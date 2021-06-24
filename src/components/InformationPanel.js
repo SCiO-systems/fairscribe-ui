@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const InformationPanel = ({ sizeClasses, name, value, icon, extraClass }) => (
   <div className={sizeClasses}>
@@ -18,7 +19,12 @@ const InformationPanel = ({ sizeClasses, name, value, icon, extraClass }) => (
           </span>
           <span className="overview-title">{name}</span>
         </div>
-        <div className="overview-number">{value}</div>
+        {value !== null && <div className="overview-number">{value}</div>}
+        {value === null && (
+          <div className="overview-number">
+            <ProgressSpinner style={{ width: '20px', height: '20px' }} />
+          </div>
+        )}
       </div>
     </div>
   </div>

@@ -1,5 +1,8 @@
 import apiClient from '../utilities/api-client';
 
+// Stats
+export const getUserStats = async (id) => apiClient.get(`/users/${id}/stats`);
+
 // Profile
 export const getUserProfile = async (id) => apiClient.get(`/users/${id}`);
 export const updateUserProfile = async (id, data) =>

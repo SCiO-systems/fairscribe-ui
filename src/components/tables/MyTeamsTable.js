@@ -100,7 +100,7 @@ const MyTeamsTable = ({
 
   const tasksTemplate = (rowData) => (
     <span>
-      <strong>{rowData.activeTasks}</strong>
+      <strong>{rowData.active_tasks}</strong>
       <br />
       {t('ACTIVE_TASKS')}
     </span>
@@ -108,7 +108,7 @@ const MyTeamsTable = ({
 
   const reviewsTemplate = (rowData) => (
     <span>
-      <strong>{rowData.pendingReviewTasks}</strong>
+      <strong>{rowData.pending_review_tasks}</strong>
       <br />
       {t('PENDING_REVIEWS')}
     </span>
@@ -116,7 +116,7 @@ const MyTeamsTable = ({
 
   const uploadsTemplate = (rowData) => (
     <span>
-      <strong>{rowData.pendingUploadTasks}</strong>
+      <strong>{rowData.pending_upload_tasks}</strong>
       <br />
       {t('PENDING_UPLOADS')}
     </span>

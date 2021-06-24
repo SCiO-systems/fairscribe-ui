@@ -82,18 +82,16 @@ const SharedTeamsTable = ({
   const nameTemplate = (rowData) => <h5>{rowData.name}</h5>;
 
   const tasksTemplate = (rowData) => (
-    // TODO: Should be rowData.activeTasks
     <span>
-      <strong>{0}</strong>
+      <strong>{rowData.active_tasks}</strong>
       <br />
       {t('ACTIVE_TASKS')}
     </span>
   );
 
   const reviewsTemplate = (rowData) => (
-    // TODO: Should be rowData.pendingReviewTasks
     <span>
-      <strong>{0}</strong>
+      <strong>{rowData.pending_review_tasks}</strong>
       <br />
       {t('PENDING_REVIEWS')}
     </span>
