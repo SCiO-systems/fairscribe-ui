@@ -59,7 +59,6 @@ const Login = () => {
         isLoggedIn: true,
       });
     } catch (e) {
-      console.error(e);
       let error = 'Something went wrong';
       if (e.response) {
         const statusCode = e.response && e.response.status;

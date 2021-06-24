@@ -15,7 +15,6 @@ import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
 import { logout, verify } from './services/auth';
 import { ToastContext, UserContext } from './store';
-import apiClient from './utilities/api-client';
 
 const App = () => {
   // Setup AMCharts
@@ -41,7 +40,6 @@ const App = () => {
     firstname,
     lastname,
     access_token: accessToken,
-    setUser,
   } = useContext(UserContext);
   const { content: toastContent, clear: toastClear } = useContext(ToastContext);
   const { t } = useTranslation();
