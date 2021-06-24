@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CollectionDialog from '../dialogs/CollectionDialog';
+import CurrentCollectionDialog from '../dialogs/CurrentCollectionDialog';
 import ResourcesTable from './ResourcesTable';
 
 const sampleCollections = [
@@ -14,29 +14,11 @@ const sampleCollections = [
 ];
 
 const demoCollection = {
-  titles: [
-    { language: 'English', title: 'Title' },
-    { language: 'French', title: 'Title 2' },
-    { language: 'Spanish', title: 'Title 3' },
-  ],
-  descriptions: [
-    {
-      language: 'English',
-      description: 'This is a long description of something.',
-    },
-    {
-      language: 'French',
-      description: 'This is a longer description of something else.',
-    },
-    {
-      language: 'Spanish',
-      description:
-        'This is an even longer description of something entirely different.',
-    },
-  ],
+  title: 'Demo Title',
+  description: 'Demo Description',
 };
 
-const CollectionsTable = () => {
+const CollectionsTable = ({ team }) => {
   const { t } = useTranslation();
 
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
@@ -155,14 +137,16 @@ const CollectionsTable = () => {
           )}
         />
       </DataTable>
-      <CollectionDialog
+      <CurrentCollectionDialog
         dialogOpen={newCollectionDialogOpen}
         setDialogOpen={setNewCollectionDialogOpen}
+        team={team}
       />
-      <CollectionDialog
+      <CurrentCollectionDialog
         dialogOpen={editCollectionDialogOpen}
         setDialogOpen={setEditCollectionDialogOpen}
         collection={demoCollection}
+        team={team}
       />
     </>
   );

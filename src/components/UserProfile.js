@@ -133,7 +133,7 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
                   label={t('SAVE_CHANGES')}
                   type="submit"
                   onClick={updateProfile}
-                  icon="pi pi-check"
+                  icon="pi pi-save"
                   className="p-button-primary p-mr-2 p-mt-2"
                 />
               </div>

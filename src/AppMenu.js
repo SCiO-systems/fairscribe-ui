@@ -6,7 +6,7 @@ import Logo from './assets/img/dataSCRIBE-Horizontal.png';
 import InviteTeamMembersDialog from './components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from './components/dialogs/TeamDialog';
 import { getAllOwnedTeams, getAllSharedTeams } from './services/teams';
-import { UserContext, ToastContext } from './store';
+import { ToastContext, UserContext } from './store';
 
 const AppMenu = ({ onMenuClick }) => {
   const { t } = useTranslation();
@@ -156,9 +156,7 @@ const AppMenu = ({ onMenuClick }) => {
                   </div>
                   <button
                     type="button"
-                    title={t('INVITE_MEMBERS_TO_TEAM', {
-                      teamName: currentlyViewingTeam.name,
-                    })}
+                    title={t('INVITE_MEMBERS_TO_TEAM')}
                     onClick={() => setInviteTeamMembersDialog(true)}
                     className="add-team-btn p-button p-button-sm p-component p-button-rounded p-button-icon-only"
                   >
@@ -183,7 +181,6 @@ const AppMenu = ({ onMenuClick }) => {
           )}
         </ul>
       </div>
-
       <TeamDialog
         dialogOpen={teamDialogOpen}
         setDialogOpen={setTeamDialogOpen}

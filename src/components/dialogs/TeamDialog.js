@@ -104,7 +104,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
                   label={team ? t('EDIT_TEAM') : t('CREATE_TEAM')}
                   icon={team ? 'pi pi-save' : 'pi pi-plus'}
                   className="p-mr-2 p-mb-2"
-                  onClick={() => handleSubmit()}
+                  onClick={handleSubmit}
                   loading={isLoading}
                 />
               </div>

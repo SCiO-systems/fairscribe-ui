@@ -103,7 +103,7 @@ const UserPassword = ({ userId }) => {
               <div className="p-field p-col-12 p-md-6">
                 <Button
                   label={t('CHANGE_PASSWORD')}
-                  icon="pi pi-check"
+                  icon="pi pi-save"
                   loading={isLoading}
                   type="submit"
                   disabled={

@@ -71,7 +71,7 @@ const Team = () => {
             onTabChange={(e) => setActiveIndex(e.index)}
           >
             <TabPanel header="Collections">
-              <CollectionsTable />
+              <CollectionsTable team={team} />
             </TabPanel>
             <TabPanel header="Resources">
               <ResourcesTable

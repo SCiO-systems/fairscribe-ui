@@ -2,11 +2,10 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { getSharedTeams } from '../../services/teams';
-import { UserContext } from '../../store';
 import { useDebounce } from '../../utilities/hooks';
 
 const SharedTeamsTable = ({
@@ -21,7 +20,6 @@ const SharedTeamsTable = ({
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [sharedTeams, setSharedTeams] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const { id } = useContext(UserContext);
   const history = useHistory();
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({

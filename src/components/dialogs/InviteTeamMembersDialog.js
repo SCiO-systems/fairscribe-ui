@@ -32,7 +32,7 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
     if (search && search.length) {
       searchMembers();
     }
-  }, [debouncedSearch]);
+  }, [debouncedSearch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSearch = (event) => {
     if (event.query.length < 4) return;
