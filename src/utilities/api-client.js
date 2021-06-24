@@ -48,7 +48,7 @@ class ApiClient {
       this.session.interceptors.response.use(
         (response) => (response.data ? response.data : response),
         (error) => {
-          if (error.response.status === 401) {
+          if (error && error.response && error.response.status === 401) {
             return cb();
           }
           return Promise.reject(error);
