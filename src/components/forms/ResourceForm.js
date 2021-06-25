@@ -150,6 +150,11 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
         <div className="p-col-12 p-md-6 p-lg-12">
           <div className="p-d-flex">
             <Button
+              className="p-button-secondary p-mr-2"
+              label={t('CANCEL')}
+              onClick={() => setTaskFormOpen(false)}
+            />
+            <Button
               label={t('CREATE_TASK_AND_SEND_INVITES')}
               onClick={() => setTaskFormOpen(false)}
             />

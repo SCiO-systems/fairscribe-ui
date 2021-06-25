@@ -186,6 +186,7 @@ const t = {
       'The task owner is by default in the metadata authoring team.',
     REVIEW_TEAM_OWNER_WARNING:
       'The team owner is by default in the metadata review team.',
+    CANCEL: 'Cancel',
   },
 };
 
