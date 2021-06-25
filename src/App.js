@@ -2,8 +2,8 @@ import * as am4core from '@amcharts/amcharts4/core';
 // eslint-disable-next-line
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import classNames from 'classnames';
-import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Toast } from 'primereact/toast';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
@@ -276,7 +276,7 @@ const App = () => {
   if (isLoading) {
     return (
       <ProgressSpinner
-        style={{ display: isLoading ? 'block' : 'none' }}
+        style={{ display: isLoading ? 'flex' : 'none' }}
         className="app-base-progress-spinner"
         strokeWidth="4"
         fill="rgba(255,255,255, 0.8)"
