@@ -35,7 +35,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
     setLoading(invId)
       .then(acceptInvite(userId, invId))
       .then(getSharedTeams)
-      .then((sharedTeamsRes) => setUser({ sharedTeams: sharedTeamsRes.data }))
+      .then((str) => setUser({ sharedTeams: [...str.data] }))
       .then(refreshInvites);
 
   return (

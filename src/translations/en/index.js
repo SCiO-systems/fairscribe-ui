@@ -131,6 +131,7 @@ const t = {
     COLLECTION_COUNTRY: 'Country',
     TEMPORAL_FROM_DATE: 'From date',
     TEMPORAL_TO_DATE: 'To date',
+    RESOURCE: 'Resource',
     VIEW_COLLECTION_RESOURCES: 'View Resources',
     HIDE_COLLECTION_RESOURCES: 'Hide Resources',
     TEMPORAL_COVERAGE_TYPE: 'Type',

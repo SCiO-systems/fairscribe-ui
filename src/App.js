@@ -11,6 +11,7 @@ import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
+import Resource from './pages/Resource';
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
 import { logout, verify } from './services/auth';
@@ -71,6 +72,14 @@ const App = () => {
       exact: true,
       meta: {
         breadcrumb: [{ parent: t('DASHBOARD'), label: t('TEAM_DASHBOARD') }],
+      },
+    },
+    {
+      path: '/teams/:teamId/resources/:resourceId/mode/:mode',
+      component: Resource,
+      exact: true,
+      meta: {
+        breadcrumb: [{ parent: t('TEAM_DASHBOARD'), label: t('RESOURCE') }],
       },
     },
   ];

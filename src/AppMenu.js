@@ -27,12 +27,6 @@ const AppMenu = ({ onMenuClick }) => {
         ownTeams: ownTeamsRes.data,
         sharedTeams: sharedTeamsRes.data,
       });
-      if (ownTeamsRes.data.length > 0) {
-        setShowOwnTeams(true);
-      }
-      if (sharedTeamsRes.data.length > 0) {
-        setShowSharedTeams(true);
-      }
     } catch (e) {
       if (e.response) {
         setError('Oops!', e.response.data.error);
@@ -50,6 +44,18 @@ const AppMenu = ({ onMenuClick }) => {
       loadTeams();
     }
   }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (sharedTeams && sharedTeams.length > 0) {
+      setShowSharedTeams(true);
+    }
+  }, [sharedTeams]);
+
+  useEffect(() => {
+    if (ownTeams && ownTeams.length > 0) {
+      setShowOwnTeams(true);
+    }
+  }, [ownTeams]);
 
   useEffect(() => {
     if (

@@ -1,13 +1,30 @@
 import { TabPanel, TabView } from 'primereact/tabview';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import ResourceForm from '../components/forms/ResourceForm';
 import Loading from '../components/Loading';
 import CollectionsTable from '../components/tables/CollectionsTable';
 import ResourcesTable from '../components/tables/ResourcesTable';
 import { UserContext } from '../store';
 import { getSingleTeam } from '../services/teams';
+
+const findIndexForTab = (tab) => {
+  switch (tab) {
+    case 'collections':
+      return 0;
+    case 'resources':
+      return 1;
+    case 'tasks':
+      return 2;
+    case 'reviews':
+      return 3;
+    case 'publish':
+      return 4;
+    default:
+      return 0;
+  }
+};
 
 const Team = () => {
   const { setUser } = useContext(UserContext);
@@ -17,6 +34,7 @@ const Team = () => {
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskFormOpen, setTaskFormOpen] = useState(false);
+  const { search } = useLocation();
 
   const loadTeam = async () => {
     setLoading(true);
@@ -28,13 +46,17 @@ const Team = () => {
 
   // when mounted
   useEffect(() => {
+    const tab = new URLSearchParams(search).get('tab');
+    if (tab) {
+      setActiveIndex(findIndexForTab(tab));
+    }
     loadTeam();
     return () => {
       setUser({ currentlyViewingTeam: null });
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (loading) {
+  if (loading || team === null) {
     return <Loading />;
   }
 
