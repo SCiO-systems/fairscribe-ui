@@ -51,7 +51,7 @@ const CurrentCollectionDialog = ({
   };
 
   const updateCollection = async () => {
-    await updateTeamCollection(team.id, {
+    await updateTeamCollection(team.id, collection.id, {
       title,
       description,
     });

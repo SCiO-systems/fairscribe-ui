@@ -9,5 +9,5 @@ export const getSingleTeamCollection = async (teamId, collectionId) =>
 export const createTeamCollection = async (teamId, data) =>
   apiClient.post(`/teams/${teamId}/collections/`, data);
 
-export const updateTeamCollection = async (teamId, data) =>
-  apiClient.put(`/teams/${teamId}/collections/`, data);
+export const updateTeamCollection = async (teamId, collectionId, data) =>
+  apiClient.put(`/teams/${teamId}/collections/${collectionId}`, data);
