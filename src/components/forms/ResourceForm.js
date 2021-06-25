@@ -3,16 +3,12 @@ import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useContext, useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { PickList } from 'primereact/picklist';
-import { UserContext, ToastContext } from '../../store';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ToastContext, UserContext } from '../../store';
 
-const resourceTypes = [
-  { label: 'Document', value: 'document' },
-  { label: 'Digital Asset', value: 'digitalasset' },
-  { label: 'Dataset', value: 'dataset' },
-];
+const resourceTypes = [{ label: 'Dataset', value: 'dataset' }];
 
 const ResourceForm = ({ setTaskFormOpen, resource }) => {
   const { t } = useTranslation();
@@ -29,15 +25,20 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     id: userId,
   } = useContext(UserContext);
   const { setWarn } = useContext(ToastContext);
-  const [teamMembers, setTeamMembers] = useState([]);
   const [authoringTeamMembers, setAuthoringTeamMembers] = useState([]);
+  const [selectedAuthoringTeamMembers, setSelectedAuthoringTeamMembers] =
+    useState([]);
   const [reviewTeamMembers, setReviewTeamMembers] = useState([]);
+  const [selectedReviewTeamMembers, setSelectedReviewTeamMembers] = useState(
+    [],
+  );
 
   useEffect(() => {
     const loggedInUser = { firstname, lastname, email, id: userId };
-    setTeamMembers(currentlyViewingTeam.users);
-    setAuthoringTeamMembers([loggedInUser]);
-    setReviewTeamMembers([currentlyViewingTeam.owner]);
+    setAuthoringTeamMembers(currentlyViewingTeam.users);
+    setReviewTeamMembers(currentlyViewingTeam.users);
+    setSelectedAuthoringTeamMembers([loggedInUser]);
+    setSelectedReviewTeamMembers([currentlyViewingTeam.owner]);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onAuthoringTeamChange = ({ source, target }) => {
@@ -46,8 +47,8 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
       setWarn('Warning!', t('AUTHORING_TASK_OWNER_WARNING'));
       return;
     }
-    setTeamMembers(source);
-    setAuthoringTeamMembers(target);
+    setAuthoringTeamMembers(source);
+    setSelectedAuthoringTeamMembers(target);
   };
 
   const onReviewTeamChange = ({ source, target }) => {
@@ -56,8 +57,8 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
       setWarn('Warning!', t('REVIEW_TEAM_OWNER_WARNING'));
       return;
     }
-    setTeamMembers(source);
-    setReviewTeamMembers(target);
+    setReviewTeamMembers(source);
+    setSelectedReviewTeamMembers(target);
   };
 
   return (
@@ -113,8 +114,8 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
             </label>
             <PickList
               id="authoring-team"
-              source={teamMembers}
-              target={authoringTeamMembers}
+              source={authoringTeamMembers}
+              target={selectedAuthoringTeamMembers}
               itemTemplate={(item) => `${item.firstname} ${item.lastname}`}
               onChange={onAuthoringTeamChange}
               showSourceControls={false}
@@ -133,8 +134,8 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
             </label>
             <PickList
               id="review-team"
-              source={teamMembers}
-              target={reviewTeamMembers}
+              source={reviewTeamMembers}
+              target={selectedReviewTeamMembers}
               itemTemplate={(item) => `${item.firstname} ${item.lastname}`}
               onChange={onReviewTeamChange}
               showSourceControls={false}
