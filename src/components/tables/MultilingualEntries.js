@@ -1,10 +1,10 @@
+import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Dropdown } from 'primereact/dropdown';
-import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -65,10 +65,9 @@ const MultilingualEntriesTable = ({
       className={classNames([className])}
       footer={footerTemplate}
     >
-      <Column field="lang" header={null} />
-      <Column field="text" header={null} />
+      <Column field="lang" />
+      <Column field="text" />
       <Column
-        header={null}
         body={(rowData) => (
           <Button
             className="p-button-danger"

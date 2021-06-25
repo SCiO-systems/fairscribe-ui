@@ -3,6 +3,7 @@ import { Button } from 'primereact/button';
 import { Fieldset } from 'primereact/fieldset';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import ResourceCollectionsPicker from '../../pickers/ResourceCollectionsPicker';
 import MultilingualEntriesTable from '../../tables/MultilingualEntries';
 
 const titles = [
@@ -19,12 +20,21 @@ const descriptions = [
   },
 ];
 
+const collections = [
+  'Collection 1',
+  'Collection 2',
+  'Collection 3',
+  'Collection 4',
+  'Collection 5',
+  'Collection 6',
+];
+
 const ResourceGeneralInformation = () => {
   const { t } = useTranslation();
 
   return (
     <Fieldset
-      legend={t('RESOURCE_FILES')}
+      legend={t('RESOURCE_GENERAL_INFORMATION')}
       className="p-mb-4"
       style={{ position: 'relative' }}
     >
@@ -47,6 +57,7 @@ const ResourceGeneralInformation = () => {
         onAddItem={(lang) => console.log('About to add lang:', lang)}
         multipleLines
       />
+      <ResourceCollectionsPicker collections={collections} className="p-mt-4" />
     </Fieldset>
   );
 };

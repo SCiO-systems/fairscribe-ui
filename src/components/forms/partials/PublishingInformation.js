@@ -1,8 +1,8 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { InputText } from 'primereact/inputtext';
 import { Fieldset } from 'primereact/fieldset';
+import { InputText } from 'primereact/inputtext';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -30,7 +30,7 @@ const sampleHDLs = [
   },
 ];
 
-const PublishingInformation = () => {
+const PublishingInformation = ({ resource }) => {
   const { t } = useTranslation();
 
   // eslint-disable-next-line
@@ -96,24 +96,26 @@ const PublishingInformation = () => {
         />
         <Column field="publisher" header={t('PUBLISHER_TITLE')} />
       </DataTable>
-      <div className="p-mt-4 p-fluid p-formgrid p-grid">
-        <div className="p-field p-col-6">
-          <label htmlFor="ArXiv">ArXiv:</label>
-          <InputText id="ArXiv" type="text" />
+      {resource && resource.type === 'document' && (
+        <div className="p-mt-4 p-fluid p-formgrid p-grid">
+          <div className="p-field p-col-6">
+            <label htmlFor="ArXiv">ArXiv:</label>
+            <InputText id="ArXiv" type="text" />
+          </div>
+          <div className="p-field p-col-6">
+            <label htmlFor="ISBN">ISBN:</label>
+            <InputText id="ISBN" type="text" />
+          </div>
+          <div className="p-field p-col-6">
+            <label htmlFor="ISSN">ISSN:</label>
+            <InputText id="ISSN" type="text" />
+          </div>
+          <div className="p-field p-col-6">
+            <label htmlFor="eISSN">eISSN:</label>
+            <InputText id="eISSN" type="text" />
+          </div>
         </div>
-        <div className="p-field p-col-6">
-          <label htmlFor="ISBN">ISBN:</label>
-          <InputText id="ISBN" type="text" />
-        </div>
-        <div className="p-field p-col-6">
-          <label htmlFor="ISSN">ISSN:</label>
-          <InputText id="ISSN" type="text" />
-        </div>
-        <div className="p-field p-col-6">
-          <label htmlFor="eISSN">eISSN:</label>
-          <InputText id="eISSN" type="text" />
-        </div>
-      </div>
+      )}
     </Fieldset>
   );
 };
