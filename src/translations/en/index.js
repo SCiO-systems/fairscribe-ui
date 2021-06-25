@@ -143,10 +143,16 @@ const t = {
     NEW_RESOURCE: 'New Resource',
     EDIT_RESOURCE: 'Edit Resource',
     RESOURCE_TITLE: 'Resource Title',
+    RESOURCE_LANGUAGES_TITLE: 'Resource Language(s)',
     RESOURCE_DESCRIPTION: 'Resource Description',
     RESOURCE_GENERAL_INFORMATION: 'General Information',
+    RESOURCE_LANGUAGE: 'Resource Language',
+    AUTHORS_TITLE: 'Authors',
+    METADATA_AUTHORS_TITLE: 'Metadata Authors',
     RESOURCE_TYPE: 'Resource Type',
     RESOURCE_SUBTYPE: 'Resource Subtype',
+    GRID_ID: 'Grid ID',
+    ORCID: 'ORCiD',
     RESOURCE_METADATA_AUTHORING_TEAM: 'Metadata Authoring Team',
     RESOURCE_METADATA_REVIEW_TEAM: 'Metadata Review Team',
     CREATE_TASK_AND_SEND_INVITES: 'Create Task & Send Invites',
@@ -191,6 +197,9 @@ const t = {
     REVIEW_TEAM_OWNER_WARNING:
       'The team owner is by default in the metadata review team.',
     CANCEL: 'Cancel',
+    AUTHOR_TYPE: 'Type',
+    AUTHOR_NAME: 'Name',
+    AUTHOR_ID: 'ID',
   },
 };
 

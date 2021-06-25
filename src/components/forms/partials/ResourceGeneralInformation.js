@@ -4,7 +4,9 @@ import { Fieldset } from 'primereact/fieldset';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ResourceCollectionsPicker from '../../pickers/ResourceCollectionsPicker';
+import AuthorsTable from '../../tables/AuthorsTable';
 import MultilingualEntriesTable from '../../tables/MultilingualEntries';
+import ResourceLanguages from './ResourceLanguages';
 
 const titles = [
   {
@@ -58,6 +60,16 @@ const ResourceGeneralInformation = () => {
         multipleLines
       />
       <ResourceCollectionsPicker collections={collections} className="p-mt-4" />
+      <ResourceLanguages
+        header={t('RESOURCE_LANGUAGES_TITLE')}
+        onDeleteItem={(lang) => console.log('About to delete lang:', lang)}
+        onAddItem={(lang) => console.log('About to add lang:', lang)}
+        multipleLines
+        languages={[]}
+        className="p-mt-4"
+      />
+      <AuthorsTable header={t('AUTHORS_TITLE')} className="p-mt-4" />
+      <AuthorsTable header={t('METADATA_AUTHORS_TITLE')} className="p-mt-4" />
     </Fieldset>
   );
 };

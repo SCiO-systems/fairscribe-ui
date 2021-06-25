@@ -1,8 +1,7 @@
-import { TabPanel, TabView } from 'primereact/tabview';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Loading from '../components/Loading';
 import EditResourceForm from '../components/forms/EditResourceForm';
+import Loading from '../components/Loading';
 
 const Resource = () => {
   const { teamId, resourceId, mode } = useParams();
