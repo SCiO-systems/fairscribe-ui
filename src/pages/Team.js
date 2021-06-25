@@ -76,6 +76,7 @@ const Team = () => {
             </TabPanel>
             <TabPanel header="Resources">
               <ResourcesTable
+                team={id}
                 type="resources"
                 title={t('PUBLISHED_RESOURCES')}
               />
@@ -85,6 +86,7 @@ const Team = () => {
                 <ResourceForm setTaskFormOpen={setTaskFormOpen} />
               ) : (
                 <ResourcesTable
+                  team={id}
                   setTaskFormOpen={setTaskFormOpen}
                   type="tasks"
                   title={t('RESOURCES_UNDER_PREPARATION')}
@@ -93,12 +95,14 @@ const Team = () => {
             </TabPanel>
             <TabPanel header="My Reviews">
               <ResourcesTable
+                team={id}
                 type="reviews"
                 title={t('RESOURCES_UNDER_REVIEW')}
               />
             </TabPanel>
             <TabPanel header="Publish">
               <ResourcesTable
+                team={id}
                 type="unpublished"
                 title={t('UNPUBLISHED_RESOURCES')}
               />

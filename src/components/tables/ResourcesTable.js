@@ -6,11 +6,11 @@ import { DataTable } from 'primereact/datatable';
 import { InputSwitch } from 'primereact/inputswitch';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import FairScoreMiniChart from '../charts/FairScoreMini';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
-import EditResourceForm from '../forms/EditResourceForm';
 
 const sampleResources = [
   {
@@ -85,13 +85,13 @@ const sampleResources = [
   },
 ];
 
-const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
+const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
   const { t } = useTranslation();
 
+  const history = useHistory();
   const [filter, setFilter] = useState('');
   const [unpublished, setUnpublished] = useState(true);
   const [rows, setRows] = useState(10);
-  const [editRowId, setEditRowId] = useState(null);
   const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
   const [fairScoreDialogOpen, setFairScoreDialogOpen] = useState(false);
 
@@ -147,16 +147,11 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
   const fairScoringTemplate = (rowData) => (
     <div>
       <FairScoreMiniChart resourceId={rowData.id} data={rowData.fairScore} />
-      {rowData.id === editRowId && (
-        <Button
-          onClick={() => setFairScoreDialogOpen(true)}
-          className="p-button-sm"
-          label={t('CHECK')}
-          icon="pi pi-table"
-        />
-      )}
     </div>
   );
+
+  const editResourceLink = (tId, resourceId, mode) =>
+    `/teams/${tId}/resources/${resourceId}/mode/${mode}`;
 
   return (
     <>
@@ -210,7 +205,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
                 <Button
                   icon="pi pi-pencil"
                   onClick={() =>
-                    setEditRowId(editRowId === null ? rowData.id : null)
+                    history.push(editResourceLink(teamId, rowData.id, 'edit'))
                   }
                   className="p-button-icon-only p-button-rounded p-mr-2"
                 />
@@ -231,7 +226,6 @@ const ResourcesTable = ({ type, title, setTaskFormOpen }) => {
         dialogOpen={fairScoreDialogOpen}
         setDialogOpen={setFairScoreDialogOpen}
       />
-      {editRowId !== null && <EditResourceForm resourceId={editRowId} />}
     </>
   );
 };

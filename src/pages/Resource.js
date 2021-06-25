@@ -1,7 +1,6 @@
 import { TabPanel, TabView } from 'primereact/tabview';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ResourceForm from '../components/forms/ResourceForm';
 import Loading from '../components/Loading';
 import EditResourceForm from '../components/forms/EditResourceForm';
 
@@ -12,13 +11,14 @@ const Resource = () => {
   // when mounted
   useEffect(() => {
     console.log(teamId, resourceId, mode);
+    setLoading(false);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return <Loading />;
   }
 
-  return <EditResourceForm />;
+  return <EditResourceForm resourceId={resourceId} teamId={teamId} />;
 };
 
 export default Resource;
