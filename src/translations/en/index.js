@@ -226,6 +226,18 @@ const t = {
     EMBARGO_DATE: 'Embargo Date',
     RESOURCE_CLASSIFICATION: 'Classification',
     KEYWORDS: 'Keywords',
+    RESOURCE_RIGHTS: 'Rights',
+    RESOURCE_LICENSE: 'License',
+    RESOURCE_ACCESS_RIGHT: 'Access Right',
+    TERMS_OF_USE: 'Terms of use',
+    RESOURCE_COVERAGE: 'Resource Coverage',
+    RIGHTS_HOLDER_TYPE: 'Rights Holder Type',
+    RIGHTS_HOLDER_NAME: 'Rights Holder Name',
+    RIGHTS_HOLDER_ID: 'Rights Holder ID',
+    RIGHTS_HOLDERS: 'Rights Holders',
+    ADD_RIGHTS_HOLDER: 'Add rights holder',
+    PROJECT_RELATED_RESOURCES: 'Related Resources',
+    ADD_DOI: 'Add DOI',
   },
 };
 

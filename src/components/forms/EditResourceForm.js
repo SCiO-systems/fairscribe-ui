@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
+import ResourceCoverage from './partials/ResourceCoverage';
 import ResourceFiles from './partials/ResourceFiles';
 import ResourceGeneralInformation from './partials/ResourceGeneralInformation';
 import ResourceLifecycle from './partials/ResourceLifecycle';
+import ResourceRelatedResources from './partials/ResourceRelatedResources';
+import ResourceRights from './partials/ResourceRights';
 
 const EditResourceForm = ({ resourceId, teamId }) => {
   const { t } = useTranslation();
@@ -33,6 +36,9 @@ const EditResourceForm = ({ resourceId, teamId }) => {
       <ResourceGeneralInformation />
       <ResourceLifecycle />
       <ResourceClassification />
+      <ResourceRights />
+      <ResourceCoverage />
+      <ResourceRelatedResources />
     </div>
   );
 };
