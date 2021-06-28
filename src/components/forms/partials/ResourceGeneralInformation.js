@@ -6,6 +6,11 @@ import { useTranslation } from 'react-i18next';
 import ResourceCollectionsPicker from '../../pickers/ResourceCollectionsPicker';
 import AuthorsTable from '../../tables/AuthorsTable';
 import MultilingualEntriesTable from '../../tables/MultilingualEntries';
+import Citation from './Citation';
+import ContactPoints from './ContactPoints';
+import FundingOrganizations from './FundingOrganizations';
+import ProjectDetails from './ProjectDetails';
+import ProjectPartners from './ProjectPartners';
 import ResourceLanguages from './ResourceLanguages';
 
 const titles = [
@@ -70,6 +75,11 @@ const ResourceGeneralInformation = () => {
       />
       <AuthorsTable header={t('AUTHORS_TITLE')} className="p-mt-4" />
       <AuthorsTable header={t('METADATA_AUTHORS_TITLE')} className="p-mt-4" />
+      <ProjectDetails className="p-mt-4" />
+      <ProjectPartners className="p-mt-4" />
+      <FundingOrganizations className="p-mt-4" />
+      <ContactPoints className="p-mt-4" />
+      <Citation className="p-mt-4" />
     </Fieldset>
   );
 };
