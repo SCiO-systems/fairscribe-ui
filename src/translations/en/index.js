@@ -219,6 +219,13 @@ const t = {
     CONTACT_POINT_ID: 'Contact Point ID',
     ADD_CONTACT_POINT: 'Add contact point',
     CITATION: 'Citation',
+    RESOURCE_LIFECYCLE: 'Lifecycle',
+    RESOURCE_VERSION: 'Resource Version',
+    VERSION_DESCRIPTION: 'Version Description',
+    RELEASE_DATE: 'Release Date',
+    EMBARGO_DATE: 'Embargo Date',
+    RESOURCE_CLASSIFICATION: 'Classification',
+    KEYWORDS: 'Keywords',
   },
 };
 

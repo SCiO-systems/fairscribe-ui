@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import PublishingInformation from './partials/PublishingInformation';
+import ResourceClassification from './partials/ResourceClassification';
 import ResourceFiles from './partials/ResourceFiles';
 import ResourceGeneralInformation from './partials/ResourceGeneralInformation';
 import ResourceLifecycle from './partials/ResourceLifecycle';
@@ -31,6 +32,7 @@ const EditResourceForm = ({ resourceId, teamId }) => {
       <PublishingInformation />
       <ResourceGeneralInformation />
       <ResourceLifecycle />
+      <ResourceClassification />
     </div>
   );
 };
