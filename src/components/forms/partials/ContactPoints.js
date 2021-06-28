@@ -26,7 +26,7 @@ const types = [
 const ContactPoints = ({ projectContactPoints }) => {
   const { t } = useTranslation();
   const [contactPoints, setContactPoints] = useState(
-    projectContactPoints || demoContacts,
+    projectContactPoints || demoContacts
   );
   const [contactPoint, setContactPoint] = useState({});
 

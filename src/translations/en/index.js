@@ -238,6 +238,7 @@ const t = {
     ADD_RIGHTS_HOLDER: 'Add rights holder',
     PROJECT_RELATED_RESOURCES: 'Related Resources',
     ADD_DOI: 'Add DOI',
+    PENDING: 'Pending',
   },
 };
 

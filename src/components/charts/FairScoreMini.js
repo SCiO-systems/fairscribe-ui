@@ -32,7 +32,7 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     categoryAxis.renderer.labels.template.fontSize = '0px';
     categoryAxis.renderer.labels.template.adapter.add(
       'fill',
-      (fill, target) => '#08429e',
+      (fill, target) => '#08429e'
     );
     categoryAxis.renderer.minGridDistance = 10;
 
@@ -57,7 +57,7 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     series1.dataFields.categoryY = 'category';
     series1.clustered = false;
     series1.columns.template.fill = new am4core.InterfaceColorSet().getFor(
-      'alternativeBackground',
+      'alternativeBackground'
     );
     series1.columns.template.fillOpacity = 0.08;
     series1.columns.template.cornerRadiusTopLeft = 20;

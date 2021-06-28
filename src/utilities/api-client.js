@@ -20,7 +20,7 @@ class ApiClient {
 
     // eslint-disable-next-line
     console.log(
-      `Initialized API client for: ${process.env.REACT_APP_API_BASE_URL}`,
+      `Initialized API client for: ${process.env.REACT_APP_API_BASE_URL}`
     );
 
     this.session = axios.create({
@@ -57,15 +57,15 @@ class ApiClient {
             return cb();
           }
           return Promise.reject(error);
-        },
-      ),
+        }
+      )
     );
 
     this.requestInterceptors.push(
       this.session.interceptors.request.use((config) => {
         config.headers['Authorization'] = `Bearer ${token}`; //eslint-disable-line
         return config;
-      }),
+      })
     );
 
     this.isInitialised = true;

@@ -7,7 +7,7 @@ const ProjectDetails = ({ details }) => {
   const { t } = useTranslation();
   const [name, setName] = useState((details && details.projectName) || '');
   const [contactNo, setContractNo] = useState(
-    (details && details.projectContractNo) || '',
+    (details && details.projectContractNo) || ''
   );
 
   return (

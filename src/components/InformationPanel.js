@@ -9,7 +9,7 @@ const InformationPanel = ({ sizeClasses, name, value, icon, extraClass }) => (
         'card',
         'no-gutter',
         'widget-overview-box',
-        extraClass,
+        extraClass
       )}
     >
       <div className="p-d-flex p-jc-between">

@@ -23,10 +23,10 @@ const UserInterfacePreferences = () => {
   const { t } = useTranslation();
   const [uiLanguage, setUILanguage] = useState(uiLanguageOptions[0]);
   const [uiLanguagesDisplay, setUILanguagesDisplay] = useState(
-    uiLanguageDisplayOptions[0],
+    uiLanguageDisplayOptions[0]
   );
   const [uiDatesDisplay, setUIDatesDisplay] = useState(
-    uiDatesDisplayOptions[0],
+    uiDatesDisplayOptions[0]
   );
 
   return (

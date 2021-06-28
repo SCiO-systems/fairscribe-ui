@@ -20,7 +20,7 @@ const CurrentCollectionDialog = ({
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState((collection && collection.title) || '');
   const [description, setDescription] = useState(
-    (collection && collection.description) || '',
+    (collection && collection.description) || ''
   );
 
   useEffect(() => {

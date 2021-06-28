@@ -14,7 +14,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState((resource && resource.title) || '');
   const [description, setDescription] = useState(
-    (resource && resource.description) || '',
+    (resource && resource.description) || ''
   );
   const [type, setType] = useState('');
   const {
@@ -30,7 +30,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     useState([]);
   const [reviewTeamMembers, setReviewTeamMembers] = useState([]);
   const [selectedReviewTeamMembers, setSelectedReviewTeamMembers] = useState(
-    [],
+    []
   );
 
   useEffect(() => {

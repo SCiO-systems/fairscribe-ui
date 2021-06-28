@@ -103,7 +103,7 @@ const UserTargetedRepositories = ({ userId }) => {
     try {
       const { data: types } = await getRepositoryTypes();
       setRepositoryTypes(
-        types.map((type) => ({ label: type.name, value: type.value })),
+        types.map((type) => ({ label: type.name, value: type.value }))
       );
     } catch (e) {
       handleError(e);

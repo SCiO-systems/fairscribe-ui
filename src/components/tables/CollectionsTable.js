@@ -80,7 +80,7 @@ const CollectionsTable = ({ team }) => {
     setCollections(collectionsFiltered);
   };
 
-  const rowExpansionTemplate = (data) => <ResourcesTable />;
+  const rowExpansionTemplate = (data) => <ResourcesTable team={data.id} />;
 
   const toggleExpandRow = (id) => {
     const exp = expandedRows == null ? [] : [...expandedRows];

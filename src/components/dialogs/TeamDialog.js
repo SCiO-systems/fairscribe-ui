@@ -55,7 +55,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
           'Oops!',
           error.response.data.errors[
             Object.keys(error.response.data.errors)[0]
-          ][0],
+          ][0]
         );
       } else {
         setError('Oops!', 'Something went wrong');

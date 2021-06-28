@@ -145,20 +145,20 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
 
   const [titles, setTitles] = useState((collection && collection.titles) || []);
   const [keywords, setKeywords] = useState(
-    (collection && collection.keywords) || [],
+    (collection && collection.keywords) || []
   );
   const [countries, setCountries] = useState(
-    (collection && collection.countries) || [],
+    (collection && collection.countries) || []
   );
   const [descriptions, setDescriptions] = useState(
-    (collection && collection.descriptions) || [],
+    (collection && collection.descriptions) || []
   );
 
   const [title, setTitle] = useState('');
   const [titleLanguage, setTitleLanguage] = useState(languages[0].value);
   const [description, setDescription] = useState('');
   const [descriptionLanguage, setDescriptionLanguage] = useState(
-    languages[0].value,
+    languages[0].value
   );
   const [inheritCollectionInformation, setInheritCollectionInformation] =
     useState(false);
@@ -196,7 +196,7 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
               items={titles}
               removeTitle={(rowData) => {
                 setTitles(
-                  titles.filter((item) => item.title !== rowData.title),
+                  titles.filter((item) => item.title !== rowData.title)
                 );
               }}
             />
@@ -246,8 +246,8 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                 removeDescription={(rowData) => {
                   setDescriptions(
                     descriptions.filter(
-                      (item) => item.description !== rowData.description,
-                    ),
+                      (item) => item.description !== rowData.description
+                    )
                   );
                 }}
               />
@@ -325,8 +325,8 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                     removeKeyword={(rowData) => {
                       setKeywords(
                         keywords.filter(
-                          (item) => item.keyword !== rowData.keyword,
-                        ),
+                          (item) => item.keyword !== rowData.keyword
+                        )
                       );
                     }}
                   />
@@ -431,8 +431,8 @@ const CollectionDialog = ({ dialogOpen, setDialogOpen, collection }) => {
                     removeCountry={(rowData) => {
                       setCountries(
                         countries.filter(
-                          (item) => item.country !== rowData.country,
-                        ),
+                          (item) => item.country !== rowData.country
+                        )
                       );
                     }}
                   />

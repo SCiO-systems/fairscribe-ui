@@ -112,7 +112,7 @@ const ResourceRights = ({ projectRights }) => {
   const [accessRight, setAccessRight] = useState('');
   const [termsOfUse, setTermsOfUse] = useState('');
   const [rightsHolders, setRightsHolders] = useState(
-    projectRights || demoRightsHolders,
+    projectRights || demoRightsHolders
   );
   const [rightsHolder, setRightsHolder] = useState({});
 

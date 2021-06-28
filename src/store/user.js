@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
   const localStorageKey = 'user-35d0c79fd3a72c59350dc4b1f4ffe786';
   const [userData, setUserData] = useLocalStorage(
     localStorageKey,
-    initialState,
+    initialState
   );
 
   if (userData.access_token !== null) {

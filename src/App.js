@@ -116,9 +116,9 @@ const App = () => {
       document.body.className = document.body.className.replace(
         new RegExp(
           `(^|\\b)${'blocked-scroll'.split(' ').join('|')}(\\b|$)`,
-          'gi',
+          'gi'
         ),
-        ' ',
+        ' '
       );
     }
   };
@@ -163,7 +163,7 @@ const App = () => {
 
       linkElement.parentNode.insertBefore(
         cloneLinkElement,
-        linkElement.nextSibling,
+        linkElement.nextSibling
       );
 
       cloneLinkElement.addEventListener('load', () => {
@@ -239,11 +239,11 @@ const App = () => {
 
     if (isDesktop()) {
       setStaticMenuDesktopInactive(
-        (prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive,
+        (prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive
       );
     } else {
       setStaticMenuMobileActive(
-        (prevStaticMenuMobileActive) => !prevStaticMenuMobileActive,
+        (prevStaticMenuMobileActive) => !prevStaticMenuMobileActive
       );
     }
 
@@ -275,7 +275,7 @@ const App = () => {
       'p-input-filled': inputStyle === 'filled',
       'p-ripple-disabled': !ripple,
     },
-    colorScheme === 'light' ? menuTheme : '',
+    colorScheme === 'light' ? menuTheme : ''
   );
 
   if (!isLoggedIn) {
