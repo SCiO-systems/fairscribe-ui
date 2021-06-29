@@ -35,7 +35,7 @@ const CollectionsTable = ({ team }) => {
   // Reload the the collections when the new collections dialog closes.
   useEffect(() => {
     // essentially reload teams table when the teamDialog closes
-    if (newCollectionDialogOpen === false && collections.length !== 0) {
+    if (newCollectionDialogOpen === false) {
       loadLazyData();
     }
   }, [newCollectionDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -43,7 +43,7 @@ const CollectionsTable = ({ team }) => {
   // Reload the collections when the edit collections dialog closes.
   useEffect(() => {
     // essentially reload teams table when the teamDialog closes
-    if (editCollectionDialogOpen === false && collections.length !== 0) {
+    if (editCollectionDialogOpen === false) {
       loadLazyData();
     }
   }, [editCollectionDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
