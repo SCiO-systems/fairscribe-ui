@@ -7,16 +7,15 @@ import { PickList } from 'primereact/picklist';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToastContext, UserContext } from '../../store';
-
-const resourceTypes = [{ label: 'Dataset', value: 'dataset' }];
+import { getResourceTypes } from '../../services/resources';
+import { createResource } from '../../services/teams';
 
 const ResourceForm = ({ setTaskFormOpen, resource }) => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState((resource && resource.title) || '');
-  const [description, setDescription] = useState(
-    (resource && resource.description) || ''
-  );
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [type, setType] = useState('');
+  const [resourceTypes, setResourceTypes] = useState([]);
   const {
     firstname,
     lastname,
@@ -24,7 +23,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     currentlyViewingTeam,
     id: userId,
   } = useContext(UserContext);
-  const { setWarn } = useContext(ToastContext);
+  const { setWarn, setError, setSuccess } = useContext(ToastContext);
   const [authoringTeamMembers, setAuthoringTeamMembers] = useState([]);
   const [selectedAuthoringTeamMembers, setSelectedAuthoringTeamMembers] =
     useState([]);
@@ -33,12 +32,45 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     []
   );
 
+  const handleError = (e) => {
+    let error = e && e.message;
+    const statusCode = e.response && e.response.status;
+    error =
+      statusCode === 422
+        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+        : e.response.data.error;
+    setError('Error', error);
+  };
+
+  const handleSubmit = async () => {
+    const payload = {
+      title,
+      description,
+      type,
+      authoring_team: selectedAuthoringTeamMembers.map((m) => m.id),
+      review_team: selectedReviewTeamMembers.map((m) => m.id),
+    };
+    try {
+      await createResource(currentlyViewingTeam.id, payload);
+      setSuccess('Done!', 'Your task has been created.');
+      setTaskFormOpen(false);
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
+  const loadResourceTypes = async () => {
+    const response = await getResourceTypes();
+    return response.data.map((rt) => ({ label: rt.name, value: rt.value }));
+  };
+
   useEffect(() => {
     const loggedInUser = { firstname, lastname, email, id: userId };
     setAuthoringTeamMembers(currentlyViewingTeam.users);
     setReviewTeamMembers(currentlyViewingTeam.users);
     setSelectedAuthoringTeamMembers([loggedInUser]);
     setSelectedReviewTeamMembers([currentlyViewingTeam.owner]);
+    loadResourceTypes().then((rt) => setResourceTypes(rt));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onAuthoringTeamChange = ({ source, target }) => {
@@ -72,7 +104,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
             <InputText
               id="resource-title"
               value={title}
-              onChange={(e) => setTitle(e.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
         </div>
@@ -87,7 +119,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
               id="resource-description"
               rows={5}
               value={description}
-              onChange={(e) => setDescription(e.value)}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>
@@ -156,7 +188,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
             />
             <Button
               label={t('CREATE_TASK_AND_SEND_INVITES')}
-              onClick={() => setTaskFormOpen(false)}
+              onClick={() => handleSubmit()}
             />
           </div>
         </div>

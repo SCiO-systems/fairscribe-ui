@@ -27,3 +27,6 @@ export const inviteEmails = async (teamId, emails) =>
 
 export const getResources = async (teamId, status = 'published', page = 1) =>
   apiClient.get(`/teams/${teamId}/resources?status=${status}&page=${page}`);
+
+export const createResource = async (teamId, data) =>
+  apiClient.post(`/teams/${teamId}/resources`, { ...data });

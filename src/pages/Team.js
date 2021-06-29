@@ -27,7 +27,7 @@ const findIndexForTab = (tab) => {
 };
 
 const Team = () => {
-  const { setUser } = useContext(UserContext);
+  const { setUser, currentlyViewingTeam } = useContext(UserContext);
   const { id } = useParams();
   const { t } = useTranslation();
   const [team, setTeam] = useState({});
@@ -55,6 +55,12 @@ const Team = () => {
       setUser({ currentlyViewingTeam: null });
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (currentlyViewingTeam === null) {
+      loadTeam();
+    }
+  }, [currentlyViewingTeam, loadTeam]);
 
   if (loading || team === null) {
     return <Loading />;
