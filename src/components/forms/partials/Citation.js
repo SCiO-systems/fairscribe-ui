@@ -1,10 +1,9 @@
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Citation = ({ projectCitation }) => {
+const Citation = ({ citation, setCitation }) => {
   const { t } = useTranslation();
-  const [citation, setCitation] = useState(projectCitation || '');
 
   return (
     <div className="p-fluid">

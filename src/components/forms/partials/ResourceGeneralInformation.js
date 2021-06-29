@@ -17,6 +17,8 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState(initialData.title ?? []);
   const [description, setDescription] = useState(initialData.description ?? []);
+  const [citation, setCitation] = useState(initialData.citation || '');
+  const [collections, setCollections] = useState(initialData.collections || []);
 
   const addTitleLanguage = (language, value) => {
     setTitle(
@@ -35,8 +37,8 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
   };
 
   useEffect(() => {
-    setter(title, description);
-  }, [title, description]);
+    setter(title, description, citation);
+  }, [title, description, citation]); //eslint-disable-line
 
   return (
     <Fieldset
@@ -73,7 +75,11 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         }}
         multipleLines
       />
-      <ResourceCollectionsPicker collections={[]} className="p-mt-4" />
+      <ResourceCollectionsPicker
+        setCollections={setCollections}
+        collections={collections}
+        className="p-mt-4"
+      />
       <ResourceLanguages
         header={t('RESOURCE_LANGUAGES_TITLE')}
         onDeleteItem={(lang) => console.log('About to delete lang:', lang)}
@@ -88,7 +94,11 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
       <ProjectPartners className="p-mt-4" />
       <FundingOrganizations className="p-mt-4" />
       <ContactPoints className="p-mt-4" />
-      <Citation className="p-mt-4" />
+      <Citation
+        citation={citation}
+        setCitation={setCitation}
+        className="p-mt-4"
+      />
     </Fieldset>
   );
 };
