@@ -1,9 +1,10 @@
+import { useScrollPosition } from '@n8tb1t/use-scroll-position';
+import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
-import { useScrollPosition } from '@n8tb1t/use-scroll-position';
+import Sticky from '../utilities/Sticky';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
 import ResourceCoverage from './partials/ResourceCoverage';
@@ -12,7 +13,6 @@ import ResourceGeneralInformation from './partials/ResourceGeneralInformation';
 import ResourceLifecycle from './partials/ResourceLifecycle';
 import ResourceRelatedResources from './partials/ResourceRelatedResources';
 import ResourceRights from './partials/ResourceRights';
-import Sticky from '../utilities/Sticky';
 
 const EditResourceForm = ({ resource, teamId }) => {
   const { t } = useTranslation();
@@ -101,7 +101,13 @@ const EditResourceForm = ({ resource, teamId }) => {
         }}
         setter={(identifier) => mainSetter({ identifier })}
       />
-      <ResourceGeneralInformation />
+      <ResourceGeneralInformation
+        initialData={{
+          title: metadataRecord.title,
+          description: metadataRecord.description,
+        }}
+        setter={(title, description) => mainSetter({ title, description })}
+      />
       <ResourceLifecycle
         initialData={{
           resource_version: metadataRecord.resource_version,

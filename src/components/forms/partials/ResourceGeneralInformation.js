@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { Button } from 'primereact/button';
 import { Fieldset } from 'primereact/fieldset';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ResourceCollectionsPicker from '../../pickers/ResourceCollectionsPicker';
 import AuthorsTable from '../../tables/AuthorsTable';
@@ -13,31 +13,30 @@ import ProjectDetails from './ProjectDetails';
 import ProjectPartners from './ProjectPartners';
 import ResourceLanguages from './ResourceLanguages';
 
-const titles = [
-  {
-    lang: 'English',
-    text: 'Gene action controlling normalized difference vegetation index in crosses of elite maize (Zea mays L.) inbred lines',
-  },
-];
-
-const descriptions = [
-  {
-    lang: 'English',
-    text: 'The quest for precise and rapid phenotyping of germplasm is increasing the interest of breeders and physiologiest in the application of remote sensing techniques in maize breeding. Twenty-four drought-rolerant maize inbred awere crossed using a modified North Carolina II matting scheme to generate 96 single-cross hybrids.',
-  },
-];
-
-const collections = [
-  'Collection 1',
-  'Collection 2',
-  'Collection 3',
-  'Collection 4',
-  'Collection 5',
-  'Collection 6',
-];
-
-const ResourceGeneralInformation = () => {
+const ResourceGeneralInformation = ({ initialData, setter }) => {
   const { t } = useTranslation();
+  const [title, setTitle] = useState(initialData.title ?? []);
+  const [description, setDescription] = useState(initialData.description ?? []);
+
+  const addTitleLanguage = (language, value) => {
+    setTitle(
+      title
+        .filter((item) => item.language !== language)
+        .concat({ language, value })
+    );
+  };
+
+  const addDescriptionLanguage = (language, value) => {
+    setDescription(
+      description
+        .filter((item) => item.language !== language)
+        .concat({ language, value })
+    );
+  };
+
+  useEffect(() => {
+    setter(title, description);
+  }, [title, description]);
 
   return (
     <Fieldset
@@ -51,20 +50,30 @@ const ResourceGeneralInformation = () => {
       />
       <MultilingualEntriesTable
         className="p-mt-4"
-        data={titles}
+        data={title}
         header={t('RESOURCE_TITLE')}
-        onDeleteItem={(lang) => console.log('About to delete lang:', lang)}
-        onAddItem={(lang) => console.log('About to add lang:', lang)}
+        onDeleteItem={(language) => {
+          setTitle(title.filter((item) => item.language !== language));
+        }}
+        onAddItem={({ language, value }) => {
+          addTitleLanguage(language, value);
+        }}
       />
       <MultilingualEntriesTable
         className="p-mt-4"
-        data={descriptions}
+        data={description}
         header={t('RESOURCE_DESCRIPTION')}
-        onDeleteItem={(lang) => console.log('About to delete lang:', lang)}
-        onAddItem={(lang) => console.log('About to add lang:', lang)}
+        onDeleteItem={(language) => {
+          setDescription(
+            description.filter((item) => item.language !== language)
+          );
+        }}
+        onAddItem={({ language, value }) => {
+          addDescriptionLanguage(language, value);
+        }}
         multipleLines
       />
-      <ResourceCollectionsPicker collections={collections} className="p-mt-4" />
+      <ResourceCollectionsPicker collections={[]} className="p-mt-4" />
       <ResourceLanguages
         header={t('RESOURCE_LANGUAGES_TITLE')}
         onDeleteItem={(lang) => console.log('About to delete lang:', lang)}

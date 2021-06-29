@@ -8,25 +8,8 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const availableLanguages = [
-  { label: 'English', value: 'English' },
-  { label: 'Spanish', value: 'Spanish' },
-  { label: 'Italian', value: 'Italian' },
-];
+const availableLanguages = [{ label: 'English', value: 'en' }];
 
-/*
-Expecting data to be something like:
-[
-  {
-    lang: 'English',
-    text: 'My text',
-  },
-  {
-    lang: 'Spanish',
-    text: 'My spanish text',
-  },
-]
-*/
 const MultilingualEntriesTable = ({
   data,
   header,
@@ -36,23 +19,50 @@ const MultilingualEntriesTable = ({
   onAddItem,
 }) => {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState(null);
+  const [language, setLanguage] = useState(availableLanguages[0].value);
+  const [value, setValue] = useState('');
 
   const footerTemplate = (
-    <div className="p-formgroup-inline">
-      <div className="p-field">
-        <Dropdown
-          value={language}
-          options={availableLanguages}
-          onChange={(e) => setLanguage(e.value)}
-          placeholder={t('SELECT_LANGUAGE')}
+    <div className="p-formgrid p-grid p-fluid">
+      <div className="p-col-2">
+        <div className="p-field">
+          <Dropdown
+            value={language}
+            options={availableLanguages}
+            onChange={(e) => setLanguage(e.value)}
+            placeholder={t('SELECT_LANGUAGE')}
+          />
+        </div>
+      </div>
+      <div className="p-col-8">
+        <div className="p-field">
+          {!multipleLines && (
+            <InputText
+              type="text"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          )}
+          {multipleLines && (
+            <InputTextarea
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              rows={5}
+              cols={50}
+            />
+          )}
+        </div>
+      </div>
+      <div className="p-col-2 p-text-right">
+        <Button
+          label={t('ADD')}
+          className="p-mr-2 p-mb-2"
+          onClick={() => {
+            onAddItem({ language, value });
+            setValue('');
+          }}
         />
       </div>
-      <div className="p-field">
-        {!multipleLines && <InputText style={{ width: '27rem' }} type="text" />}
-        {multipleLines && <InputTextarea rows={5} cols={50} />}
-      </div>
-      <Button label={t('ADD')} className="p-mr-2 p-mb-2" />
     </div>
   );
 
@@ -61,19 +71,21 @@ const MultilingualEntriesTable = ({
       header={header}
       emptyMessage={t('NO_ENTRIES_FOUND')}
       value={data}
-      dataKey="lang"
+      dataKey="language"
       className={classNames([className])}
       footer={footerTemplate}
     >
-      <Column field="lang" />
-      <Column field="text" />
+      <Column field="language" />
+      <Column field="value" />
       <Column
         body={(rowData) => (
-          <Button
-            className="p-button-danger"
-            icon="pi pi-trash"
-            onClick={() => onDeleteItem(rowData.lang)}
-          />
+          <div className="p-text-right">
+            <Button
+              className="p-button-danger"
+              icon="pi pi-trash"
+              onClick={() => onDeleteItem(rowData.language)}
+            />
+          </div>
         )}
       />
     </DataTable>
