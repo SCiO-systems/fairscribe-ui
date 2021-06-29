@@ -180,7 +180,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
         first={lazyParams.first}
         onPage={onPage}
         emptyMessage="No resources were found."
-        value={!isLoading ? data.data : []}
+        value={data ? data.data : []}
         className="p-mt-2"
         loading={isFetching || isLoading}
         ref={dt}
