@@ -102,7 +102,23 @@ const EditResourceForm = ({ resource, teamId }) => {
         setter={(identifier) => mainSetter({ identifier })}
       />
       <ResourceGeneralInformation />
-      <ResourceLifecycle />
+      <ResourceLifecycle
+        initialData={{
+          resource_version: metadataRecord.resource_version,
+          resource_version_description:
+            metadataRecord.resource_version_description,
+          release_date: metadataRecord.release_date,
+          embargo_date: metadataRecord.embargo_date,
+        }}
+        setter={(rV, rVD, rD, eD) =>
+          mainSetter({
+            resource_version: rV,
+            resource_version_description: rVD,
+            release_date: rD,
+            embargo_date: eD,
+          })
+        }
+      />
       <ResourceClassification />
       <ResourceRights />
       <ResourceCoverage />

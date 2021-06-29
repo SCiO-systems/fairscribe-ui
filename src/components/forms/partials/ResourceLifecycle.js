@@ -4,15 +4,43 @@ import { Calendar } from 'primereact/calendar';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from '../../../utilities/hooks';
 
-const ResourceLifecycle = ({ projectLifecycle }) => {
+const ResourceLifecycle = ({ initialData, setter }) => {
   const { t } = useTranslation();
-  const [version, setVersion] = useState('');
-  const [versionDescription, setVersionDescription] = useState('');
-  const [releaseDate, setReleaseDate] = useState('');
-  const [embargoDate, setEmbargoDate] = useState('');
+  const [version, setVersion] = useState(initialData.resource_version ?? '');
+  const debouncedVersion = useDebounce(version, 500);
+  const [versionDescription, setVersionDescription] = useState(
+    initialData.resource_version_description ?? ''
+  );
+  const debouncedDescription = useDebounce(versionDescription, 500);
+  const [releaseDate, setReleaseDate] = useState(
+    initialData.release_date ?? ''
+  );
+  const debouncedReleaseDate = useDebounce(releaseDate, 500);
+  const [embargoDate, setEmbargoDate] = useState(
+    initialData.embargo_date ?? ''
+  );
+  const debouncedEmbargoDate = useDebounce(embargoDate, 500);
+
+  useEffect(
+    () =>
+      setter(
+        debouncedVersion,
+        debouncedDescription,
+        debouncedReleaseDate,
+        debouncedEmbargoDate
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      debouncedVersion,
+      debouncedDescription,
+      debouncedReleaseDate,
+      debouncedEmbargoDate,
+    ]
+  );
 
   return (
     <Fieldset
