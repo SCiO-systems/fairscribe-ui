@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { Button } from 'primereact/button';
-import { Column, DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';

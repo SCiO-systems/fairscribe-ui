@@ -1,5 +1,6 @@
 import { Button } from 'primereact/button';
-import { Column, DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';

@@ -1,5 +1,6 @@
 import { Button } from 'primereact/button';
-import { Column, DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -71,9 +72,9 @@ const ProjectPartners = ({ projectPartners }) => {
       </div>
       <div className="p-formgrid p-grid">
         <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="grid">{t('GRID_ID')}</label>
+          <label htmlFor="funding-grid">{t('GRID_ID')}</label>
           <InputText
-            id="grid"
+            id="funding-grid"
             type="text"
             value={partner.id}
             onChange={(e) => setPartner({ id: e.target.value })}
