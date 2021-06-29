@@ -1,9 +1,11 @@
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { getSingleTeam } from '../../services/teams';
+import { UserContext } from '../../store';
 import Sticky from '../utilities/Sticky';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
@@ -23,6 +25,7 @@ const EditResourceForm = ({ resource, teamId }) => {
   const [metadataRecord, setMetadataRecord] = useState(
     resource.metadata_record ?? {}
   );
+  const { setUser } = useContext(UserContext);
 
   useScrollPosition(({ currPos }) => {
     if (currPos.y > -10) {
@@ -42,6 +45,15 @@ const EditResourceForm = ({ resource, teamId }) => {
       setRightOffset('0');
     }
   });
+
+  const getTeamDetails = async () => {
+    const teamRes = await getSingleTeam(teamId);
+    setUser({ currentlyViewingTeam: teamRes.data });
+  };
+
+  useEffect(() => {
+    getTeamDetails();
+  }, []);
 
   const mainSetter = (data) => {
     setMetadataRecord(() => ({ ...metadataRecord, ...data }));
@@ -79,7 +91,17 @@ const EditResourceForm = ({ resource, teamId }) => {
                 />
                 <Button
                   label={t('SAVE_CHANGES')}
-                  onClick={() => console.log(metadataRecord)}
+                  onClick={() => {
+                    console.log({
+                      dataCORE: {
+                        CORE_version: '1.0',
+                        ...metadataRecord,
+                        resource_type: {
+                          value: 'dataset',
+                        },
+                      },
+                    });
+                  }}
                 />
               </>
             )}
@@ -105,8 +127,11 @@ const EditResourceForm = ({ resource, teamId }) => {
         initialData={{
           title: metadataRecord.title,
           description: metadataRecord.description,
+          citation: metadataRecord.citation,
         }}
-        setter={(title, description) => mainSetter({ title, description })}
+        setter={(title, description, citation) =>
+          mainSetter({ title, description, citation })
+        }
       />
       <ResourceLifecycle
         initialData={{
