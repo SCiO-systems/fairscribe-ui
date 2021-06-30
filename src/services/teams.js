@@ -21,9 +21,10 @@ export const updateTeam = async (userId, teamId, data) =>
   apiClient.put(`/users/${userId}/teams/${teamId}`, { ...data });
 
 export const inviteEmails = async (teamId, emails) =>
-  apiClient.post(`/teams/${teamId}/invite`, {
-    emails,
-  });
+  apiClient.post(`/teams/${teamId}/invite`, { emails });
+
+export const getAllCollections = async (teamId) =>
+  apiClient.get(`/teams/${teamId}/collections/all`);
 
 export const getResources = async (teamId, status = 'published', page = 1) =>
   apiClient.get(`/teams/${teamId}/resources?status=${status}&page=${page}`);

@@ -3,6 +3,8 @@ import { Button } from 'primereact/button';
 import { Fieldset } from 'primereact/fieldset';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { getAllCollections } from '../../../services/teams';
 import ResourceCollectionsPicker from '../../pickers/ResourceCollectionsPicker';
 import AuthorsTable from '../../tables/AuthorsTable';
 import MultilingualEntriesTable from '../../tables/MultilingualEntries';
@@ -18,7 +20,11 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
   const [title, setTitle] = useState(initialData.title ?? []);
   const [description, setDescription] = useState(initialData.description ?? []);
   const [citation, setCitation] = useState(initialData.citation || '');
-  const [collections, setCollections] = useState(initialData.collections || []);
+  const [teamCollections, setTeamCollections] = useState([]);
+  const [selectedCollections, setSelectedCollections] = useState(
+    initialData.collections || []
+  );
+  const { teamId } = useParams();
 
   const addTitleLanguage = (language, value) => {
     setTitle(
@@ -39,6 +45,15 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
   useEffect(() => {
     setter(title, description, citation);
   }, [title, description, citation]); //eslint-disable-line
+
+  useEffect(() => {
+    // Get the collections that are available to the team.
+    if (teamId) {
+      getAllCollections(teamId).then(({ data }) => {
+        setTeamCollections(data);
+      });
+    }
+  }, []);
 
   return (
     <Fieldset
@@ -76,8 +91,10 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         multipleLines
       />
       <ResourceCollectionsPicker
-        setCollections={setCollections}
-        collections={collections}
+        setSelectedCollections={setSelectedCollections}
+        selectedCollections={selectedCollections}
+        setTeamCollections={setTeamCollections}
+        teamCollections={teamCollections}
         className="p-mt-4"
       />
       <ResourceLanguages

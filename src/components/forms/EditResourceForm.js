@@ -1,11 +1,9 @@
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { getSingleTeam } from '../../services/teams';
-import { UserContext } from '../../store';
 import Sticky from '../utilities/Sticky';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
@@ -25,7 +23,6 @@ const EditResourceForm = ({ resource, teamId }) => {
   const [metadataRecord, setMetadataRecord] = useState(
     resource.metadata_record ?? {}
   );
-  const { setUser } = useContext(UserContext);
 
   useScrollPosition(({ currPos }) => {
     if (currPos.y > -10) {
@@ -45,15 +42,6 @@ const EditResourceForm = ({ resource, teamId }) => {
       setRightOffset('0');
     }
   });
-
-  const getTeamDetails = async () => {
-    const teamRes = await getSingleTeam(teamId);
-    setUser({ currentlyViewingTeam: teamRes.data });
-  };
-
-  useEffect(() => {
-    getTeamDetails();
-  }, []);
 
   const mainSetter = (data) => {
     setMetadataRecord(() => ({ ...metadataRecord, ...data }));

@@ -1,14 +1,16 @@
 import { PickList } from 'primereact/picklist';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ResourceCollectionsPicker = ({ resourceCollections }) => {
+const ResourceCollectionsPicker = ({
+  teamCollections,
+  setTeamCollections,
+  selectedCollections,
+  setSelectedCollections,
+}) => {
   const { t } = useTranslation();
-  const [collections, setCollections] = useState(resourceCollections || []);
-  const [selectedCollections, setSelectedCollections] = useState([]);
-
   const onChangeCollections = ({ source, target }) => {
-    setCollections(source);
+    setTeamCollections(source);
     setSelectedCollections(target);
   };
 
@@ -21,7 +23,7 @@ const ResourceCollectionsPicker = ({ resourceCollections }) => {
           </label>
           <PickList
             id="resourceCollections"
-            source={collections}
+            source={teamCollections}
             target={selectedCollections}
             itemTemplate={(item) => item.title}
             onChange={onChangeCollections}
