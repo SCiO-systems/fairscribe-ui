@@ -80,6 +80,7 @@ const EditResourceForm = ({ resource, teamId }) => {
                 <Button
                   label={t('SAVE_CHANGES')}
                   onClick={() => {
+                    // eslint-disable-next-line
                     console.log({
                       dataCORE: {
                         CORE_version: '1.0',
@@ -139,7 +140,10 @@ const EditResourceForm = ({ resource, teamId }) => {
           })
         }
       />
-      <ResourceClassification />
+      <ResourceClassification
+        initialData={{ keywords: metadataRecord.keywords }}
+        setter={(keywords) => mainSetter({ keywords })}
+      />
       <ResourceRights />
       <ResourceCoverage />
       <ResourceRelatedResources

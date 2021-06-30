@@ -226,6 +226,7 @@ const t = {
     EMBARGO_DATE: 'Embargo Date',
     RESOURCE_CLASSIFICATION: 'Classification',
     KEYWORDS: 'Keywords',
+    KEYWORD: 'Keyword',
     RESOURCE_RIGHTS: 'Rights',
     RESOURCE_LICENSE: 'License',
     RESOURCE_ACCESS_RIGHT: 'Access Right',
