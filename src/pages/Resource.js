@@ -43,7 +43,12 @@ const Resource = () => {
     loadResource(teamId, resourceId);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (loading) {
+  if (
+    loading ||
+    resource === null ||
+    currentlyViewingTeam === null ||
+    (currentlyViewingTeam && currentlyViewingTeam.id !== teamId)
+  ) {
     return <Loading />;
   }
 
