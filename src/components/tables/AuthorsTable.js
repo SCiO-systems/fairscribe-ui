@@ -7,37 +7,17 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const demoAuthors = [
-  {
-    type: 'author',
-    name: 'John Doe',
-    id: 'orcid:1234-5678-91011',
-  },
-  {
-    type: 'author',
-    name: 'Jane Doe',
-    id: 'orcid:1234-5678-91011',
-  },
-  {
-    type: 'organization',
-    name: 'CGiar',
-    id: 'id:1234-5678',
-  },
+const authorTypes = [
+  { label: 'Individual', value: 'individual' },
+  { label: 'Organisation', value: 'group/organisation' },
 ];
 
-const authorTypes = ['Individual', 'Organization'];
-
-const AuthorsTable = ({
-  resourceAuthors,
-  header,
-  className,
-  onDeleteItem,
-  onAddItem,
-}) => {
+const AuthorsTable = ({ header, className, authors, setAuthors }) => {
   const { t } = useTranslation();
-  const [authors, setAuthors] = useState(resourceAuthors || []);
   const [type, setType] = useState('');
-  const [details, setDetails] = useState({});
+  const [agentId, setAgentId] = useState('');
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
 
   return (
     <div className="p-fluid">
@@ -46,20 +26,25 @@ const AuthorsTable = ({
           <DataTable
             header={header}
             emptyMessage={t('NO_ENTRIES_FOUND')}
-            value={demoAuthors}
-            dataKey="id"
+            value={authors}
             className={classNames([className])}
           >
-            <Column header={t('AUTHOR_TYPE')} field="type" />
+            <Column header={t('AUTHOR_TYPE')} field="agent_type" />
             <Column header={t('AUTHOR_NAME')} field="name" />
-            <Column header={t('AUTHOR_ID')} field="id" />
+            <Column header={t('AUTHOR_ID')} field="agent_id" />
             <Column
               className="p-text-right"
               body={(rowData) => (
                 <Button
                   className="p-button-danger"
                   icon="pi pi-trash"
-                  onClick={() => onDeleteItem(rowData.lang)}
+                  onClick={() => {
+                    setAuthors(
+                      authors.filter(
+                        (item) => item.agent_id !== rowData.agent_id
+                      )
+                    );
+                  }}
                 />
               )}
             />
@@ -69,7 +54,8 @@ const AuthorsTable = ({
       <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
         <div className="p-col-10">
           <Dropdown
-            id="authorType"
+            id="agent_type"
+            name="agent_type"
             value={type}
             options={authorTypes}
             onChange={(e) => setType(e.value)}
@@ -80,62 +66,68 @@ const AuthorsTable = ({
             label={t('COLLECTION_TITLE_ADD')}
             icon="pi pi-plus"
             className="p-button-sm p-component"
-            onClick={() => {}}
+            onClick={() => {
+              setAuthors(
+                authors.concat({
+                  agent_type: type,
+                  agent_id: agentId,
+                  name,
+                  last_name: lastname,
+                })
+              );
+              setName('');
+              setType('');
+              setAgentId('');
+              setLastname('');
+            }}
           />
         </div>
       </div>
       {type.toLowerCase() === 'individual' && (
         <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
           <div className="p-col-12 p-field">
-            <label htmlFor="orcid">{t('ORCID')}</label>
+            <label htmlFor="agent_id">{t('ORCID')}</label>
             <InputText
-              id="orcid"
-              value={details && details.orcid}
-              onChange={(e) => setDetails({ ...details, orcid: e.value })}
-            />
-          </div>
-          <div className="p-col-12 p-field">
-            <label htmlFor="firstname">{t('FIRSTNAME')}</label>
-            <InputText
-              id="firstname"
-              value={details && details.firstname}
-              onChange={(e) => setDetails({ ...details, firstname: e.value })}
-            />
-          </div>
-          <div className="p-col-12 p-field">
-            <label htmlFor="lastname">{t('LASTNAME')}</label>
-            <InputText
-              id="lastname"
-              value={details && details.lastname}
-              onChange={(e) => setDetails({ ...details, lastname: e.value })}
-            />
-          </div>
-          <div className="p-col-12 p-field">
-            <label htmlFor="email">{t('EMAIL')}</label>
-            <InputText
-              id="email"
-              value={details && details.email}
-              onChange={(e) => setDetails({ ...details, email: e.value })}
-            />
-          </div>
-        </div>
-      )}
-      {type.toLowerCase() === 'organization' && (
-        <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
-          <div className="p-col-12 p-field">
-            <label htmlFor="gridid">{t('GRID_ID')}</label>
-            <InputText
-              id="gridid"
-              value={details && details.gridid}
-              onChange={(e) => setDetails({ ...details, gridid: e.value })}
+              id="agent_id"
+              name="agent_id"
+              value={agentId}
+              onChange={(e) => setAgentId(e.target.value)}
             />
           </div>
           <div className="p-col-12 p-field">
             <label htmlFor="name">{t('NAME')}</label>
             <InputText
               id="name"
-              value={details && details.name}
-              onChange={(e) => setDetails({ ...details, name: e.value })}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="p-col-12 p-field">
+            <label htmlFor="lastname">{t('LASTNAME')}</label>
+            <InputText
+              id="lastname"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+            />
+          </div>
+        </div>
+      )}
+      {type.toLowerCase() === 'group/organisation' && (
+        <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+          <div className="p-col-12 p-field">
+            <label htmlFor="agent_id">{t('GRID_ID')}</label>
+            <InputText
+              id="agent_id"
+              value={agentId}
+              onChange={(e) => setAgentId(e.target.value)}
+            />
+          </div>
+          <div className="p-col-12 p-field">
+            <label htmlFor="name">{t('NAME')}</label>
+            <InputText
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
         </div>

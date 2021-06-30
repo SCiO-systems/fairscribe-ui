@@ -117,10 +117,42 @@ const EditResourceForm = ({ resource, teamId }) => {
         initialData={{
           title: metadataRecord.title,
           description: metadataRecord.description,
+          resource_language: metadataRecord.resource_language,
           citation: metadataRecord.citation,
+          authors: metadataRecord.authors,
+          metadata_authors: metadataRecord.metadata_authors,
+          project_id: metadataRecord.project_id,
+          project_name: metadataRecord.project_name,
+          project_partners: metadataRecord.project_partners,
+          funding_organisations: metadataRecord.funding_organisations,
+          contact_point: metadataRecord.contact_point,
         }}
-        setter={(title, description, citation) =>
-          mainSetter({ title, description, citation })
+        setter={(
+          title,
+          description,
+          languages,
+          authors,
+          metadataAuthors,
+          projectId,
+          projectName,
+          projectPartners,
+          fundingOrganizations,
+          contactPoints,
+          citation
+        ) =>
+          mainSetter({
+            title,
+            description,
+            resource_language: languages,
+            authors,
+            metadata_authors: metadataAuthors,
+            project_id: projectId,
+            project_name: projectName,
+            project_partners: projectPartners,
+            funding_organisations: fundingOrganizations,
+            contact_point: contactPoints,
+            citation,
+          })
         }
       />
       <ResourceLifecycle

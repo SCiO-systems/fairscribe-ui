@@ -5,17 +5,13 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const demoOrgs = [
-  {
-    name: 'Centro Internacional de Agricultura Tropical',
-    id: 'grid.499882.6',
-  },
-];
-
-const FundingOrganizations = ({ fundingOrgs }) => {
+const FundingOrganizations = ({
+  fundingOrganizations,
+  setFundingOrganizations,
+}) => {
   const { t } = useTranslation();
-  const [organizations, setOrganizations] = useState(fundingOrgs || demoOrgs);
-  const [organization, setOrganization] = useState({});
+  const [agentId, setAgentId] = useState('');
+  const [name, setName] = useState('');
 
   return (
     <div className="p-fluid">
@@ -24,19 +20,25 @@ const FundingOrganizations = ({ fundingOrgs }) => {
           <DataTable
             header={t('FUNDING_ORGANIZATIONS')}
             emptyMessage={t('NO_ENTRIES_FOUND')}
-            value={organizations}
+            value={fundingOrganizations}
             className="p-mt-4"
           >
-            <Column
-              field="name"
-              header={t('FUNDING_ORGANIZATION_NAME')}
-              body={({ name }) => name}
-            />
-            <Column field="id" header={t('ID')} body={({ id }) => id} />
+            <Column field="name" header={t('NAME')} />
+            <Column field="agent_id" header={t('ID')} />
             <Column
               header={t('ACTIONS')}
-              body={() => (
-                <Button className="p-button-danger" icon="pi pi-trash" />
+              body={(rowData) => (
+                <Button
+                  className="p-button-danger"
+                  icon="pi pi-trash"
+                  onClick={() => {
+                    setFundingOrganizations(
+                      fundingOrganizations.filter(
+                        (item) => item.agent_id !== rowData.agent_id
+                      )
+                    );
+                  }}
+                />
               )}
             />
           </DataTable>
@@ -48,8 +50,8 @@ const FundingOrganizations = ({ fundingOrgs }) => {
           <InputText
             id="funding-grid"
             type="text"
-            value={organization.id}
-            onChange={(e) => setOrganization({ id: e.target.value })}
+            value={agentId}
+            onChange={(e) => setAgentId(e.target.value)}
             required
           />
         </div>
@@ -58,8 +60,8 @@ const FundingOrganizations = ({ fundingOrgs }) => {
           <InputText
             id="orgName"
             type="text"
-            value={organization.name}
-            onChange={(e) => setOrganization({ name: e.target.value })}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -68,7 +70,18 @@ const FundingOrganizations = ({ fundingOrgs }) => {
             label={t('ADD_FUNDING_ORG')}
             icon="pi pi-plus"
             className="p-mt-2 p-mb-2"
-            onClick={() => {}}
+            onClick={() => {
+              setFundingOrganizations(
+                fundingOrganizations
+                  .filter((item) => item.agent_id !== agentId)
+                  .concat({
+                    name,
+                    agent_id: agentId,
+                  })
+              );
+              setName('');
+              setAgentId('');
+            }}
           />
         </div>
       </div>

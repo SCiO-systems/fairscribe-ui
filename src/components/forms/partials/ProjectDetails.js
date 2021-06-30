@@ -1,26 +1,27 @@
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ProjectDetails = ({ details }) => {
+const ProjectDetails = ({
+  projectId,
+  setProjectId,
+  projectName,
+  setProjectName,
+}) => {
   const { t } = useTranslation();
-  const [name, setName] = useState((details && details.projectName) || '');
-  const [contactNo, setContractNo] = useState(
-    (details && details.projectContractNo) || ''
-  );
 
   return (
     <div className="p-fluid p-mt-4">
       <div className="p-formgrid p-grid">
         <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="name">{t('PROJECT_NAME')}</label>
+          <label htmlFor="name">{t('PROJECT_NAME')} (in English)</label>
           <InputTextarea
             id="name"
             type="text"
-            value={name}
+            value={projectName}
             rows={5}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setProjectName(e.target.value)}
             required
           />
         </div>
@@ -31,8 +32,8 @@ const ProjectDetails = ({ details }) => {
           <InputText
             id="contract"
             type="text"
-            value={contactNo}
-            onChange={(e) => setContractNo(e.target.value)}
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
             required
           />
         </div>

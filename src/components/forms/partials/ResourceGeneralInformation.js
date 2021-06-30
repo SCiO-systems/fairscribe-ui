@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from 'primereact/button';
 import { Fieldset } from 'primereact/fieldset';
 import React, { useEffect, useState } from 'react';
@@ -24,6 +24,25 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
   const [selectedCollections, setSelectedCollections] = useState(
     initialData.collections || []
   );
+  const [languages, setLanguages] = useState(initialData.languages || []);
+  const [authors, setAuthors] = useState(initialData.authors || []);
+  const [metadataAuthors, setMetadataAuthors] = useState(
+    initialData.metadata_authors || []
+  );
+  const [projectId, setProjectId] = useState(initialData.project_id || '');
+  const [projectName, setProjectName] = useState(
+    initialData.project_name || ''
+  );
+  const [projectPartners, setProjectPartners] = useState(
+    initialData.project_partners || []
+  );
+  const [fundingOrganizations, setFundingOrganizations] = useState(
+    initialData.funding_organisations || []
+  );
+  const [contactPoints, setContactPoints] = useState(
+    initialData.contact_point || []
+  );
+
   const { teamId } = useParams();
 
   const addTitleLanguage = (language, value) => {
@@ -43,8 +62,34 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
   };
 
   useEffect(() => {
-    setter(title, description, citation);
-  }, [title, description, citation]); //eslint-disable-line
+    const langs = languages.map((item) => item.value);
+    const name = [{ language: 'en', value: projectName }];
+    setter(
+      title,
+      description,
+      langs,
+      authors,
+      metadataAuthors,
+      projectId,
+      name,
+      projectPartners,
+      fundingOrganizations,
+      contactPoints,
+      citation
+    );
+  }, [
+    title,
+    description,
+    languages,
+    authors,
+    metadataAuthors,
+    projectId,
+    projectName,
+    projectPartners,
+    fundingOrganizations,
+    contactPoints,
+    citation,
+  ]);
 
   useEffect(() => {
     // Get the collections that are available to the team.
@@ -99,18 +144,45 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
       />
       <ResourceLanguages
         header={t('RESOURCE_LANGUAGES_TITLE')}
-        onDeleteItem={(lang) => console.log('About to delete lang:', lang)}
-        onAddItem={(lang) => console.log('About to add lang:', lang)}
         multipleLines
-        languages={[]}
+        languages={languages}
+        setLanguages={setLanguages}
         className="p-mt-4"
       />
-      <AuthorsTable header={t('AUTHORS_TITLE')} className="p-mt-4" />
-      <AuthorsTable header={t('METADATA_AUTHORS_TITLE')} className="p-mt-4" />
-      <ProjectDetails className="p-mt-4" />
-      <ProjectPartners className="p-mt-4" />
-      <FundingOrganizations className="p-mt-4" />
-      <ContactPoints className="p-mt-4" />
+      <AuthorsTable
+        authors={authors}
+        setAuthors={setAuthors}
+        header={t('AUTHORS_TITLE')}
+        className="p-mt-4"
+      />
+      <AuthorsTable
+        authors={metadataAuthors}
+        setAuthors={setMetadataAuthors}
+        header={t('METADATA_AUTHORS_TITLE')}
+        className="p-mt-4"
+      />
+      <ProjectDetails
+        projectId={projectId}
+        setProjectId={setProjectId}
+        projectName={projectName}
+        setProjectName={setProjectName}
+        className="p-mt-4"
+      />
+      <ProjectPartners
+        projectPartners={projectPartners}
+        setProjectPartners={setProjectPartners}
+        className="p-mt-4"
+      />
+      <FundingOrganizations
+        fundingOrganizations={fundingOrganizations}
+        setFundingOrganizations={setFundingOrganizations}
+        className="p-mt-4"
+      />
+      <ContactPoints
+        contactPoints={contactPoints}
+        setContactPoints={setContactPoints}
+        className="p-mt-4"
+      />
       <Citation
         citation={citation}
         setCitation={setCitation}

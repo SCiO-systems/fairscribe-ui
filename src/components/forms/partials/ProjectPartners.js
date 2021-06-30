@@ -18,10 +18,20 @@ const demoPartners = [
   },
 ];
 
-const ProjectPartners = ({ projectPartners }) => {
+const ProjectPartners = ({ projectPartners, setProjectPartners }) => {
   const { t } = useTranslation();
-  const [partners, setPartners] = useState(projectPartners || demoPartners);
-  const [partner, setPartner] = useState({});
+  const [agentId, setAgentId] = useState('');
+  const [name, setName] = useState('');
+
+  const setLeadingPartner = (id) => {
+    const partners = projectPartners.map((partner) => {
+      if (partner.agent_id === id) {
+        return { ...partner, is_leader: true };
+      }
+      return { ...partner, is_leader: false };
+    });
+    setProjectPartners(partners);
+  };
 
   return (
     <div className="p-fluid">
@@ -30,15 +40,23 @@ const ProjectPartners = ({ projectPartners }) => {
           <DataTable
             header={t('PROJECT_PARTNERS')}
             emptyMessage={t('NO_ENTRIES_FOUND')}
-            value={partners}
+            value={projectPartners}
             className="p-mt-4"
           >
             <Column
-              field="leader"
+              field="is_leader"
               header={t('LEADER')}
-              body={({ leader }) => (
-                <div className="p-text-left">
-                  {leader ? (
+              body={(rowData) => (
+                <div
+                  className="p-text-left"
+                  role="button"
+                  tabIndex={0}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setLeadingPartner(rowData.agent_id);
+                  }}
+                >
+                  {rowData.is_leader ? (
                     <span
                       className="p-badge p-component p-badge-dot p-badge-primary"
                       style={{ border: '1px solid #2196F3' }}
@@ -55,16 +73,22 @@ const ProjectPartners = ({ projectPartners }) => {
                 </div>
               )}
             />
-            <Column
-              field="name"
-              header={t('PARTNER_NAME')}
-              body={({ name }) => name}
-            />
-            <Column field="id" header={t('PARTNER_ID')} body={({ id }) => id} />
+            <Column field="name" header={t('PARTNER_NAME')} />
+            <Column field="agent_id" header={t('PARTNER_ID')} />
             <Column
               header={t('ACTIONS')}
-              body={() => (
-                <Button className="p-button-danger" icon="pi pi-trash" />
+              body={(rowData) => (
+                <Button
+                  className="p-button-danger"
+                  icon="pi pi-trash"
+                  onClick={() => {
+                    setProjectPartners(
+                      projectPartners.filter(
+                        (item) => item.agent_id !== rowData.agent_id
+                      )
+                    );
+                  }}
+                />
               )}
             />
           </DataTable>
@@ -76,8 +100,8 @@ const ProjectPartners = ({ projectPartners }) => {
           <InputText
             id="funding-grid"
             type="text"
-            value={partner.id}
-            onChange={(e) => setPartner({ id: e.target.value })}
+            value={agentId}
+            onChange={(e) => setAgentId(e.target.value)}
             required
           />
         </div>
@@ -86,8 +110,8 @@ const ProjectPartners = ({ projectPartners }) => {
           <InputText
             id="orgName"
             type="text"
-            value={partner.name}
-            onChange={(e) => setPartner({ name: e.target.value })}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -96,7 +120,19 @@ const ProjectPartners = ({ projectPartners }) => {
             label={t('ADD_PARTNER')}
             icon="pi pi-plus"
             className="p-mt-2 p-mb-2"
-            onClick={() => {}}
+            onClick={() => {
+              setProjectPartners(
+                projectPartners
+                  .filter((item) => item.agent_id !== agentId)
+                  .concat({
+                    name,
+                    agent_id: agentId,
+                    is_leader: false,
+                  })
+              );
+              setName('');
+              setAgentId('');
+            }}
           />
         </div>
       </div>
