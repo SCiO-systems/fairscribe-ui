@@ -62,6 +62,12 @@ const Team = () => {
     }
   }, [currentlyViewingTeam, loadTeam]);
 
+  useEffect(() => {
+    if (activeIndex !== 2 && taskFormOpen) {
+      setTaskFormOpen(false);
+    }
+  }, [activeIndex, taskFormOpen]);
+
   if (loading || team === null) {
     return <Loading />;
   }
