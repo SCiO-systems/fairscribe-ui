@@ -47,7 +47,7 @@ const Resource = () => {
     loading ||
     resource === null ||
     currentlyViewingTeam === null ||
-    (currentlyViewingTeam && currentlyViewingTeam.id !== teamId)
+    (currentlyViewingTeam && currentlyViewingTeam.id !== parseInt(teamId, 10))
   ) {
     return <Loading />;
   }
