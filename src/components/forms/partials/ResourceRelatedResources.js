@@ -1,3 +1,4 @@
+import { Fieldset } from 'primereact/fieldset';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -18,49 +19,57 @@ const ResourceRelatedResources = ({ initialData, setter }) => {
     setter(newDois);
   };
 
-  return (
-    <div className="p-fluid">
-      <div className="p-formgrid p-grid">
-        <div className="p-field p-col-12 p-md-12">
-          <DataTable
-            header={t('PROJECT_RELATED_RESOURCES')}
-            emptyMessage={t('NO_ENTRIES_FOUND')}
-            value={dois}
-            className="p-mt-4"
-          >
-            <Column field="id" header="DOI" body={({ id }) => id} />
-            <Column
-              header={t('ACTIONS')}
-              body={() => (
-                <Button className="p-button-danger" icon="pi pi-trash" />
-              )}
-            />
-          </DataTable>
-        </div>
-      </div>
-      <div className="p-formgrid p-grid">
-        <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="doi">DOI</label>
+  const doiFooterTemplate = (
+    <div className="p-formgrid p-grid p-fluid">
+      <div className="p-col-10">
+        <div className="p-field">
           <InputText
-            id="doi"
-            type="text"
+            name="doi"
             value={doi}
+            type="text"
             onChange={(e) => setDoi(e.target.value)}
-            required
           />
         </div>
       </div>
-      <div className="p-formgrid p-grid">
-        <div className="p-field p-col-12 p-md-3">
-          <Button
-            label={t('ADD_DOI')}
-            icon="pi pi-plus"
-            className="p-mt-2 p-mb-2"
-            onClick={addDoi}
-          />
+      <div className="p-col-2">
+        <div className="p-field">
+          <Button label={t('ADD')} onClick={addDoi} />
         </div>
       </div>
     </div>
+  );
+
+  return (
+    <Fieldset
+      legend={t('PROJECT_RELATED_RESOURCES')}
+      style={{ position: 'relative' }}
+      className="relative p-mb-4"
+    >
+      <Button
+        style={{ position: 'absolute', top: '-0.2rem', right: '1.6rem' }}
+        label={t('CHECK_FAIR')}
+      />
+      <div className="p-fluid">
+        <div className="p-formgrid p-grid">
+          <div className="p-field p-col-12 p-md-12">
+            <DataTable
+              emptyMessage={t('NO_ENTRIES_FOUND')}
+              value={dois}
+              footer={doiFooterTemplate}
+              className="p-mt-4"
+            >
+              <Column field="id" header="DOI" body={({ id }) => id} />
+              <Column
+                header={t('ACTIONS')}
+                body={() => (
+                  <Button className="p-button-danger" icon="pi pi-trash" />
+                )}
+              />
+            </DataTable>
+          </div>
+        </div>
+      </div>
+    </Fieldset>
   );
 };
 
