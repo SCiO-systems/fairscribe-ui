@@ -171,7 +171,7 @@ const AppMenu = ({ onMenuClick }) => {
                   </div>
                   <button
                     type="button"
-                    title={t('INVITE_MEMBERS_TO_TEAM')}
+                    title={t('SEND_INVITES')}
                     onClick={() => setInviteTeamMembersDialog(true)}
                     className="add-team-btn p-button p-button-sm p-component p-button-rounded p-button-icon-only"
                   >

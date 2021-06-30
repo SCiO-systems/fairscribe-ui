@@ -1,5 +1,5 @@
 import { TabPanel, TabView } from 'primereact/tabview';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useLocation } from 'react-router-dom';
 import ResourceForm from '../components/forms/ResourceForm';
@@ -36,13 +36,13 @@ const Team = () => {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const { search } = useLocation();
 
-  const loadTeam = async () => {
+  const loadTeam = useCallback(async () => {
     setLoading(true);
     const teamRes = await getSingleTeam(id);
     setTeam(teamRes.data);
     setUser({ currentlyViewingTeam: teamRes.data });
     setLoading(false);
-  };
+  }, [id, setUser]);
 
   // when mounted
   useEffect(() => {
@@ -54,7 +54,7 @@ const Team = () => {
     return () => {
       setUser({ currentlyViewingTeam: null });
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (currentlyViewingTeam === null) {
