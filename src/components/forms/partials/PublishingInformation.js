@@ -3,56 +3,73 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const sampleDOIs = [
-  {
-    id: 1,
-    DOI: 'Test',
-    verified: true,
-    publisher: 'Publisher',
-  },
-];
-
-const sampleHDLs = [
-  {
-    id: 1,
-    hdlUrl: 'http://test.local',
-    verified: true,
-    publisher: 'Publisher',
-  },
-  {
-    id: 2,
-    hdlUrl: 'http://invalid.local',
-    verified: false,
-    publisher: 'Publisher',
-  },
-];
-
-const PublishingInformation = ({ resource }) => {
+const PublishingInformation = ({ initialData, setter }) => {
   const { t } = useTranslation();
+  const [dois, setDois] = useState([]);
+  const [urls, setUrls] = useState([]);
+  const [doi, setDoi] = useState('');
+  const [url, setUrl] = useState('');
+
+  const addDoi = () => {
+    const newDois = [...dois, { type: 'DOI', value: doi }];
+    setDois(newDois);
+    setDoi('');
+  };
+
+  const addUrl = () => {
+    const newUrls = [...urls, { type: 'URL', value: url }];
+    setUrls(newUrls);
+    setUrl('');
+  };
+
+  useEffect(() => {
+    setter([...dois, ...urls]);
+  }, [dois, urls]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // eslint-disable-next-line
   const booleanTemplate = (bool) =>
     bool ? <i className="pi pi-check" /> : <i className="pi pi-times" />;
 
   const doiFooterTemplate = (
-    <div className="p-formgroup-inline">
-      <div className="p-field">
-        <InputText type="text" />
+    <div className="p-formgrid p-grid p-fluid">
+      <div className="p-col-10">
+        <div className="p-field">
+          <InputText
+            name="doi"
+            value={doi}
+            type="text"
+            onChange={(e) => setDoi(e.target.value)}
+          />
+        </div>
       </div>
-      <Button label={t('ADD')} className="p-mr-2 p-mb-2" />
-      <Button label={t('GET_DOI')} className="p-mr-2 p-mb-2" />
+      <div className="p-col-2">
+        <div className="p-field">
+          <Button label={t('ADD')} onClick={addDoi} />
+        </div>
+      </div>
     </div>
   );
 
   const hdlFooterTemplate = (
-    <div className="p-formgroup-inline">
-      <div className="p-field">
-        <InputText type="text" />
+    <div className="p-formgrid p-grid p-fluid">
+      <div className="p-col-10">
+        <div className="p-field">
+          <InputText
+            name="url"
+            value={url}
+            type="text"
+            onChange={(e) => setUrl(e.target.value)}
+          />
+        </div>
       </div>
-      <Button label={t('ADD')} className="p-mr-2 p-mb-2" />
+      <div className="p-col-2">
+        <div className="p-field">
+          <Button label={t('ADD')} onClick={addUrl} />
+        </div>
+      </div>
     </div>
   );
 
@@ -69,34 +86,37 @@ const PublishingInformation = ({ resource }) => {
       <DataTable
         header={t('DOIS')}
         emptyMessage={t('NO_ENTRIES_FOUND')}
-        value={sampleDOIs}
+        value={dois}
         className="p-mt-4"
         footer={doiFooterTemplate}
       >
-        <Column field="DOI" header={t('DOI_TITLE')} />
+        <Column field="value" header={t('DOI_TITLE')} />
         <Column
           field="verified"
           header={t('VERIFIED')}
-          body={(rowData) => booleanTemplate(rowData.verified)}
+          body={(_rowData) => '-'}
         />
-        <Column field="publisher" header={t('PUBLISHER_TITLE')} />
+        <Column
+          field="publisher"
+          header={t('PUBLISHER_TITLE')}
+          body={(_rowData) => '-'}
+        />
       </DataTable>
       <DataTable
         header={t('HDLS_URLS')}
         emptyMessage={t('NO_ENTRIES_FOUND')}
-        value={sampleHDLs}
+        value={urls}
         className="p-mt-4"
         footer={hdlFooterTemplate}
       >
-        <Column field="hdlUrl" header={t('HDL_URL')} />
+        <Column field="value" header={t('HDL_URL')} />
         <Column
           field="verified"
           header={t('VERIFIED')}
-          body={(rowData) => booleanTemplate(rowData.verified)}
+          body={(_rowData) => '-'}
         />
-        <Column field="publisher" header={t('PUBLISHER_TITLE')} />
       </DataTable>
-      {resource && resource.type === 'document' && (
+      {initialData.type && initialData.type.value === 'document' && (
         <div className="p-mt-4 p-fluid p-formgrid p-grid">
           <div className="p-field p-col-6">
             <label htmlFor="ArXiv">ArXiv:</label>

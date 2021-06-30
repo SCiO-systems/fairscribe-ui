@@ -108,6 +108,7 @@ const EditResourceForm = ({ resource, teamId }) => {
       <PublishingInformation
         initialData={{
           identifier: metadataRecord.identifier,
+          type: metadataRecord.resource_type,
         }}
         setter={(identifier) => mainSetter({ identifier })}
       />
