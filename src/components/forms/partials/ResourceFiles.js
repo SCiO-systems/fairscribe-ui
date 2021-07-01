@@ -1,32 +1,117 @@
 import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
-import React, { useRef } from 'react';
+import { InputSwitch } from 'primereact/inputswitch';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import placeholderImage from '../../../assets/img/placeholder.png';
+import {
+  deleteFile,
+  uploadFile,
+  uploadThumbnail,
+} from '../../../services/resources';
+import { ToastContext } from '../../../store/toast';
 
-const sampleFiles = [
-  {
-    id: 1,
-    fileName: 'testfile.pdf',
-    extension: 'pdf',
-    mime: 'application/pdf',
-    type: 'PDF',
-    piiStatus: 'OK',
-    isAnnotated: true,
-    extractKeywords: false,
-    extractCoverage: true,
-  },
-];
-
-const ResourceFiles = () => {
-  const userImage = useRef(null);
+const ResourceFiles = ({ initialData, setter }) => {
   const { t } = useTranslation();
+  const { setError, setSuccess } = useContext(ToastContext);
+  const thumbnailFile = useRef(null);
+  const resourceFile = useRef(null);
+  const [resourceFiles, setResourceFiles] = useState(
+    initialData.resource_files || []
+  );
+  const [thumbnails, setThumbnails] = useState(initialData.thumbnail || []);
+  const { teamId, resourceId } = useParams();
 
-  // eslint-disable-next-line
-  const booleanTemplate = (bool) =>
-    bool ? <i className="pi pi-check" /> : <i className="pi pi-times" />;
+  const handleError = (e) => {
+    let error = e && e.message;
+    const statusCode = e.response && e.response.status;
+    error =
+      statusCode === 422
+        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+        : e.response.data.error;
+    setError('Error', error);
+  };
+
+  const uploadResourceFile = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const { data } = await uploadFile(teamId, resourceId, formData);
+      setSuccess('Resource File', 'Your file has been uploaded.');
+      setResourceFiles(resourceFiles.concat({ ...data }));
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const deleteResourceFile = async (id) => {
+    try {
+      await deleteFile(teamId, resourceId, id);
+      setSuccess('Resource File', 'The file has been deleted.');
+      setResourceFiles(resourceFiles.filter((item) => item.id !== id));
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const uploadResourceThumbnail = async (thumbnail) => {
+    const formData = new FormData();
+    formData.append('file', thumbnail);
+    try {
+      const { data } = await uploadThumbnail(teamId, resourceId, formData);
+      setSuccess('Resource Thumbnail', 'Your thumbnail has been uploaded.');
+      setThumbnails(thumbnails.concat({ ...data }));
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const setPublishable = async (id, publishable) => {
+    const f = resourceFiles.map((item) => {
+      if (item.id === id) {
+        return { ...item, publishable };
+      }
+      return item;
+    });
+    setResourceFiles(f);
+  };
+
+  const setLocked = async (id, locked) => {
+    const f = resourceFiles.map((item) => {
+      if (item.id === id) {
+        return { ...item, locked };
+      }
+      return item;
+    });
+    setResourceFiles(f);
+  };
+
+  const setEmbargoDate = async (id, date) => {
+    const f = resourceFiles.map((item) => {
+      if (item.id === id) {
+        return { ...item, embargo_date: date };
+      }
+      return item;
+    });
+    setResourceFiles(f);
+  };
+
+  const getThumbnailURL = (path) => {
+    const u = new URL(process.env.REACT_APP_API_BASE_URL);
+    return `${u.origin}/storage/${path}`;
+  };
+
+  useEffect(() => {
+    const files = resourceFiles.map((item) => ({
+      ...item,
+      embargo_date: new Date(item.embargo_date).toISOString().split('T')[0],
+    }));
+    setter(thumbnails, files);
+  }, [resourceFiles, thumbnails]);
 
   return (
     <Fieldset
@@ -39,60 +124,122 @@ const ResourceFiles = () => {
         label={t('CHECK_FAIR')}
       />
       <div>
-        <img
-          src={placeholderImage}
-          height="127px"
-          className="rounded"
-          alt="Resource Thumbnail"
-        />
-        <br />
-        <Button
-          label={t('UPLOAD_THUMBNAIL')}
-          icon="pi pi-image"
-          className="p-mt-2 p-mb-2"
-          onClick={() => {
-            userImage.current.click();
-          }}
-        />
+        {thumbnails && thumbnails.length > 0 ? (
+          <img
+            src={getThumbnailURL(thumbnails[0].path)}
+            height="127px"
+            className="rounded"
+            alt="Resource Thumbnail"
+          />
+        ) : (
+          <img
+            src={placeholderImage}
+            height="127px"
+            className="rounded"
+            alt="Resource Thumbnail"
+          />
+        )}
+        <div className="p-formgrid p-grid">
+          <div className="p-col-12 p-mt-2">
+            <input
+              type="file"
+              className="hidden"
+              id="thumbnail"
+              multiple={false}
+              ref={thumbnailFile}
+              onChange={(e) => {
+                uploadResourceThumbnail(e.target.files[0]);
+                e.target.value = null;
+              }}
+            />
+            <Button
+              label={t('UPLOAD_THUMBNAIL')}
+              icon="pi pi-image"
+              className="p-mt-2 p-mb-2"
+              onClick={() => thumbnailFile.current.click()}
+            />
+          </div>
+        </div>
       </div>
-      <form>
-        <input
-          type="file"
-          id="file"
-          ref={userImage}
-          style={{ display: 'none' }}
-        />
-      </form>
       <DataTable
         header={t('PHYSICAL_FILES')}
         emptyMessage={t('NO_ENTRIES_FOUND')}
-        value={sampleFiles}
+        value={resourceFiles}
         className="p-mt-4"
         showGridlines
       >
-        <Column field="fileName" header={t('FILE_NAME')} />
+        <Column field="filename" header={t('FILE_NAME')} />
         <Column field="extension" header={t('EXTENSION')} />
-        <Column field="mime" header={t('MIME_TYPE')} />
-        <Column field="type" header={t('FILE_DATA_TYPE')} />
-        <Column field="piiStatus" header={t('PII_STATUS')} />
+        <Column field="mime_type" header={t('MIME_TYPE')} />
+        <Column field="pii_check" header={t('PII_STATUS')} />
         <Column
-          field="isAnnotated"
-          header={t('IS_ANNOTATED')}
-          body={(rowData) => booleanTemplate(rowData.isAnnotated)}
+          field="locked"
+          header={t('LOCKED')}
+          body={({ id, locked }) => (
+            <InputSwitch
+              className="p-my-0 p-py-0"
+              checked={locked}
+              onChange={(e) => setLocked(id, e.value)}
+            />
+          )}
         />
         <Column
-          field="extractKeywords"
-          header={t('USE_TO_EXTRACT_KEYWORDS')}
-          body={(rowData) => booleanTemplate(rowData.extractKeywords)}
+          file="publishable"
+          header={t('PUBLISHABLE')}
+          body={({ id, publishable }) => (
+            <InputSwitch
+              className="p-my-0 p-py-0"
+              checked={publishable}
+              onChange={(e) => setPublishable(id, e.value)}
+            />
+          )}
         />
         <Column
-          field="extractCoverage"
-          header={t('USE_TO_EXTRACT_COVERAGE')}
-          body={(rowData) => booleanTemplate(rowData.extractCoverage)}
+          field="embargo_date"
+          header={t('EMBARGO_DATE')}
+          body={(rowData) => (
+            <Calendar
+              showIcon
+              showButtonBar
+              id="embargo-date"
+              value={rowData.embargo_date}
+              onChange={(e) => setEmbargoDate(rowData.id, e.value)}
+            />
+          )}
+        />
+        <Column
+          header={t('ACTIONS')}
+          body={(rowData) => (
+            <div className="p-text-left">
+              <Button
+                icon="pi pi-trash"
+                className="p-button p-component p-button-danger p-button-icon-only"
+                onClick={() => deleteResourceFile(rowData.id)}
+              />
+            </div>
+          )}
         />
       </DataTable>
-      <br />
-      <Button label={t('UPLOAD_FILES')} icon="pi pi-upload" />
+      <div className="p-formgrid p-grid">
+        <div className="p-field p-col-12">
+          <input
+            className="hidden"
+            type="file"
+            multiple={false}
+            ref={resourceFile}
+            onChange={(e) => {
+              uploadResourceFile(e.target.files[0]);
+              e.target.value = null;
+            }}
+          />
+          <Button
+            label={t('UPLOAD_FILES')}
+            className="p-mt-4"
+            icon="pi pi-upload"
+            onClick={(e) => resourceFile.current.click()}
+          />
+        </div>
+      </div>
     </Fieldset>
   );
 };
