@@ -6,10 +6,14 @@ import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const licenses = [
+  {
+    label: 'Unspecified',
+    value: '',
+  },
   {
     label: 'CC0 1.0',
     value: 'cc0',
@@ -83,39 +87,46 @@ const accessRights = [
   },
 ];
 
-const demoRightsHolders = [
-  {
-    type: 'Individual',
-    name: 'John Doe',
-    id: 'grid 0394302.323',
-  },
-  {
-    type: 'Organization',
-    name: 'Test Org',
-    id: 'grid 33454.323',
-  },
+const holderTypes = [
+  { label: 'Individual', value: 'individual' },
+  { label: 'Organisation', value: 'group/organisation' },
 ];
 
-const types = [
-  {
-    label: 'Individual',
-    value: 'individual',
-  },
-  {
-    label: 'Organization',
-    value: 'organization',
-  },
-];
-
-const ResourceRights = ({ projectRights }) => {
+const ResourceRights = ({ initialData, setter }) => {
   const { t } = useTranslation();
   const [license, setLicense] = useState('');
   const [accessRight, setAccessRight] = useState('');
+  const [type, setType] = useState('');
   const [termsOfUse, setTermsOfUse] = useState('');
   const [rightsHolders, setRightsHolders] = useState(
-    projectRights || demoRightsHolders
+    initialData?.rights?.rights_holder || []
   );
-  const [rightsHolder, setRightsHolder] = useState({});
+  const [agentId, setAgentId] = useState('');
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
+
+  useEffect(() => {
+    if (license !== '') {
+      setAccessRight('open');
+    }
+  }, [license]);
+
+  useEffect(() => {
+    setter({
+      license,
+      access_right: accessRight,
+      terms_of_use: [{ language: 'en', value: termsOfUse }],
+      rights_holder: rightsHolders,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [license, accessRight, termsOfUse, rightsHolders]);
+
+  const nameBodyTemplate = (rowData) => {
+    if (rowData.agent_type === 'individual') {
+      return `${rowData.name} ${rowData.last_name}`;
+    }
+    return rowData.name;
+  };
 
   return (
     <Fieldset
@@ -144,7 +155,8 @@ const ResourceRights = ({ projectRights }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="accessRight">{t('RESOURCE_ACCESS_RIGHT')}</label>
             <Dropdown
-              id="license"
+              id="accessRight"
+              disabled={license !== ''}
               options={accessRights}
               value={accessRight}
               onChange={(e) => setAccessRight(e.target.value)}
@@ -154,7 +166,7 @@ const ResourceRights = ({ projectRights }) => {
         </div>
         <div className="p-formgrid p-grid">
           <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="keywords">{t('TERMS_OF_USE')}</label>
+            <label htmlFor="keywords">{t('TERMS_OF_USE')} (in English)</label>
             <InputTextarea
               id="keywords"
               type="text"
@@ -173,76 +185,113 @@ const ResourceRights = ({ projectRights }) => {
               value={rightsHolders}
               className="p-mt-4"
             >
-              <Column
-                field="type"
-                header={t('RIGHTS_HOLDER_TYPE')}
-                body={({ type }) => type}
-              />
+              <Column field="agent_type" header={t('RIGHTS_HOLDER_TYPE')} />
               <Column
                 field="name"
                 header={t('RIGHTS_HOLDER_NAME')}
-                body={({ name }) => name}
+                body={nameBodyTemplate}
               />
+              <Column field="agent_id" header={t('RIGHTS_HOLDER_ID')} />
               <Column
-                field="id"
-                header={t('RIGHTS_HOLDER_ID')}
-                body={({ id }) => id}
-              />
-              <Column
-                header={t('ACTIONS')}
-                body={() => (
-                  <Button className="p-button-danger" icon="pi pi-trash" />
+                className="p-text-right"
+                body={(rowData) => (
+                  <Button
+                    className="p-button-danger"
+                    icon="pi pi-trash"
+                    onClick={() => {
+                      setRightsHolders(
+                        rightsHolders.filter(
+                          (item) => item.agent_id !== rowData.agent_id
+                        )
+                      );
+                    }}
+                  />
                 )}
               />
             </DataTable>
           </div>
         </div>
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="rightsHolderType">{t('RIGHTS_HOLDER_TYPE')}</label>
+        <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+          <div className="p-col-10">
             <Dropdown
-              id="rightsHolderType"
-              options={types}
-              value={rightsHolder.type}
-              onChange={(e) =>
-                setRightsHolder({ ...rightsHolder, type: e.target.value })
-              }
-              required
+              id="agent_type"
+              name="agent_type"
+              value={type}
+              options={holderTypes}
+              onChange={(e) => setType(e.value)}
             />
           </div>
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="rightsHolderName">{t('RIGHTS_HOLDER_NAME')}</label>
-            <InputText
-              id="rightsHolderName"
-              type="text"
-              value={rightsHolder.name}
-              onChange={(e) =>
-                setRightsHolder({ ...rightsHolder, name: e.target.value })
-              }
-              required
-            />
-          </div>
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="id">{t('RIGHTS_HOLDER_ID')}</label>
-            <InputText
-              id="id"
-              type="text"
-              value={rightsHolder.id}
-              onChange={(e) =>
-                setRightsHolder({ ...rightsHolder, id: e.target.value })
-              }
-              required
-            />
-          </div>
-          <div className="p-field p-col-12 p-md-3">
+          <div className="p-col-2 p-text-right">
             <Button
-              label={t('ADD_RIGHTS_HOLDER')}
+              label={t('COLLECTION_TITLE_ADD')}
               icon="pi pi-plus"
-              className="p-mt-2 p-mb-2"
-              onClick={() => {}}
+              className="p-button-sm p-component"
+              onClick={() => {
+                setRightsHolders(
+                  rightsHolders.concat({
+                    agent_type: type,
+                    agent_id: agentId,
+                    name,
+                    last_name: lastname,
+                  })
+                );
+                setName('');
+                setType('');
+                setAgentId('');
+                setLastname('');
+              }}
             />
           </div>
         </div>
+        {type.toLowerCase() === 'individual' && (
+          <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+            <div className="p-col-12 p-field">
+              <label htmlFor="agent_id">{t('ORCID')}</label>
+              <InputText
+                id="agent_id"
+                name="agent_id"
+                value={agentId}
+                onChange={(e) => setAgentId(e.target.value)}
+              />
+            </div>
+            <div className="p-col-12 p-field">
+              <label htmlFor="name">{t('NAME')}</label>
+              <InputText
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="p-col-12 p-field">
+              <label htmlFor="lastname">{t('LASTNAME')}</label>
+              <InputText
+                id="lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+        {type.toLowerCase() === 'group/organisation' && (
+          <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+            <div className="p-col-12 p-field">
+              <label htmlFor="agent_id">{t('GRID_ID')}</label>
+              <InputText
+                id="agent_id"
+                value={agentId}
+                onChange={(e) => setAgentId(e.target.value)}
+              />
+            </div>
+            <div className="p-col-12 p-field">
+              <label htmlFor="name">{t('NAME')}</label>
+              <InputText
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </Fieldset>
   );

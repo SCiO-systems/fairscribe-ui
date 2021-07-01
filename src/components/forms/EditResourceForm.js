@@ -176,7 +176,10 @@ const EditResourceForm = ({ resource, teamId }) => {
         initialData={{ keywords: metadataRecord.keywords }}
         setter={(keywords) => mainSetter({ keywords })}
       />
-      <ResourceRights />
+      <ResourceRights
+        initialData={{ rights: metadataRecord.rights }}
+        setter={(rights) => mainSetter({ rights })}
+      />
       <ResourceCoverage />
       <ResourceRelatedResources
         initialData={{
