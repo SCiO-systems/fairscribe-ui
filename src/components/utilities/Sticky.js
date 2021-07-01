@@ -25,7 +25,7 @@ export default function Sticky({ children, rightOffset }) {
       setStyle({
         position: 'fixed',
         top: offset,
-        zIndex: 99999,
+        zIndex: 1100,
         right: rightOffset,
       });
     }

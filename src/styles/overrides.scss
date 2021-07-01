@@ -102,6 +102,14 @@ ul.notifications-menu li div.actionable-buttons {
   margin-right: 0;
 }
 
+.fairscore-dt table tbody td.result {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.fairscore-dt .meets-condition td.result {
+  background-color: rgba(2, 177, 40, 0.15) !important;
+}
+
 @media screen and (max-width: 991px) {
   .layout-wrapper .layout-topbar .mobile-logo {
     display: block;
