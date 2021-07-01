@@ -55,10 +55,6 @@ const ResourceClassification = ({ initialData, setter }) => {
       style={{ position: 'relative' }}
       className="p-mb-4"
     >
-      <Button
-        style={{ position: 'absolute', top: '-0.2rem', right: '1.6rem' }}
-        label={t('CHECK_FAIR')}
-      />
       <DataTable
         emptyMessage={t('NO_ENTRIES_FOUND')}
         value={keywords}
