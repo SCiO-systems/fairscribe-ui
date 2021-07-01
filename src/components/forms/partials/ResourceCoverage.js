@@ -13,10 +13,7 @@ const ResourceCoverage = ({ projectCoverage }) => {
       style={{ position: 'relative' }}
       className="relative p-mb-4"
     >
-      <Button
-        style={{ position: 'absolute', top: '-0.2rem', right: '1.6rem' }}
-        label={t('CHECK_FAIR')}
-      />
+      WIP
     </Fieldset>
   );
 };

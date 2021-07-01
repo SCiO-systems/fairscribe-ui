@@ -79,10 +79,6 @@ const PublishingInformation = ({ initialData, setter }) => {
       className="p-mb-4"
       style={{ position: 'relative' }}
     >
-      <Button
-        style={{ position: 'absolute', top: '-0.6rem', right: '1.4rem' }}
-        label={t('CHECK_FAIR')}
-      />
       <DataTable
         header={t('DOIS')}
         emptyMessage={t('NO_ENTRIES_FOUND')}

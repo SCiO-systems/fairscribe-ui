@@ -134,10 +134,6 @@ const ResourceRights = ({ initialData, setter }) => {
       style={{ position: 'relative' }}
       className="relative p-mb-4"
     >
-      <Button
-        style={{ position: 'absolute', top: '-0.2rem', right: '1.6rem' }}
-        label={t('CHECK_FAIR')}
-      />
       <div className="p-fluid p-mt-2">
         <div className="p-formgrid p-grid">
           <div className="p-field p-col-12 p-md-12">

@@ -39,7 +39,7 @@ const EditResourceForm = ({ resource, teamId }) => {
         boxSizing: 'border-box',
         transition: 'all 3ms',
       });
-      setRightOffset('0');
+      setRightOffset('-1px');
     }
   });
 
@@ -54,7 +54,7 @@ const EditResourceForm = ({ resource, teamId }) => {
         <Sticky rightOffset={rightOffset}>
           <div style={quickSaveStyles}>
             {/* only show the arrow if the user has scrolled */}
-            {rightOffset === '0' && (
+            {rightOffset === '-1px' && (
               <Button
                 label=""
                 className={classNames(
@@ -77,6 +77,7 @@ const EditResourceForm = ({ resource, teamId }) => {
                   onClick={() => history.push(`/teams/${teamId}`)}
                   className="p-button-secondary p-mr-2"
                 />
+                <Button className="p-mr-2" label={t('CHECK_FAIR')} />
                 <Button
                   label={t('SAVE_CHANGES')}
                   onClick={() => {
