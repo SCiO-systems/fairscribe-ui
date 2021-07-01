@@ -243,6 +243,7 @@ const t = {
     LOCKED: 'Locked',
     PUBLISHABLE: 'Publishable',
     GEOSPATIAL_COVERAGE: 'Geospatial Coverage',
+    LICENSE_WIZARD: 'License Wizard',
   },
 };
 

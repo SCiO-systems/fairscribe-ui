@@ -8,71 +8,72 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import LicenseWizardDialog from '../../dialogs/LicenseWizardDialog';
 
 const licenses = [
   {
-    label: 'Unspecified',
+    label: 'Unlicensed',
     value: '',
   },
   {
     label: 'CC0 1.0',
-    value: 'cc0',
+    value: 'CC0 1.0',
   },
   {
     label: 'CC BY 4.0',
-    value: 'cc-by-4.0',
+    value: 'CC BY 4.0',
   },
   {
     label: 'CC BY-SA 4.0',
-    value: 'cc-by-sa-4.0',
+    value: 'CC BY-SA 4.0',
   },
   {
     label: 'CC BY-ND 4.0',
-    value: 'cc-by-nd-4.0',
+    value: 'CC BY-ND 4.0',
   },
   {
     label: 'CC BY-NC 4.0',
-    value: 'cc-by-nc-4.0',
+    value: 'CC BY-NC 4.0',
   },
   {
     label: 'CC BY-NC-SA 4.0',
-    value: 'cc-by-nc-sa-4.0',
+    value: 'CC BY-NC-SA 4.0',
   },
   {
     label: 'CC BY-NC-ND 4.0',
-    value: 'cc-by-nc-nd-4.0',
+    value: 'CC BY-NC-ND 4.0',
   },
   {
     label: 'GNU AGPLv3',
-    value: 'gnu-agpl-v3',
+    value: 'GNU AGPLv3',
   },
   {
     label: 'GNU GPLv3',
-    value: 'gnu-gpl-v3',
+    value: 'GNU GPLv3',
   },
   {
     label: 'GNU LGPLv3',
-    value: 'gnu-lgpl-v3',
+    value: 'GNU LGPLv3',
   },
   {
-    label: 'Mozzila Public License 2.0',
-    value: 'mozzila-public-license-2.0',
+    label: 'Mozilla Public License 2.0',
+    value: 'Mozilla Public License 2.0',
   },
   {
     label: 'Apache License 2.0',
-    value: 'apache-license-2.0',
+    value: 'Apache License 2.0',
   },
   {
     label: 'MIT License',
-    value: 'mit-license',
+    value: 'MIT License',
   },
   {
     label: 'Boost Software License 1.0',
-    value: 'boost-software-license-1.0',
+    value: 'Boost Software License 1.0',
   },
   {
     label: 'The Unlicense',
-    value: 'the-unlicense',
+    value: 'The Unlicense',
   },
 ];
 
@@ -95,6 +96,7 @@ const holderTypes = [
 const ResourceRights = ({ initialData, setter }) => {
   const { t } = useTranslation();
   const [license, setLicense] = useState('');
+  const [licenseWizardDialog, setLicenseWizardDialog] = useState(false);
   const [accessRight, setAccessRight] = useState('');
   const [type, setType] = useState('');
   const [termsOfUse, setTermsOfUse] = useState('');
@@ -135,8 +137,8 @@ const ResourceRights = ({ initialData, setter }) => {
       className="relative p-mb-4"
     >
       <div className="p-fluid p-mt-2">
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
+        <div className="p-formgrid p-grid p-d-flex p-ai-end">
+          <div className="p-field p-col-9 p-md-9">
             <label htmlFor="license">{t('RESOURCE_LICENSE')}</label>
             <Dropdown
               id="license"
@@ -144,6 +146,12 @@ const ResourceRights = ({ initialData, setter }) => {
               value={license}
               onChange={(e) => setLicense(e.target.value)}
               required
+            />
+          </div>
+          <div className="p-field p-col-3 p-md-3">
+            <Button
+              label={t('LICENSE_WIZARD')}
+              onClick={() => setLicenseWizardDialog(!licenseWizardDialog)}
             />
           </div>
         </div>
@@ -289,6 +297,11 @@ const ResourceRights = ({ initialData, setter }) => {
           </div>
         )}
       </div>
+      <LicenseWizardDialog
+        setDialogOpen={setLicenseWizardDialog}
+        dialogOpen={licenseWizardDialog}
+        setLicense={setLicense}
+      />
     </Fieldset>
   );
 };

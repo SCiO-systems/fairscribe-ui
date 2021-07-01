@@ -58,6 +58,37 @@ ul.notifications-menu li div.actionable-buttons {
   min-width: 6rem;
 }
 
+ul.permissions,
+ul.conditions,
+ul.limitations {
+  list-style-type: none;
+  margin-top: 0.5rem;
+}
+
+ul.permissions li::before,
+ul.conditions li::before,
+ul.limitations li::before {
+  content: '\2022';
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  font-size: 1.5rem;
+  line-height: 0.85;
+  margin-left: -1em;
+}
+
+ul.permissions li::before {
+  color: #3dc637;
+}
+
+ul.conditions li::before {
+  color: #0099d6;
+}
+
+ul.limitations li::before {
+  color: #c6403d;
+}
+
 @media screen and (min-width: $lg) {
   .layout-static .footer-logo-container {
     margin-left: 17rem;
