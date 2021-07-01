@@ -136,7 +136,7 @@ const t = {
     RESOURCE: 'Resource',
     VIEW_COLLECTION_RESOURCES: 'View Resources',
     HIDE_COLLECTION_RESOURCES: 'Hide Resources',
-    TEMPORAL_COVERAGE_TYPE: 'Type',
+    TEMPORAL_COVERAGE_TYPE: 'Temporal Coverage Type',
     TEMPORAL_DATE: 'Date',
     TEMPORAL_DESCRIPTION: 'Description',
     TEMPORAL_ENTER_DESCRIPTION: 'Enter a description for the time period.',
@@ -242,6 +242,7 @@ const t = {
     PENDING: 'Pending',
     LOCKED: 'Locked',
     PUBLISHABLE: 'Publishable',
+    GEOSPATIAL_COVERAGE: 'Geospatial Coverage',
   },
 };
 

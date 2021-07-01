@@ -181,7 +181,15 @@ const EditResourceForm = ({ resource, teamId }) => {
         initialData={{ rights: metadataRecord.rights }}
         setter={(rights) => mainSetter({ rights })}
       />
-      <ResourceCoverage />
+      <ResourceCoverage
+        initialData={{
+          geospatial_coverage: metadataRecord.geospatial_coverage,
+          temporal_coverage: metadataRecord.temporal_coverage,
+        }}
+        setter={(gsc, tc) =>
+          mainSetter({ geospatial_coverage: gsc, temporal_coverage: tc })
+        }
+      />
       <ResourceRelatedResources
         initialData={{
           related_resources: metadataRecord.related_resources,
