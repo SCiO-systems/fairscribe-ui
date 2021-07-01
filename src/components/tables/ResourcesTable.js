@@ -5,15 +5,15 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputSwitch } from 'primereact/inputswitch';
 import { InputText } from 'primereact/inputtext';
-import React, { useState, useRef, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useQuery, useQueryClient } from 'react-query';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQuery, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
 import { getResources } from '../../services/teams';
+import { useDebounce } from '../../utilities/hooks';
 import FairScoreMiniChart from '../charts/FairScoreMini';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
-import { useDebounce } from '../../utilities/hooks';
 
 const fairScoreTransformer = (data) => [
   {
@@ -149,7 +149,9 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
   const piiStatusTemplate = (rowData) => (
     <div className="p-d-flex p-jc-start p-ai-center">
       <FontAwesomeIcon className="p-mr-3" icon={faCertificate} size="2x" />
-      {rowData.pii_status === 'passed' ? t('CERTIFIED') : t('PENDING')}
+      {rowData && rowData.pii_check && rowData.pii_check === 'pass'
+        ? t('CERTIFIED')
+        : t('PENDING')}
     </div>
   );
 
