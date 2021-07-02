@@ -2,7 +2,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Citation = ({ citation, setCitation }) => {
+const Citation = ({ mode, citation, setCitation }) => {
   const { t } = useTranslation();
 
   return (
@@ -11,6 +11,7 @@ const Citation = ({ citation, setCitation }) => {
         <div className="p-field p-col-12 p-md-12">
           <label htmlFor="name">{t('CITATION')}</label>
           <InputTextarea
+            disabled={mode === 'review'}
             id="name"
             type="text"
             value={citation}

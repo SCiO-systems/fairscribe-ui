@@ -1,12 +1,12 @@
-import { Fieldset } from 'primereact/fieldset';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ResourceRelatedResources = ({ initialData, setter }) => {
+const ResourceRelatedResources = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [dois, setDois] = useState(initialData.related_resources || []);
   const [doi, setDoi] = useState('');
@@ -19,7 +19,7 @@ const ResourceRelatedResources = ({ initialData, setter }) => {
     setter(newDois);
   };
 
-  const doiFooterTemplate = (
+  const doiFooterTemplate = mode === 'edit' && (
     <div className="p-formgrid p-grid p-fluid">
       <div className="p-col-10">
         <div className="p-field">

@@ -1,6 +1,7 @@
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
+import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -15,7 +16,7 @@ import ResourceLifecycle from './partials/ResourceLifecycle';
 import ResourceRelatedResources from './partials/ResourceRelatedResources';
 import ResourceRights from './partials/ResourceRights';
 
-const EditResourceForm = ({ resource, teamId }) => {
+const EditResourceForm = ({ resource, teamId, mode }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const [quickSaveStyles, setQuickSaveStyles] = useState({});
@@ -54,60 +55,80 @@ const EditResourceForm = ({ resource, teamId }) => {
       <div className="p-pb-6" id="editResourceForm">
         <div className="p-d-flex p-jc-between" style={{ minHeight: '4.7rem' }}>
           <h4 className="p-text-uppercase">{t('RESOURCE_METADATA_RECORD')}</h4>
-          <Sticky rightOffset={rightOffset}>
-            <div style={quickSaveStyles}>
-              {/* only show the arrow if the user has scrolled */}
-              {rightOffset === '-1px' && (
-                <Button
-                  label=""
-                  className={classNames(
-                    'p-button-secondary',
-                    'p-button-rounded',
-                    'p-button-text',
-                    'p-button-icon-only',
-                    { 'p-mr-2': quickSaveVisibility }
-                  )}
-                  icon={
-                    quickSaveVisibility
-                      ? 'pi pi-angle-right'
-                      : 'pi pi-angle-left'
-                  }
-                  onClick={() => setQuickSaveVisibility(!quickSaveVisibility)}
-                />
-              )}
-              {quickSaveVisibility && (
-                <>
+          {mode === 'edit' && (
+            <Sticky rightOffset={rightOffset}>
+              <div style={quickSaveStyles}>
+                {/* only show the arrow if the user has scrolled */}
+                {rightOffset === '-1px' && (
                   <Button
-                    label={t('CANCEL')}
-                    onClick={() => history.push(`/teams/${teamId}`)}
-                    className="p-button-secondary p-mr-2"
+                    label=""
+                    className={classNames(
+                      'p-button-secondary',
+                      'p-button-rounded',
+                      'p-button-text',
+                      'p-button-icon-only',
+                      { 'p-mr-2': quickSaveVisibility }
+                    )}
+                    icon={
+                      quickSaveVisibility
+                        ? 'pi pi-angle-right'
+                        : 'pi pi-angle-left'
+                    }
+                    onClick={() => setQuickSaveVisibility(!quickSaveVisibility)}
                   />
-                  <Button
-                    className="p-mr-2"
-                    label={t('CHECK_FAIR')}
-                    onClick={(e) => setFairScoreDialogOpen(true)}
-                  />
-                  <Button
-                    label={t('SAVE_CHANGES')}
-                    onClick={() => {
-                      // eslint-disable-next-line
-                      console.log({
-                        dataCORE: {
-                          CORE_version: '1.0',
-                          ...metadataRecord,
-                          resource_type: {
-                            value: 'dataset',
+                )}
+                {quickSaveVisibility && (
+                  <>
+                    <Button
+                      label={t('CANCEL')}
+                      onClick={() => history.push(`/teams/${teamId}`)}
+                      className="p-button-secondary p-mr-2"
+                    />
+                    <Button
+                      className="p-mr-2"
+                      label={t('CHECK_FAIR')}
+                      onClick={(e) => setFairScoreDialogOpen(true)}
+                    />
+                    <Button
+                      label={t('SAVE_CHANGES')}
+                      onClick={() => {
+                        // eslint-disable-next-line
+                        console.log({
+                          dataCORE: {
+                            CORE_version: '1.0',
+                            ...metadataRecord,
+                            resource_type: {
+                              value: 'dataset',
+                            },
                           },
-                        },
-                      });
-                    }}
-                  />
-                </>
-              )}
+                        });
+                      }}
+                    />
+                  </>
+                )}
+              </div>
+            </Sticky>
+          )}
+          {mode === 'review' && (
+            <div className="review-comments">
+              <form onSubmit={() => {}}>
+                <h5>{t('COMMENTS')}</h5>
+                <InputTextarea
+                  style={{ width: '100%', overflowY: 'scroll', resize: 'none' }}
+                  autoResize={false}
+                  rows={5}
+                />
+                <Button
+                  type="submit"
+                  className="p-my-2"
+                  label={t('SAVE_CHANGES')}
+                />
+              </form>
             </div>
-          </Sticky>
+          )}
         </div>
         <ResourceFiles
+          mode={mode}
           initialData={{
             thumbnail: metadataRecord.thumbnail,
             resource_files: metadataRecord.resource_files,
@@ -117,6 +138,7 @@ const EditResourceForm = ({ resource, teamId }) => {
           }
         />
         <PublishingInformation
+          mode={mode}
           initialData={{
             identifier: metadataRecord.identifier,
             type: metadataRecord.resource_type,
@@ -124,6 +146,7 @@ const EditResourceForm = ({ resource, teamId }) => {
           setter={(identifier) => mainSetter({ identifier })}
         />
         <ResourceGeneralInformation
+          mode={mode}
           initialData={{
             title: metadataRecord.title,
             description: metadataRecord.description,
@@ -166,6 +189,7 @@ const EditResourceForm = ({ resource, teamId }) => {
           }
         />
         <ResourceLifecycle
+          mode={mode}
           initialData={{
             resource_version: metadataRecord.resource_version,
             resource_version_description:
@@ -183,14 +207,17 @@ const EditResourceForm = ({ resource, teamId }) => {
           }
         />
         <ResourceClassification
+          mode={mode}
           initialData={{ keywords: metadataRecord.keywords }}
           setter={(keywords) => mainSetter({ keywords })}
         />
         <ResourceRights
+          mode={mode}
           initialData={{ rights: metadataRecord.rights }}
           setter={(rights) => mainSetter({ rights })}
         />
         <ResourceCoverage
+          mode={mode}
           initialData={{
             geospatial_coverage: metadataRecord.geospatial_coverage,
             temporal_coverage: metadataRecord.temporal_coverage,
@@ -200,6 +227,7 @@ const EditResourceForm = ({ resource, teamId }) => {
           }
         />
         <ResourceRelatedResources
+          mode={mode}
           initialData={{
             related_resources: metadataRecord.related_resources,
           }}

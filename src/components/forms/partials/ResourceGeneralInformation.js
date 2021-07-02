@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button } from 'primereact/button';
 import { Fieldset } from 'primereact/fieldset';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +14,7 @@ import ProjectDetails from './ProjectDetails';
 import ProjectPartners from './ProjectPartners';
 import ResourceLanguages from './ResourceLanguages';
 
-const ResourceGeneralInformation = ({ initialData, setter }) => {
+const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState(initialData.title ?? []);
   const [description, setDescription] = useState(initialData.description ?? []);
@@ -107,6 +106,7 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
       style={{ position: 'relative' }}
     >
       <MultilingualEntriesTable
+        mode={mode}
         className="p-mt-4"
         data={title}
         header={t('RESOURCE_TITLE')}
@@ -118,6 +118,7 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         }}
       />
       <MultilingualEntriesTable
+        mode={mode}
         className="p-mt-4"
         data={description}
         header={t('RESOURCE_DESCRIPTION')}
@@ -132,6 +133,7 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         multipleLines
       />
       <ResourceCollectionsPicker
+        mode={mode}
         setSelectedCollections={setSelectedCollections}
         selectedCollections={selectedCollections}
         setTeamCollections={setTeamCollections}
@@ -139,6 +141,7 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         className="p-mt-4"
       />
       <ResourceLanguages
+        mode={mode}
         header={t('RESOURCE_LANGUAGES_TITLE')}
         multipleLines
         languages={languages}
@@ -146,18 +149,21 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         className="p-mt-4"
       />
       <AuthorsTable
+        mode={mode}
         authors={authors}
         setAuthors={setAuthors}
         header={t('AUTHORS_TITLE')}
         className="p-mt-4"
       />
       <AuthorsTable
+        mode={mode}
         authors={metadataAuthors}
         setAuthors={setMetadataAuthors}
         header={t('METADATA_AUTHORS_TITLE')}
         className="p-mt-4"
       />
       <ProjectDetails
+        mode={mode}
         projectId={projectId}
         setProjectId={setProjectId}
         projectName={projectName}
@@ -165,21 +171,25 @@ const ResourceGeneralInformation = ({ initialData, setter }) => {
         className="p-mt-4"
       />
       <ProjectPartners
+        mode={mode}
         projectPartners={projectPartners}
         setProjectPartners={setProjectPartners}
         className="p-mt-4"
       />
       <FundingOrganizations
+        mode={mode}
         fundingOrganizations={fundingOrganizations}
         setFundingOrganizations={setFundingOrganizations}
         className="p-mt-4"
       />
       <ContactPoints
+        mode={mode}
         contactPoints={contactPoints}
         setContactPoints={setContactPoints}
         className="p-mt-4"
       />
       <Citation
+        mode={mode}
         citation={citation}
         setCitation={setCitation}
         className="p-mt-4"

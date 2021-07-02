@@ -89,6 +89,17 @@ ul.limitations li::before {
   color: #c6403d;
 }
 
+.review-comments {
+  position: fixed;
+  bottom: 0;
+  z-index: 99999;
+  width: calc(100% - 224px);
+  background: white;
+  padding: 15px 25px 5px 25px;
+  border-top: 1px solid #ccc;
+  left: 224px;
+}
+
 @media screen and (min-width: $lg) {
   .layout-static .footer-logo-container {
     margin-left: 17rem;

@@ -5,20 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const demoPartners = [
-  {
-    leader: true,
-    name: 'Centro Internacional de Agricultura Tropical',
-    id: 'grid.499882.6',
-  },
-  {
-    leader: false,
-    name: 'Centro Internacional de Agricultura Tropical',
-    id: 'grid.499882.6',
-  },
-];
-
-const ProjectPartners = ({ projectPartners, setProjectPartners }) => {
+const ProjectPartners = ({ mode, projectPartners, setProjectPartners }) => {
   const { t } = useTranslation();
   const [agentId, setAgentId] = useState('');
   const [name, setName] = useState('');
@@ -53,7 +40,7 @@ const ProjectPartners = ({ projectPartners, setProjectPartners }) => {
                   tabIndex={0}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
-                    setLeadingPartner(rowData.agent_id);
+                    mode === 'edit' && setLeadingPartner(rowData.agent_id);
                   }}
                 >
                   {rowData.is_leader ? (
@@ -75,67 +62,71 @@ const ProjectPartners = ({ projectPartners, setProjectPartners }) => {
             />
             <Column field="name" header={t('PARTNER_NAME')} />
             <Column field="agent_id" header={t('PARTNER_ID')} />
-            <Column
-              header={t('ACTIONS')}
-              body={(rowData) => (
-                <Button
-                  className="p-button-danger"
-                  icon="pi pi-trash"
-                  onClick={() => {
-                    setProjectPartners(
-                      projectPartners.filter(
-                        (item) => item.agent_id !== rowData.agent_id
-                      )
-                    );
-                  }}
-                />
-              )}
-            />
+            {mode === 'edit' && (
+              <Column
+                header={t('ACTIONS')}
+                body={(rowData) => (
+                  <Button
+                    className="p-button-danger"
+                    icon="pi pi-trash"
+                    onClick={() => {
+                      setProjectPartners(
+                        projectPartners.filter(
+                          (item) => item.agent_id !== rowData.agent_id
+                        )
+                      );
+                    }}
+                  />
+                )}
+              />
+            )}
           </DataTable>
         </div>
       </div>
-      <div className="p-formgrid p-grid">
-        <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="funding-grid">{t('GRID_ID')}</label>
-          <InputText
-            id="funding-grid"
-            type="text"
-            value={agentId}
-            onChange={(e) => setAgentId(e.target.value)}
-            required
-          />
+      {mode === 'edit' && (
+        <div className="p-formgrid p-grid">
+          <div className="p-field p-col-12 p-md-12">
+            <label htmlFor="funding-grid">{t('GRID_ID')}</label>
+            <InputText
+              id="funding-grid"
+              type="text"
+              value={agentId}
+              onChange={(e) => setAgentId(e.target.value)}
+              required
+            />
+          </div>
+          <div className="p-field p-col-12 p-md-12">
+            <label htmlFor="orgName">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
+            <InputText
+              id="orgName"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="p-field p-col-12 p-md-3">
+            <Button
+              label={t('ADD_PARTNER')}
+              icon="pi pi-plus"
+              className="p-mt-2 p-mb-2"
+              onClick={() => {
+                setProjectPartners(
+                  projectPartners
+                    .filter((item) => item.agent_id !== agentId)
+                    .concat({
+                      name,
+                      agent_id: agentId,
+                      is_leader: false,
+                    })
+                );
+                setName('');
+                setAgentId('');
+              }}
+            />
+          </div>
         </div>
-        <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="orgName">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
-          <InputText
-            id="orgName"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="p-field p-col-12 p-md-3">
-          <Button
-            label={t('ADD_PARTNER')}
-            icon="pi pi-plus"
-            className="p-mt-2 p-mb-2"
-            onClick={() => {
-              setProjectPartners(
-                projectPartners
-                  .filter((item) => item.agent_id !== agentId)
-                  .concat({
-                    name,
-                    agent_id: agentId,
-                    is_leader: false,
-                  })
-              );
-              setName('');
-              setAgentId('');
-            }}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

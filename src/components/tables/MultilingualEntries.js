@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 const availableLanguages = [{ label: 'English', value: 'en' }];
 
 const MultilingualEntriesTable = ({
+  mode,
   data,
   header,
   multipleLines,
@@ -22,7 +23,7 @@ const MultilingualEntriesTable = ({
   const [language, setLanguage] = useState(availableLanguages[0].value);
   const [value, setValue] = useState('');
 
-  const footerTemplate = (
+  const footerTemplate = mode === 'edit' && (
     <div className="p-formgrid p-grid p-fluid">
       <div className="p-col-2">
         <div className="p-field">
@@ -77,17 +78,19 @@ const MultilingualEntriesTable = ({
     >
       <Column field="language" />
       <Column field="value" />
-      <Column
-        body={(rowData) => (
-          <div className="p-text-right">
-            <Button
-              className="p-button-danger"
-              icon="pi pi-trash"
-              onClick={() => onDeleteItem(rowData.language)}
-            />
-          </div>
-        )}
-      />
+      {mode === 'edit' && (
+        <Column
+          body={(rowData) => (
+            <div className="p-text-right">
+              <Button
+                className="p-button-danger"
+                icon="pi pi-trash"
+                onClick={() => onDeleteItem(rowData.language)}
+              />
+            </div>
+          )}
+        />
+      )}
     </DataTable>
   );
 };

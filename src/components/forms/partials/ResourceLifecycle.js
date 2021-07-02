@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
-import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from '../../../utilities/hooks';
 
-const ResourceLifecycle = ({ initialData, setter }) => {
+const ResourceLifecycle = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [version, setVersion] = useState(initialData.resource_version ?? '');
   const debouncedVersion = useDebounce(version, 500);
@@ -53,6 +52,7 @@ const ResourceLifecycle = ({ initialData, setter }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="version">{t('RESOURCE_VERSION')}</label>
             <InputText
+              disabled={mode === 'review'}
               id="version"
               type="text"
               value={version}
@@ -65,6 +65,7 @@ const ResourceLifecycle = ({ initialData, setter }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="description">{t('VERSION_DESCRIPTION')}</label>
             <InputTextarea
+              disabled={mode === 'review'}
               id="description"
               type="text"
               value={versionDescription}
@@ -78,6 +79,7 @@ const ResourceLifecycle = ({ initialData, setter }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="releaseDate">{t('RELEASE_DATE')}</label>
             <Calendar
+              disabled={mode === 'review'}
               showIcon
               showButtonBar
               id="releaseDate"
@@ -90,6 +92,7 @@ const ResourceLifecycle = ({ initialData, setter }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="embargoDate">{t('EMBARGO_DATE')}</label>
             <Calendar
+              disabled={mode === 'review'}
               showIcon
               showButtonBar
               id="embargoDate"

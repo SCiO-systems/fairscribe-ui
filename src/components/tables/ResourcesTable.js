@@ -167,7 +167,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
     return `${d.getDate()}/${d.getUTCMonth() + 1}/${d.getFullYear()}`;
   };
 
-  const editResourceLink = (tId, resourceId, mode) =>
+  const resourceLink = (tId, resourceId, mode) =>
     `/teams/${tId}/resources/${resourceId}/mode/${mode}`;
 
   return (
@@ -232,15 +232,20 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
                 />
               ) : (
                 <Button
+                  title="Edit resource"
                   icon="pi pi-pencil"
                   onClick={() =>
-                    history.push(editResourceLink(teamId, rowData.id, 'edit'))
+                    history.push(resourceLink(teamId, rowData.id, 'edit'))
                   }
                   className="p-button-icon-only p-button-rounded p-mr-2"
                 />
               )}
               <Button
+                title="Review resource"
                 icon="pi pi-eye"
+                onClick={() =>
+                  history.push(resourceLink(teamId, rowData.id, 'review'))
+                }
                 className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2"
               />
             </div>

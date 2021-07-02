@@ -12,7 +12,7 @@ const authorTypes = [
   { label: 'Organisation', value: 'group/organisation' },
 ];
 
-const AuthorsTable = ({ header, className, authors, setAuthors }) => {
+const AuthorsTable = ({ header, className, authors, setAuthors, mode }) => {
   const { t } = useTranslation();
   const [type, setType] = useState('');
   const [agentId, setAgentId] = useState('');
@@ -32,58 +32,62 @@ const AuthorsTable = ({ header, className, authors, setAuthors }) => {
             <Column header={t('AUTHOR_TYPE')} field="agent_type" />
             <Column header={t('AUTHOR_NAME')} field="name" />
             <Column header={t('AUTHOR_ID')} field="agent_id" />
-            <Column
-              className="p-text-right"
-              body={(rowData) => (
-                <Button
-                  className="p-button-danger"
-                  icon="pi pi-trash"
-                  onClick={() => {
-                    setAuthors(
-                      authors.filter(
-                        (item) => item.agent_id !== rowData.agent_id
-                      )
-                    );
-                  }}
-                />
-              )}
-            />
+            {mode === 'edit' && (
+              <Column
+                className="p-text-right"
+                body={(rowData) => (
+                  <Button
+                    className="p-button-danger"
+                    icon="pi pi-trash"
+                    onClick={() => {
+                      setAuthors(
+                        authors.filter(
+                          (item) => item.agent_id !== rowData.agent_id
+                        )
+                      );
+                    }}
+                  />
+                )}
+              />
+            )}
           </DataTable>
         </div>
       </div>
-      <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
-        <div className="p-col-10">
-          <Dropdown
-            id="agent_type"
-            name="agent_type"
-            value={type}
-            options={authorTypes}
-            onChange={(e) => setType(e.value)}
-          />
+      {mode === 'edit' && (
+        <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+          <div className="p-col-10">
+            <Dropdown
+              id="agent_type"
+              name="agent_type"
+              value={type}
+              options={authorTypes}
+              onChange={(e) => setType(e.value)}
+            />
+          </div>
+          <div className="p-col-2 p-text-right">
+            <Button
+              label={t('COLLECTION_TITLE_ADD')}
+              icon="pi pi-plus"
+              className="p-button-sm p-component"
+              onClick={() => {
+                setAuthors(
+                  authors.concat({
+                    agent_type: type,
+                    agent_id: agentId,
+                    name,
+                    last_name: lastname,
+                  })
+                );
+                setName('');
+                setType('');
+                setAgentId('');
+                setLastname('');
+              }}
+            />
+          </div>
         </div>
-        <div className="p-col-2 p-text-right">
-          <Button
-            label={t('COLLECTION_TITLE_ADD')}
-            icon="pi pi-plus"
-            className="p-button-sm p-component"
-            onClick={() => {
-              setAuthors(
-                authors.concat({
-                  agent_type: type,
-                  agent_id: agentId,
-                  name,
-                  last_name: lastname,
-                })
-              );
-              setName('');
-              setType('');
-              setAgentId('');
-              setLastname('');
-            }}
-          />
-        </div>
-      </div>
-      {type.toLowerCase() === 'individual' && (
+      )}
+      {mode === 'edit' && type.toLowerCase() === 'individual' && (
         <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
           <div className="p-col-12 p-field">
             <label htmlFor="agent_id">{t('ORCID')}</label>
@@ -112,7 +116,7 @@ const AuthorsTable = ({ header, className, authors, setAuthors }) => {
           </div>
         </div>
       )}
-      {type.toLowerCase() === 'group/organisation' && (
+      {mode === 'edit' && type.toLowerCase() === 'group/organisation' && (
         <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
           <div className="p-col-12 p-field">
             <label htmlFor="agent_id">{t('GRID_ID')}</label>

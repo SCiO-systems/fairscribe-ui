@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const FundingOrganizations = ({
+  mode,
   fundingOrganizations,
   setFundingOrganizations,
 }) => {
@@ -25,66 +26,70 @@ const FundingOrganizations = ({
           >
             <Column field="name" header={t('NAME')} />
             <Column field="agent_id" header={t('ID')} />
-            <Column
-              header={t('ACTIONS')}
-              body={(rowData) => (
-                <Button
-                  className="p-button-danger"
-                  icon="pi pi-trash"
-                  onClick={() => {
-                    setFundingOrganizations(
-                      fundingOrganizations.filter(
-                        (item) => item.agent_id !== rowData.agent_id
-                      )
-                    );
-                  }}
-                />
-              )}
-            />
+            {mode === 'edit' && (
+              <Column
+                header={t('ACTIONS')}
+                body={(rowData) => (
+                  <Button
+                    className="p-button-danger"
+                    icon="pi pi-trash"
+                    onClick={() => {
+                      setFundingOrganizations(
+                        fundingOrganizations.filter(
+                          (item) => item.agent_id !== rowData.agent_id
+                        )
+                      );
+                    }}
+                  />
+                )}
+              />
+            )}
           </DataTable>
         </div>
       </div>
-      <div className="p-formgrid p-grid">
-        <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="funding-grid">{t('GRID_ID')}</label>
-          <InputText
-            id="funding-grid"
-            type="text"
-            value={agentId}
-            onChange={(e) => setAgentId(e.target.value)}
-            required
-          />
+      {mode === 'edit' && (
+        <div className="p-formgrid p-grid">
+          <div className="p-field p-col-12 p-md-12">
+            <label htmlFor="funding-grid">{t('GRID_ID')}</label>
+            <InputText
+              id="funding-grid"
+              type="text"
+              value={agentId}
+              onChange={(e) => setAgentId(e.target.value)}
+              required
+            />
+          </div>
+          <div className="p-field p-col-12 p-md-12">
+            <label htmlFor="orgName">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
+            <InputText
+              id="orgName"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="p-field p-col-12 p-md-4">
+            <Button
+              label={t('ADD_FUNDING_ORG')}
+              icon="pi pi-plus"
+              className="p-mt-2 p-mb-2"
+              onClick={() => {
+                setFundingOrganizations(
+                  fundingOrganizations
+                    .filter((item) => item.agent_id !== agentId)
+                    .concat({
+                      name,
+                      agent_id: agentId,
+                    })
+                );
+                setName('');
+                setAgentId('');
+              }}
+            />
+          </div>
         </div>
-        <div className="p-field p-col-12 p-md-12">
-          <label htmlFor="orgName">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
-          <InputText
-            id="orgName"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="p-field p-col-12 p-md-4">
-          <Button
-            label={t('ADD_FUNDING_ORG')}
-            icon="pi pi-plus"
-            className="p-mt-2 p-mb-2"
-            onClick={() => {
-              setFundingOrganizations(
-                fundingOrganizations
-                  .filter((item) => item.agent_id !== agentId)
-                  .concat({
-                    name,
-                    agent_id: agentId,
-                  })
-              );
-              setName('');
-              setAgentId('');
-            }}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

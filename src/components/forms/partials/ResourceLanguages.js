@@ -202,7 +202,7 @@ const languagesList = [
   { value: 'zu', label: 'Zulu' },
 ];
 
-const ResourceLanguages = ({ languages, setLanguages, header }) => {
+const ResourceLanguages = ({ languages, setLanguages, header, mode }) => {
   const { t } = useTranslation();
   const [language, setLanguage] = useState(languagesList[0]);
 
@@ -218,52 +218,56 @@ const ResourceLanguages = ({ languages, setLanguages, header }) => {
           >
             <Column header="Language" field="label" />
             <Column header="Language code" field="value" />
-            <Column
-              className="p-text-right"
-              body={(rowData) => (
-                <Button
-                  className="p-button-danger"
-                  icon="pi pi-trash"
-                  onClick={() => {
-                    setLanguages(
-                      languages.filter((item) => item.value !== rowData.value)
-                    );
-                  }}
-                />
-              )}
-            />
+            {mode === 'edit' && (
+              <Column
+                className="p-text-right"
+                body={(rowData) => (
+                  <Button
+                    className="p-button-danger"
+                    icon="pi pi-trash"
+                    onClick={() => {
+                      setLanguages(
+                        languages.filter((item) => item.value !== rowData.value)
+                      );
+                    }}
+                  />
+                )}
+              />
+            )}
           </DataTable>
         </div>
       </div>
-      <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
-        <div className="p-col-10">
-          <Dropdown
-            id="language"
-            value={language.value}
-            placeholder={t('RESOURCE_LANGUAGE')}
-            options={languagesList}
-            onChange={(e) => {
-              setLanguage(
-                languagesList.filter((item) => item.value === e.value)[0]
-              );
-            }}
-          />
+      {mode === 'edit' && (
+        <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+          <div className="p-col-10">
+            <Dropdown
+              id="language"
+              value={language.value}
+              placeholder={t('RESOURCE_LANGUAGE')}
+              options={languagesList}
+              onChange={(e) => {
+                setLanguage(
+                  languagesList.filter((item) => item.value === e.value)[0]
+                );
+              }}
+            />
+          </div>
+          <div className="p-col-2 p-text-right">
+            <Button
+              label={t('COLLECTION_TITLE_ADD')}
+              icon="pi pi-plus"
+              className="p-button-sm p-component"
+              onClick={() => {
+                setLanguages(
+                  languages
+                    .filter((item) => item.value !== language.value)
+                    .concat(language)
+                );
+              }}
+            />
+          </div>
         </div>
-        <div className="p-col-2 p-text-right">
-          <Button
-            label={t('COLLECTION_TITLE_ADD')}
-            icon="pi pi-plus"
-            className="p-button-sm p-component"
-            onClick={() => {
-              setLanguages(
-                languages
-                  .filter((item) => item.value !== language.value)
-                  .concat(language)
-              );
-            }}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -15,7 +15,7 @@ import {
 } from '../../../services/resources';
 import { ToastContext } from '../../../store/toast';
 
-const ResourceFiles = ({ initialData, setter }) => {
+const ResourceFiles = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const { setError, setSuccess } = useContext(ToastContext);
   const thumbnailFile = useRef(null);
@@ -111,7 +111,7 @@ const ResourceFiles = ({ initialData, setter }) => {
       embargo_date: new Date(item.embargo_date).toISOString().split('T')[0],
     }));
     setter(thumbnails, files);
-  }, [resourceFiles, thumbnails]);
+  }, [resourceFiles, thumbnails]); // eslint-disable-line
 
   return (
     <Fieldset
@@ -148,12 +148,14 @@ const ResourceFiles = ({ initialData, setter }) => {
                 e.target.value = null;
               }}
             />
-            <Button
-              label={t('UPLOAD_THUMBNAIL')}
-              icon="pi pi-image"
-              className="p-mt-2 p-mb-2"
-              onClick={() => thumbnailFile.current.click()}
-            />
+            {mode === 'edit' && (
+              <Button
+                label={t('UPLOAD_THUMBNAIL')}
+                icon="pi pi-image"
+                className="p-mt-2 p-mb-2"
+                onClick={() => thumbnailFile.current.click()}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -173,6 +175,7 @@ const ResourceFiles = ({ initialData, setter }) => {
           header={t('LOCKED')}
           body={({ id, locked }) => (
             <InputSwitch
+              disabled={mode === 'review'}
               className="p-my-0 p-py-0"
               checked={locked}
               onChange={(e) => setLocked(id, e.value)}
@@ -184,6 +187,7 @@ const ResourceFiles = ({ initialData, setter }) => {
           header={t('PUBLISHABLE')}
           body={({ id, publishable }) => (
             <InputSwitch
+              disabled={mode === 'review'}
               className="p-my-0 p-py-0"
               checked={publishable}
               onChange={(e) => setPublishable(id, e.value)}
@@ -196,6 +200,7 @@ const ResourceFiles = ({ initialData, setter }) => {
           body={(rowData) => (
             <Calendar
               showIcon
+              disabled={mode === 'review'}
               showButtonBar
               id="embargo-date"
               value={rowData.embargo_date}
@@ -203,18 +208,20 @@ const ResourceFiles = ({ initialData, setter }) => {
             />
           )}
         />
-        <Column
-          header={t('ACTIONS')}
-          body={(rowData) => (
-            <div className="p-text-left">
-              <Button
-                icon="pi pi-trash"
-                className="p-button p-component p-button-danger p-button-icon-only"
-                onClick={() => deleteResourceFile(rowData.id)}
-              />
-            </div>
-          )}
-        />
+        {mode === 'edit' && (
+          <Column
+            header={t('ACTIONS')}
+            body={(rowData) => (
+              <div className="p-text-left">
+                <Button
+                  icon="pi pi-trash"
+                  className="p-button p-component p-button-danger p-button-icon-only"
+                  onClick={() => deleteResourceFile(rowData.id)}
+                />
+              </div>
+            )}
+          />
+        )}
       </DataTable>
       <div className="p-formgrid p-grid">
         <div className="p-field p-col-12">
@@ -228,12 +235,14 @@ const ResourceFiles = ({ initialData, setter }) => {
               e.target.value = null;
             }}
           />
-          <Button
-            label={t('UPLOAD_FILES')}
-            className="p-mt-4"
-            icon="pi pi-upload"
-            onClick={(e) => resourceFile.current.click()}
-          />
+          {mode === 'edit' && (
+            <Button
+              label={t('UPLOAD_FILES')}
+              className="p-mt-4"
+              icon="pi pi-upload"
+              onClick={(e) => resourceFile.current.click()}
+            />
+          )}
         </div>
       </div>
     </Fieldset>

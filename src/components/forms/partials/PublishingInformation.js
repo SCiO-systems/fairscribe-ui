@@ -6,7 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const PublishingInformation = ({ initialData, setter }) => {
+const PublishingInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [dois, setDois] = useState([]);
   const [urls, setUrls] = useState([]);
@@ -17,6 +17,11 @@ const PublishingInformation = ({ initialData, setter }) => {
     const newDois = [...dois, { type: 'DOI', value: doi }];
     setDois(newDois);
     setDoi('');
+  };
+
+  const removeItem = (value, type) => {
+    type === 'DOI' && setDois(dois.filter((item) => item.value !== value));
+    type === 'URL' && setUrls(urls.filter((item) => item.value !== value));
   };
 
   const addUrl = () => {
@@ -33,7 +38,7 @@ const PublishingInformation = ({ initialData, setter }) => {
   const booleanTemplate = (bool) =>
     bool ? <i className="pi pi-check" /> : <i className="pi pi-times" />;
 
-  const doiFooterTemplate = (
+  const doiFooterTemplate = mode === 'edit' && (
     <div className="p-formgrid p-grid p-fluid">
       <div className="p-col-10">
         <div className="p-field">
@@ -53,7 +58,7 @@ const PublishingInformation = ({ initialData, setter }) => {
     </div>
   );
 
-  const hdlFooterTemplate = (
+  const hdlFooterTemplate = mode === 'edit' && (
     <div className="p-formgrid p-grid p-fluid">
       <div className="p-col-10">
         <div className="p-field">
@@ -97,6 +102,20 @@ const PublishingInformation = ({ initialData, setter }) => {
           header={t('PUBLISHER_TITLE')}
           body={(_rowData) => '-'}
         />
+        {mode === 'edit' && (
+          <Column
+            header={t('ACTIONS')}
+            body={(rowData) => (
+              <div className="p-text-left">
+                <Button
+                  className="p-button-danger"
+                  icon="pi pi-trash"
+                  onClick={() => removeItem(rowData.value, rowData.type)}
+                />
+              </div>
+            )}
+          />
+        )}
       </DataTable>
       <DataTable
         header={t('HDLS_URLS')}
@@ -111,6 +130,20 @@ const PublishingInformation = ({ initialData, setter }) => {
           header={t('VERIFIED')}
           body={(_rowData) => '-'}
         />
+        {mode === 'edit' && (
+          <Column
+            header={t('ACTIONS')}
+            body={(rowData) => (
+              <div className="p-text-left">
+                <Button
+                  className="p-button-danger"
+                  icon="pi pi-trash"
+                  onClick={() => removeItem(rowData.value, rowData.type)}
+                />
+              </div>
+            )}
+          />
+        )}
       </DataTable>
       {initialData.type && initialData.type.value === 'document' && (
         <div className="p-mt-4 p-fluid p-formgrid p-grid">

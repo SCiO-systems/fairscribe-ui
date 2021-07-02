@@ -93,7 +93,7 @@ const holderTypes = [
   { label: 'Organisation', value: 'group/organisation' },
 ];
 
-const ResourceRights = ({ initialData, setter }) => {
+const ResourceRights = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [license, setLicense] = useState('');
   const [licenseWizardDialog, setLicenseWizardDialog] = useState(false);
@@ -138,9 +138,12 @@ const ResourceRights = ({ initialData, setter }) => {
     >
       <div className="p-fluid p-mt-2">
         <div className="p-formgrid p-grid p-d-flex p-ai-end">
-          <div className="p-field p-col-9 p-md-9">
+          <div
+            className={mode === 'edit' ? 'p-field p-col-9' : 'p-field p-col-12'}
+          >
             <label htmlFor="license">{t('RESOURCE_LICENSE')}</label>
             <Dropdown
+              disabled={mode === 'review'}
               id="license"
               options={licenses}
               value={license}
@@ -148,19 +151,21 @@ const ResourceRights = ({ initialData, setter }) => {
               required
             />
           </div>
-          <div className="p-field p-col-3 p-md-3">
-            <Button
-              label={t('LICENSE_WIZARD')}
-              onClick={() => setLicenseWizardDialog(!licenseWizardDialog)}
-            />
-          </div>
+          {mode === 'edit' && (
+            <div className="p-field p-col-3 p-md-3">
+              <Button
+                label={t('LICENSE_WIZARD')}
+                onClick={() => setLicenseWizardDialog(!licenseWizardDialog)}
+              />
+            </div>
+          )}
         </div>
         <div className="p-formgrid p-grid">
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="accessRight">{t('RESOURCE_ACCESS_RIGHT')}</label>
             <Dropdown
               id="accessRight"
-              disabled={license !== ''}
+              disabled={license !== '' || mode === 'review'}
               options={accessRights}
               value={accessRight}
               onChange={(e) => setAccessRight(e.target.value)}
@@ -173,6 +178,7 @@ const ResourceRights = ({ initialData, setter }) => {
             <label htmlFor="keywords">{t('TERMS_OF_USE')} (in English)</label>
             <InputTextarea
               id="keywords"
+              disabled={mode === 'review'}
               type="text"
               value={termsOfUse}
               rows={5}
@@ -196,58 +202,62 @@ const ResourceRights = ({ initialData, setter }) => {
                 body={nameBodyTemplate}
               />
               <Column field="agent_id" header={t('RIGHTS_HOLDER_ID')} />
-              <Column
-                className="p-text-right"
-                body={(rowData) => (
-                  <Button
-                    className="p-button-danger"
-                    icon="pi pi-trash"
-                    onClick={() => {
-                      setRightsHolders(
-                        rightsHolders.filter(
-                          (item) => item.agent_id !== rowData.agent_id
-                        )
-                      );
-                    }}
-                  />
-                )}
-              />
+              {mode === 'edit' && (
+                <Column
+                  className="p-text-right"
+                  body={(rowData) => (
+                    <Button
+                      className="p-button-danger"
+                      icon="pi pi-trash"
+                      onClick={() => {
+                        setRightsHolders(
+                          rightsHolders.filter(
+                            (item) => item.agent_id !== rowData.agent_id
+                          )
+                        );
+                      }}
+                    />
+                  )}
+                />
+              )}
             </DataTable>
           </div>
         </div>
-        <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
-          <div className="p-col-10">
-            <Dropdown
-              id="agent_type"
-              name="agent_type"
-              value={type}
-              options={holderTypes}
-              onChange={(e) => setType(e.value)}
-            />
+        {mode === 'edit' && (
+          <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
+            <div className="p-col-10">
+              <Dropdown
+                id="agent_type"
+                name="agent_type"
+                value={type}
+                options={holderTypes}
+                onChange={(e) => setType(e.value)}
+              />
+            </div>
+            <div className="p-col-2 p-text-right">
+              <Button
+                label={t('COLLECTION_TITLE_ADD')}
+                icon="pi pi-plus"
+                className="p-button-sm p-component"
+                onClick={() => {
+                  setRightsHolders(
+                    rightsHolders.concat({
+                      agent_type: type,
+                      agent_id: agentId,
+                      name,
+                      last_name: lastname,
+                    })
+                  );
+                  setName('');
+                  setType('');
+                  setAgentId('');
+                  setLastname('');
+                }}
+              />
+            </div>
           </div>
-          <div className="p-col-2 p-text-right">
-            <Button
-              label={t('COLLECTION_TITLE_ADD')}
-              icon="pi pi-plus"
-              className="p-button-sm p-component"
-              onClick={() => {
-                setRightsHolders(
-                  rightsHolders.concat({
-                    agent_type: type,
-                    agent_id: agentId,
-                    name,
-                    last_name: lastname,
-                  })
-                );
-                setName('');
-                setType('');
-                setAgentId('');
-                setLastname('');
-              }}
-            />
-          </div>
-        </div>
-        {type.toLowerCase() === 'individual' && (
+        )}
+        {mode === 'edit' && type.toLowerCase() === 'individual' && (
           <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
             <div className="p-col-12 p-field">
               <label htmlFor="agent_id">{t('ORCID')}</label>
@@ -276,7 +286,7 @@ const ResourceRights = ({ initialData, setter }) => {
             </div>
           </div>
         )}
-        {type.toLowerCase() === 'group/organisation' && (
+        {mode === 'edit' && type.toLowerCase() === 'group/organisation' && (
           <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
             <div className="p-col-12 p-field">
               <label htmlFor="agent_id">{t('GRID_ID')}</label>
@@ -297,11 +307,13 @@ const ResourceRights = ({ initialData, setter }) => {
           </div>
         )}
       </div>
-      <LicenseWizardDialog
-        setDialogOpen={setLicenseWizardDialog}
-        dialogOpen={licenseWizardDialog}
-        setLicense={setLicense}
-      />
+      {mode === 'edit' && (
+        <LicenseWizardDialog
+          setDialogOpen={setLicenseWizardDialog}
+          dialogOpen={licenseWizardDialog}
+          setLicense={setLicense}
+        />
+      )}
     </Fieldset>
   );
 };

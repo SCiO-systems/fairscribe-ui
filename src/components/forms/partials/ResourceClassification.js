@@ -1,9 +1,9 @@
+import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
 import { Fieldset } from 'primereact/fieldset';
-import React, { useState, useEffect } from 'react';
+import { InputText } from 'primereact/inputtext';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const freeKeywordTemplate = (keyword) => ({
@@ -14,7 +14,7 @@ const freeKeywordTemplate = (keyword) => ({
   taxon_path: '',
 });
 
-const ResourceClassification = ({ initialData, setter }) => {
+const ResourceClassification = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [keywords, setKeywords] = useState(initialData.keywords ?? []);
   const [kw, setKw] = useState('');
@@ -29,25 +29,27 @@ const ResourceClassification = ({ initialData, setter }) => {
     setter(keywords);
   }, [keywords]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const keywordsFooter = (
-    <div className="p-formgrid p-grid p-fluid">
-      <div className="p-col-10">
-        <div className="p-field">
-          <InputText
-            name="keyword"
-            value={kw}
-            type="text"
-            onChange={(e) => setKw(e.target.value)}
-          />
+  const keywordsFooter = () =>
+    mode === 'edit' && (
+      <div className="p-formgrid p-grid p-fluid">
+        <div className="p-col-10">
+          <div className="p-field">
+            <InputText
+              disabled={mode === 'review'}
+              name="keyword"
+              value={kw}
+              type="text"
+              onChange={(e) => setKw(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="p-col-2">
+          <div className="p-field">
+            <Button label={t('ADD')} onClick={addKeyword} />
+          </div>
         </div>
       </div>
-      <div className="p-col-2">
-        <div className="p-field">
-          <Button label={t('ADD')} onClick={addKeyword} />
-        </div>
-      </div>
-    </div>
-  );
+    );
 
   return (
     <Fieldset

@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const ProjectDetails = ({
+  mode,
   projectId,
   setProjectId,
   projectName,
@@ -17,6 +18,7 @@ const ProjectDetails = ({
         <div className="p-field p-col-12 p-md-12">
           <label htmlFor="name">{t('PROJECT_NAME')} (in English)</label>
           <InputTextarea
+            disabled={mode === 'review'}
             id="name"
             type="text"
             value={projectName}
@@ -30,6 +32,7 @@ const ProjectDetails = ({
         <div className="p-field p-col-12 p-md-12">
           <label htmlFor="contract">{t('PROJECT_CONTRACT_NO')}</label>
           <InputText
+            disabled={mode === 'review'}
             id="contract"
             type="text"
             value={projectId}
