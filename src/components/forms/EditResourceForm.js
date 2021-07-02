@@ -2,9 +2,14 @@ import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import {
+  updateResource,
+  updateResourceComments,
+} from '../../services/resources';
+import { ToastContext } from '../../store';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
 import PublishingInformation from './partials/PublishingInformation';
@@ -19,13 +24,19 @@ import ResourceRights from './partials/ResourceRights';
 const EditResourceForm = ({ resource, teamId, mode }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const { setError, setSuccess } = useContext(ToastContext);
   const [quickSaveStyles, setQuickSaveStyles] = useState({});
   const [fairScoreDialogOpen, setFairScoreDialogOpen] = useState(false);
   const [rightOffset, setRightOffset] = useState('30px');
   const [quickSaveVisibility, setQuickSaveVisibility] = useState(true);
   const [metadataRecord, setMetadataRecord] = useState(
-    resource.metadata_record ?? {}
+    resource.metadata_record && resource.metadata_record.dataCORE
+      ? resource.metadata_record.dataCORE
+      : {}
   );
+  const [comments, setComments] = useState(resource.comments || '');
+
+  const { resourceId } = useParams();
 
   useScrollPosition(({ currPos }) => {
     if (currPos.y > -10) {
@@ -45,6 +56,48 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       setRightOffset('-1px');
     }
   });
+
+  const handleError = (e) => {
+    let error = e && e.message;
+    const statusCode = e.response && e.response.status;
+    error =
+      statusCode === 422
+        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
+        : e.response.data.error;
+    setError('Error', error);
+  };
+
+  const saveChanges = async (sendForReview) => {
+    try {
+      const status = sendForReview ? 'under_review' : 'under_preparation';
+      const record = {
+        dataCORE: {
+          CORE_version: '1.0',
+          ...metadataRecord,
+          resource_type: {
+            value: 'dataset',
+          },
+        },
+      };
+      await updateResource(teamId, resourceId, {
+        status,
+        metadata_record: record,
+      });
+      setSuccess('Resource', 'Resource changes have been saved!');
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const saveResourceComments = async (e) => {
+    e.preventDefault();
+    try {
+      await updateResourceComments(teamId, resourceId, { comments });
+      setSuccess('Review', 'The comments have been saved!');
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   const mainSetter = (data) => {
     setMetadataRecord(() => ({ ...metadataRecord, ...data }));
@@ -90,19 +143,13 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                       onClick={(e) => setFairScoreDialogOpen(true)}
                     />
                     <Button
+                      className="p-mr-2"
+                      label={t('SEND_FOR_REVIEW')}
+                      onClick={() => saveChanges(true)}
+                    />
+                    <Button
                       label={t('SAVE_CHANGES')}
-                      onClick={() => {
-                        // eslint-disable-next-line
-                        console.log({
-                          dataCORE: {
-                            CORE_version: '1.0',
-                            ...metadataRecord,
-                            resource_type: {
-                              value: 'dataset',
-                            },
-                          },
-                        });
-                      }}
+                      onClick={() => saveChanges(false)}
                     />
                   </>
                 )}
@@ -111,10 +158,12 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           )}
           {mode === 'review' && (
             <div className="review-comments">
-              <form onSubmit={() => {}}>
+              <form onSubmit={saveResourceComments}>
                 <h5>{t('COMMENTS')}</h5>
                 <InputTextarea
                   style={{ width: '100%', overflowY: 'scroll', resize: 'none' }}
+                  value={comments}
+                  onChange={(e) => setComments(e.target.value)}
                   autoResize={false}
                   rows={5}
                 />

@@ -29,27 +29,26 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     setter(keywords);
   }, [keywords]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const keywordsFooter = () =>
-    mode === 'edit' && (
-      <div className="p-formgrid p-grid p-fluid">
-        <div className="p-col-10">
-          <div className="p-field">
-            <InputText
-              disabled={mode === 'review'}
-              name="keyword"
-              value={kw}
-              type="text"
-              onChange={(e) => setKw(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="p-col-2">
-          <div className="p-field">
-            <Button label={t('ADD')} onClick={addKeyword} />
-          </div>
+  const keywordsFooter = mode === 'edit' && (
+    <div className="p-formgrid p-grid p-fluid">
+      <div className="p-col-10">
+        <div className="p-field">
+          <InputText
+            disabled={mode === 'review'}
+            name="keyword"
+            value={kw}
+            type="text"
+            onChange={(e) => setKw(e.target.value)}
+          />
         </div>
       </div>
-    );
+      <div className="p-col-2">
+        <div className="p-field">
+          <Button label={t('ADD')} onClick={addKeyword} />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <Fieldset

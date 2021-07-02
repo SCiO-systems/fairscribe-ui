@@ -86,9 +86,9 @@ const ProjectPartners = ({ mode, projectPartners, setProjectPartners }) => {
       {mode === 'edit' && (
         <div className="p-formgrid p-grid">
           <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="funding-grid">{t('GRID_ID')}</label>
+            <label htmlFor="partners-grid">{t('GRID_ID')}</label>
             <InputText
-              id="funding-grid"
+              id="partners-grid"
               type="text"
               value={agentId}
               onChange={(e) => setAgentId(e.target.value)}
@@ -96,9 +96,11 @@ const ProjectPartners = ({ mode, projectPartners, setProjectPartners }) => {
             />
           </div>
           <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="orgName">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
+            <label htmlFor="grid-partner-org-name">
+              {t('SEARCH_GRID_WITH_ORG_NAME')}
+            </label>
             <InputText
-              id="orgName"
+              id="grid-partner-org-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}

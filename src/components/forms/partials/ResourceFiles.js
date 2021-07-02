@@ -108,7 +108,9 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   useEffect(() => {
     const files = resourceFiles.map((item) => ({
       ...item,
-      embargo_date: new Date(item.embargo_date).toISOString().split('T')[0],
+      embargo_date:
+        item.embargo_date &&
+        new Date(item.embargo_date).toISOString().split('T')[0],
     }));
     setter(thumbnails, files);
   }, [resourceFiles, thumbnails]); // eslint-disable-line

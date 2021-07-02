@@ -245,6 +245,7 @@ const t = {
     GEOSPATIAL_COVERAGE: 'Geospatial Coverage',
     LICENSE_WIZARD: 'License Wizard',
     COMMENTS: 'Comments',
+    SEND_FOR_REVIEW: 'Send for review',
   },
 };
 

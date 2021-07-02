@@ -60,9 +60,11 @@ const FundingOrganizations = ({
             />
           </div>
           <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="orgName">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
+            <label htmlFor="grid-org-name">
+              {t('SEARCH_GRID_WITH_ORG_NAME')}
+            </label>
             <InputText
-              id="orgName"
+              id="grid-org-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}

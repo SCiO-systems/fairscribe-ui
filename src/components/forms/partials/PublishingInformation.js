@@ -8,8 +8,18 @@ import { useTranslation } from 'react-i18next';
 
 const PublishingInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [dois, setDois] = useState([]);
-  const [urls, setUrls] = useState([]);
+  const [dois, setDois] = useState(
+    (initialData.identifier &&
+      initialData.identifier.length > 0 &&
+      initialData.identifier.filter((item) => item.type === 'DOI')) ||
+      []
+  );
+  const [urls, setUrls] = useState(
+    (initialData.identifier &&
+      initialData.identifier.length > 0 &&
+      initialData.identifier.filter((item) => item.type === 'URL')) ||
+      []
+  );
   const [doi, setDoi] = useState('');
   const [url, setUrl] = useState('');
 

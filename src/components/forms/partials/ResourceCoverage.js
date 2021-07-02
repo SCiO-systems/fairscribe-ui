@@ -188,7 +188,7 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
                 <InputTextarea
                   id="description"
                   type="text"
-                  value={temporalCoverage.textual_description}
+                  value={temporalCoverage.textual_description || ''}
                   rows={3}
                   style={{ resize: 'none' }}
                   onChange={(e) =>
