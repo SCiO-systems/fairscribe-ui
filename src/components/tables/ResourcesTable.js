@@ -12,7 +12,6 @@ import { useHistory } from 'react-router-dom';
 import { getResources } from '../../services/teams';
 import { useDebounce } from '../../utilities/hooks';
 import FairScoreMiniChart from '../charts/FairScoreMini';
-import FairScoreDialog from '../dialogs/FairScoreDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
 
 const fairScoreTransformer = (data) => [
@@ -50,7 +49,6 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [unpublished, setUnpublished] = useState(true);
   const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
-  const [fairScoreDialogOpen, setFairScoreDialogOpen] = useState(false);
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
     first: 1,
@@ -252,10 +250,6 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
       <UploadToRepoDialog
         dialogOpen={uploadToRepoDialogOpen}
         setDialogOpen={setUploadToRepoDialog}
-      />
-      <FairScoreDialog
-        dialogOpen={fairScoreDialogOpen}
-        setDialogOpen={setFairScoreDialogOpen}
       />
     </>
   );
