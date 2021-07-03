@@ -114,9 +114,8 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
         />
         {mode === 'edit' && (
           <Column
-            header={t('ACTIONS')}
             body={(rowData) => (
-              <div className="p-text-left">
+              <div className="p-text-right">
                 <Button
                   className="p-button-danger"
                   icon="pi pi-trash"
@@ -142,9 +141,8 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
         />
         {mode === 'edit' && (
           <Column
-            header={t('ACTIONS')}
             body={(rowData) => (
-              <div className="p-text-left">
+              <div className="p-text-right">
                 <Button
                   className="p-button-danger"
                   icon="pi pi-trash"

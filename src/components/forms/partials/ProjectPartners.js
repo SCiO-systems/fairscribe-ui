@@ -64,19 +64,20 @@ const ProjectPartners = ({ mode, projectPartners, setProjectPartners }) => {
             <Column field="agent_id" header={t('PARTNER_ID')} />
             {mode === 'edit' && (
               <Column
-                header={t('ACTIONS')}
                 body={(rowData) => (
-                  <Button
-                    className="p-button-danger"
-                    icon="pi pi-trash"
-                    onClick={() => {
-                      setProjectPartners(
-                        projectPartners.filter(
-                          (item) => item.agent_id !== rowData.agent_id
-                        )
-                      );
-                    }}
-                  />
+                  <div className="p-text-right">
+                    <Button
+                      className="p-button-danger"
+                      icon="pi pi-trash"
+                      onClick={() => {
+                        setProjectPartners(
+                          projectPartners.filter(
+                            (item) => item.agent_id !== rowData.agent_id
+                          )
+                        );
+                      }}
+                    />
+                  </div>
                 )}
               />
             )}

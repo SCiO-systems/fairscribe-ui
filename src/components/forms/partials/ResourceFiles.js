@@ -100,8 +100,9 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   };
 
   const convertDateToFormat = (date) => {
-    const offset = date.getTimezoneOffset() * 60000;
-    return new Date(date.getTime() - offset).toISOString().split('T')[0];
+    const d = new Date(date);
+    const offset = d.getTimezoneOffset() * 60000;
+    return new Date(d.getTime() - offset).toISOString().split('T')[0];
   };
 
   const setEmbargoDate = async (id, date) => {
@@ -122,7 +123,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   useEffect(() => {
     const files = resourceFiles.map((item) => ({
       ...item,
-      embargo_date: item.embargo_date,
+      embargo_date: convertDateToFormat(item.embargo_date),
     }));
     setter(thumbnails, files);
   }, [resourceFiles, thumbnails]); // eslint-disable-line
@@ -227,7 +228,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
           <Column
             header={t('ACTIONS')}
             body={(rowData) => (
-              <div className="p-text-left">
+              <div className="p-text-right">
                 <Button
                   icon="pi pi-trash"
                   className="p-button p-component p-button-danger p-button-icon-only"

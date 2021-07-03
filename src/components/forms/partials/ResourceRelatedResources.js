@@ -56,9 +56,10 @@ const ResourceRelatedResources = ({ initialData, setter, mode }) => {
             >
               <Column field="id" header="DOI" body={({ id }) => id} />
               <Column
-                header={t('ACTIONS')}
                 body={() => (
-                  <Button className="p-button-danger" icon="pi pi-trash" />
+                  <div className="p-text-right">
+                    <Button className="p-button-danger" icon="pi pi-trash" />
+                  </div>
                 )}
               />
             </DataTable>
