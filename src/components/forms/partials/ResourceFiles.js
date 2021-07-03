@@ -90,6 +90,20 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     setResourceFiles(f);
   };
 
+  const getDateFromFormat = (value) => {
+    if (value instanceof Date) {
+      return value;
+    }
+    // Format is yyyy-MM-dd;
+    const d = new Date(value);
+    return d;
+  };
+
+  const convertDateToFormat = (date) => {
+    const offset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() - offset).toISOString().split('T')[0];
+  };
+
   const setEmbargoDate = async (id, date) => {
     const f = resourceFiles.map((item) => {
       if (item.id === id) {
@@ -108,9 +122,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   useEffect(() => {
     const files = resourceFiles.map((item) => ({
       ...item,
-      embargo_date:
-        item.embargo_date &&
-        new Date(item.embargo_date).toISOString().split('T')[0],
+      embargo_date: item.embargo_date,
     }));
     setter(thumbnails, files);
   }, [resourceFiles, thumbnails]); // eslint-disable-line
@@ -201,11 +213,12 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
           header={t('EMBARGO_DATE')}
           body={(rowData) => (
             <Calendar
+              dateFormat="yy-mm-dd"
               showIcon
               disabled={mode === 'review'}
               showButtonBar
               id="embargo-date"
-              value={rowData.embargo_date}
+              value={getDateFromFormat(rowData.embargo_date)}
               onChange={(e) => setEmbargoDate(rowData.id, e.value)}
             />
           )}

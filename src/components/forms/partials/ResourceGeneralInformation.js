@@ -23,13 +23,15 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   const [selectedCollections, setSelectedCollections] = useState(
     initialData.collections || []
   );
-  const [languages, setLanguages] = useState(initialData.languages || []);
+  const [languages, setLanguages] = useState(
+    initialData.resource_language || []
+  );
   const [authors, setAuthors] = useState(initialData.authors || []);
   const [metadataAuthors, setMetadataAuthors] = useState(
     initialData.metadata_authors || []
   );
   const [projectId, setProjectId] = useState(initialData.project_id || '');
-  const [projectName, setProjectName] = useState(
+  const [projectNames, setProjectNames] = useState(
     initialData.project_name || ''
   );
   const [projectPartners, setProjectPartners] = useState(
@@ -61,12 +63,16 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   };
 
   useEffect(() => {
-    const langs = languages.map((item) => item.value);
-    const name = [{ language: 'en', value: projectName }];
+    const name = [
+      {
+        language: 'en',
+        value: (projectNames[0] && projectNames[0].value) || '',
+      },
+    ];
     setter(
       title,
       description,
-      langs,
+      languages,
       authors,
       metadataAuthors,
       projectId,
@@ -83,7 +89,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
     authors,
     metadataAuthors,
     projectId,
-    projectName,
+    projectNames,
     projectPartners,
     fundingOrganizations,
     contactPoints,
@@ -166,8 +172,8 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         mode={mode}
         projectId={projectId}
         setProjectId={setProjectId}
-        projectName={projectName}
-        setProjectName={setProjectName}
+        projectNames={projectNames}
+        setProjectNames={setProjectNames}
         className="p-mt-4"
       />
       <ProjectPartners

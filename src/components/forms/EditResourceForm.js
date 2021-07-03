@@ -35,7 +35,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       : {}
   );
   const [comments, setComments] = useState(resource.comments || '');
-
   const { resourceId } = useParams();
 
   useScrollPosition(({ currPos }) => {

@@ -7,8 +7,8 @@ const ProjectDetails = ({
   mode,
   projectId,
   setProjectId,
-  projectName,
-  setProjectName,
+  projectNames,
+  setProjectNames,
 }) => {
   const { t } = useTranslation();
 
@@ -21,9 +21,11 @@ const ProjectDetails = ({
             disabled={mode === 'review'}
             id="name"
             type="text"
-            value={projectName}
+            value={projectNames[0] && projectNames[0].value}
             rows={5}
-            onChange={(e) => setProjectName(e.target.value)}
+            onChange={(e) =>
+              setProjectNames([{ language: 'en', value: e.target.value }])
+            }
             required
           />
         </div>
