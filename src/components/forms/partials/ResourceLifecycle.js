@@ -5,6 +5,10 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  convertDateToFormat,
+  getDateFromFormat,
+} from '../../../utilities/dates';
 import { useDebounce } from '../../../utilities/hooks';
 
 const ResourceLifecycle = ({ initialData, setter, mode }) => {
@@ -29,8 +33,8 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
       setter(
         debouncedVersion,
         debouncedDescription,
-        debouncedReleaseDate,
-        debouncedEmbargoDate
+        convertDateToFormat(debouncedReleaseDate),
+        convertDateToFormat(debouncedEmbargoDate)
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -79,11 +83,12 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="releaseDate">{t('RELEASE_DATE')}</label>
             <Calendar
+              dateFormat="yy-mm-dd"
               disabled={mode === 'review'}
               showIcon
               showButtonBar
               id="releaseDate"
-              value={releaseDate}
+              value={getDateFromFormat(releaseDate)}
               onChange={(e) => setReleaseDate(e.value)}
             />
           </div>
@@ -92,11 +97,12 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
           <div className="p-field p-col-12 p-md-12">
             <label htmlFor="embargoDate">{t('EMBARGO_DATE')}</label>
             <Calendar
+              dateFormat="yy-mm-dd"
               disabled={mode === 'review'}
               showIcon
               showButtonBar
               id="embargoDate"
-              value={embargoDate}
+              value={getDateFromFormat(embargoDate)}
               onChange={(e) => setEmbargoDate(e.value)}
             />
           </div>

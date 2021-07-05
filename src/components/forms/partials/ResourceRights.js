@@ -97,9 +97,13 @@ const ResourceRights = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [license, setLicense] = useState('');
   const [licenseWizardDialog, setLicenseWizardDialog] = useState(false);
-  const [accessRight, setAccessRight] = useState('');
+  const [accessRight, setAccessRight] = useState(
+    initialData?.rights?.access_right || ''
+  );
   const [type, setType] = useState('');
-  const [termsOfUse, setTermsOfUse] = useState('');
+  const [termsOfUse, setTermsOfUse] = useState(
+    initialData?.rights?.terms_of_use[0]?.value || ''
+  );
   const [rightsHolders, setRightsHolders] = useState(
     initialData?.rights?.rights_holder || []
   );

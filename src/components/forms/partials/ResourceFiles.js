@@ -14,6 +14,10 @@ import {
   uploadThumbnail,
 } from '../../../services/resources';
 import { ToastContext } from '../../../store/toast';
+import {
+  convertDateToFormat,
+  getDateFromFormat,
+} from '../../../utilities/dates';
 
 const ResourceFiles = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -88,21 +92,6 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       return item;
     });
     setResourceFiles(f);
-  };
-
-  const getDateFromFormat = (value) => {
-    if (value instanceof Date) {
-      return value;
-    }
-    // Format is yyyy-MM-dd;
-    const d = new Date(value);
-    return d;
-  };
-
-  const convertDateToFormat = (date) => {
-    const d = new Date(date);
-    const offset = d.getTimezoneOffset() * 60000;
-    return new Date(d.getTime() - offset).toISOString().split('T')[0];
   };
 
   const setEmbargoDate = async (id, date) => {

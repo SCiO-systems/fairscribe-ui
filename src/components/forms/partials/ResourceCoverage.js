@@ -8,6 +8,10 @@ import { Fieldset } from 'primereact/fieldset';
 import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  convertDateToFormat,
+  getDateFromFormat,
+} from '../../../utilities/dates';
 import * as countryOptions from './countries.json';
 
 const ResourceCoverage = ({ initialData, setter, mode }) => {
@@ -28,10 +32,10 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
   useEffect(() => {
     const tc = { ...temporalCoverage };
     if (tc.from !== '') {
-      tc.from = new Date(tc.from).toISOString().split('T').shift();
+      tc.from = convertDateToFormat(tc.from);
     }
     if (tc.to !== '') {
-      tc.to = new Date(tc.to).toISOString().split('T').shift();
+      tc.to = convertDateToFormat(tc.to);
     }
     if (tc.coverage_type === 'timepoint') {
       tc.to = tc.from;
@@ -136,10 +140,11 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
                   <div className="p-field p-col-12 p-md-12">
                     <label htmlFor="from_date">{t('TEMPORAL_FROM_DATE')}</label>
                     <Calendar
+                      dateFormat="yy-mm-dd"
                       showIcon
                       showButtonBar
                       id="from_date"
-                      value={temporalCoverage.from}
+                      value={getDateFromFormat(temporalCoverage.from)}
                       onChange={(e) =>
                         setTemporalCoverage(() => ({
                           ...temporalCoverage,
@@ -151,10 +156,11 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
                   <div className="p-field p-col-12 p-md-12">
                     <label htmlFor="to_date">{t('TEMPORAL_TO_DATE')}</label>
                     <Calendar
+                      dateFormat="yy-mm-dd"
                       showIcon
                       showButtonBar
                       id="to_date"
-                      value={temporalCoverage.to}
+                      value={getDateFromFormat(temporalCoverage.to)}
                       onChange={(e) =>
                         setTemporalCoverage(() => ({
                           ...temporalCoverage,
@@ -169,10 +175,11 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
                 <div className="p-field p-col-12 p-md-12">
                   <label htmlFor="date">{t('TEMPORAL_DATE')}</label>
                   <Calendar
+                    dateFormat="yy-mm-dd"
                     showIcon
                     showButtonBar
                     id="date"
-                    value={temporalCoverage.from}
+                    value={getDateFromFormat(temporalCoverage.from)}
                     onChange={(e) =>
                       setTemporalCoverage(() => ({
                         ...temporalCoverage,
