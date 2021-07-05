@@ -95,7 +95,7 @@ const holderTypes = [
 
 const ResourceRights = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [license, setLicense] = useState('');
+  const [license, setLicense] = useState(initialData?.rights?.license || '');
   const [licenseWizardDialog, setLicenseWizardDialog] = useState(false);
   const [accessRight, setAccessRight] = useState(
     initialData?.rights?.access_right || ''
