@@ -2,6 +2,7 @@ import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Message } from 'primereact/message';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
@@ -175,6 +176,38 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             </div>
           )}
         </div>
+        {mode === 'edit' && resource.comments && (
+          <Message
+            severity="warn"
+            className="p-mb-4"
+            content={() => (
+              <>
+                <div className="p-mr-3 p-pl-2">
+                  <i className="pi pi-book" />
+                </div>
+                <div className="p-pt-2">
+                  <h5>Review</h5>
+                  <p className="p-pb-2 p-pr-2">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Pellentesque in eleifend mauris. Etiam finibus ullamcorper
+                    libero ac rhoncus. Etiam non lacus convallis, mattis mi at,
+                    placerat mauris. Fusce tincidunt quis libero vehicula
+                    venenatis. Mauris in erat quis ligula hendrerit consequat.
+                    Nullam nisl est, commodo a sem et, maximus lacinia odio.
+                    Vivamus commodo cursus imperdiet. Suspendisse venenatis
+                    porta nulla, nec tincidunt libero placerat quis. Maecenas
+                    aliquet leo tortor, placerat consequat enim sodales vel.
+                    Fusce laoreet tincidunt feugiat. Donec imperdiet tellus eget
+                    arcu lobortis, eu venenatis sem hendrerit. Quisque auctor
+                    auctor tristique. Nam malesuada, lectus pulvinar accumsan
+                    sagittis, diam sapien bibendum sem, fringilla eleifend lorem
+                    massa a massa. Morbi ut elementum neque, ut rhoncus dolor.
+                  </p>
+                </div>
+              </>
+            )}
+          />
+        )}
         <ResourceFiles
           mode={mode}
           initialData={{
