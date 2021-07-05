@@ -95,7 +95,10 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
               )}
             </button>
             {notificationMenuVisible && (
-              <ul className="notifications-menu fade-in-up p-pt-2">
+              <ul
+                className="notifications-menu fade-in-up p-pt-2"
+                style={{ zIndex: '9999' }}
+              >
                 {invitations &&
                   invitations.map((i) => (
                     <li key={i.id} role="menuitem" className="p-mb-2">
@@ -109,7 +112,6 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
                         <div className="actionable-buttons">
                           <Button
                             title={t('ACCEPT_INVITE')}
-                            label=""
                             disabled={loadingInvitation === i.id}
                             icon="pi pi-check"
                             className="p-button-success p-button-sm"
@@ -117,7 +119,6 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
                           />
                           <Button
                             title={t('REJECT_INVITE')}
-                            label=""
                             disabled={loadingInvitation === i.id}
                             icon="pi pi-times"
                             className="p-button-danger p-button-sm p-ml-2"
