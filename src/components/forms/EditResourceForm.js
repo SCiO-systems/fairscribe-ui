@@ -186,23 +186,8 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                   <i className="pi pi-book" />
                 </div>
                 <div className="p-pt-2">
-                  <h5>Review</h5>
-                  <p className="p-pb-2 p-pr-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Pellentesque in eleifend mauris. Etiam finibus ullamcorper
-                    libero ac rhoncus. Etiam non lacus convallis, mattis mi at,
-                    placerat mauris. Fusce tincidunt quis libero vehicula
-                    venenatis. Mauris in erat quis ligula hendrerit consequat.
-                    Nullam nisl est, commodo a sem et, maximus lacinia odio.
-                    Vivamus commodo cursus imperdiet. Suspendisse venenatis
-                    porta nulla, nec tincidunt libero placerat quis. Maecenas
-                    aliquet leo tortor, placerat consequat enim sodales vel.
-                    Fusce laoreet tincidunt feugiat. Donec imperdiet tellus eget
-                    arcu lobortis, eu venenatis sem hendrerit. Quisque auctor
-                    auctor tristique. Nam malesuada, lectus pulvinar accumsan
-                    sagittis, diam sapien bibendum sem, fringilla eleifend lorem
-                    massa a massa. Morbi ut elementum neque, ut rhoncus dolor.
-                  </p>
+                  <h5>{t('REVIEW_COMMENTS')}</h5>
+                  <p className="p-pb-2 p-pr-2">{resource.comments}</p>
                 </div>
               </>
             )}
