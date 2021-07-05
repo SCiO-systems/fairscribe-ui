@@ -40,7 +40,7 @@ const CreativeCommonsLicense = ({ license, closeDialog, setLicense }) => (
     <div className="p-col-12">
       <ul className="p-pl-4">
         {license.more.map((m) => (
-          <li>{m}</li>
+          <li key={m}>{m}</li>
         ))}
       </ul>
     </div>
