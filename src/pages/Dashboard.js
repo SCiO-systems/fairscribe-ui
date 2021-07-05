@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useContext } from 'react/cjs/react.development';
 import InviteTeamMembersDialog from '../components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from '../components/dialogs/TeamDialog';
 import InformationPanel from '../components/InformationPanel';
