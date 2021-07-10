@@ -9,6 +9,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LicenseWizardDialog from '../../dialogs/LicenseWizardDialog';
+import GridAutoComplete from '../../autocomplete-inputs/GridAutoComplete';
 
 const licenses = [
   {
@@ -132,6 +133,11 @@ const ResourceRights = ({ initialData, setter, mode }) => {
       return `${rowData.name} ${rowData.last_name}`;
     }
     return rowData.name;
+  };
+
+  const setGridResult = (result) => {
+    setAgentId(result.agent_id);
+    setName(result.name);
   };
 
   return (
@@ -293,20 +299,10 @@ const ResourceRights = ({ initialData, setter, mode }) => {
         {mode === 'edit' && type.toLowerCase() === 'group/organisation' && (
           <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
             <div className="p-col-12 p-field">
-              <label htmlFor="agent_id">{t('GRID_ID')}</label>
-              <InputText
-                id="agent_id"
-                value={agentId}
-                onChange={(e) => setAgentId(e.target.value)}
-              />
-            </div>
-            <div className="p-col-12 p-field">
-              <label htmlFor="name">{t('NAME')}</label>
-              <InputText
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <label htmlFor="grid-org-name">
+                {t('SEARCH_GRID_WITH_ORG_NAME')}
+              </label>
+              <GridAutoComplete onChange={setGridResult} />
             </div>
           </div>
         )}

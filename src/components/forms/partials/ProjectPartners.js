@@ -1,14 +1,19 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import GridAutoComplete from '../../autocomplete-inputs/GridAutoComplete';
 
 const ProjectPartners = ({ mode, projectPartners, setProjectPartners }) => {
   const { t } = useTranslation();
   const [agentId, setAgentId] = useState('');
   const [name, setName] = useState('');
+
+  const setGridResult = (result) => {
+    setAgentId(result.agent_id);
+    setName(result.name);
+  };
 
   const setLeadingPartner = (id) => {
     const partners = projectPartners.map((partner) => {
@@ -87,26 +92,10 @@ const ProjectPartners = ({ mode, projectPartners, setProjectPartners }) => {
       {mode === 'edit' && (
         <div className="p-formgrid p-grid">
           <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="partners-grid">{t('GRID_ID')}</label>
-            <InputText
-              id="partners-grid"
-              type="text"
-              value={agentId}
-              onChange={(e) => setAgentId(e.target.value)}
-              required
-            />
-          </div>
-          <div className="p-field p-col-12 p-md-12">
             <label htmlFor="grid-partner-org-name">
               {t('SEARCH_GRID_WITH_ORG_NAME')}
             </label>
-            <InputText
-              id="grid-partner-org-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <GridAutoComplete onChange={setGridResult} />
           </div>
           <div className="p-field p-col-12 p-md-3">
             <Button

@@ -6,6 +6,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import GridAutoComplete from '../autocomplete-inputs/GridAutoComplete';
 
 const authorTypes = [
   { label: 'Individual', value: 'individual' },
@@ -17,7 +18,22 @@ const AuthorsTable = ({ header, className, authors, setAuthors, mode }) => {
   const [type, setType] = useState('');
   const [agentId, setAgentId] = useState('');
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [lastname, setLastname] = useState('');
+
+  const setGridResult = (result) => {
+    setAgentId(result.agent_id);
+    setName(result.name);
+    setEmail(result.email);
+    setLastname('');
+  };
+
+  const resolveName = () => {
+    if (type === 'individual') {
+      return `${name} ${lastname}`;
+    }
+    return name;
+  };
 
   return (
     <div className="p-fluid">
@@ -74,14 +90,15 @@ const AuthorsTable = ({ header, className, authors, setAuthors, mode }) => {
                   authors.concat({
                     agent_type: type,
                     agent_id: agentId,
-                    name,
-                    last_name: lastname,
+                    name: resolveName(),
+                    email,
                   })
                 );
                 setName('');
                 setType('');
                 setAgentId('');
                 setLastname('');
+                setEmail('');
               }}
             />
           </div>
@@ -119,20 +136,8 @@ const AuthorsTable = ({ header, className, authors, setAuthors, mode }) => {
       {mode === 'edit' && type.toLowerCase() === 'group/organisation' && (
         <div className="p-formgrid p-grid p-d-flex p-flex-row p-ai-center p-mt-4">
           <div className="p-col-12 p-field">
-            <label htmlFor="agent_id">{t('GRID_ID')}</label>
-            <InputText
-              id="agent_id"
-              value={agentId}
-              onChange={(e) => setAgentId(e.target.value)}
-            />
-          </div>
-          <div className="p-col-12 p-field">
-            <label htmlFor="name">{t('NAME')}</label>
-            <InputText
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <label htmlFor="agent_id">{t('SEARCH_GRID_WITH_ORG_NAME')}</label>
+            <GridAutoComplete onChange={setGridResult} />
           </div>
         </div>
       )}
