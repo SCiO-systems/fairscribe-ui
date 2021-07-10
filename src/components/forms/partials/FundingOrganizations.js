@@ -1,7 +1,6 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import GridAutoComplete from '../../autocomplete-inputs/GridAutoComplete';
