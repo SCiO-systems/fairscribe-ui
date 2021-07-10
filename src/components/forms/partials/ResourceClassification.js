@@ -3,7 +3,6 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
-import { InputText } from 'primereact/inputtext';
 import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToastContext } from '../../../store';
