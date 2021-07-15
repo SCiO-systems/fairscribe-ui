@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import Logo from './assets/img/dataSCRIBE-Horizontal.png';
+import Logo from './assets/img/FAIRscribe-Horizontal.png';
 import InviteTeamMembersDialog from './components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from './components/dialogs/TeamDialog';
 import { getAllOwnedTeams, getAllSharedTeams } from './services/teams';
@@ -80,7 +80,7 @@ const AppMenu = ({ onMenuClick }) => {
             id="app-logo"
             className="logo-image"
             src={Logo}
-            alt="dataSCRIBE"
+            alt="FAIRscribe"
           />
         </NavLink>
       </div>

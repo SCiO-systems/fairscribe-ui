@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import AppBreadcrumb from './AppBreadcrumb';
-import MiniLogo from './assets/img/dataSCRIBE-mini.png';
+import MiniLogo from './assets/img/FAIRscribe-mini.png';
 import { acceptInvite, getMyInvites, rejectInvite } from './services/invites';
 import { getSharedTeams } from './services/teams';
 import { UserContext } from './store';
@@ -61,7 +61,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
           id="logo-mobile"
           className="mobile-logo"
           src={MiniLogo}
-          alt="dataSCRIBE"
+          alt="FAIRscribe"
         />
       </div>
 
