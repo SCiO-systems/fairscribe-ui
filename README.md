@@ -43,30 +43,6 @@ To run the application locally:
 
 Open `localhost:3000` in your browser (should open automatically).
 
-### Interact with the staging backend server
-
-You first need to generate a local certificate (https). For that you'll need to have `openssl` installed in your system (it usually ships with linux/macos systems):
-
-Run:
-
-    openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365
-
-fill the requested input with some dummy details and then:
-  
-    openssl rsa -in keytmp.pem -out key.pem
-    
-Then edit your `/etc/hosts` and add this entry:
-
-    127.0.0.1       scio-datascribe-local.noeticblue.com
-
-In your `.env` file add this to your `HOST` value: `scio-datascribe-local.noeticblue.com`
-
-Every time you need to run the dev server run:
-
-    npm run start-https
-
-Open `scio-datascribe-local.noeticblue.com:3000` in your browser (should open automatically).
-
 ### Testing
 
 To test the project locally:
