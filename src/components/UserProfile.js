@@ -12,7 +12,12 @@ import {
 } from '../services/users';
 import { ToastContext, UserContext } from '../store';
 
-const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
+const UserProfile = ({
+  userId,
+  dialogOpen,
+  setDialogOpen,
+  identityProvider,
+}) => {
   const { t } = useTranslation();
   const userAvatar = useRef(null);
   const { setUser } = useContext(UserContext);
@@ -100,17 +105,19 @@ const UserProfile = ({ userId, dialogOpen, setDialogOpen }) => {
                   required
                 />
               </div>
-              <div className="p-field p-col-12 p-md-6">
-                <label htmlFor="email">{t('EMAIL')}</label>
-                <InputText
-                  id="email"
-                  type="email"
-                  value={email}
-                  disabled
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+              {identityProvider === 'scribe' && (
+                <div className="p-field p-col-12 p-md-6">
+                  <label htmlFor="email">{t('EMAIL')}</label>
+                  <InputText
+                    id="email"
+                    type="email"
+                    value={email}
+                    disabled
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              )}
               <div className="p-field p-col-12 p-md-6">
                 <label htmlFor="repoManagerAccess">
                   {t('REPO_MANAGER_PERMISSIONS')}
