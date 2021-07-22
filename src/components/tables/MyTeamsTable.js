@@ -36,7 +36,7 @@ const MyTeamsTable = ({
 
   useEffect(() => {
     // essentially reload teams table when the teamDialog closes
-    if (teamDialogOpen === false && myTeams.length !== 0) {
+    if (teamDialogOpen === false) {
       loadLazyData();
     }
   }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
