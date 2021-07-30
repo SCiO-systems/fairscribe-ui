@@ -3,7 +3,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const ResourceRelatedResources = ({ initialData, setter, mode }) => {
@@ -11,14 +11,21 @@ const ResourceRelatedResources = ({ initialData, setter, mode }) => {
   const [dois, setDois] = useState(initialData.related_resources || []);
   const [doi, setDoi] = useState('');
 
+  const removeDoi = (id) => {
+    setDois(dois.filter((d) => d.id !== id));
+  };
+
   const addDoi = () => {
     const newDois = [...dois, { id: doi }];
     setDois(newDois);
     setDoi('');
-    // Notify the parent to update the big JSON
     setter(newDois);
   };
 
+  useEffect(
+    () => setter(dois),
+    [dois] // eslint-disable-line react-hooks/exhaustive-deps
+  );
   const doiFooterTemplate = mode === 'edit' && (
     <div className="p-formgrid p-grid p-fluid">
       <div className="p-col-10">
@@ -56,9 +63,13 @@ const ResourceRelatedResources = ({ initialData, setter, mode }) => {
             >
               <Column field="id" header="DOI" body={({ id }) => id} />
               <Column
-                body={() => (
+                body={({ id }) => (
                   <div className="p-text-right">
-                    <Button className="p-button-danger" icon="pi pi-trash" />
+                    <Button
+                      onClick={() => removeDoi(id)}
+                      className="p-button-danger"
+                      icon="pi pi-trash"
+                    />
                   </div>
                 )}
               />
