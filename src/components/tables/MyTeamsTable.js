@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { getOwnedTeams } from '../../services/teams';
+import { getAllOwnedTeams, getOwnedTeams } from '../../services/teams';
 import { UserContext } from '../../store';
 import { useDebounce } from '../../utilities/hooks';
 
@@ -23,7 +23,7 @@ const MyTeamsTable = ({
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [myTeams, setMyTeams] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const { id: userId } = useContext(UserContext);
+  const { id: userId, setUser } = useContext(UserContext);
   const history = useHistory();
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
@@ -42,6 +42,7 @@ const MyTeamsTable = ({
       loadLazyData();
     }
     if (deleteTeamDialogOpen === false) {
+      loadOwnedTeams();
       loadLazyData();
     }
   }, [teamDialogOpen, deleteTeamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -57,6 +58,15 @@ const MyTeamsTable = ({
       setTotalRecords(meta.total);
       setLoading(false);
     });
+  };
+
+  const loadOwnedTeams = async () => {
+    try {
+      const { data: ownTeams } = await getAllOwnedTeams(userId);
+      setUser({ ownTeams });
+    } catch (e) {
+      // TODO: Error handling here.
+    }
   };
 
   const onPage = (event) => {
