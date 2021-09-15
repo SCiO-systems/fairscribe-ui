@@ -79,7 +79,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
         <div className="p-formgrid p-grid">
           <form onSubmit={handleSubmit}>
             <div className="p-col-12">
-              <div>
+              <div className="p-field">
                 <label htmlFor="teamName">{t('YOUR_TEAM_NAME')}</label>
                 <InputText
                   id="teamName"
@@ -87,7 +87,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
                   onChange={(e) => setTeamName(e.target.value)}
                 />
               </div>
-              <div className="p-mt-4">
+              <div className="p-mt-4 p-field">
                 <label htmlFor="teamDescription">{t('YOUR_TEAM_DESC')}</label>
                 <InputTextarea
                   id="teamDescription"
