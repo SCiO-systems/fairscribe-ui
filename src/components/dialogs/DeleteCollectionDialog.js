@@ -2,10 +2,15 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { deleteTeam } from '../../services/teams';
+import { deleteTeamCollection } from '../../services/collections';
 import { ToastContext } from '../../store';
 
-const DeleteTeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
+const DeleteCollectionDialog = ({
+  dialogOpen,
+  setDialogOpen,
+  team,
+  collection,
+}) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { setError, setSuccess } = useContext(ToastContext);
@@ -14,8 +19,8 @@ const DeleteTeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await deleteTeam(team?.id);
-      setSuccess('The team has been deleted successfully!');
+      await deleteTeamCollection(team?.id, collection?.id);
+      setSuccess('The collection has been deleted successfully!');
       setDialogOpen(false);
     } catch (error) {
       if (error?.response) {
@@ -35,7 +40,7 @@ const DeleteTeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
 
   return (
     <Dialog
-      header={t('DELETE_TEAM')}
+      header={t('DELETE_COLLECTION')}
       visible={dialogOpen}
       style={{ width: '400px' }}
       draggable={false}
@@ -47,8 +52,8 @@ const DeleteTeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
           <form onSubmit={handleSubmit}>
             <div className="p-col-12">
               <p>
-                Are you sure you want to delete team{' '}
-                <strong>{team?.name}</strong>?
+                Are you sure you want to delete collection{' '}
+                <strong>{collection?.title}</strong>?
               </p>
             </div>
             <div className="p-col-12 p-text-center p-mt-4">
@@ -61,7 +66,7 @@ const DeleteTeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
                   onClick={() => setDialogOpen(false)}
                 />
                 <Button
-                  label={t('DELETE_TEAM')}
+                  label={t('DELETE_COLLECTION')}
                   icon="pi pi-trash"
                   className="p-button-danger p-mr-2 p-mb-2"
                   onClick={handleSubmit}
@@ -76,4 +81,4 @@ const DeleteTeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
   );
 };
 
-export default DeleteTeamDialog;
+export default DeleteCollectionDialog;

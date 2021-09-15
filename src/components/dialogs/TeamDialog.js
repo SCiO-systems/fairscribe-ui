@@ -50,7 +50,7 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
         ownTeams: ownTeamsRes.data,
       });
     } catch (error) {
-      if (error.response) {
+      if (error?.response) {
         setError(
           'Oops!',
           error.response.data.errors[

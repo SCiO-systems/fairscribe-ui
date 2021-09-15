@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { getTeamCollections } from '../../services/collections';
 import { useDebounce } from '../../utilities/hooks';
 import CurrentCollectionDialog from '../dialogs/CurrentCollectionDialog';
+import DeleteCollectionDialog from '../dialogs/DeleteCollectionDialog';
 import ResourcesTable from './ResourcesTable';
 
 const CollectionsTable = ({ team }) => {
@@ -17,9 +18,11 @@ const CollectionsTable = ({ team }) => {
   const [collections, setCollections] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
+  const [deleteCollectionDialogOpen, setDeleteCollectionDialogOpen] =
+    useState(false);
   const [editCollectionDialogOpen, setEditCollectionDialogOpen] =
     useState(false);
-  const [editableCollection, setEditableCollection] = useState(null);
+  const [selectedCollection, setSelectedCollection] = useState(null);
   const [expandedRows, setExpandedRows] = useState(null);
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
@@ -40,6 +43,14 @@ const CollectionsTable = ({ team }) => {
     }
   }, [newCollectionDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Reload the collections when the delete collection dialog closes.
+  useEffect(() => {
+    // essentially reload teams table when the teamDialog closes
+    if (deleteCollectionDialogOpen === false) {
+      loadLazyData();
+    }
+  }, [deleteCollectionDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Reload the collections when the edit collections dialog closes.
   useEffect(() => {
     // essentially reload teams table when the teamDialog closes
@@ -52,13 +63,22 @@ const CollectionsTable = ({ team }) => {
     onFilter();
   }, [debouncedGlobalFilter]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const loadLazyData = () => {
+  const loadLazyData = async () => {
     setLoading(true);
-    getTeamCollections(team.id, lazyParams.page + 1).then(({ data, meta }) => {
+    try {
+      const { data, meta } = await getTeamCollections(
+        team.id,
+        lazyParams.page + 1
+      );
       setCollections(data);
       setTotalRecords(meta.total);
-      setLoading(false);
-    });
+    } catch (e) {
+      setCollections([]);
+      setTotalRecords(0);
+      // TODO: Handle the exception here.
+      console.error(e); // eslint-disable-line
+    }
+    setLoading(false);
   };
 
   const onPage = (event) => {
@@ -169,12 +189,13 @@ const CollectionsTable = ({ team }) => {
         />
         <Column
           body={(rowData) => (
-            <div className="p-text-right">
+            <div className="p-d-flex p-ai-center p-jc-end p-flex-wrap">
               <Button
                 icon="pi pi-pencil"
-                className="p-button-icon-only p-button-rounded p-mr-3"
+                className="p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
+                title="Edit collection"
                 onClick={() => {
-                  setEditableCollection(rowData);
+                  setSelectedCollection(rowData);
                   setEditCollectionDialogOpen(true);
                 }}
               />
@@ -184,13 +205,18 @@ const CollectionsTable = ({ team }) => {
                     ? 'pi pi-eye-slash'
                     : 'pi pi-eye'
                 }
-                label={
-                  expandedRows && expandedRows[rowData.id]
-                    ? t('HIDE_COLLECTION_RESOURCES')
-                    : t('VIEW_COLLECTION_RESOURCES')
-                }
-                className="p-button-secondary"
+                title="View collection resources"
+                className="p-button-secondary p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
                 onClick={() => toggleExpandRow(rowData.id)}
+              />
+              <Button
+                icon="pi pi-trash"
+                title="Delete collection"
+                onClick={() => {
+                  setSelectedCollection(rowData);
+                  setDeleteCollectionDialogOpen(true);
+                }}
+                className="p-button-icon-only p-button-rounded p-button-danger p-mr-2 p-mb-2"
               />
             </div>
           )}
@@ -204,8 +230,14 @@ const CollectionsTable = ({ team }) => {
       <CurrentCollectionDialog
         dialogOpen={editCollectionDialogOpen}
         setDialogOpen={setEditCollectionDialogOpen}
-        collection={editableCollection}
+        collection={selectedCollection}
         team={team}
+      />
+      <DeleteCollectionDialog
+        dialogOpen={deleteCollectionDialogOpen}
+        setDialogOpen={setDeleteCollectionDialogOpen}
+        team={team}
+        collection={selectedCollection}
       />
     </>
   );

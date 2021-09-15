@@ -248,6 +248,7 @@ const t = {
     SEND_FOR_REVIEW: 'Send for review',
     REVIEW_COMMENTS: 'Review Comments',
     DELETE_TEAM: 'Delete team',
+    DELETE_COLLECTION: 'Delete collection',
   },
 };
 

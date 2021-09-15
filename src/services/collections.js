@@ -11,3 +11,6 @@ export const createTeamCollection = async (teamId, data) =>
 
 export const updateTeamCollection = async (teamId, collectionId, data) =>
   apiClient.put(`/teams/${teamId}/collections/${collectionId}`, data);
+
+export const deleteTeamCollection = async (teamId, collectionId) =>
+  apiClient.remove(`/teams/${teamId}/collections/${collectionId}`);

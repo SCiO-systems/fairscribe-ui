@@ -198,7 +198,7 @@ const MyTeamsTable = ({
                 setViewTeam({ id, name, description });
                 setDeleteTeamDialogOpen(true);
               }}
-              className="p-button-icon-only p-button-rounded p-button-danger p-mb-2"
+              className="p-button-icon-only p-button-rounded p-button-danger p-mb-2 p-mr-2"
             />
           </div>
         )}
