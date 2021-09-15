@@ -41,11 +41,15 @@ const MyTeamsTable = ({
     if (teamDialogOpen === false) {
       loadLazyData();
     }
+  }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // essentially reload teams table when the teamDialog closes
     if (deleteTeamDialogOpen === false) {
       loadOwnedTeams();
       loadLazyData();
     }
-  }, [teamDialogOpen, deleteTeamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [deleteTeamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     onFilter();
@@ -166,14 +170,14 @@ const MyTeamsTable = ({
       />
       <Column
         body={({ id, name, description }) => (
-          <div className="p-d-flex p-flex-row p-ai-center p-jc-start p-flex-wrap">
+          <div className="p-d-flex p-flex-row p-ai-center p-jc-end p-flex-wrap">
             <Button
               onClick={() => {
                 setViewTeam({ id, name, description });
                 setInviteMembersDialogOpen(true);
               }}
               icon="pi pi-user-plus"
-              className="p-button-outlined p-button-icon-only p-button-rounded p-mb-2 p-mr-2"
+              className="p-button-icon-only p-button-rounded p-mb-2 p-mr-2"
             />
             <Button
               icon="pi pi-cog"
@@ -181,12 +185,12 @@ const MyTeamsTable = ({
                 setViewTeam({ id, name, description });
                 setTeamDialogOpen(true);
               }}
-              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
+              className="p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
             />
             <Button
               icon="pi pi-eye"
               onClick={() => history.push(`/teams/${id}`)}
-              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
+              className="p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
             />
             <Button
               icon="pi pi-trash"
@@ -194,7 +198,7 @@ const MyTeamsTable = ({
                 setViewTeam({ id, name, description });
                 setDeleteTeamDialogOpen(true);
               }}
-              className="p-button-outlined p-button-icon-only p-button-rounded p-button-danger p-mb-2"
+              className="p-button-icon-only p-button-rounded p-button-danger p-mb-2"
             />
           </div>
         )}
