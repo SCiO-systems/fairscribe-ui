@@ -17,6 +17,9 @@ export const getSingleTeam = async (teamId) =>
 export const createTeam = async (userId, data) =>
   apiClient.post(`/users/${userId}/teams`, { ...data });
 
+export const deleteTeam = async (teamId) =>
+  apiClient.remove(`/teams/${teamId}`);
+
 export const updateTeam = async (userId, teamId, data) =>
   apiClient.put(`/users/${userId}/teams/${teamId}`, { ...data });
 

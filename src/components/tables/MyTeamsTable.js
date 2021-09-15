@@ -14,6 +14,8 @@ const MyTeamsTable = ({
   setTeamDialogOpen,
   setViewTeam,
   setInviteMembersDialogOpen,
+  deleteTeamDialogOpen,
+  setDeleteTeamDialogOpen,
 }) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -21,7 +23,7 @@ const MyTeamsTable = ({
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [myTeams, setMyTeams] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const { id } = useContext(UserContext);
+  const { id: userId } = useContext(UserContext);
   const history = useHistory();
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
@@ -39,7 +41,10 @@ const MyTeamsTable = ({
     if (teamDialogOpen === false) {
       loadLazyData();
     }
-  }, [teamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (deleteTeamDialogOpen === false) {
+      loadLazyData();
+    }
+  }, [teamDialogOpen, deleteTeamDialogOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     onFilter();
@@ -47,7 +52,7 @@ const MyTeamsTable = ({
 
   const loadLazyData = () => {
     setLoading(true);
-    getOwnedTeams(id, lazyParams.page + 1).then(({ data, meta }) => {
+    getOwnedTeams(userId, lazyParams.page + 1).then(({ data, meta }) => {
       setMyTeams(data);
       setTotalRecords(meta.total);
       setLoading(false);
@@ -150,37 +155,36 @@ const MyTeamsTable = ({
         body={uploadsTemplate}
       />
       <Column
-        body={(rowData) => (
-          <div className="p-d-flex p-flex-row p-ai-center p-jc-end p-flex-wrap">
+        body={({ id, name, description }) => (
+          <div className="p-d-flex p-flex-row p-ai-center p-jc-start p-flex-wrap">
             <Button
               onClick={() => {
-                setViewTeam({
-                  id: rowData.id,
-                  name: rowData.name,
-                  description: rowData.description,
-                });
+                setViewTeam({ id, name, description });
                 setInviteMembersDialogOpen(true);
               }}
               icon="pi pi-user-plus"
-              className="p-button-outlined p-button-icon-only p-button-rounded p-mb-1 p-mr-2"
+              className="p-button-outlined p-button-icon-only p-button-rounded p-mb-2 p-mr-2"
             />
             <Button
               icon="pi pi-cog"
               onClick={() => {
-                setViewTeam({
-                  id: rowData.id,
-                  name: rowData.name,
-                  description: rowData.description,
-                });
+                setViewTeam({ id, name, description });
                 setTeamDialogOpen(true);
               }}
-              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mb-1 p-mr-2"
+              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
             />
             <Button
-              label={t('VIEW_DETAILS')}
               icon="pi pi-eye"
-              onClick={() => history.push(`/teams/${rowData.id}`)}
-              className="p-button-secondary p-mb-1"
+              onClick={() => history.push(`/teams/${id}`)}
+              className="p-button-outlined p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
+            />
+            <Button
+              icon="pi pi-trash"
+              onClick={() => {
+                setViewTeam({ id, name, description });
+                setDeleteTeamDialogOpen(true);
+              }}
+              className="p-button-outlined p-button-icon-only p-button-rounded p-button-danger p-mb-2"
             />
           </div>
         )}

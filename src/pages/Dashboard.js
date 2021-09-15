@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import DeleteTeamDialog from '../components/dialogs/DeleteTeamDialog';
 import InviteTeamMembersDialog from '../components/dialogs/InviteTeamMembersDialog';
 import TeamDialog from '../components/dialogs/TeamDialog';
 import InformationPanel from '../components/InformationPanel';
@@ -10,9 +11,10 @@ import { UserContext } from '../store';
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const [teamDialogOpen, setTeamDialogOpen] = useState(false);
   const [viewTeam, setViewTeam] = useState(null);
+  const [deleteTeamDialogOpen, setDeleteTeamDialogOpen] = useState(false);
   const [inviteMembersDialogOpen, setInviteMembersDialogOpen] = useState(false);
+  const [teamDialogOpen, setTeamDialogOpen] = useState(false);
   const [myActiveTasks, setMyActiveTasks] = useState(null);
   const [myPendingReviews, setMyPendingReviews] = useState(null);
   const [myPendingUploads, setMyPendingUploads] = useState(null);
@@ -20,11 +22,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUserStats(userId)
-      .then(({ data }) => {
-        setMyActiveTasks(data.active_tasks);
-        setMyPendingReviews(data.pending_review_tasks);
-        setMyPendingUploads(data.pending_upload_tasks);
-      })
+      .then(
+        ({
+          data: {
+            active_tasks: active,
+            pending_review_tasks: pendingReview,
+            pending_upload_tasks: pendingUpload,
+          },
+        }) => {
+          setMyActiveTasks(active || 0);
+          setMyPendingReviews(pendingReview || 0);
+          setMyPendingUploads(pendingUpload || 0);
+        }
+      )
       .catch((e) => {
         // Silently...
         setMyActiveTasks(0);
@@ -64,6 +74,8 @@ const Dashboard = () => {
               setInviteMembersDialogOpen={setInviteMembersDialogOpen}
               setTeamDialogOpen={setTeamDialogOpen}
               setViewTeam={setViewTeam}
+              deleteTeamDialogOpen={deleteTeamDialogOpen}
+              setDeleteTeamDialogOpen={setDeleteTeamDialogOpen}
             />
           </div>
           <div className="card p-mt-4">
@@ -80,6 +92,11 @@ const Dashboard = () => {
         team={viewTeam}
         dialogOpen={inviteMembersDialogOpen}
         setDialogOpen={setInviteMembersDialogOpen}
+      />
+      <DeleteTeamDialog
+        team={viewTeam}
+        dialogOpen={deleteTeamDialogOpen}
+        setDialogOpen={setDeleteTeamDialogOpen}
       />
     </div>
   );
