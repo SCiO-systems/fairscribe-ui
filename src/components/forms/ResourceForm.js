@@ -16,7 +16,9 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState('');
+  const [subtype, setSubtype] = useState('');
   const [resourceTypes, setResourceTypes] = useState([]);
+  const [resourceSubtypes, setResourceSubtypes] = useState([]);
   const {
     firstname,
     lastname,
@@ -51,8 +53,17 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
   };
 
   const loadResourceTypes = async () => {
-    const response = await getResourceTypes();
-    return response.data.map((rt) => ({ label: rt.name, value: rt.value }));
+    try {
+      const { default: types } = await getResourceTypes();
+      const defaultTypeValue = types[0]?.value || '';
+      const defaultSubtypeValue = types[0]?.subtypes[0]?.value || '';
+      setResourceTypes(types || []);
+      setResourceSubtypes(types[0]?.subtypes || []);
+      setType(defaultTypeValue);
+      setSubtype(defaultSubtypeValue);
+    } catch (e) {
+      setError(handleError(e));
+    }
   };
 
   useEffect(() => {
@@ -61,11 +72,20 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     setReviewTeamMembers(currentlyViewingTeam.users);
     setSelectedAuthoringTeamMembers([loggedInUser]);
     setSelectedReviewTeamMembers([currentlyViewingTeam.owner]);
-    loadResourceTypes().then((rt) => setResourceTypes(rt));
+    loadResourceTypes();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    const subtypes = resourceTypes
+      .filter(({ value }) => value === type)
+      ?.pop()?.subtypes;
+    const defaultSubtypeValue = subtypes[0]?.value || '';
+    setResourceSubtypes(subtypes || []);
+    setSubtype(defaultSubtypeValue);
+  }, [type]); // eslint-disable-line
+
   const onAuthoringTeamChange = ({ source, target }) => {
-    if (source.find((u) => u.id === userId)) {
+    if (source.find(({ id }) => id === userId)) {
       // the creator of the task is always in the authoring team
       setWarn('Warning!', t('AUTHORING_TASK_OWNER_WARNING'));
       return;
@@ -75,7 +95,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
   };
 
   const onReviewTeamChange = ({ source, target }) => {
-    if (source.find((u) => u.id === userId)) {
+    if (source.find(({ id }) => id === userId)) {
       // the team owner is always in the review team
       setWarn('Warning!', t('REVIEW_TEAM_OWNER_WARNING'));
       return;
@@ -121,10 +141,32 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
             <label htmlFor="resource-type">{t('RESOURCE_TYPE')}</label>
             <Dropdown
               id="resource-type"
+              filter
+              filterBy="label"
               value={type}
-              options={resourceTypes}
+              options={resourceTypes?.map(({ name, value }) => ({
+                label: name,
+                value,
+              }))}
               placeholder={t('RESOURCE_TYPE')}
               onChange={(e) => setType(e.value)}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="resource-subtype">{t('RESOURCE_SUBTYPE')}</label>
+            <Dropdown
+              id="resource-subtype"
+              filter
+              filterBy="label"
+              value={subtype}
+              options={
+                resourceSubtypes?.map(({ name, value }) => ({
+                  label: name,
+                  value,
+                })) || []
+              }
+              placeholder={t('RESOURCE_SUBTYPE')}
+              onChange={(e) => setSubtype(e.value)}
             />
           </div>
         </div>
@@ -175,9 +217,11 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
             <Button
               className="p-button-secondary p-mr-2"
               label={t('CANCEL')}
+              icon="pi pi-times"
               onClick={() => setTaskFormOpen(false)}
             />
             <Button
+              icon="pi pi-send"
               label={t('CREATE_TASK_AND_SEND_INVITES')}
               onClick={() => handleSubmit()}
             />

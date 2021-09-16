@@ -1,0 +1,164 @@
+[
+  {
+    "name": "Document",
+    "value": "Document",
+    "subtypes": [
+      {
+        "name": "Bibliography",
+        "value": "Bibliography"
+      },
+      {
+        "name": "Book / Monograph",
+        "value": "Book / Monograph"
+      },
+      {
+        "name": "Brief",
+        "value": "Brief"
+      },
+      {
+        "name": "Factsheet",
+        "value": "Factsheet"
+      },
+      {
+        "name": "Internal Document",
+        "value": "Internal Document"
+      },
+      {
+        "name": "Magazine or Press item",
+        "value": "Magazine or Press item"
+      },
+      {
+        "name": "Map",
+        "value": "Map"
+      },
+      {
+        "name": "Online Sources",
+        "value": "Online Sources"
+      },
+      {
+        "name": "Periodical / Journal",
+        "value": "Periodical / Journal"
+      },
+      {
+        "name": "Periodical / Journal",
+        "value": "Periodical / Journal"
+      },
+      {
+        "name": "Periodical / Magazine",
+        "value": "Periodical / Magazine"
+      },
+      {
+        "name": "Policy Document",
+        "value": "Policy Document"
+      },
+      {
+        "name": "Poster / Presentation",
+        "value": "Poster / Presentation"
+      },
+      {
+        "name": "Report",
+        "value": "Report"
+      },
+      {
+        "name": "Report / Annual",
+        "value": "Report / Annual"
+      },
+      {
+        "name": "Report / Case study",
+        "value": "Report / Case study"
+      },
+      {
+        "name": "Report / Donor",
+        "value": "Report / Donor"
+      },
+      {
+        "name": "Report / Evaluation",
+        "value": "Report / Evaluation"
+      },
+      {
+        "name": "Report / Financial",
+        "value": "Report / Financial"
+      },
+      {
+        "name": "Report / Plan",
+        "value": "Report / Plan"
+      },
+      {
+        "name": "Report / Strategy",
+        "value": "Report / Strategy"
+      },
+      {
+        "name": "Report / Technical",
+        "value": "Report / Technical"
+      },
+      {
+        "name": "Research Instrument",
+        "value": "Research Instrument"
+      },
+      {
+        "name": "Scientific Publication",
+        "value": "Scientific Publication"
+      },
+      {
+        "name": "Thesis",
+        "value": "Thesis"
+      },
+      {
+        "name": "Training Material",
+        "value": "Training Material"
+      },
+      {
+        "name": "Working Paper",
+        "value": "Working Paper"
+      },
+      {
+        "name": "Other",
+        "value": "Other"
+      }
+    ]
+  },
+  {
+    "name": "Digital Asset",
+    "value": "Digital Asset",
+    "subtypes": [
+      {
+        "name": "KOS",
+        "value": "KOS"
+      },
+      {
+        "name": "Multimedia",
+        "value": "Multimedia"
+      },
+      {
+        "name": "Software",
+        "value": "Software"
+      },
+      {
+        "name": "Source Code",
+        "value": "Source Code"
+      }
+    ]
+  },
+  {
+    "name": "Dataset",
+    "value": "Dataset",
+    "subtypes": [
+      {
+        "name": "Dataset / Geospatial",
+        "value": "Dataset / Geospatial"
+      },
+      {
+        "name": "Dataset / Tabular",
+        "value": "Dataset / Tabular"
+      },
+      {
+        "name": "Dataset / Omics",
+        "value": "Dataset / Omics"
+      },
+      {
+        "name": "Other",
+        "value": "Other"
+      }
+    ]
+  }
+]

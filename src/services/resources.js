@@ -1,6 +1,7 @@
 import apiClient from '../utilities/api-client';
 
-export const getResourceTypes = async () => apiClient.get(`/resource_types`);
+export const getResourceTypes = async () =>
+  import('../data/resourcetypes/types.json');
 
 export const getResourceFiles = async (teamId, resourceId) =>
   apiClient.get(`/teams/${teamId}/resources/${resourceId}/files`);
