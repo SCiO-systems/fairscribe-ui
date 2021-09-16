@@ -159,3 +159,17 @@ ul.limitations li::before {
     height: 2.5rem;
   }
 }
+
+.p-fieldset .p-fieldset-legend,
+.p-datatable.p-datatable-gridlines .p-datatable-header,
+.p-datatable .p-datatable-header,
+.p-datatable .p-datatable-footer,
+.p-datatable .p-datatable-thead > tr > th {
+  border-color: #d3d3d3;
+  background: #f5f5f5;
+}
+
+.p-fieldset,
+.p-datatable .p-datatable-tbody > tr > td {
+  border-color: #d3d3d3;
+}
