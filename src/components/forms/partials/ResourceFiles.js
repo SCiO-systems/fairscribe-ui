@@ -18,6 +18,7 @@ import {
   convertDateToFormat,
   getDateFromFormat,
 } from '../../../utilities/dates';
+import { handleError } from '../../../utilities/errors';
 
 const ResourceFiles = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -30,16 +31,6 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   const [thumbnails, setThumbnails] = useState(initialData.thumbnail || []);
   const { teamId, resourceId } = useParams();
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const uploadResourceFile = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
@@ -48,7 +39,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       setSuccess('Resource File', 'Your file has been uploaded.');
       setResourceFiles(resourceFiles.concat({ ...data }));
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
@@ -58,7 +49,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       setSuccess('Resource File', 'The file has been deleted.');
       setResourceFiles(resourceFiles.filter((item) => item.id !== id));
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
@@ -70,7 +61,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       setSuccess('Resource Thumbnail', 'Your thumbnail has been uploaded.');
       setThumbnails(thumbnails.concat({ ...data }));
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 

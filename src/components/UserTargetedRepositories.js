@@ -15,6 +15,7 @@ import {
   getUserRepositories,
 } from '../services/users';
 import { ToastContext } from '../store';
+import { handleError } from '../utilities/errors';
 
 const UserTargetedRepositories = ({ userId }) => {
   const { t } = useTranslation();
@@ -58,23 +59,13 @@ const UserTargetedRepositories = ({ userId }) => {
     </div>
   );
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const deleteRepository = async (id) => {
     try {
       await deleteUserRepository(id, userId);
       await fetchUserRepositories();
       setSuccess('Repository', `The repository has been deleted.`);
     } catch (e) {
-      handleError(e);
+      setError(handleError(e));
     }
   };
 
@@ -94,7 +85,7 @@ const UserTargetedRepositories = ({ userId }) => {
       setRepositoryClientSecret('');
       await fetchUserRepositories();
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
     setIsLoading(false);
   };
@@ -106,7 +97,7 @@ const UserTargetedRepositories = ({ userId }) => {
         types.map((type) => ({ label: type.name, value: type.value }))
       );
     } catch (e) {
-      handleError(e);
+      setError(handleError(e));
     }
   };
 
@@ -114,8 +105,8 @@ const UserTargetedRepositories = ({ userId }) => {
     try {
       const { data } = await getUserRepositories(userId);
       setRepositories(data);
-    } catch (error) {
-      handleError(error);
+    } catch (e) {
+      setError(handleError(e));
     }
   };
 

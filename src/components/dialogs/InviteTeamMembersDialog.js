@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { inviteEmails } from '../../services/teams';
 import { searchUsers } from '../../services/users';
 import { ToastContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 import { useDebounce } from '../../utilities/hooks';
 
 const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
@@ -17,16 +18,6 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
   const [inviteEmailRecipient, setInviteEmailRecipient] = useState('');
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
-
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
 
   useEffect(() => {
     if (search && search.length) {
@@ -54,25 +45,23 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
       setInviteEmailRecipient('');
       setDialogOpen(false);
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
   const searchMembers = async () => {
     try {
       const { data: foundMembers } = await searchUsers(search);
-      if (foundMembers && foundMembers.length > 0) {
-        setMembers(foundMembers);
-      }
+      setMembers(foundMembers || []);
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
   const itemTemplate = ({ email, firstname, lastname }) =>
     `${firstname} ${lastname} (${email})`;
 
-  const selectedItemTemplate = (item) => item.email;
+  const selectedItemTemplate = ({ email }) => email || '';
 
   return (
     <Dialog

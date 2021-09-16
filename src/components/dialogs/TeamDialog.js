@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createTeam, getAllOwnedTeams, updateTeam } from '../../services/teams';
 import { ToastContext, UserContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 
 const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
   const { t } = useTranslation();
@@ -49,20 +50,11 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
       setUser({
         ownTeams: ownTeamsRes.data,
       });
+      setDialogOpen(false);
     } catch (error) {
-      if (error?.response) {
-        setError(
-          'Oops!',
-          error.response.data.errors[
-            Object.keys(error.response.data.errors)[0]
-          ][0]
-        );
-      } else {
-        setError('Oops!', 'Something went wrong');
-      }
+      setError(handleError(error));
     } finally {
       setIsLoading(false);
-      setDialogOpen(false);
     }
   };
 

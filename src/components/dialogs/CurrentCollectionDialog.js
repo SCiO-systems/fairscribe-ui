@@ -8,6 +8,7 @@ import {
   updateTeamCollection,
 } from '../../services/collections';
 import { ToastContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 
 const CurrentCollectionDialog = ({
   dialogOpen,
@@ -32,16 +33,6 @@ const CurrentCollectionDialog = ({
       setDescription('');
     }
   }, [collection]);
-
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
 
   const createCollection = async () => {
     await createTeamCollection(team.id, {
@@ -72,7 +63,7 @@ const CurrentCollectionDialog = ({
       setDescription('');
       setDialogOpen(false);
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
     setIsLoading(false);
   };

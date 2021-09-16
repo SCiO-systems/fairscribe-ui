@@ -13,6 +13,8 @@ import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import { registerUser } from '../services/users';
 import { UserContext } from '../store';
+import { handleError } from '../utilities/errors';
+import { validateName, validatePassword } from '../utilities/validations';
 
 const Register = () => {
   const { t } = useTranslation();
@@ -32,20 +34,6 @@ const Register = () => {
     resetData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    toast.current.show({
-      severity: 'error',
-      summary: 'Oops!',
-      detail: error,
-    });
-  };
-
   const createNewAccount = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -62,7 +50,11 @@ const Register = () => {
       }, 3000);
       setIsLoading(false);
     } catch (error) {
-      handleError(error);
+      toast.current.show({
+        severity: 'error',
+        summary: 'Oops!',
+        detail: handleError(error),
+      });
     }
     setIsLoading(false);
   };
@@ -73,11 +65,9 @@ const Register = () => {
 
     // Basic form validation.
     if (
-      password !== passwordConfirm ||
-      password.length < 8 ||
-      firstname.length === 0 ||
-      lastname.length === 0 ||
-      email !== emailConfirm
+      !validatePassword(password, passwordConfirm) ||
+      !validateName(firstname) ||
+      !validateName(lastname)
     ) {
       setFormValid(false);
     }

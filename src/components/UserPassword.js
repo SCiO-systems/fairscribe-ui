@@ -7,6 +7,7 @@ import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { changeUserPassword } from '../services/users';
 import { ToastContext } from '../store';
+import { handleError } from '../utilities/errors';
 
 const UserPassword = ({ userId }) => {
   const { t } = useTranslation();
@@ -15,16 +16,6 @@ const UserPassword = ({ userId }) => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordRepeat, setNewPasswordRepeat] = useState('');
-
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
 
   const changePassword = async (e) => {
     e.preventDefault();
@@ -39,7 +30,7 @@ const UserPassword = ({ userId }) => {
       setNewPasswordRepeat('');
       setSuccess('Changed password', 'Your password has been changed.');
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
     setIsLoading(false);
   };

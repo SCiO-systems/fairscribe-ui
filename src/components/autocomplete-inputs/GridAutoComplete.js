@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
 import { AutoComplete } from 'primereact/autocomplete';
-import { ToastContext } from '../../store';
+import React, { useContext, useEffect, useState } from 'react';
 import { searchGrid } from '../../services/integrations';
+import { ToastContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 
 const GridAutoComplete = ({ onChange }) => {
   const [results, setResults] = useState([]);
@@ -14,16 +15,6 @@ const GridAutoComplete = ({ onChange }) => {
     }
   }, [selectedResult, onChange]);
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const resultTemplate = (item) => `${item.name} [ID: ${item.agent_id}]`;
 
   const handleSearch = async (event) => {
@@ -31,7 +22,7 @@ const GridAutoComplete = ({ onChange }) => {
       const { suggestions } = await searchGrid(event.query);
       setResults(suggestions);
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 

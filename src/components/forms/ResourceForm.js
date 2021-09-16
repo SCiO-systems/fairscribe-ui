@@ -6,9 +6,10 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { PickList } from 'primereact/picklist';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ToastContext, UserContext } from '../../store';
 import { getResourceTypes } from '../../services/resources';
 import { createResource } from '../../services/teams';
+import { ToastContext, UserContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 
 const ResourceForm = ({ setTaskFormOpen, resource }) => {
   const { t } = useTranslation();
@@ -32,16 +33,6 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
     []
   );
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const handleSubmit = async () => {
     const payload = {
       title,
@@ -55,7 +46,7 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
       setSuccess('Done!', 'Your task has been created.');
       setTaskFormOpen(false);
     } catch (e) {
-      handleError(e);
+      setError(handleError(e));
     }
   };
 

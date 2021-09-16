@@ -1,12 +1,13 @@
-import { Button } from 'primereact/button';
 import { AutoComplete } from 'primereact/autocomplete';
+import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ToastContext } from '../../../store';
 import { searchAgroVoc } from '../../../services/integrations';
+import { ToastContext } from '../../../store';
+import { handleError } from '../../../utilities/errors';
 
 const freeKeywordTemplate = (keyword) => ({
   scheme: 'free',
@@ -18,7 +19,7 @@ const freeKeywordTemplate = (keyword) => ({
 
 const ResourceClassification = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [keywords, setKeywords] = useState(initialData.keywords ?? []);
+  const [keywords, setKeywords] = useState(initialData?.keywords || []);
   const [results, setResults] = useState([]);
   const [kw, setKw] = useState('');
   const { setError } = useContext(ToastContext);
@@ -30,25 +31,15 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     setKw('');
   };
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const resultTemplate = (item) =>
     `${item.taxon_name} [AgroVoc ID: ${item.taxon_id}]`;
 
-  const handleSearch = async (event) => {
+  const handleSearch = async ({ query }) => {
     try {
-      const { suggestions } = await searchAgroVoc(event.query);
+      const { suggestions } = await searchAgroVoc(query);
       setResults(suggestions);
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 

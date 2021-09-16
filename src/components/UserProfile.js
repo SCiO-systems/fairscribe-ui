@@ -11,6 +11,7 @@ import {
   updateUserProfile,
 } from '../services/users';
 import { ToastContext, UserContext } from '../store';
+import { handleError } from '../utilities/errors';
 
 const UserProfile = ({
   userId,
@@ -27,16 +28,6 @@ const UserProfile = ({
   const [email, setEmail] = useState('');
   const [userAvatarUrl, setUserAvatarUrl] = useState(null);
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const uploadAvatar = async (file) => {
     const formData = new FormData();
     formData.append('avatar', file);
@@ -46,7 +37,7 @@ const UserProfile = ({
       setUser({ avatar_url: data.avatar_url });
       setSuccess('Avatar', 'Your avatar has been updated.');
     } catch (error) {
-      handleError(error);
+      setError(setError(handleError(error)));
     }
   };
 
@@ -60,7 +51,7 @@ const UserProfile = ({
         setUserAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
@@ -70,7 +61,7 @@ const UserProfile = ({
       await updateUserProfile(userId, { firstname, lastname });
       setSuccess('Profile', 'Your profile has been updated!');
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 

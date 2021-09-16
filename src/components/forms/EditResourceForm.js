@@ -11,6 +11,7 @@ import {
   updateResourceComments,
 } from '../../services/resources';
 import { ToastContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
 import PublishingInformation from './partials/PublishingInformation';
@@ -57,16 +58,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     }
   });
 
-  const handleError = (e) => {
-    let error = e && e.message;
-    const statusCode = e.response && e.response.status;
-    error =
-      statusCode === 422
-        ? e.response.data.errors[Object.keys(e.response.data.errors)[0]][0]
-        : e.response.data.error;
-    setError('Error', error);
-  };
-
   const saveChanges = async (sendForReview) => {
     try {
       const status = sendForReview ? 'under_review' : 'under_preparation';
@@ -85,7 +76,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       });
       setSuccess('Resource', 'Resource changes have been saved!');
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
@@ -95,7 +86,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       await updateResourceComments(teamId, resourceId, { comments });
       setSuccess('Review', 'The comments have been saved!');
     } catch (error) {
-      handleError(error);
+      setError(handleError(error));
     }
   };
 
