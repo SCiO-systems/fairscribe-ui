@@ -11,7 +11,7 @@ import { createResource } from '../../services/teams';
 import { ToastContext, UserContext } from '../../store';
 import { handleError } from '../../utilities/errors';
 
-const ResourceForm = ({ setTaskFormOpen, resource }) => {
+const ResourceForm = ({ setTaskFormOpen }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -40,8 +40,9 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
       title,
       description,
       type,
-      authoring_team: selectedAuthoringTeamMembers.map((m) => m.id),
-      review_team: selectedReviewTeamMembers.map((m) => m.id),
+      subtype,
+      authoring_team: selectedAuthoringTeamMembers.map(({ id }) => id),
+      review_team: selectedReviewTeamMembers.map(({ id }) => id),
     };
     try {
       await createResource(currentlyViewingTeam.id, payload);
@@ -68,17 +69,17 @@ const ResourceForm = ({ setTaskFormOpen, resource }) => {
 
   useEffect(() => {
     const loggedInUser = { firstname, lastname, email, id: userId };
-    setAuthoringTeamMembers(currentlyViewingTeam.users);
-    setReviewTeamMembers(currentlyViewingTeam.users);
+    setAuthoringTeamMembers(currentlyViewingTeam?.users || []);
+    setReviewTeamMembers(currentlyViewingTeam?.users || []);
     setSelectedAuthoringTeamMembers([loggedInUser]);
-    setSelectedReviewTeamMembers([currentlyViewingTeam.owner]);
+    setSelectedReviewTeamMembers([currentlyViewingTeam?.owner].filter(Boolean));
     loadResourceTypes();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const subtypes = resourceTypes
-      .filter(({ value }) => value === type)
-      ?.pop()?.subtypes;
+    const subtypes =
+      resourceTypes.filter(({ value }) => value === type)?.pop()?.subtypes ||
+      [];
     const defaultSubtypeValue = subtypes[0]?.value || '';
     setResourceSubtypes(subtypes || []);
     setSubtype(defaultSubtypeValue);

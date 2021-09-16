@@ -1,13 +1,13 @@
 import { TabPanel, TabView } from 'primereact/tabview';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import ResourceForm from '../components/forms/ResourceForm';
 import Loading from '../components/Loading';
 import CollectionsTable from '../components/tables/CollectionsTable';
 import ResourcesTable from '../components/tables/ResourcesTable';
-import { UserContext } from '../store';
 import { getSingleTeam } from '../services/teams';
+import { UserContext } from '../store';
 
 const findIndexForTab = (tab) => {
   switch (tab) {
@@ -76,7 +76,7 @@ const Team = () => {
     <div className="layout-dashboard">
       <div className="p-grid">
         <div className="p-col-12 p-pb-0">
-          <h1 className="p-mb-0">{team && team.name}</h1>
+          <h1 className="p-mb-0">{team?.name || 'Team'}</h1>
         </div>
         <div className="p-col-12">
           <TabView

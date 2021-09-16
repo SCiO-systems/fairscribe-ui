@@ -96,6 +96,7 @@ const t = {
     ISSUE_DATE: 'Issue Date',
     TITLE: 'Title',
     TYPE: 'Type',
+    SUBTYPE: 'Subtype',
     COLLECTIONS: 'Collections',
     PII_STATUS: 'PII Status',
     CERTIFIED: 'Certified',

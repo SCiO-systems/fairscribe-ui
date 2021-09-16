@@ -138,18 +138,18 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
     </div>
   );
 
-  const titleTemplate = (rowData) => <strong>{rowData.title}</strong>;
-
-  const collectionsTemplate = (rowData) => (
-    <span>{t('IN_X_COLLECTIONS', { count: rowData.collections_count })}</span>
+  const titleTemplate = ({ title: resourceTitle }) => (
+    <strong>{resourceTitle || 'N/A'}</strong>
   );
 
-  const piiStatusTemplate = (rowData) => (
+  const collectionsTemplate = ({ collections_count: count }) => (
+    <span>{t('IN_X_COLLECTIONS', { count })}</span>
+  );
+
+  const piiStatusTemplate = ({ pii_check: piiCheck }) => (
     <div className="p-d-flex p-jc-start p-ai-center">
       <FontAwesomeIcon className="p-mr-3" icon={faCertificate} size="2x" />
-      {rowData && rowData.pii_check && rowData.pii_check === 'pass'
-        ? t('CERTIFIED')
-        : t('PENDING')}
+      {piiCheck === 'pass' ? t('CERTIFIED') : t('PENDING')}
     </div>
   );
 
@@ -180,7 +180,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
         first={lazyParams.first}
         onPage={onPage}
         emptyMessage="No resources were found."
-        value={data ? data.data : []}
+        value={data?.data || []}
         className="p-mt-2"
         loading={isFetching || isLoading}
         ref={dt}
@@ -197,12 +197,8 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
           body={titleTemplate}
           header={t('TITLE')}
         />
-        <Column
-          sortable
-          field="type"
-          header={t('TYPE')}
-          style={{ textTransform: 'uppercase' }}
-        />
+        <Column sortable field="type" header={t('TYPE')} />
+        <Column sortable field="subtype" header={t('SUBTYPE')} />
         <Column
           sortable
           field="collections"
