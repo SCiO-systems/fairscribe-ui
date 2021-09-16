@@ -32,9 +32,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const [rightOffset, setRightOffset] = useState('30px');
   const [quickSaveVisibility, setQuickSaveVisibility] = useState(true);
   const [metadataRecord, setMetadataRecord] = useState(
-    resource.metadata_record && resource.metadata_record.dataCORE
-      ? resource.metadata_record.dataCORE
-      : {}
+    resource?.metadata_record?.dataCORE || {}
   );
   const [comments, setComments] = useState(resource.comments || '');
   const { resourceId } = useParams();
@@ -66,7 +64,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           CORE_version: '1.0',
           ...metadataRecord,
           resource_type: {
-            value: 'dataset',
+            value: resource.type,
           },
         },
       };
@@ -93,6 +91,9 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const mainSetter = (data) => {
     setMetadataRecord(() => ({ ...metadataRecord, ...data }));
   };
+
+  const fallbackTitle = [{ language: 'en', value: resource.title }];
+  const fallbackDescription = [{ language: 'en', value: resource.description }];
 
   return (
     <>
@@ -205,8 +206,8 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <ResourceGeneralInformation
           mode={mode}
           initialData={{
-            title: metadataRecord.title,
-            description: metadataRecord.description,
+            title: metadataRecord.title || fallbackTitle,
+            description: metadataRecord.description || fallbackDescription,
             resource_language: metadataRecord.resource_language,
             citation: metadataRecord.citation,
             authors: metadataRecord.authors,

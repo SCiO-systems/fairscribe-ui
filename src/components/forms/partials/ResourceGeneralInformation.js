@@ -16,7 +16,7 @@ import ResourceLanguages from './ResourceLanguages';
 
 const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState(initialData.title ?? []);
+  const [title, setTitle] = useState(initialData.title || []);
   const [description, setDescription] = useState(initialData.description ?? []);
   const [citation, setCitation] = useState(initialData.citation || '');
   const [teamCollections, setTeamCollections] = useState([]);

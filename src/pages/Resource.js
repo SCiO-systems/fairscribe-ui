@@ -4,6 +4,7 @@ import EditResourceForm from '../components/forms/EditResourceForm';
 import Loading from '../components/Loading';
 import { getSingleResource, getSingleTeam } from '../services/teams';
 import { ToastContext, UserContext } from '../store';
+import { handleError } from '../utilities/errors';
 
 const Resource = () => {
   const { teamId, resourceId, mode } = useParams();
@@ -13,15 +14,14 @@ const Resource = () => {
   const { setUser, currentlyViewingTeam } = useContext(UserContext);
 
   const loadResource = async (tId, rId) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await getSingleResource(tId, rId);
-      setResource(response.data);
+      const { data } = await getSingleResource(tId, rId);
+      setResource(data);
     } catch (e) {
-      setError('Error', 'Failed to load resource');
-    } finally {
-      setLoading(false);
+      setError(handleError(e));
     }
+    setLoading(false);
   };
 
   const loadTeam = useCallback(async () => {
