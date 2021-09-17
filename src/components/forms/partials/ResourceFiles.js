@@ -1,9 +1,9 @@
 import { Button } from 'primereact/button';
-import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
 import { InputSwitch } from 'primereact/inputswitch';
+import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -14,11 +14,8 @@ import {
   uploadThumbnail,
 } from '../../../services/resources';
 import { ToastContext } from '../../../store/toast';
-import {
-  convertDateToFormat,
-  getDateFromFormat,
-} from '../../../utilities/dates';
 import { handleError } from '../../../utilities/errors';
+import { useDebounce } from '../../../utilities/hooks';
 
 const ResourceFiles = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -26,10 +23,12 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   const thumbnailFile = useRef(null);
   const resourceFile = useRef(null);
   const [resourceFiles, setResourceFiles] = useState(
-    initialData.resource_files || []
+    initialData?.resource_files || []
   );
-  const [thumbnails, setThumbnails] = useState(initialData.thumbnail || []);
+  const [thumbnails, setThumbnails] = useState(initialData?.thumbnail || []);
   const { teamId, resourceId } = useParams();
+  const debouncedResourceFiles = useDebounce(resourceFiles, 300);
+  const debouncedThumnbails = useDebounce(thumbnails, 300);
 
   const uploadResourceFile = async (file) => {
     const formData = new FormData();
@@ -65,16 +64,6 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     }
   };
 
-  const setPublishable = async (id, publishable) => {
-    const f = resourceFiles.map((item) => {
-      if (item.id === id) {
-        return { ...item, publishable };
-      }
-      return item;
-    });
-    setResourceFiles(f);
-  };
-
   const setLocked = async (id, locked) => {
     const f = resourceFiles.map((item) => {
       if (item.id === id) {
@@ -85,10 +74,10 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     setResourceFiles(f);
   };
 
-  const setEmbargoDate = async (id, date) => {
+  const setDescription = async (id, description) => {
     const f = resourceFiles.map((item) => {
       if (item.id === id) {
-        return { ...item, embargo_date: date };
+        return { ...item, description };
       }
       return item;
     });
@@ -96,17 +85,13 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   };
 
   const getThumbnailURL = (path) => {
-    const u = new URL(process.env.REACT_APP_API_BASE_URL);
-    return `${u.origin}/storage/${path}`;
+    const { origin } = new URL(process.env.REACT_APP_API_BASE_URL);
+    return `${origin}/storage/${path}`;
   };
 
   useEffect(() => {
-    const files = resourceFiles.map((item) => ({
-      ...item,
-      embargo_date: convertDateToFormat(item.embargo_date),
-    }));
-    setter(thumbnails, files);
-  }, [resourceFiles, thumbnails]); // eslint-disable-line
+    setter(thumbnails, resourceFiles);
+  }, [debouncedResourceFiles, debouncedThumnbails]); // eslint-disable-line
 
   return (
     <Fieldset
@@ -160,8 +145,23 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
         value={resourceFiles}
         className="p-mt-4"
         showGridlines
+        resizableColumns
+        columnResizeMode="expand"
       >
         <Column field="filename" header={t('FILE_NAME')} />
+        <Column
+          field="description"
+          header={t('DESCRIPTION')}
+          body={({ id, description }) => (
+            <InputTextarea
+              rows={2}
+              disabled={mode === 'review'}
+              className="p-my-0 p-d-inline-flex w-full text-xs"
+              value={description || ''}
+              onChange={(e) => setDescription(id, e.target.value)}
+            />
+          )}
+        />
         <Column field="extension" header={t('EXTENSION')} />
         <Column field="mime_type" header={t('MIME_TYPE')} />
         <Column field="pii_check" header={t('PII_STATUS')} />
@@ -172,35 +172,8 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
             <InputSwitch
               disabled={mode === 'review'}
               className="p-my-0 p-py-0"
-              checked={locked}
+              checked={locked || false}
               onChange={(e) => setLocked(id, e.value)}
-            />
-          )}
-        />
-        <Column
-          file="publishable"
-          header={t('PUBLISHABLE')}
-          body={({ id, publishable }) => (
-            <InputSwitch
-              disabled={mode === 'review'}
-              className="p-my-0 p-py-0"
-              checked={publishable}
-              onChange={(e) => setPublishable(id, e.value)}
-            />
-          )}
-        />
-        <Column
-          field="embargo_date"
-          header={t('EMBARGO_DATE')}
-          body={(rowData) => (
-            <Calendar
-              dateFormat="yy-mm-dd"
-              showIcon
-              disabled={mode === 'review'}
-              showButtonBar
-              id="embargo-date"
-              value={getDateFromFormat(rowData.embargo_date)}
-              onChange={(e) => setEmbargoDate(rowData.id, e.value)}
             />
           )}
         />

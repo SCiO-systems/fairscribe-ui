@@ -45,6 +45,15 @@ small {
   }
 }
 
+.w-full {
+  width: 100%;
+  max-width: 100%;
+}
+
+.text-xs {
+  font-size: 0.85rem;
+}
+
 ul.notifications-menu {
   min-width: 350px !important;
 }

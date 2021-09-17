@@ -173,7 +173,7 @@ const t = {
     RESOURCE_METADATA_RECORD: 'Resource Metadata Record',
     RESOURCE_FILES: 'Resource Files',
     UPLOAD_THUMBNAIL: 'Upload Thumbnail',
-    NO_ENTRIES_FOUND: 'No entries found',
+    NO_ENTRIES_FOUND: 'No entries were found.',
     PHYSICAL_FILES: 'Physical File(s)',
     FILE_NAME: 'File Name',
     EXTENSION: 'Extension',
@@ -250,6 +250,7 @@ const t = {
     REVIEW_COMMENTS: 'Review Comments',
     DELETE_TEAM: 'Delete team',
     DELETE_COLLECTION: 'Delete collection',
+    DESCRIPTION: 'Description',
   },
 };
 
