@@ -8,11 +8,11 @@ import { Fieldset } from 'primereact/fieldset';
 import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as countryOptions from '../../../data/countries/countries.json';
 import {
   convertDateToFormat,
   getDateFromFormat,
 } from '../../../utilities/dates';
-import * as countryOptions from './countries.json';
 
 const ResourceCoverage = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
