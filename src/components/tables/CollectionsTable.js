@@ -2,9 +2,10 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getTeamCollections } from '../../services/collections';
+import { UserContext } from '../../store';
 import { useDebounce } from '../../utilities/hooks';
 import CurrentCollectionDialog from '../dialogs/CurrentCollectionDialog';
 import DeleteCollectionDialog from '../dialogs/DeleteCollectionDialog';
@@ -12,6 +13,7 @@ import ResourcesTable from './ResourcesTable';
 
 const CollectionsTable = ({ team }) => {
   const { t } = useTranslation();
+  const { ownTeams } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
@@ -30,6 +32,9 @@ const CollectionsTable = ({ team }) => {
     rows: 15,
     page: 0,
   });
+
+  // The user owns this team.
+  const ownedTeam = ownTeams.filter(({ id }) => id === team.id).length === 1;
 
   useEffect(() => {
     loadLazyData();
@@ -209,15 +214,17 @@ const CollectionsTable = ({ team }) => {
                 className="p-button-secondary p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
                 onClick={() => toggleExpandRow(rowData.id)}
               />
-              <Button
-                icon="pi pi-trash"
-                title="Delete collection"
-                onClick={() => {
-                  setSelectedCollection(rowData);
-                  setDeleteCollectionDialogOpen(true);
-                }}
-                className="p-button-icon-only p-button-rounded p-button-danger p-mr-2 p-mb-2"
-              />
+              {ownedTeam && (
+                <Button
+                  icon="pi pi-trash"
+                  title="Delete collection"
+                  onClick={() => {
+                    setSelectedCollection(rowData);
+                    setDeleteCollectionDialogOpen(true);
+                  }}
+                  className="p-button-icon-only p-button-rounded p-button-danger p-mr-2 p-mb-2"
+                />
+              )}
             </div>
           )}
         />
