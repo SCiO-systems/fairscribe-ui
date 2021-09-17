@@ -9,16 +9,10 @@ import { useTranslation } from 'react-i18next';
 const PublishingInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [dois, setDois] = useState(
-    (initialData.identifier &&
-      initialData.identifier.length > 0 &&
-      initialData.identifier.filter((item) => item.type === 'DOI')) ||
-      []
+    initialData?.identifier?.filter((item) => item?.type === 'DOI') || []
   );
   const [urls, setUrls] = useState(
-    (initialData.identifier &&
-      initialData.identifier.length > 0 &&
-      initialData.identifier.filter((item) => item.type === 'URL')) ||
-      []
+    initialData?.identifier?.filter((item) => item.type === 'URL') || []
   );
   const [doi, setDoi] = useState('');
   const [url, setUrl] = useState('');
@@ -30,8 +24,12 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
   };
 
   const removeItem = (value, type) => {
-    type === 'DOI' && setDois(dois.filter((item) => item.value !== value));
-    type === 'URL' && setUrls(urls.filter((item) => item.value !== value));
+    if (type === 'DOI') {
+      setDois(dois.filter((item) => item.value !== value));
+    }
+    if (type === 'URL') {
+      setUrls(urls.filter((item) => item.value !== value));
+    }
   };
 
   const addUrl = () => {
@@ -44,12 +42,14 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
     setter([...dois, ...urls]);
   }, [dois, urls]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // eslint-disable-next-line
-  const booleanTemplate = (bool) =>
-    bool ? <i className="pi pi-check" /> : <i className="pi pi-times" />;
-
   const doiFooterTemplate = mode === 'edit' && (
-    <div className="p-formgrid p-grid p-fluid">
+    <form
+      className="p-formgrid p-grid p-fluid"
+      onSubmit={(e) => {
+        e.preventDefault();
+        addDoi();
+      }}
+    >
       <div className="p-col-10">
         <div className="p-field">
           <InputText
@@ -62,14 +62,20 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
       </div>
       <div className="p-col-2">
         <div className="p-field">
-          <Button label={t('ADD')} onClick={addDoi} />
+          <Button label={t('ADD')} type="submit" />
         </div>
       </div>
-    </div>
+    </form>
   );
 
   const hdlFooterTemplate = mode === 'edit' && (
-    <div className="p-formgrid p-grid p-fluid">
+    <form
+      className="p-formgrid p-grid p-fluid"
+      onSubmit={(e) => {
+        e.preventDefault();
+        addUrl();
+      }}
+    >
       <div className="p-col-10">
         <div className="p-field">
           <InputText
@@ -82,10 +88,10 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
       </div>
       <div className="p-col-2">
         <div className="p-field">
-          <Button label={t('ADD')} onClick={addUrl} />
+          <Button label={t('ADD')} type="submit" />
         </div>
       </div>
-    </div>
+    </form>
   );
 
   return (
@@ -102,24 +108,20 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
         footer={doiFooterTemplate}
       >
         <Column field="value" header={t('DOI_TITLE')} />
-        <Column
-          field="verified"
-          header={t('VERIFIED')}
-          body={(_rowData) => '-'}
-        />
+        <Column field="verified" header={t('VERIFIED')} body={() => '-'} />
         <Column
           field="publisher"
           header={t('PUBLISHER_TITLE')}
-          body={(_rowData) => '-'}
+          body={() => '-'}
         />
         {mode === 'edit' && (
           <Column
-            body={(rowData) => (
+            body={({ value, type }) => (
               <div className="p-text-right">
                 <Button
                   className="p-button-danger"
                   icon="pi pi-trash"
-                  onClick={() => removeItem(rowData.value, rowData.type)}
+                  onClick={() => removeItem(value, type)}
                 />
               </div>
             )}
