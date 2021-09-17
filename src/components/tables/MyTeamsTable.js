@@ -180,12 +180,12 @@ const MyTeamsTable = ({
               className="p-button-icon-only p-button-rounded p-mb-2 p-mr-2"
             />
             <Button
-              icon="pi pi-cog"
+              icon="pi pi-pencil"
               onClick={() => {
                 setViewTeam({ id, name, description });
                 setTeamDialogOpen(true);
               }}
-              className="p-button-icon-only p-button-rounded p-button-secondary p-mb-2 p-mr-2"
+              className="p-button-icon-only p-button-rounded p-mb-2 p-mr-2"
             />
             <Button
               icon="pi pi-eye"
