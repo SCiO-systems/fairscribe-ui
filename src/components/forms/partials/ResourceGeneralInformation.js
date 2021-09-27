@@ -16,32 +16,34 @@ import ResourceLanguages from './ResourceLanguages';
 
 const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState(initialData.title || []);
-  const [description, setDescription] = useState(initialData.description ?? []);
-  const [citation, setCitation] = useState(initialData.citation || '');
+  const [title, setTitle] = useState(initialData?.title || []);
+  const [description, setDescription] = useState(
+    initialData?.description || []
+  );
+  const [citation, setCitation] = useState(initialData?.citation || '');
   const [teamCollections, setTeamCollections] = useState([]);
   const [selectedCollections, setSelectedCollections] = useState(
-    initialData.collections || []
+    initialData?.collections || []
   );
   const [languages, setLanguages] = useState(
-    initialData.resource_language || []
+    initialData?.resource_language || []
   );
   const [authors, setAuthors] = useState(initialData.authors || []);
   const [metadataAuthors, setMetadataAuthors] = useState(
-    initialData.metadata_authors || []
+    initialData?.metadata_authors || []
   );
   const [projectId, setProjectId] = useState(initialData.project_id || '');
   const [projectNames, setProjectNames] = useState(
-    initialData.project_name || ''
+    initialData?.project_name || ''
   );
   const [projectPartners, setProjectPartners] = useState(
-    initialData.project_partners || []
+    initialData?.project_partners || []
   );
   const [fundingOrganizations, setFundingOrganizations] = useState(
-    initialData.funding_organisations || []
+    initialData?.funding_organisations || []
   );
   const [contactPoints, setContactPoints] = useState(
-    initialData.contact_point || []
+    initialData?.contact_point || []
   );
 
   const { teamId } = useParams();
@@ -116,12 +118,10 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         className="p-mt-4"
         data={title}
         header={t('RESOURCE_TITLE')}
-        onDeleteItem={(language) => {
-          setTitle(title.filter((item) => item.language !== language));
-        }}
-        onAddItem={({ language, value }) => {
-          addTitleLanguage(language, value);
-        }}
+        onDeleteItem={(language) =>
+          setTitle(title.filter((item) => item.language !== language))
+        }
+        onAddItem={({ language, value }) => addTitleLanguage(language, value)}
       />
       <MultilingualEntriesTable
         mode={mode}
@@ -133,9 +133,9 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
             description.filter((item) => item.language !== language)
           );
         }}
-        onAddItem={({ language, value }) => {
-          addDescriptionLanguage(language, value);
-        }}
+        onAddItem={({ language, value }) =>
+          addDescriptionLanguage(language, value)
+        }
         multipleLines
       />
       <ResourceCollectionsPicker

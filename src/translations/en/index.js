@@ -251,6 +251,7 @@ const t = {
     DELETE_TEAM: 'Delete team',
     DELETE_COLLECTION: 'Delete collection',
     DESCRIPTION: 'Description',
+    DELETE_RESOURCE: 'Delete resource',
   },
 };
 

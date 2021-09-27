@@ -38,9 +38,9 @@ const Team = () => {
 
   const loadTeam = useCallback(async () => {
     setLoading(true);
-    const teamRes = await getSingleTeam(id);
-    setTeam(teamRes.data);
-    setUser({ currentlyViewingTeam: teamRes.data });
+    const { data } = await getSingleTeam(id);
+    setTeam(data);
+    setUser({ currentlyViewingTeam: data });
     setLoading(false);
   }, [id, setUser]);
 

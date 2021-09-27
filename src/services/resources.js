@@ -11,13 +11,11 @@ export const uploadFile = async (teamId, resourceId, data) =>
     'Content-Type': 'multipart/form-data',
   });
 
-export const updateResource = async (teamId, resourceId, data) => {
+export const updateResource = async (teamId, resourceId, data) =>
   apiClient.put(`/teams/${teamId}/resources/${resourceId}`, data);
-};
 
-export const updateResourceComments = async (teamId, resourceId, data) => {
+export const updateResourceComments = async (teamId, resourceId, data) =>
   apiClient.put(`/teams/${teamId}/resources/${resourceId}/comments`, data);
-};
 
 export const deleteFile = async (teamId, resourceId, id) =>
   apiClient.remove(`/teams/${teamId}/resources/${resourceId}/files/${id}`);
@@ -29,3 +27,6 @@ export const uploadThumbnail = async (teamId, resourceId, data) =>
 
 export const deleteThumbnail = async (teamId, resourceId, id) =>
   apiClient.remove(`/teams/${teamId}/resources/${resourceId}/thumbnails/${id}`);
+
+export const deleteTeamResource = async (teamId, resourceId) =>
+  apiClient.remove(`/teams/${teamId}/resources/${resourceId}`);
