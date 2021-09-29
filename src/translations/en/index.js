@@ -252,6 +252,8 @@ const t = {
     DELETE_COLLECTION: 'Delete collection',
     DESCRIPTION: 'Description',
     DELETE_RESOURCE: 'Delete resource',
+    LANGUAGE: 'Language',
+    TEXT: 'Text',
   },
 };
 

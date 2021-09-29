@@ -8,7 +8,12 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const availableLanguages = [{ label: 'English', value: 'en' }];
+// TODO: Grab this information from the relevant service.
+const languages = [
+  { label: 'English', value: 'en' },
+  { label: 'Spanish', value: 'sp' },
+  { label: 'Italian', value: 'it' },
+];
 
 const MultilingualEntriesTable = ({
   mode,
@@ -20,16 +25,35 @@ const MultilingualEntriesTable = ({
   onAddItem,
 }) => {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState(availableLanguages[0].value);
+  const [language, setLanguage] = useState('');
   const [value, setValue] = useState('');
+  const [selectedLanguages, setSelectedLanguages] = useState(
+    data?.map((d) => d?.language) || []
+  );
+
+  const getAvailableLanguages = () =>
+    languages.filter((lang) => !selectedLanguages.includes(lang.value));
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    onAddItem({ language, value });
+    setSelectedLanguages(selectedLanguages.concat(language));
+    setLanguage('');
+    setValue('');
+  };
+
+  const onDelete = (lang) => {
+    onDeleteItem(lang);
+    setSelectedLanguages(selectedLanguages.filter((v) => v !== lang));
+  };
 
   const footerTemplate = mode === 'edit' && (
-    <div className="p-formgrid p-grid p-fluid">
+    <form className="p-formgrid p-grid p-fluid" onSubmit={onSubmit}>
       <div className="p-col-2">
         <div className="p-field">
           <Dropdown
             value={language}
-            options={availableLanguages}
+            options={getAvailableLanguages()}
             onChange={(e) => setLanguage(e.value)}
             placeholder={t('SELECT_LANGUAGE')}
           />
@@ -56,15 +80,13 @@ const MultilingualEntriesTable = ({
       </div>
       <div className="p-col-2 p-text-right">
         <Button
+          disabled={language.length === 0}
+          type="submit"
           label={t('ADD')}
           className="p-mr-2 p-mb-2"
-          onClick={() => {
-            onAddItem({ language, value });
-            setValue('');
-          }}
         />
       </div>
-    </div>
+    </form>
   );
 
   return (
@@ -76,16 +98,16 @@ const MultilingualEntriesTable = ({
       className={classNames([className])}
       footer={footerTemplate}
     >
-      <Column field="language" />
-      <Column field="value" />
+      <Column header={t('LANGUAGE')} field="language" />
+      <Column header={t('TEXT')} field="value" />
       {mode === 'edit' && (
         <Column
-          body={(rowData) => (
+          body={(l) => (
             <div className="p-text-right">
               <Button
                 className="p-button-danger"
                 icon="pi pi-trash"
-                onClick={() => onDeleteItem(rowData.language)}
+                onClick={() => onDelete(l.language)}
               />
             </div>
           )}
