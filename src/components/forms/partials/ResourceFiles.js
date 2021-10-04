@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import placeholderImage from '../../../assets/img/placeholder.png';
 import {
   deleteFile,
+  getThumbnailURL,
   uploadFile,
   uploadThumbnail,
 } from '../../../services/resources';
@@ -26,9 +27,10 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     initialData?.resource_files || []
   );
   const [thumbnails, setThumbnails] = useState(initialData?.thumbnail || []);
+  const [thumbnailUrl, setThumbnailUrl] = useState(placeholderImage);
   const { teamId, resourceId } = useParams();
   const debouncedResourceFiles = useDebounce(resourceFiles, 300);
-  const debouncedThumnbails = useDebounce(thumbnails, 300);
+  const debouncedThumbnails = useDebounce(thumbnails, 300);
 
   const uploadResourceFile = async (file) => {
     const formData = new FormData();
@@ -59,8 +61,19 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       const { data } = await uploadThumbnail(teamId, resourceId, formData);
       setSuccess('Resource Thumbnail', 'Your thumbnail has been uploaded.');
       setThumbnails(thumbnails.concat({ ...data }));
+      setThumbnailUrl(data?.url);
     } catch (error) {
       setError(handleError(error));
+    }
+  };
+
+  const loadThumbnails = async (team, resource, thumb) => {
+    try {
+      const { data } = await getThumbnailURL(team, resource, thumb?.id);
+      setThumbnailUrl(data?.url);
+    } catch (error) {
+      setError(handleError(error));
+      setThumbnailUrl(placeholderImage);
     }
   };
 
@@ -84,14 +97,15 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     setResourceFiles(f);
   };
 
-  const getThumbnailURL = (path) => {
-    const { origin } = new URL(process.env.REACT_APP_API_BASE_URL);
-    return `${origin}/storage/${path}`;
-  };
+  useEffect(() => {
+    if (thumbnails.length > 0) {
+      loadThumbnails(teamId, resourceId, thumbnails[0]);
+    }
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     setter(thumbnails, resourceFiles);
-  }, [debouncedResourceFiles, debouncedThumnbails]); // eslint-disable-line
+  }, [debouncedResourceFiles, debouncedThumbnails]); // eslint-disable-line
 
   return (
     <Fieldset
@@ -100,21 +114,12 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       style={{ position: 'relative' }}
     >
       <div>
-        {thumbnails && thumbnails.length > 0 ? (
-          <img
-            src={getThumbnailURL(thumbnails[0].path)}
-            height="127px"
-            className="rounded"
-            alt="Resource Thumbnail"
-          />
-        ) : (
-          <img
-            src={placeholderImage}
-            height="127px"
-            className="rounded"
-            alt="Resource Thumbnail"
-          />
-        )}
+        <img
+          src={thumbnailUrl}
+          height="127px"
+          className="rounded"
+          alt="Resource Thumbnail"
+        />
         <div className="p-formgrid p-grid">
           <div className="p-col-12 p-mt-2">
             <input

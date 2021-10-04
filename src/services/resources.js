@@ -11,6 +11,11 @@ export const uploadFile = async (teamId, resourceId, data) =>
     'Content-Type': 'multipart/form-data',
   });
 
+export const getThumbnailURL = async (teamId, resourceId, thumbId) =>
+  apiClient.get(
+    `/teams/${teamId}/resources/${resourceId}/thumbnails/${thumbId}`
+  );
+
 export const updateResource = async (teamId, resourceId, data) =>
   apiClient.put(`/teams/${teamId}/resources/${resourceId}`, data);
 
