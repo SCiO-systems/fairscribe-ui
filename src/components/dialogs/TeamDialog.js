@@ -10,20 +10,17 @@ import { handleError } from '../../utilities/errors';
 
 const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
   const { t } = useTranslation();
-  const [teamName, setTeamName] = useState('');
-  const [teamDescription, setTeamDescription] = useState('');
+  const [teamName, setTeamName] = useState(team?.name || '');
+  const [teamDescription, setTeamDescription] = useState(
+    team?.description || ''
+  );
   const [isLoading, setIsLoading] = useState(false);
   const { id: userId, setUser } = useContext(UserContext);
   const { setSuccess, setError } = useContext(ToastContext);
 
   useEffect(() => {
-    if (team && team.id && team.name && team.description) {
-      setTeamName(team.name);
-      setTeamDescription(team.description);
-    } else {
-      setTeamName('');
-      setTeamDescription('');
-    }
+    setTeamName(team?.name || '');
+    setTeamDescription(team?.description || '');
   }, [team]);
 
   const handleSubmit = async (e) => {
@@ -47,15 +44,12 @@ const TeamDialog = ({ dialogOpen, setDialogOpen, team }) => {
       }
       // update our user context
       const ownTeamsRes = await getAllOwnedTeams(userId);
-      setUser({
-        ownTeams: ownTeamsRes.data,
-      });
+      setUser({ ownTeams: ownTeamsRes.data });
       setDialogOpen(false);
     } catch (error) {
       setError(handleError(error));
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
