@@ -23,10 +23,8 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   const { setError, setSuccess } = useContext(ToastContext);
   const thumbnailFile = useRef(null);
   const resourceFile = useRef(null);
-  const [resourceFiles, setResourceFiles] = useState(
-    initialData?.resource_files || []
-  );
-  const [thumbnails, setThumbnails] = useState(initialData?.thumbnail || []);
+  const [resourceFiles, setResourceFiles] = useState(initialData?.resource_files || []);
+  const [thumbnails, setThumbnails] = useState(initialData?.thumbnails || []);
   const [thumbnailUrl, setThumbnailUrl] = useState(placeholderImage);
   const { teamId, resourceId } = useParams();
   const debouncedResourceFiles = useDebounce(resourceFiles, 300);
@@ -60,7 +58,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     try {
       const { data } = await uploadThumbnail(teamId, resourceId, formData);
       setSuccess('Resource Thumbnail', 'Your thumbnail has been uploaded.');
-      setThumbnails(thumbnails.concat({ ...data }));
+      setThumbnails([{ url: data?.url }]);
       setThumbnailUrl(data?.url);
     } catch (error) {
       setError(handleError(error));
@@ -108,18 +106,9 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   }, [debouncedResourceFiles, debouncedThumbnails]); // eslint-disable-line
 
   return (
-    <Fieldset
-      legend={t('RESOURCE_FILES')}
-      className="p-mb-4"
-      style={{ position: 'relative' }}
-    >
+    <Fieldset legend={t('RESOURCE_FILES')} className="p-mb-4" style={{ position: 'relative' }}>
       <div>
-        <img
-          src={thumbnailUrl}
-          height="127px"
-          className="rounded"
-          alt="Resource Thumbnail"
-        />
+        <img src={thumbnailUrl} height="127px" className="rounded" alt="Resource Thumbnail" />
         <div className="p-formgrid p-grid">
           <div className="p-col-12 p-mt-2">
             <input
@@ -167,8 +156,6 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
             />
           )}
         />
-        <Column field="extension" header={t('EXTENSION')} />
-        <Column field="mime_type" header={t('MIME_TYPE')} />
         <Column field="pii_check" header={t('PII_STATUS')} />
         <Column
           field="locked"

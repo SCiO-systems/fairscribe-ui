@@ -262,11 +262,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <ResourceFiles
           mode={mode}
           initialData={{
-            thumbnail: metadataRecord.thumbnail,
+            thumbnails: metadataRecord.thumbnails,
             resource_files: metadataRecord.resource_files,
           }}
-          setter={(thumbnail, resourceFiles) =>
-            mainSetter({ thumbnail, resource_files: resourceFiles })
+          setter={(thumbnails, resourceFiles) =>
+            mainSetter({ thumbnails, resource_files: resourceFiles })
           }
         />
         <PublishingInformation
