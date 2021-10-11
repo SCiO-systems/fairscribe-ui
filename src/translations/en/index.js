@@ -54,8 +54,7 @@ const t = {
     REPOSITORY_API_ENDPOINT: 'API Endpoint',
     REPOSITORY_CLIENT_SECRET: 'Client Secret',
     ADD_REPOSITORY: 'Add new repository',
-    NO_REPOSITORIES_FOUND:
-      'No repositories were found, use the form below to add a repository.',
+    NO_REPOSITORIES_FOUND: 'No repositories were found, use the form below to add a repository.',
     TEAM_DASHBOARD: 'Team Dashboard',
     TEAM_MEMBERS: 'Team Members',
     RESOURCES: 'Resources',
@@ -79,8 +78,7 @@ const t = {
       'Inherit collection information to metadata of related resources',
     COLLECTION_KEYWORDS_EXTRACTED_FROM_RESOURCES:
       'Collection keywords extracted from collection resources',
-    PUBLISH_COLLECTION_AS_CATALOGUE_OF_RESOURCES:
-      'Publish collection as catalogue of resources',
+    PUBLISH_COLLECTION_AS_CATALOGUE_OF_RESOURCES: 'Publish collection as catalogue of resources',
     GARDIAN_PID_TITLE: 'Gardian PID',
     DOI_TITLE: 'DOI',
     DOIS: 'DOI(s)',
@@ -193,10 +191,8 @@ const t = {
     BY: 'by',
     ACCEPT_INVITE: 'Accept invite',
     REJECT_INVITE: 'Reject invite',
-    AUTHORING_TASK_OWNER_WARNING:
-      'The task owner is by default in the metadata authoring team.',
-    REVIEW_TEAM_OWNER_WARNING:
-      'The team owner is by default in the metadata review team.',
+    AUTHORING_TASK_OWNER_WARNING: 'The task owner is by default in the metadata authoring team.',
+    REVIEW_TEAM_OWNER_WARNING: 'The team owner is by default in the metadata review team.',
     CANCEL: 'Cancel',
     AUTHOR_TYPE: 'Type',
     AUTHOR_NAME: 'Name',
@@ -254,6 +250,13 @@ const t = {
     DELETE_RESOURCE: 'Delete resource',
     LANGUAGE: 'Language',
     TEXT: 'Text',
+    DATA_COLLECTION_METHODOLOGY: 'Data Collection Methodology',
+    UNITS_OF_ANALYSIS: 'Units of Analysis',
+    COLLECTION_FREQUENCY: 'Data Collection Frequency',
+    POPULATION_COVERED: 'Population Covered by the Data',
+    COLLECTION_METHOD: 'Data Collection Method',
+    COLLECTION_INSTRUMENT: 'Data Collection Instrument',
+    SAMPLING_PROCEDURE: 'Sampling Procedure',
   },
 };
 

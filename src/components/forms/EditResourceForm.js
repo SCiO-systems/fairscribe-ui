@@ -12,6 +12,7 @@ import { isDevelopmentEnvironment } from '../../utilities/environment';
 import { handleError } from '../../utilities/errors';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
+import DataCollectionMethodology from './partials/DataCollectionMethodology';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
 import ResourceCoverage from './partials/ResourceCoverage';
@@ -56,11 +57,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     try {
       const status = sendForReview ? 'under_review' : 'under_preparation';
       const record = {
+        ...metadataRecord,
         dataCORE_version: '1.0',
         dataNODE_id: '',
         providers: [],
         sources: [],
-        ...metadataRecord,
         resource_type: {
           type: resource.type,
           subtype: resource.subtype,
@@ -115,6 +116,10 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       value: resource.description,
     },
   ];
+
+  if (isDevelopmentEnvironment()) {
+    console.log('Got metadata record:', metadataRecord); // eslint-disable-line
+  }
 
   return (
     <>
@@ -229,6 +234,31 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             })
           }
         />
+        {resource.type === 'dataset' && (
+          <DataCollectionMethodology
+            mode={mode}
+            initialData={{
+              units: metadataRecord?.methodology?.unit_of_analysis,
+              universe: metadataRecord?.methodology?.universe,
+              frequency: metadataRecord?.methodology?.data_collection_frequency,
+              collectionMode: metadataRecord?.methodology?.data_collection_mode,
+              instrument: metadataRecord?.methodology?.instrument,
+              process: metadataRecord?.methodology?.sampling_process,
+            }}
+            setter={(units, universe, frequency, collectionMode, instrument, process) =>
+              mainSetter({
+                methodology: {
+                  unit_of_analysis: units,
+                  universe,
+                  data_collection_frequency: frequency,
+                  data_collection_mode: collectionMode,
+                  instrument,
+                  sampling_process: process,
+                },
+              })
+            }
+          />
+        )}
         <ResourceFiles
           mode={mode}
           initialData={{
