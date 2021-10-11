@@ -11,7 +11,6 @@ import Citation from './Citation';
 import ContactPoints from './ContactPoints';
 import FundingOrganizations from './FundingOrganizations';
 import ProjectDetails from './ProjectDetails';
-import ProjectPartners from './ProjectPartners';
 import ResourceLanguage from './ResourceLanguages';
 
 const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
@@ -24,10 +23,8 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   const [selectedCollections, setSelectedCollections] = useState(initialData?.collections || []);
   const [resourceLanguage, setResourceLanguage] = useState(initialData?.resource_language || []);
   const [authors, setAuthors] = useState(initialData.authors || []);
-  const [metadataAuthors, setMetadataAuthors] = useState(initialData?.metadata_authors || []);
   const [projectId, setProjectId] = useState(initialData.project_id || '');
   const [projectNames, setProjectNames] = useState(initialData?.project_name || '');
-  const [projectPartners, setProjectPartners] = useState(initialData?.project_partners || []);
   const [fundingOrganizations, setFundingOrganizations] = useState(
     initialData?.funding_organisations || []
   );
@@ -59,10 +56,8 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
       description,
       resourceLanguage,
       authors,
-      metadataAuthors,
       projectId,
       name,
-      projectPartners,
       fundingOrganizations,
       contactPoints,
       citation
@@ -72,10 +67,8 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
     description,
     resourceLanguage,
     authors,
-    metadataAuthors,
     projectId,
     projectNames,
-    projectPartners,
     fundingOrganizations,
     contactPoints,
     citation,
@@ -108,9 +101,9 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         className="p-mt-4"
         data={description}
         header={t('RESOURCE_DESCRIPTION')}
-        onDeleteItem={(l) => {
-          setDescription(description.filter((item) => item.language.value !== l));
-        }}
+        onDeleteItem={(l) =>
+          setDescription(description.filter(({ language: { value } }) => value !== l))
+        }
         onAddItem={({ language, value }) => addDescriptionLanguage(language, value)}
         multipleLines
       />
@@ -134,25 +127,12 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         header={t('AUTHORS_TITLE')}
         className="p-mt-4"
       />
-      <AuthorsTable
-        mode={mode}
-        authors={metadataAuthors}
-        setAuthors={setMetadataAuthors}
-        header={t('METADATA_AUTHORS_TITLE')}
-        className="p-mt-4"
-      />
       <ProjectDetails
         mode={mode}
         projectId={projectId}
         setProjectId={setProjectId}
         projectNames={projectNames}
         setProjectNames={setProjectNames}
-        className="p-mt-4"
-      />
-      <ProjectPartners
-        mode={mode}
-        projectPartners={projectPartners}
-        setProjectPartners={setProjectPartners}
         className="p-mt-4"
       />
       <FundingOrganizations

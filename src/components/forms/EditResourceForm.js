@@ -33,6 +33,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const [metadataRecord, setMetadataRecord] = useState(resource?.metadata_record || {});
   const [comments, setComments] = useState(resource.comments || '');
   const { resourceId } = useParams();
+  const { type, subtype } = resource;
 
   useScrollPosition(({ currPos }) => {
     if (currPos.y > -10) {
@@ -62,10 +63,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         dataNODE_id: '',
         providers: [],
         sources: [],
-        resource_type: {
-          type: resource.type,
-          subtype: resource.subtype,
-        },
+        resource_type: { type, subtype },
       };
       if (isDevelopmentEnvironment()) {
         console.log('Generated metadata record:', record); // eslint-disable-line
@@ -211,10 +209,8 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             description,
             resourceLanguage,
             authors,
-            metadataAuthors,
             projectId,
             projectName,
-            projectPartners,
             fundingOrganizations,
             contactPoints,
             citation
@@ -224,17 +220,15 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
               description,
               resource_language: resourceLanguage,
               authors,
-              metadata_authors: metadataAuthors,
               project_id: projectId,
               project_name: projectName,
-              project_partners: projectPartners,
               funding_organisations: fundingOrganizations,
               contact_point: contactPoints,
               citation,
             })
           }
         />
-        {resource.type === 'dataset' && (
+        {type === 'dataset' && (
           <DataCollectionMethodology
             mode={mode}
             initialData={{
