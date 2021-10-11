@@ -22,9 +22,7 @@ const ResourceCollectionsPicker = ({
     <div className="p-fluid p-grid p-justify-start p-mt-2">
       <div className="p-col-12">
         <div className="p-field">
-          <label htmlFor="resourceCollections">
-            {t('RESOURCE_COLLECTIONS_TITLE')}
-          </label>
+          <label htmlFor="resourceCollections">{t('RESOURCE_COLLECTIONS_TITLE')}</label>
           <div style={{ position: 'relative' }}>
             {mode === 'review' && (
               <div

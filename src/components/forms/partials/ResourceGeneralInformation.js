@@ -12,54 +12,37 @@ import ContactPoints from './ContactPoints';
 import FundingOrganizations from './FundingOrganizations';
 import ProjectDetails from './ProjectDetails';
 import ProjectPartners from './ProjectPartners';
-import ResourceLanguages from './ResourceLanguages';
+import ResourceLanguage from './ResourceLanguages';
 
 const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
+  const { teamId } = useParams();
   const [title, setTitle] = useState(initialData?.title || []);
-  const [description, setDescription] = useState(
-    initialData?.description || []
-  );
+  const [description, setDescription] = useState(initialData?.description || []);
   const [citation, setCitation] = useState(initialData?.citation || '');
   const [teamCollections, setTeamCollections] = useState([]);
-  const [selectedCollections, setSelectedCollections] = useState(
-    initialData?.collections || []
-  );
-  const [languages, setLanguages] = useState(
-    initialData?.resource_language || []
-  );
+  const [selectedCollections, setSelectedCollections] = useState(initialData?.collections || []);
+  const [resourceLanguage, setResourceLanguage] = useState(initialData?.resource_language || []);
   const [authors, setAuthors] = useState(initialData.authors || []);
-  const [metadataAuthors, setMetadataAuthors] = useState(
-    initialData?.metadata_authors || []
-  );
+  const [metadataAuthors, setMetadataAuthors] = useState(initialData?.metadata_authors || []);
   const [projectId, setProjectId] = useState(initialData.project_id || '');
-  const [projectNames, setProjectNames] = useState(
-    initialData?.project_name || ''
-  );
-  const [projectPartners, setProjectPartners] = useState(
-    initialData?.project_partners || []
-  );
+  const [projectNames, setProjectNames] = useState(initialData?.project_name || '');
+  const [projectPartners, setProjectPartners] = useState(initialData?.project_partners || []);
   const [fundingOrganizations, setFundingOrganizations] = useState(
     initialData?.funding_organisations || []
   );
-  const [contactPoints, setContactPoints] = useState(
-    initialData?.contact_point || []
-  );
-
-  const { teamId } = useParams();
+  const [contactPoints, setContactPoints] = useState(initialData?.contact_point || []);
 
   const addTitleLanguage = (language, value) => {
     setTitle(
-      title
-        .filter((item) => item.language !== language)
-        .concat({ language, value })
+      title.filter((item) => item.language.value !== language.value).concat({ language, value })
     );
   };
 
   const addDescriptionLanguage = (language, value) => {
     setDescription(
       description
-        .filter((item) => item.language !== language)
+        .filter((item) => item.language.value !== language.value)
         .concat({ language, value })
     );
   };
@@ -74,7 +57,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
     setter(
       title,
       description,
-      languages,
+      resourceLanguage,
       authors,
       metadataAuthors,
       projectId,
@@ -87,7 +70,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
   }, [
     title,
     description,
-    languages,
+    resourceLanguage,
     authors,
     metadataAuthors,
     projectId,
@@ -118,9 +101,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         className="p-mt-4"
         data={title}
         header={t('RESOURCE_TITLE')}
-        onDeleteItem={(language) =>
-          setTitle(title.filter((item) => item.language !== language))
-        }
+        onDeleteItem={(l) => setTitle(title.filter(({ language }) => language.value !== l))}
         onAddItem={({ language, value }) => addTitleLanguage(language, value)}
       />
       <MultilingualEntriesTable
@@ -128,14 +109,10 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         className="p-mt-4"
         data={description}
         header={t('RESOURCE_DESCRIPTION')}
-        onDeleteItem={(language) => {
-          setDescription(
-            description.filter((item) => item.language !== language)
-          );
+        onDeleteItem={(l) => {
+          setDescription(description.filter((item) => item.language.value !== l));
         }}
-        onAddItem={({ language, value }) =>
-          addDescriptionLanguage(language, value)
-        }
+        onAddItem={({ language, value }) => addDescriptionLanguage(language, value)}
         multipleLines
       />
       <ResourceCollectionsPicker
@@ -144,15 +121,12 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         selectedCollections={selectedCollections}
         setTeamCollections={setTeamCollections}
         teamCollections={teamCollections}
-        className="p-mt-4"
       />
-      <ResourceLanguages
+      <ResourceLanguage
         mode={mode}
-        header={t('RESOURCE_LANGUAGES_TITLE')}
-        multipleLines
-        languages={languages}
-        setLanguages={setLanguages}
-        className="p-mt-4"
+        availableLanguages={[]}
+        language={resourceLanguage}
+        setLanguage={setResourceLanguage}
       />
       <AuthorsTable
         mode={mode}
@@ -194,12 +168,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
         setContactPoints={setContactPoints}
         className="p-mt-4"
       />
-      <Citation
-        mode={mode}
-        citation={citation}
-        setCitation={setCitation}
-        className="p-mt-4"
-      />
+      <Citation mode={mode} citation={citation} setCitation={setCitation} className="p-mt-4" />
     </Fieldset>
   );
 };

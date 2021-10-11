@@ -6,11 +6,9 @@ import { Message } from 'primereact/message';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
-import {
-  updateResource,
-  updateResourceComments,
-} from '../../services/resources';
+import { updateResource, updateResourceComments } from '../../services/resources';
 import { ToastContext } from '../../store';
+import { isDevelopmentEnvironment } from '../../utilities/environment';
 import { handleError } from '../../utilities/errors';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
@@ -31,9 +29,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const [fairScoreDialogOpen, setFairScoreDialogOpen] = useState(false);
   const [rightOffset, setRightOffset] = useState('30px');
   const [quickSaveVisibility, setQuickSaveVisibility] = useState(true);
-  const [metadataRecord, setMetadataRecord] = useState(
-    resource?.metadata_record?.dataCORE || {}
-  );
+  const [metadataRecord, setMetadataRecord] = useState(resource?.metadata_record || {});
   const [comments, setComments] = useState(resource.comments || '');
   const { resourceId } = useParams();
 
@@ -60,18 +56,20 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     try {
       const status = sendForReview ? 'under_review' : 'under_preparation';
       const record = {
-        dataCORE: {
-          CORE_version: '1.0',
-          ...metadataRecord,
-          resource_type: {
-            value: resource.type,
-          },
+        dataCORE_version: '1.0',
+        dataNODE_id: '',
+        providers: [],
+        sources: [],
+        ...metadataRecord,
+        resource_type: {
+          type: resource.type,
+          subtype: resource.subtype,
         },
       };
-      await updateResource(teamId, resourceId, {
-        status,
-        metadata_record: record,
-      });
+      if (isDevelopmentEnvironment()) {
+        console.log('Generated metadata record:', record); // eslint-disable-line
+      }
+      await updateResource(teamId, resourceId, { status, metadata_record: record });
       setSuccess('Resource', 'Resource changes have been saved!');
     } catch (error) {
       setError(handleError(error));
@@ -92,8 +90,31 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     setMetadataRecord(() => ({ ...metadataRecord, ...data }));
   };
 
-  const fallbackTitle = [{ language: 'en', value: resource.title }];
-  const fallbackDescription = [{ language: 'en', value: resource.description }];
+  const fallbackTitle = [
+    {
+      language: {
+        label: 'English',
+        name: 'English',
+        value: 'en',
+        iso_code_639_1: 'en',
+        iso_code_639_2: 'eng',
+      },
+      value: resource.title,
+    },
+  ];
+
+  const fallbackDescription = [
+    {
+      language: {
+        label: 'English',
+        name: 'English',
+        value: 'en',
+        iso_code_639_1: 'en',
+        iso_code_639_2: 'eng',
+      },
+      value: resource.description,
+    },
+  ];
 
   return (
     <>
@@ -114,11 +135,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                       'p-button-icon-only',
                       { 'p-mr-2': quickSaveVisibility }
                     )}
-                    icon={
-                      quickSaveVisibility
-                        ? 'pi pi-angle-right'
-                        : 'pi pi-angle-left'
-                    }
+                    icon={quickSaveVisibility ? 'pi pi-angle-right' : 'pi pi-angle-left'}
                     onClick={() => setQuickSaveVisibility(!quickSaveVisibility)}
                   />
                 )}
@@ -139,10 +156,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                       label={t('SEND_FOR_REVIEW')}
                       onClick={() => saveChanges(true)}
                     />
-                    <Button
-                      label={t('SAVE_CHANGES')}
-                      onClick={() => saveChanges(false)}
-                    />
+                    <Button label={t('SAVE_CHANGES')} onClick={() => saveChanges(false)} />
                   </>
                 )}
               </div>
@@ -159,11 +173,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                   autoResize={false}
                   rows={5}
                 />
-                <Button
-                  type="submit"
-                  className="p-my-2"
-                  label={t('SAVE_CHANGES')}
-                />
+                <Button type="submit" className="p-my-2" label={t('SAVE_CHANGES')} />
               </form>
             </div>
           )}
@@ -185,6 +195,40 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             )}
           />
         )}
+        <ResourceGeneralInformation
+          mode={mode}
+          initialData={{
+            title: metadataRecord.title || fallbackTitle,
+            description: metadataRecord.description || fallbackDescription,
+          }}
+          setter={(
+            title,
+            description,
+            resourceLanguage,
+            authors,
+            metadataAuthors,
+            projectId,
+            projectName,
+            projectPartners,
+            fundingOrganizations,
+            contactPoints,
+            citation
+          ) =>
+            mainSetter({
+              title,
+              description,
+              resource_language: resourceLanguage,
+              authors,
+              metadata_authors: metadataAuthors,
+              project_id: projectId,
+              project_name: projectName,
+              project_partners: projectPartners,
+              funding_organisations: fundingOrganizations,
+              contact_point: contactPoints,
+              citation,
+            })
+          }
+        />
         <ResourceFiles
           mode={mode}
           initialData={{
@@ -203,55 +247,12 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           }}
           setter={(identifier) => mainSetter({ identifier })}
         />
-        <ResourceGeneralInformation
-          mode={mode}
-          initialData={{
-            title: metadataRecord.title || fallbackTitle,
-            description: metadataRecord.description || fallbackDescription,
-            resource_language: metadataRecord.resource_language,
-            citation: metadataRecord.citation,
-            authors: metadataRecord.authors,
-            metadata_authors: metadataRecord.metadata_authors,
-            project_id: metadataRecord.project_id,
-            project_name: metadataRecord.project_name,
-            project_partners: metadataRecord.project_partners,
-            funding_organisations: metadataRecord.funding_organisations,
-            contact_point: metadataRecord.contact_point,
-          }}
-          setter={(
-            title,
-            description,
-            languages,
-            authors,
-            metadataAuthors,
-            projectId,
-            projectName,
-            projectPartners,
-            fundingOrganizations,
-            contactPoints,
-            citation
-          ) =>
-            mainSetter({
-              title,
-              description,
-              resource_language: languages,
-              authors,
-              metadata_authors: metadataAuthors,
-              project_id: projectId,
-              project_name: projectName,
-              project_partners: projectPartners,
-              funding_organisations: fundingOrganizations,
-              contact_point: contactPoints,
-              citation,
-            })
-          }
-        />
+
         <ResourceLifecycle
           mode={mode}
           initialData={{
             resource_version: metadataRecord.resource_version,
-            resource_version_description:
-              metadataRecord.resource_version_description,
+            resource_version_description: metadataRecord.resource_version_description,
             release_date: metadataRecord.release_date,
             embargo_date: metadataRecord.embargo_date,
           }}
@@ -280,18 +281,14 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             geospatial_coverage: metadataRecord.geospatial_coverage,
             temporal_coverage: metadataRecord.temporal_coverage,
           }}
-          setter={(gsc, tc) =>
-            mainSetter({ geospatial_coverage: gsc, temporal_coverage: tc })
-          }
+          setter={(gsc, tc) => mainSetter({ geospatial_coverage: gsc, temporal_coverage: tc })}
         />
         <ResourceRelatedResources
           mode={mode}
           initialData={{
             related_resources: metadataRecord.related_resources,
           }}
-          setter={(relatedResources) =>
-            mainSetter({ related_resources: relatedResources })
-          }
+          setter={(relatedResources) => mainSetter({ related_resources: relatedResources })}
         />
       </div>
       <FairScoreDialog

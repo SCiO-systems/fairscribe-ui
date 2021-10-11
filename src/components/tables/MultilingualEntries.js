@@ -10,9 +10,27 @@ import { useTranslation } from 'react-i18next';
 
 // TODO: Grab this information from the relevant service.
 const languages = [
-  { label: 'English', value: 'en' },
-  { label: 'Spanish', value: 'sp' },
-  { label: 'Italian', value: 'it' },
+  {
+    label: 'English',
+    name: 'English',
+    value: 'en',
+    iso_code_639_1: 'en',
+    iso_code_639_2: 'eng',
+  },
+  {
+    label: 'Spanish',
+    name: 'Spanish',
+    value: 'sp',
+    iso_code_639_1: 'sp',
+    iso_code_639_2: 'spa',
+  },
+  {
+    label: 'Italian',
+    name: 'Italian',
+    value: 'it',
+    iso_code_639_1: 'it',
+    iso_code_639_2: 'ita',
+  },
 ];
 
 const MultilingualEntriesTable = ({
@@ -25,26 +43,27 @@ const MultilingualEntriesTable = ({
   onAddItem,
 }) => {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState('');
-  const [value, setValue] = useState('');
-  const [selectedLanguages, setSelectedLanguages] = useState(
-    data?.map((d) => d?.language) || []
-  );
+  const [languageValue, setLanguageValue] = useState('');
+  const [textValue, setTextValue] = useState('');
+  const [selectedLanguages, setSelectedLanguages] = useState(data.map((s) => s.language) || []);
 
   const getAvailableLanguages = () =>
-    languages.filter((lang) => !selectedLanguages.includes(lang.value));
+    languages.filter((l) => !selectedLanguages.map((s) => s.value).includes(l.value));
+
+  const getLanguageByValue = (v) => languages?.filter((l) => l.value === v)?.pop();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    onAddItem({ language, value });
-    setSelectedLanguages(selectedLanguages.concat(language));
-    setLanguage('');
-    setValue('');
+    const selectedLang = getLanguageByValue(languageValue);
+    onAddItem({ language: selectedLang, value: textValue });
+    setSelectedLanguages([...selectedLanguages, selectedLang]);
+    setLanguageValue('');
+    setTextValue('');
   };
 
-  const onDelete = (lang) => {
-    onDeleteItem(lang);
-    setSelectedLanguages(selectedLanguages.filter((v) => v !== lang));
+  const onDelete = (langValue) => {
+    onDeleteItem(langValue);
+    setSelectedLanguages(selectedLanguages.filter((s) => s?.value !== langValue));
   };
 
   const footerTemplate = mode === 'edit' && (
@@ -52,9 +71,9 @@ const MultilingualEntriesTable = ({
       <div className="p-col-2">
         <div className="p-field">
           <Dropdown
-            value={language}
+            value={languageValue}
             options={getAvailableLanguages()}
-            onChange={(e) => setLanguage(e.value)}
+            onChange={(e) => setLanguageValue(e.value)}
             placeholder={t('SELECT_LANGUAGE')}
           />
         </div>
@@ -64,14 +83,16 @@ const MultilingualEntriesTable = ({
           {!multipleLines && (
             <InputText
               type="text"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
+              disabled={languageValue.length === 0}
+              value={textValue}
+              onChange={(e) => setTextValue(e.target.value)}
             />
           )}
           {multipleLines && (
             <InputTextarea
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
+              disabled={languageValue.length === 0}
+              value={textValue}
+              onChange={(e) => setTextValue(e.target.value)}
               rows={5}
               cols={50}
             />
@@ -80,7 +101,7 @@ const MultilingualEntriesTable = ({
       </div>
       <div className="p-col-2 p-text-right">
         <Button
-          disabled={language.length === 0}
+          disabled={languageValue.length === 0}
           type="submit"
           label={t('ADD')}
           className="p-mr-2 p-mb-2"
@@ -98,16 +119,16 @@ const MultilingualEntriesTable = ({
       className={classNames([className])}
       footer={footerTemplate}
     >
-      <Column header={t('LANGUAGE')} field="language" />
+      <Column header={t('LANGUAGE')} field="name" body={({ language: { name } }) => name || ''} />
       <Column header={t('TEXT')} field="value" />
       {mode === 'edit' && (
         <Column
-          body={(l) => (
+          body={({ language }) => (
             <div className="p-text-right">
               <Button
                 className="p-button-danger"
                 icon="pi pi-trash"
-                onClick={() => onDelete(l.language)}
+                onClick={() => onDelete(language?.value)}
               />
             </div>
           )}

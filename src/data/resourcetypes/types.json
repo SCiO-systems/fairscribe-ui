@@ -1,7 +1,7 @@
 [
   {
     "name": "Document",
-    "value": "Document",
+    "value": "document",
     "subtypes": [
       {
         "name": "Bibliography",
@@ -119,7 +119,7 @@
   },
   {
     "name": "Digital Asset",
-    "value": "Digital Asset",
+    "value": "digital_asset",
     "subtypes": [
       {
         "name": "KOS",
@@ -141,7 +141,7 @@
   },
   {
     "name": "Dataset",
-    "value": "Dataset",
+    "value": "dataset",
     "subtypes": [
       {
         "name": "Dataset / Geospatial",
