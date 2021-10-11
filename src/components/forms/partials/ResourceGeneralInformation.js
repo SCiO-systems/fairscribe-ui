@@ -98,7 +98,6 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
     >
       <MultilingualEntriesTable
         mode={mode}
-        className="p-mt-4"
         data={title}
         header={t('RESOURCE_TITLE')}
         onDeleteItem={(l) => setTitle(title.filter(({ language }) => language.value !== l))}
