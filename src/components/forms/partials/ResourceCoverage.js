@@ -1,47 +1,17 @@
 /* eslint-disable no-console */
 import { Button } from 'primereact/button';
-import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
-import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as countryOptions from '../../../data/countries/countries.json';
-import {
-  convertDateToFormat,
-  getDateFromFormat,
-} from '../../../utilities/dates';
 
 const ResourceCoverage = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [countries, setCountries] = useState(
-    initialData.geospatial_coverage || []
-  );
-  const [temporalCoverage, setTemporalCoverage] = useState(
-    initialData.temporal_coverage || {
-      coverage_type: '',
-      from: '',
-      to: '',
-      textual_description: '',
-    }
-  );
+  const [countries, setCountries] = useState(initialData.geospatial_coverage || []);
   const [selectedCountry, setSelectedCountry] = useState('');
-
-  useEffect(() => {
-    const tc = { ...temporalCoverage };
-    if (tc.from !== '') {
-      tc.from = convertDateToFormat(tc.from);
-    }
-    if (tc.to !== '') {
-      tc.to = convertDateToFormat(tc.to);
-    }
-    if (tc.coverage_type === 'timepoint') {
-      tc.to = tc.from;
-    }
-    setter(countries, tc);
-  }, [countries, temporalCoverage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Fieldset
@@ -68,9 +38,7 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
                       icon="pi pi-trash"
                       onClick={() => {
                         setCountries(
-                          countries.filter(
-                            (item) => item.country_name !== rowData.country_name
-                          )
+                          countries.filter((item) => item.country_name !== rowData.country_name)
                         );
                       }}
                     />
@@ -109,101 +77,6 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
                         })
                     );
                   }}
-                />
-              </div>
-            </div>
-            <div className="p-formgrid p-grid p-mt-4">
-              <div className="p-field p-col-12 p-md-12">
-                <label htmlFor="accessRight">
-                  {t('TEMPORAL_COVERAGE_TYPE')}
-                </label>
-                <Dropdown
-                  id="coverage_type"
-                  options={[
-                    { label: 'Period', value: 'period' },
-                    { label: 'Timepoint', value: 'timepoint' },
-                  ]}
-                  value={temporalCoverage.coverage_type}
-                  onChange={(e) =>
-                    setTemporalCoverage(() => ({
-                      ...temporalCoverage,
-                      coverage_type: e.target.value,
-                    }))
-                  }
-                  required
-                />
-              </div>
-            </div>
-            <div className="p-formgrid p-grid p-mt-4">
-              {temporalCoverage.coverage_type === 'period' && (
-                <>
-                  <div className="p-field p-col-12 p-md-12">
-                    <label htmlFor="from_date">{t('TEMPORAL_FROM_DATE')}</label>
-                    <Calendar
-                      dateFormat="yy-mm-dd"
-                      showIcon
-                      showButtonBar
-                      id="from_date"
-                      value={getDateFromFormat(temporalCoverage.from)}
-                      onChange={(e) =>
-                        setTemporalCoverage(() => ({
-                          ...temporalCoverage,
-                          from: e.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="p-field p-col-12 p-md-12">
-                    <label htmlFor="to_date">{t('TEMPORAL_TO_DATE')}</label>
-                    <Calendar
-                      dateFormat="yy-mm-dd"
-                      showIcon
-                      showButtonBar
-                      id="to_date"
-                      value={getDateFromFormat(temporalCoverage.to)}
-                      onChange={(e) =>
-                        setTemporalCoverage(() => ({
-                          ...temporalCoverage,
-                          to: e.value,
-                        }))
-                      }
-                    />
-                  </div>
-                </>
-              )}
-              {temporalCoverage.coverage_type === 'timepoint' && (
-                <div className="p-field p-col-12 p-md-12">
-                  <label htmlFor="date">{t('TEMPORAL_DATE')}</label>
-                  <Calendar
-                    dateFormat="yy-mm-dd"
-                    showIcon
-                    showButtonBar
-                    id="date"
-                    value={getDateFromFormat(temporalCoverage.from)}
-                    onChange={(e) =>
-                      setTemporalCoverage(() => ({
-                        ...temporalCoverage,
-                        from: e.value,
-                        to: e.value,
-                      }))
-                    }
-                  />
-                </div>
-              )}
-              <div className="p-field p-col-12 p-md-12">
-                <label htmlFor="description">{t('TEMPORAL_DESCRIPTION')}</label>
-                <InputTextarea
-                  id="description"
-                  type="text"
-                  value={temporalCoverage.textual_description || ''}
-                  rows={3}
-                  style={{ resize: 'none' }}
-                  onChange={(e) =>
-                    setTemporalCoverage(() => ({
-                      ...temporalCoverage,
-                      textual_description: e.target.value,
-                    }))
-                  }
                 />
               </div>
             </div>

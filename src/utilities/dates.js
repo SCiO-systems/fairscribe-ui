@@ -1,6 +1,6 @@
 export const getDateFromFormat = (value) => {
-  if (!value) {
-    return new Date();
+  if (!value || value === '') {
+    return '';
   }
   if (value instanceof Date) {
     return value;
@@ -9,8 +9,8 @@ export const getDateFromFormat = (value) => {
 };
 
 export const convertDateToFormat = (date) => {
-  if (!date) {
-    return new Date();
+  if (!date || date === '') {
+    return '';
   }
   const d = new Date(date);
   const offset = d.getTimezoneOffset() * 60000;

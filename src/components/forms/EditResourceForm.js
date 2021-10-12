@@ -21,6 +21,7 @@ import ResourceGeneralInformation from './partials/ResourceGeneralInformation';
 import ResourceLifecycle from './partials/ResourceLifecycle';
 import ResourceRelatedResources from './partials/ResourceRelatedResources';
 import ResourceRights from './partials/ResourceRights';
+import TemporalCoverage from './partials/TemporalCoverage';
 
 const EditResourceForm = ({ resource, teamId, mode }) => {
   const { t } = useTranslation();
@@ -114,10 +115,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       value: resource.description,
     },
   ];
-
-  if (isDevelopmentEnvironment()) {
-    console.log('Got metadata record:', metadataRecord); // eslint-disable-line
-  }
 
   return (
     <>
@@ -249,6 +246,21 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                   instrument,
                   sampling_process: process,
                 },
+              })
+            }
+          />
+        )}
+        {type === 'dataset' && (
+          <TemporalCoverage
+            mode={mode}
+            initialData={{
+              data_temporal_coverage: metadataRecord?.data_temporal_coverage,
+              data_collection_period: metadataRecord?.data_collection_period,
+            }}
+            setter={(temporalCoverage, collectionPeriod) =>
+              mainSetter({
+                data_temporal_coverage: temporalCoverage,
+                data_collection_period: collectionPeriod,
               })
             }
           />
