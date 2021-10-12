@@ -278,7 +278,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <PublishingInformation
           mode={mode}
           initialData={{
-            title: metadataRecord.title,
+            title: metadataRecord.title || fallbackTitle,
             dois: metadataRecord.dois,
             type: metadataRecord.resource_type,
             pids: metadataRecord.other_pids,
