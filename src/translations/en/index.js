@@ -257,6 +257,10 @@ const t = {
     COLLECTION_METHOD: 'Data Collection Method',
     COLLECTION_INSTRUMENT: 'Data Collection Instrument',
     SAMPLING_PROCEDURE: 'Sampling Procedure',
+    DOI_SERVICE_PROVIDER: 'DOI Service Provider',
+    PIDS: 'Alternative Identifiers',
+    PID_VALUE: 'Value',
+    PID_SCHEME: 'Scheme',
   },
 };
 

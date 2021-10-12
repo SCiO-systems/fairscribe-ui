@@ -266,10 +266,12 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <PublishingInformation
           mode={mode}
           initialData={{
-            identifier: metadataRecord.identifier,
+            title: metadataRecord.title,
+            dois: metadataRecord.dois,
             type: metadataRecord.resource_type,
+            pids: metadataRecord.other_pids,
           }}
-          setter={(identifier) => mainSetter({ identifier })}
+          setter={(dois, pids) => mainSetter({ dois, other_pids: pids })}
         />
 
         <ResourceLifecycle

@@ -6,5 +6,5 @@ export const handleError = (e) => {
     return e.response.data.errors[Object.keys(e.response.data.errors)[0]][0];
   }
 
-  return e?.response?.data?.error || 'Something went wrong!';
+  return e?.response?.data?.error || e?.response?.data?.errors?.error || 'Something went wrong!';
 };
