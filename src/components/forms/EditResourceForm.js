@@ -3,13 +3,15 @@ import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Message } from 'primereact/message';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
+import { listLanguages } from '../../services/integrations';
 import { updateResource, updateResourceComments } from '../../services/resources';
 import { ToastContext } from '../../store';
 import { isDevelopmentEnvironment } from '../../utilities/environment';
 import { handleError } from '../../utilities/errors';
+import { transformLanguages } from '../../utilities/transformers';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
 import DataCollectionMethodology from './partials/DataCollectionMethodology';
@@ -33,6 +35,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const [quickSaveVisibility, setQuickSaveVisibility] = useState(true);
   const [metadataRecord, setMetadataRecord] = useState(resource?.metadata_record || {});
   const [comments, setComments] = useState(resource.comments || '');
+  const [availableLanguages, setAvailableLanguages] = useState([]);
   const { resourceId } = useParams();
   const { type, subtype } = resource;
 
@@ -90,12 +93,18 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     setMetadataRecord(() => ({ ...metadataRecord, ...data }));
   };
 
+  useEffect(() => {
+    listLanguages()
+      .then((data) => setAvailableLanguages(transformLanguages(data)))
+      .catch((error) => setError(handleError(error)));
+  }, []); // eslint-disable-line
+
   const fallbackTitle = [
     {
       language: {
-        label: 'English',
         name: 'English',
-        value: 'en',
+        label: 'English',
+        value: 'English',
         iso_code_639_1: 'en',
         iso_code_639_2: 'eng',
       },
@@ -106,9 +115,9 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const fallbackDescription = [
     {
       language: {
-        label: 'English',
         name: 'English',
-        value: 'en',
+        label: 'English',
+        value: 'English',
         iso_code_639_1: 'en',
         iso_code_639_2: 'eng',
       },
@@ -197,9 +206,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         )}
         <ResourceGeneralInformation
           mode={mode}
+          availableLanguages={availableLanguages}
           initialData={{
             title: metadataRecord.title || fallbackTitle,
             description: metadataRecord.description || fallbackDescription,
+            resource_language: metadataRecord.resource_language,
           }}
           setter={(
             title,

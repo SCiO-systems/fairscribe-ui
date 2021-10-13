@@ -13,7 +13,7 @@ import FundingOrganizations from './FundingOrganizations';
 import ProjectDetails from './ProjectDetails';
 import ResourceLanguage from './ResourceLanguages';
 
-const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
+const ResourceGeneralInformation = ({ initialData, setter, mode, availableLanguages }) => {
   const { t } = useTranslation();
   const { teamId } = useParams();
   const [title, setTitle] = useState(initialData?.title || []);
@@ -92,14 +92,16 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
       <MultilingualEntriesTable
         mode={mode}
         data={title}
+        availableLanguages={availableLanguages}
         header={t('RESOURCE_TITLE')}
         onDeleteItem={(l) => setTitle(title.filter(({ language }) => language.value !== l))}
         onAddItem={({ language, value }) => addTitleLanguage(language, value)}
       />
       <MultilingualEntriesTable
         mode={mode}
-        className="p-mt-4"
         data={description}
+        availableLanguages={availableLanguages}
+        className="p-mt-4"
         header={t('RESOURCE_DESCRIPTION')}
         onDeleteItem={(l) =>
           setDescription(description.filter(({ language: { value } }) => value !== l))
@@ -116,7 +118,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode }) => {
       />
       <ResourceLanguage
         mode={mode}
-        availableLanguages={[]}
+        availableLanguages={availableLanguages}
         language={resourceLanguage}
         setLanguage={setResourceLanguage}
       />

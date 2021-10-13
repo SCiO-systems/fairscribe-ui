@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 const ResourceLanguage = ({ availableLanguages, setLanguage, language, mode }) => {
   const { t } = useTranslation();
-
   // TODO: Add the list of languages here.
 
   return (
@@ -13,11 +12,15 @@ const ResourceLanguage = ({ availableLanguages, setLanguage, language, mode }) =
         <div className="p-field">
           <label htmlFor="resourceCollections">{t('RESOURCE_LANGUAGE')}</label>
           <Dropdown
+            filter
+            filterBy="label"
             id="language"
             disabled={mode !== 'edit'}
-            value={language || ''}
-            options={availableLanguages}
-            onChange={(e) => setLanguage(e.value)}
+            value={language?.name || ''}
+            options={availableLanguages.map(({ name }) => ({ label: name, value: name }))}
+            onChange={(e) =>
+              setLanguage(availableLanguages.filter(({ name }) => name === e.value)?.pop())
+            }
           />
         </div>
       </div>

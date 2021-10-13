@@ -8,31 +8,6 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// TODO: Grab this information from the relevant service.
-const languages = [
-  {
-    label: 'English',
-    name: 'English',
-    value: 'en',
-    iso_code_639_1: 'en',
-    iso_code_639_2: 'eng',
-  },
-  {
-    label: 'Spanish',
-    name: 'Spanish',
-    value: 'sp',
-    iso_code_639_1: 'sp',
-    iso_code_639_2: 'spa',
-  },
-  {
-    label: 'Italian',
-    name: 'Italian',
-    value: 'it',
-    iso_code_639_1: 'it',
-    iso_code_639_2: 'ita',
-  },
-];
-
 const MultilingualEntriesTable = ({
   mode,
   data,
@@ -41,6 +16,7 @@ const MultilingualEntriesTable = ({
   className,
   onDeleteItem,
   onAddItem,
+  availableLanguages,
 }) => {
   const { t } = useTranslation();
   const [languageValue, setLanguageValue] = useState('');
@@ -48,9 +24,15 @@ const MultilingualEntriesTable = ({
   const [selectedLanguages, setSelectedLanguages] = useState(data.map((s) => s.language) || []);
 
   const getAvailableLanguages = () =>
-    languages.filter((l) => !selectedLanguages.map((s) => s.value).includes(l.value));
+    availableLanguages
+      .map((al) => ({ label: al.name, value: al.name, ...al }))
+      .filter((l) => !selectedLanguages.map((s) => s.name).includes(l.name));
 
-  const getLanguageByValue = (v) => languages?.filter((l) => l.value === v)?.pop();
+  const getLanguageByValue = (v) =>
+    availableLanguages
+      .map((al) => ({ label: al.name, value: al.name, ...al }))
+      .filter((l) => l.name === v)
+      ?.pop();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -71,6 +53,8 @@ const MultilingualEntriesTable = ({
       <div className="p-col-2">
         <div className="p-field">
           <Dropdown
+            filter
+            filterBy="label"
             value={languageValue}
             options={getAvailableLanguages()}
             onChange={(e) => setLanguageValue(e.value)}
@@ -93,8 +77,7 @@ const MultilingualEntriesTable = ({
               disabled={languageValue.length === 0}
               value={textValue}
               onChange={(e) => setTextValue(e.target.value)}
-              rows={5}
-              cols={50}
+              autoResize
             />
           )}
         </div>
