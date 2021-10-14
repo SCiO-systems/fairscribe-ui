@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import DOIs from './DOIs';
 import PIDs from './PIDs';
 
-const PublishingInformation = ({ initialData, setter, mode }) => {
+const PublishingInformation = ({ initialData, setter, mode, type }) => {
   const { t } = useTranslation();
   const [dois, setDois] = useState(initialData?.dois || []);
   const [pids, setPids] = useState(initialData?.pids || []);
@@ -23,7 +23,7 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
       style={{ position: 'relative' }}
     >
       <DOIs mode={mode} title={getEnglishTitle()} dois={dois} setDois={setDois} />
-      <PIDs mode={mode} pids={pids} setPids={setPids} />
+      {type === 'document' && <PIDs mode={mode} pids={pids} setPids={setPids} />}
     </Fieldset>
   );
 };

@@ -50,7 +50,12 @@ const PIDs = ({ mode, pids, setPids }) => {
       </div>
       <div className="p-col-8">
         <div className="p-field">
-          <InputText name="pid" value={pid} onChange={(e) => setPid(e.target.value)} />
+          <InputText
+            name="pid"
+            placeholder="Enter alternative identifier"
+            value={pid}
+            onChange={(e) => setPid(e.target.value)}
+          />
         </div>
       </div>
       <div className="p-col-2">
