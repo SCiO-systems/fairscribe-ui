@@ -283,7 +283,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           }}
           setter={(dois, pids) => mainSetter({ dois, other_pids: pids })}
         />
-
         <ResourceLifecycle
           mode={mode}
           initialData={{

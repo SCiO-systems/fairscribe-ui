@@ -1,49 +1,29 @@
 /* eslint-disable no-console */
 import { Calendar } from 'primereact/calendar';
 import { Fieldset } from 'primereact/fieldset';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  convertDateToFormat,
-  getDateFromFormat,
-} from '../../../utilities/dates';
-import { useDebounce } from '../../../utilities/hooks';
+import { convertDateToFormat, getDateFromFormat } from '../../../utilities/dates';
+import SimpleNumberField from '../../fields/SimpleNumberField';
+import SimpleTextArea from '../../fields/SimpleTextArea';
 
 const ResourceLifecycle = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [version, setVersion] = useState(initialData.resource_version ?? '');
-  const debouncedVersion = useDebounce(version, 500);
+  const [version, setVersion] = useState(initialData?.resource_version || 1.0);
   const [versionDescription, setVersionDescription] = useState(
-    initialData.resource_version_description ?? ''
+    initialData?.resource_version_description || ''
   );
-  const debouncedDescription = useDebounce(versionDescription, 500);
-  const [releaseDate, setReleaseDate] = useState(
-    initialData.release_date ?? ''
-  );
-  const debouncedReleaseDate = useDebounce(releaseDate, 500);
-  const [embargoDate, setEmbargoDate] = useState(
-    initialData.embargo_date ?? ''
-  );
-  const debouncedEmbargoDate = useDebounce(embargoDate, 500);
+  const [releaseDate, setReleaseDate] = useState(initialData?.release_date || '');
+  const [embargoDate, setEmbargoDate] = useState(initialData?.embargo_date || '');
 
-  useEffect(
-    () =>
-      setter(
-        debouncedVersion,
-        debouncedDescription,
-        convertDateToFormat(debouncedReleaseDate),
-        convertDateToFormat(debouncedEmbargoDate)
-      ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      debouncedVersion,
-      debouncedDescription,
-      debouncedReleaseDate,
-      debouncedEmbargoDate,
-    ]
-  );
+  useEffect(() => {
+    setter(
+      version,
+      versionDescription,
+      convertDateToFormat(releaseDate),
+      convertDateToFormat(embargoDate)
+    );
+  }, [version, versionDescription, releaseDate, embargoDate]); // eslint-disable-line
 
   return (
     <Fieldset
@@ -51,61 +31,46 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
       style={{ position: 'relative' }}
       className="relative p-mb-4"
     >
-      <div className="p-fluid p-mt-2">
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="version">{t('RESOURCE_VERSION')}</label>
-            <InputText
-              disabled={mode === 'review'}
-              id="version"
-              type="text"
-              value={version}
-              onChange={(e) => setVersion(e.target.value)}
-              required
-            />
-          </div>
+      <SimpleNumberField
+        mode={mode}
+        numberDecimalDigits={1}
+        numberMode="decimal"
+        title={t('RESOURCE_VERSION')}
+        number={version}
+        setNumber={setVersion}
+        className="p-mb-4"
+      />
+      <SimpleTextArea
+        mode={mode}
+        title={t('VERSION_DESCRIPTION')}
+        text={versionDescription}
+        setText={setVersionDescription}
+        className="p-mb-4"
+      />
+      <div className="p-fluid p-formgrid p-grid">
+        <div className="p-field p-col-12 p-md-6">
+          <label htmlFor="releaseDate">{t('RELEASE_DATE')}</label>
+          <Calendar
+            dateFormat="yy-mm-dd"
+            disabled={mode === 'review'}
+            showIcon
+            showButtonBar
+            id="releaseDate"
+            value={getDateFromFormat(releaseDate)}
+            onChange={(e) => setReleaseDate(e.value)}
+          />
         </div>
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="description">{t('VERSION_DESCRIPTION')}</label>
-            <InputTextarea
-              disabled={mode === 'review'}
-              id="description"
-              type="text"
-              value={versionDescription}
-              rows={5}
-              onChange={(e) => setVersionDescription(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="releaseDate">{t('RELEASE_DATE')}</label>
-            <Calendar
-              dateFormat="yy-mm-dd"
-              disabled={mode === 'review'}
-              showIcon
-              showButtonBar
-              id="releaseDate"
-              value={getDateFromFormat(releaseDate)}
-              onChange={(e) => setReleaseDate(e.value)}
-            />
-          </div>
-        </div>
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
-            <label htmlFor="embargoDate">{t('EMBARGO_DATE')}</label>
-            <Calendar
-              dateFormat="yy-mm-dd"
-              disabled={mode === 'review'}
-              showIcon
-              showButtonBar
-              id="embargoDate"
-              value={getDateFromFormat(embargoDate)}
-              onChange={(e) => setEmbargoDate(e.value)}
-            />
-          </div>
+        <div className="p-field p-col-12 p-md-6">
+          <label htmlFor="embargoDate">{t('EMBARGO_DATE')}</label>
+          <Calendar
+            dateFormat="yy-mm-dd"
+            disabled={mode === 'review'}
+            showIcon
+            showButtonBar
+            id="embargoDate"
+            value={getDateFromFormat(embargoDate)}
+            onChange={(e) => setEmbargoDate(e.value)}
+          />
         </div>
       </div>
     </Fieldset>
