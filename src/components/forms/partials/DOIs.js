@@ -39,6 +39,7 @@ const DOIs = ({ mode, title, dois, setDois }) => {
           <InputText
             name="doi"
             disabled={isLoading}
+            placeholder="Enter digital object identifier (DOI)"
             value={doi}
             onChange={(e) => setDoi(e.target.value)}
           />
@@ -73,7 +74,6 @@ const DOIs = ({ mode, title, dois, setDois }) => {
 
   return (
     <DataTable
-      header={t('DOIS')}
       emptyMessage={t('NO_ENTRIES_FOUND')}
       value={dois}
       footer={doiFooterTemplate}
