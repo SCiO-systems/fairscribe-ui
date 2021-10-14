@@ -8,14 +8,16 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as countryOptions from '../../../data/countries/countries.json';
 
-const ResourceCoverage = ({ initialData, setter, mode }) => {
+const GeospatialCoverage = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [countries, setCountries] = useState(initialData.geospatial_coverage || []);
   const [selectedCountry, setSelectedCountry] = useState('');
 
+  // TODO: Use setter method here.
+
   return (
     <Fieldset
-      legend={t('RESOURCE_COVERAGE')}
+      legend={t('GEOSPATIAL_COVERAGE')}
       style={{ position: 'relative' }}
       className="relative p-mb-4"
     >
@@ -87,4 +89,4 @@ const ResourceCoverage = ({ initialData, setter, mode }) => {
   );
 };
 
-export default ResourceCoverage;
+export default GeospatialCoverage;

@@ -227,7 +227,6 @@ const t = {
     RESOURCE_LICENSE: 'License',
     RESOURCE_ACCESS_RIGHT: 'Access Right',
     TERMS_OF_USE: 'Terms of use',
-    RESOURCE_COVERAGE: 'Resource Coverage',
     RIGHTS_HOLDER_TYPE: 'Rights Holder Type',
     RIGHTS_HOLDER_NAME: 'Rights Holder Name',
     RIGHTS_HOLDER_ID: 'Rights Holder ID',

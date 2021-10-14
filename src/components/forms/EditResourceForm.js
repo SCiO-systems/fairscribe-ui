@@ -15,10 +15,10 @@ import { transformLanguages } from '../../utilities/transformers';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
 import DataCollectionMethodology from './partials/DataCollectionMethodology';
+import GeospatialCoverage from './partials/GeospatialCoverage';
 import OtherResourceInformation from './partials/OtherResourceInformation';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
-import ResourceCoverage from './partials/ResourceCoverage';
 import ResourceFiles from './partials/ResourceFiles';
 import ResourceGeneralInformation from './partials/ResourceGeneralInformation';
 import ResourceLifecycle from './partials/ResourceLifecycle';
@@ -327,13 +327,12 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           initialData={{ rights: metadataRecord.rights }}
           setter={(rights) => mainSetter({ rights })}
         />
-        <ResourceCoverage
+        <GeospatialCoverage
           mode={mode}
           initialData={{
             geospatial_coverage: metadataRecord.geospatial_coverage,
-            temporal_coverage: metadataRecord.temporal_coverage,
           }}
-          setter={(gsc, tc) => mainSetter({ geospatial_coverage: gsc, temporal_coverage: tc })}
+          setter={(gsc) => mainSetter({ geospatial_coverage: gsc })}
         />
         <ResourceRelatedResources
           mode={mode}
