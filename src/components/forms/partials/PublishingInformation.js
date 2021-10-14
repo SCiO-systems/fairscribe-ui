@@ -10,7 +10,7 @@ const PublishingInformation = ({ initialData, setter, mode }) => {
   const [pids, setPids] = useState(initialData?.pids || []);
 
   const getEnglishTitle = () =>
-    initialData?.title?.filter(({ language }) => language?.value === 'en')?.pop()?.value || '';
+    initialData?.title?.filter(({ language }) => language?.value === 'English')?.pop()?.value || '';
 
   useEffect(() => {
     setter(dois, pids);
