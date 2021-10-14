@@ -10,6 +10,7 @@ const Citation = ({ mode, citation, setCitation }) => {
       mode={mode}
       title={t('CITATION')}
       text={citation}
+      helpText="How to cite this resource."
       setText={setCitation}
       className="p-mb-4"
     />
