@@ -263,6 +263,7 @@ const t = {
     TEMPORAL_COVERAGE: 'Temporal Coverage',
     TIME_PERIOD_TO_WHICH_THE_DATA_REFER: 'Time period to which the data refer',
     COLLECTION_PERIOD: 'Data collection period',
+    OTHER_RESOURCE_INFORMATION: 'Other Resource Information',
   },
 };
 

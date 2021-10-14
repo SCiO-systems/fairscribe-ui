@@ -15,6 +15,7 @@ import { transformLanguages } from '../../utilities/transformers';
 import FairScoreDialog from '../dialogs/FairScoreDialog';
 import Sticky from '../utilities/Sticky';
 import DataCollectionMethodology from './partials/DataCollectionMethodology';
+import OtherResourceInformation from './partials/OtherResourceInformation';
 import PublishingInformation from './partials/PublishingInformation';
 import ResourceClassification from './partials/ResourceClassification';
 import ResourceCoverage from './partials/ResourceCoverage';
@@ -211,27 +212,13 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             title: metadataRecord.title || fallbackTitle,
             description: metadataRecord.description || fallbackDescription,
             resource_language: metadataRecord.resource_language,
+            citation: metadataRecord.citation,
           }}
-          setter={(
-            title,
-            description,
-            resourceLanguage,
-            authors,
-            projectId,
-            projectName,
-            fundingOrganizations,
-            contactPoints,
-            citation
-          ) =>
+          setter={(title, description, resourceLanguage, citation) =>
             mainSetter({
               title,
               description,
               resource_language: resourceLanguage,
-              authors,
-              project_id: projectId,
-              project_name: projectName,
-              funding_organisations: fundingOrganizations,
-              contact_point: contactPoints,
               citation,
             })
           }
@@ -311,6 +298,23 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
               resource_version_description: rVD,
               release_date: rD,
               embargo_date: eD,
+            })
+          }
+        />
+        <OtherResourceInformation
+          mode={mode}
+          initialData={{
+            authors: metadataRecord.authors,
+            projects: metadataRecord.projects,
+            funding_organisations: metadataRecord.funding_organisations,
+            contact_points: metadataRecord.contact_points,
+          }}
+          setter={(authors, projects, fundingOrganizations, contactPoints) =>
+            mainSetter({
+              authors,
+              projects,
+              funding_organisations: fundingOrganizations,
+              contact_points: contactPoints,
             })
           }
         />
