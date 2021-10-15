@@ -3,11 +3,11 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
 import { InputSwitch } from 'primereact/inputswitch';
-import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import placeholderImage from '../../../assets/img/placeholder.png';
+import { getMimetype } from '../../../services/integrations';
 import {
   deleteFile,
   getThumbnailURL,
@@ -16,7 +16,7 @@ import {
 } from '../../../services/resources';
 import { ToastContext } from '../../../store/toast';
 import { handleError } from '../../../utilities/errors';
-import { useDebounce } from '../../../utilities/hooks';
+import SimpleTextArea from '../../fields/SimpleTextArea';
 
 const ResourceFiles = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -27,22 +27,39 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   const [thumbnails, setThumbnails] = useState(initialData?.thumbnails || []);
   const [thumbnailUrl, setThumbnailUrl] = useState(placeholderImage);
   const { teamId, resourceId } = useParams();
-  const debouncedResourceFiles = useDebounce(resourceFiles, 300);
-  const debouncedThumbnails = useDebounce(thumbnails, 300);
+  const [uploadThumbPending, setUploadThumbPending] = useState(false);
+  const [uploadFilePending, setUploadFilePending] = useState(false);
+  const [deleteFilePending, setDeleteFilePending] = useState(false);
 
   const uploadResourceFile = async (file) => {
+    setUploadFilePending(true);
     const formData = new FormData();
     formData.append('file', file);
     try {
       const { data } = await uploadFile(teamId, resourceId, formData);
+      const response = await getMimetype(data.filename);
       setSuccess('Resource File', 'Your file has been uploaded.');
-      setResourceFiles(resourceFiles.concat({ ...data }));
+      setResourceFiles(
+        resourceFiles.concat({
+          id: data.id,
+          filename: data.filename,
+          mime_type: response.mime_type,
+          pii_check: data.pii_check,
+          location: [
+            {
+              url: data.url,
+            },
+          ],
+        })
+      );
     } catch (error) {
       setError(handleError(error));
     }
+    setUploadFilePending(false);
   };
 
   const deleteResourceFile = async (id) => {
+    setDeleteFilePending(true);
     try {
       await deleteFile(teamId, resourceId, id);
       setSuccess('Resource File', 'The file has been deleted.');
@@ -50,9 +67,11 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     } catch (error) {
       setError(handleError(error));
     }
+    setDeleteFilePending(false);
   };
 
   const uploadResourceThumbnail = async (thumbnail) => {
+    setUploadThumbPending(true);
     const formData = new FormData();
     formData.append('file', thumbnail);
     try {
@@ -63,6 +82,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     } catch (error) {
       setError(handleError(error));
     }
+    setUploadThumbPending(false);
   };
 
   const loadThumbnails = async (team, resource, thumb) => {
@@ -103,7 +123,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
 
   useEffect(() => {
     setter(thumbnails, resourceFiles);
-  }, [debouncedResourceFiles, debouncedThumbnails]); // eslint-disable-line
+  }, [resourceFiles, thumbnails]); // eslint-disable-line
 
   return (
     <Fieldset legend={t('RESOURCE_FILES')} className="p-mb-4">
@@ -126,6 +146,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
               <Button
                 label={t('UPLOAD_THUMBNAIL')}
                 icon="pi pi-image"
+                loading={uploadThumbPending}
                 className="p-mt-2 p-mb-2"
                 onClick={() => thumbnailFile.current.click()}
               />
@@ -147,13 +168,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
           field="description"
           header={t('DESCRIPTION')}
           body={({ id, description }) => (
-            <InputTextarea
-              rows={2}
-              disabled={mode === 'review'}
-              className="p-my-0 p-d-inline-flex w-full text-xs"
-              value={description || ''}
-              onChange={(e) => setDescription(id, e.target.value)}
-            />
+            <SimpleTextArea mode={mode} text={description} setText={setDescription} />
           )}
         />
         <Column field="pii_check" header={t('PII_STATUS')} />
@@ -176,6 +191,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
               <div className="p-text-right">
                 <Button
                   icon="pi pi-trash"
+                  loading={deleteFilePending}
                   className="p-button p-component p-button-danger p-button-icon-only"
                   onClick={() => deleteResourceFile(rowData.id)}
                 />
@@ -200,6 +216,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
             <Button
               label={t('UPLOAD_FILES')}
               className="p-mt-4"
+              loading={uploadFilePending}
               icon="pi pi-upload"
               onClick={(e) => resourceFile.current.click()}
             />
