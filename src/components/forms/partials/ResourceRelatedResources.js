@@ -3,35 +3,52 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
 import { InputText } from 'primereact/inputtext';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { validateDoi } from '../../../services/dois';
+import { ToastContext } from '../../../store';
+import { handleError } from '../../../utilities/errors';
 
 const ResourceRelatedResources = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
+  const { setError } = useContext(ToastContext);
   const [dois, setDois] = useState(initialData.related_resources || []);
+  const [isLoading, setIsLoading] = useState(false);
   const [doi, setDoi] = useState('');
 
   const removeDoi = (id) => {
-    setDois(dois.filter((d) => d.id !== id));
+    setDois(dois.filter(({ DOI }) => DOI !== id));
   };
 
-  const addDoi = () => {
-    const newDois = [...dois, { id: doi }];
-    setDois(newDois);
-    setDoi('');
-    setter(newDois);
+  const verifyAndAddDoi = async () => {
+    setIsLoading(true);
+    try {
+      const { value } = await validateDoi(doi, '');
+      setDois(dois.filter(({ DOI }) => DOI !== value).concat({ DOI: value }));
+      setDoi('');
+    } catch (error) {
+      setError(handleError(error));
+    }
+    setIsLoading(false);
   };
 
-  useEffect(
-    () => setter(dois),
-    [dois] // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  useEffect(() => {
+    setter(dois);
+  }, [dois]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const doiFooterTemplate = mode === 'edit' && (
-    <div className="p-formgrid p-grid p-fluid">
+    <form
+      className="p-formgrid p-grid p-fluid"
+      onSubmit={(e) => {
+        e.preventDefault();
+        verifyAndAddDoi();
+      }}
+    >
       <div className="p-col-10">
         <div className="p-field">
           <InputText
             name="doi"
+            disabled={isLoading}
             value={doi}
             type="text"
             onChange={(e) => setDoi(e.target.value)}
@@ -40,43 +57,42 @@ const ResourceRelatedResources = ({ initialData, setter, mode }) => {
       </div>
       <div className="p-col-2">
         <div className="p-field">
-          <Button label={t('ADD')} onClick={addDoi} />
+          <Button loading={isLoading} disabled={doi === ''} label={t('ADD')} type="submit" />
         </div>
       </div>
+    </form>
+  );
+
+  const verifiedTemplate = (rowData) => (
+    <div className="p-d-flex p-jc-start p-ai-center">
+      <i
+        className="pi pi-check text-green bg-green rounded-full p-p-1"
+        style={{ fontSize: '1rem' }}
+      />
     </div>
   );
 
   return (
     <Fieldset
-      legend={t('PROJECT_RELATED_RESOURCES')}
+      legend={t('RELATED_RESOURCES')}
       style={{ position: 'relative' }}
       className="relative p-mb-4"
     >
-      <div className="p-fluid">
-        <div className="p-formgrid p-grid">
-          <div className="p-field p-col-12 p-md-12">
-            <DataTable
-              emptyMessage={t('NO_ENTRIES_FOUND')}
-              value={dois}
-              footer={doiFooterTemplate}
-              className="p-mt-4"
-            >
-              <Column field="id" header="DOI" body={({ id }) => id} />
-              <Column
-                body={({ id }) => (
-                  <div className="p-text-right">
-                    <Button
-                      onClick={() => removeDoi(id)}
-                      className="p-button-danger"
-                      icon="pi pi-trash"
-                    />
-                  </div>
-                )}
+      <DataTable emptyMessage={t('NO_ENTRIES_FOUND')} value={dois} footer={doiFooterTemplate}>
+        <Column header="DOI" body={({ DOI }) => DOI} />
+        <Column field="verified" header={t('VERIFIED')} body={verifiedTemplate} />
+        <Column
+          body={({ DOI }) => (
+            <div className="p-text-right">
+              <Button
+                onClick={() => removeDoi(DOI)}
+                className="p-button-danger"
+                icon="pi pi-trash"
               />
-            </DataTable>
-          </div>
-        </div>
-      </div>
+            </div>
+          )}
+        />
+      </DataTable>
     </Fieldset>
   );
 };
