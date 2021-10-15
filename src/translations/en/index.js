@@ -232,6 +232,7 @@ const t = {
     FULLNAME: 'Full name',
     SHORTNAME: 'Short name',
     URL: 'URL',
+    SCHEME: 'Scheme',
   },
 };
 
