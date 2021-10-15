@@ -5,7 +5,6 @@ import { DataTable } from 'primereact/datatable';
 import { Fieldset } from 'primereact/fieldset';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { searchAgroVoc } from '../../../services/integrations';
 import { ToastContext } from '../../../store';
 import { handleError } from '../../../utilities/errors';
 
@@ -35,7 +34,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
 
   const handleSearch = async ({ query }) => {
     try {
-      const { suggestions } = await searchAgroVoc(query);
+      const { suggestions } = []; // TODO: Check soon.
       setResults(suggestions);
     } catch (error) {
       setError(handleError(error));
