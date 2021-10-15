@@ -225,7 +225,7 @@ const t = {
     KEYWORD: 'Keyword',
     RESOURCE_RIGHTS: 'Rights',
     RESOURCE_LICENSE: 'License',
-    RESOURCE_ACCESS_RIGHT: 'Access Right',
+    RESOURCE_ACCESS_RIGHTS: 'Access Rights',
     TERMS_OF_USE: 'Terms of use',
     RIGHTS_HOLDER_TYPE: 'Rights Holder Type',
     RIGHTS_HOLDER_NAME: 'Rights Holder Name',
@@ -263,6 +263,10 @@ const t = {
     TIME_PERIOD_TO_WHICH_THE_DATA_REFER: 'Time period to which the data refer',
     COLLECTION_PERIOD: 'Data collection period',
     OTHER_RESOURCE_INFORMATION: 'Other Resource Information',
+    DISCLAIMER: 'Disclaimer',
+    FULLNAME: 'Full name',
+    SHORTNAME: 'Short name',
+    URL: 'URL',
   },
 };
 
