@@ -3,6 +3,7 @@ import { Fieldset } from 'primereact/fieldset';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import OrgsPersonsEntities, { SCHEME_ROR } from './OrgPersonEntities';
+import ProjectsList from './ProjectsList';
 
 const OtherResourceInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -39,6 +40,12 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
         title={t('CONTACT_POINTS')}
         entries={contactPoints}
         setEntries={setContactPoints}
+      />
+      <ProjectsList
+        mode={mode}
+        title={t('PROJECTS')}
+        projectEntries={projects}
+        setProjectEntries={setProjects}
       />
     </Fieldset>
   );
