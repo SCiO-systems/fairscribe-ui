@@ -31,8 +31,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     setKw('');
   };
 
-  const resultTemplate = (item) =>
-    `${item.taxon_name} [AgroVoc ID: ${item.taxon_id}]`;
+  const resultTemplate = (item) => `${item.taxon_name} [AgroVoc ID: ${item.taxon_id}]`;
 
   const handleSearch = async ({ query }) => {
     try {
@@ -78,12 +77,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
       style={{ position: 'relative' }}
       className="p-mb-4"
     >
-      <DataTable
-        emptyMessage={t('NO_ENTRIES_FOUND')}
-        value={keywords}
-        className="p-mt-4"
-        footer={keywordsFooter}
-      >
+      <DataTable emptyMessage={t('NO_ENTRIES_FOUND')} value={keywords} footer={keywordsFooter}>
         <Column
           field="taxon_name"
           header={t('KEYWORD')}
