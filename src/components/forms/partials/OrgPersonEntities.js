@@ -6,8 +6,8 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const SCHEME_ORCID = 'ORCID';
-const SCHEME_ROR = 'ROR';
+export const SCHEME_ORCID = 'ORCID';
+export const SCHEME_ROR = 'ROR';
 
 const schemes = [
   {
@@ -20,14 +20,14 @@ const schemes = [
   },
 ];
 
-const OrgsPersonsEntities = ({ mode, title, entries, setEntries }) => {
+const OrgsPersonsEntities = ({ mode, title, entries, setEntries, defaultScheme, className }) => {
   const { t } = useTranslation();
   const [fullName, setFullName] = useState('');
   const [shortName, setShortName] = useState('');
   const [id, setId] = useState('');
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
-  const [scheme, setScheme] = useState('');
+  const [scheme, setScheme] = useState(defaultScheme || '');
 
   const getUrlByIdAndScheme = () => {
     if (scheme === SCHEME_ORCID) {
@@ -52,7 +52,7 @@ const OrgsPersonsEntities = ({ mode, title, entries, setEntries }) => {
       },
     ]);
     setId('');
-    setScheme('');
+    setScheme(defaultScheme || '');
     setFullName('');
     setShortName('');
     setEmail('');
@@ -77,7 +77,8 @@ const OrgsPersonsEntities = ({ mode, title, entries, setEntries }) => {
             filterBy="label"
             id="type"
             name="type"
-            value={scheme || ''}
+            disabled={defaultScheme !== undefined}
+            value={defaultScheme || scheme || ''}
             options={schemes}
             placeholder="Choose individual or organisation"
             onChange={(e) => setScheme(e.value)}
@@ -156,37 +157,38 @@ const OrgsPersonsEntities = ({ mode, title, entries, setEntries }) => {
   );
 
   return (
-    <DataTable
-      header={title}
-      emptyMessage={t('NO_ENTRIES_FOUND')}
-      value={entries}
-      footer={orgPersonFooterTemplate}
-      className="p-mb-4"
-      style={{ wordBreak: 'break-word' }}
-    >
-      <Column field="full_name" header={t('FULLNAME')} />
-      <Column field="short_name" header={t('SHORTNAME')} />
-      <Column
-        field="url"
-        header={t('URL')}
-        body={(rowData) => <span style={{ wordBreak: 'break-all' }}>{rowData?.url}</span>}
-      />
-      <Column field="email" header={t('EMAIL')} />
-      <Column field="id" header={t('ID')} body={idTemplate} />
-      {mode === 'edit' && (
+    <div className={className || 'p-mb-4'}>
+      <DataTable
+        header={title}
+        emptyMessage={t('NO_ENTRIES_FOUND')}
+        value={entries}
+        footer={orgPersonFooterTemplate}
+        style={{ wordBreak: 'break-word' }}
+      >
+        <Column field="full_name" header={t('FULLNAME')} />
+        <Column field="short_name" header={t('SHORTNAME')} />
         <Column
-          body={(rowData) => (
-            <div className="p-text-right">
-              <Button
-                className="p-button-danger"
-                icon="pi pi-trash"
-                onClick={() => removeEntry(rowData?.agent_ids[0]?.value)}
-              />
-            </div>
-          )}
+          field="url"
+          header={t('URL')}
+          body={(rowData) => <span style={{ wordBreak: 'break-all' }}>{rowData?.url}</span>}
         />
-      )}
-    </DataTable>
+        <Column field="email" header={t('EMAIL')} />
+        <Column field="id" header={t('ID')} body={idTemplate} />
+        {mode === 'edit' && (
+          <Column
+            body={(rowData) => (
+              <div className="p-text-right">
+                <Button
+                  className="p-button-danger"
+                  icon="pi pi-trash"
+                  onClick={() => removeEntry(rowData?.agent_ids[0]?.value)}
+                />
+              </div>
+            )}
+          />
+        )}
+      </DataTable>
+    </div>
   );
 };
 

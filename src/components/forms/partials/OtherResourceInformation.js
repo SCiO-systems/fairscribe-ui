@@ -2,14 +2,12 @@
 import { Fieldset } from 'primereact/fieldset';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AuthorsTable from '../../tables/AuthorsTable';
-import ContactPoints from './ContactPoints';
-import FundingOrganizations from './FundingOrganizations';
+import OrgsPersonsEntities, { SCHEME_ROR } from './OrgPersonEntities';
 
 const OtherResourceInformation = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [authors, setAuthors] = useState(initialData.authors || []);
-  const [projects, setProjects] = useState(initialData.projects || []);
+  const [authors, setAuthors] = useState(initialData?.authors || []);
+  const [projects, setProjects] = useState(initialData?.projects || []);
   const [fundingOrganizations, setFundingOrganizations] = useState(
     initialData?.funding_organisations || []
   );
@@ -25,23 +23,26 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
       className="p-mb-4"
       style={{ position: 'relative' }}
     >
-      <AuthorsTable
+      <OrgsPersonsEntities
         mode={mode}
-        authors={authors}
-        setAuthors={setAuthors}
-        header={t('AUTHORS_TITLE')}
+        title={t('AUTHORS')}
+        entries={authors}
+        setEntries={setAuthors}
+        className="p-mb-5"
       />
-      <FundingOrganizations
+      <OrgsPersonsEntities
         mode={mode}
-        fundingOrganizations={fundingOrganizations}
-        setFundingOrganizations={setFundingOrganizations}
-        className="p-mt-4"
+        title={t('FUNDING_ORGS')}
+        entries={fundingOrganizations}
+        setEntries={setFundingOrganizations}
+        defaultScheme={SCHEME_ROR}
+        className="p-mb-5"
       />
-      <ContactPoints
+      <OrgsPersonsEntities
         mode={mode}
-        contactPoints={contactPoints}
-        setContactPoints={setContactPoints}
-        className="p-mt-4"
+        title={t('CONTACT_POINTS')}
+        entries={contactPoints}
+        setEntries={setContactPoints}
       />
     </Fieldset>
   );
