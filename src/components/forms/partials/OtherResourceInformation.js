@@ -18,11 +18,7 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
   }, [authors, projects, fundingOrganizations, contactPoints]);
 
   return (
-    <Fieldset
-      legend={t('OTHER_RESOURCE_INFORMATION')}
-      className="p-mb-4"
-      style={{ position: 'relative' }}
-    >
+    <Fieldset legend={t('OTHER_RESOURCE_INFORMATION')} className="p-mb-4">
       <OrgsPersonsEntities
         mode={mode}
         title={t('AUTHORS')}

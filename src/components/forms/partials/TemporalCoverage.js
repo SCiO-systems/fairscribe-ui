@@ -35,7 +35,7 @@ const TemporalCoverage = ({ initialData, setter, mode }) => {
   }, [temporalFromDate, temporalToDate, collectionFromDate, collectionToDate]); // eslint-disable-line
 
   return (
-    <Fieldset legend={t('TEMPORAL_COVERAGE')} style={{ position: 'relative' }} className="p-mb-4">
+    <Fieldset legend={t('TEMPORAL_COVERAGE')} className="p-mb-4">
       <div className="p-fluid">
         <div className="p-formgrid p-grid">
           <div className="p-mb-3 p-col-12">

@@ -47,11 +47,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode, availableLangua
   }, []);
 
   return (
-    <Fieldset
-      legend={t('RESOURCE_GENERAL_INFORMATION')}
-      className="p-mb-4"
-      style={{ position: 'relative' }}
-    >
+    <Fieldset legend={t('RESOURCE_GENERAL_INFORMATION')} className="p-mb-4">
       <MultilingualEntriesTable
         mode={mode}
         data={title}

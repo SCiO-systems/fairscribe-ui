@@ -17,11 +17,7 @@ const PublishingInformation = ({ initialData, setter, mode, type }) => {
   }, [dois, pids]); // eslint-disable-line
 
   return (
-    <Fieldset
-      legend={t('PUBLISHING_INFORMATION')}
-      className="p-mb-4"
-      style={{ position: 'relative' }}
-    >
+    <Fieldset legend={t('PUBLISHING_INFORMATION')} className="p-mb-4">
       <DOIs mode={mode} title={getEnglishTitle()} dois={dois} setDois={setDois} />
       {type === 'document' && <PIDs mode={mode} pids={pids} setPids={setPids} />}
     </Fieldset>

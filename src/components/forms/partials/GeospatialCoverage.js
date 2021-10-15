@@ -16,11 +16,7 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
   // TODO: Use setter method here.
 
   return (
-    <Fieldset
-      legend={t('GEOSPATIAL_COVERAGE')}
-      style={{ position: 'relative' }}
-      className="relative p-mb-4"
-    >
+    <Fieldset legend={t('GEOSPATIAL_COVERAGE')} className="p-mb-4">
       <div className="p-fluid">
         <div className="p-formgrid p-grid">
           <div className="p-col-12">

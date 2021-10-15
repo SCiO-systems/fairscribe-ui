@@ -134,11 +134,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
   }, [license, accessRights, termsOfUse, disclaimer, rightsHolders]);
 
   return (
-    <Fieldset
-      legend={t('RESOURCE_RIGHTS')}
-      style={{ position: 'relative' }}
-      className="relative p-mb-4"
-    >
+    <Fieldset legend={t('RESOURCE_RIGHTS')} className="p-mb-4">
       <div className="p-fluid">
         <div className="p-formgrid p-grid p-d-flex p-ai-end">
           <div className="p-field p-col-12 p-md-4">

@@ -106,7 +106,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   }, [debouncedResourceFiles, debouncedThumbnails]); // eslint-disable-line
 
   return (
-    <Fieldset legend={t('RESOURCE_FILES')} className="p-mb-4" style={{ position: 'relative' }}>
+    <Fieldset legend={t('RESOURCE_FILES')} className="p-mb-4">
       <div>
         <img src={thumbnailUrl} height="127px" className="rounded" alt="Resource Thumbnail" />
         <div className="p-formgrid p-grid">

@@ -21,17 +21,16 @@ const ResourceCollectionsPicker = ({
   return (
     <div className="p-fluid p-grid p-justify-start p-mt-2">
       <div className="p-col-12">
-        <div className="p-field">
+        <div className="p-field ">
           <label htmlFor="resourceCollections">{t('RESOURCE_COLLECTIONS_TITLE')}</label>
-          <div style={{ position: 'relative' }}>
+          <div className="relative">
             {mode === 'review' && (
               <div
                 style={{
                   position: 'absolute',
-                  width: '100%',
                   height: '100%',
-                  background: 'rgba(255,255,255, 0.25)',
-                  zIndex: 999,
+                  width: '100%',
+                  background: 'rgba(255,255,255,0.25)',
                 }}
               />
             )}

@@ -26,11 +26,7 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
   }, [version, versionDescription, releaseDate, embargoDate]); // eslint-disable-line
 
   return (
-    <Fieldset
-      legend={t('RESOURCE_LIFECYCLE')}
-      style={{ position: 'relative' }}
-      className="relative p-mb-4"
-    >
+    <Fieldset legend={t('RESOURCE_LIFECYCLE')} className="p-mb-4">
       <SimpleNumberField
         mode={mode}
         numberDecimalDigits={1}

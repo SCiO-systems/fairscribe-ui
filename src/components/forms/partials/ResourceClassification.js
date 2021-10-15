@@ -71,11 +71,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
   );
 
   return (
-    <Fieldset
-      legend={t('RESOURCE_CLASSIFICATION')}
-      style={{ position: 'relative' }}
-      className="p-mb-4"
-    >
+    <Fieldset legend={t('RESOURCE_CLASSIFICATION')} className="p-mb-4">
       <DataTable emptyMessage={t('NO_ENTRIES_FOUND')} value={keywords} footer={keywordsFooter}>
         <Column
           field="taxon_name"

@@ -19,11 +19,7 @@ const DataCollectionMethodology = ({ initialData, setter, mode }) => {
   }, [unitsOfAnalysis, universe, frequency, method, instrument, samplingProcedure]);
 
   return (
-    <Fieldset
-      legend={t('DATA_COLLECTION_METHODOLOGY')}
-      className="p-mb-4"
-      style={{ position: 'relative' }}
-    >
+    <Fieldset legend={t('DATA_COLLECTION_METHODOLOGY')} className="p-mb-4">
       <MultipleTextEntriesTable
         header={t('UNITS_OF_ANALYSIS')}
         help
