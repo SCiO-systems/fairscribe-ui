@@ -77,7 +77,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
     try {
       const { data } = await uploadThumbnail(teamId, resourceId, formData);
       setSuccess('Resource Thumbnail', 'Your thumbnail has been uploaded.');
-      setThumbnails([{ url: data?.url }]);
+      setThumbnails([{ url: data?.url, id: data?.id }]);
       setThumbnailUrl(data?.url);
     } catch (error) {
       setError(handleError(error));
