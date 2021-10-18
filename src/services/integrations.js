@@ -6,3 +6,6 @@ export const getMimetype = async (filename) =>
   apiClient.post(`/integrations/mimetypes`, { filename, type: 'dataset' });
 
 export const listVocabularies = async () => apiClient.get(`/integrations/vocabularies`);
+
+export const autocompleteTerm = async (index, term) =>
+  apiClient.get(`/integrations/vocabularies/autocomplete?index=${index}&term=${term}`);

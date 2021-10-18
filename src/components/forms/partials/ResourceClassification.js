@@ -6,14 +6,11 @@ import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { listVocabularies } from '../../../services/integrations';
+import { autocompleteTerm, listVocabularies } from '../../../services/integrations';
 import { ToastContext } from '../../../store';
 import { handleError } from '../../../utilities/errors';
 
-const defaultVocabulary = {
-  label: 'Free',
-  value: 'free',
-};
+const defaultVocabulary = { label: 'Free', value: 'free' };
 
 const ResourceClassification = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -32,12 +29,21 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     setKeywords(
       keywords
         .filter(({ scheme, value }) => {
-          if (vocabulary === scheme && keyword === value) {
+          // Choose the proper value based on if the keyword has a structure or not.
+          // We can only have one keyword with the same value and scheme.
+          const s = keyword?.scheme || defaultVocabulary.value;
+          const v = keyword?.taxon_name || keyword;
+          if (s === scheme && v === value) {
             return false;
           }
           return true;
         })
-        .concat({ scheme: vocabulary, value: keyword, frequency: '', code: '' })
+        .concat({
+          scheme: keyword?.scheme || defaultVocabulary?.value,
+          value: keyword?.taxon_name || keyword,
+          frequency: '',
+          code: keyword?.taxon_id || '',
+        })
     );
     setKeyword('');
     setVocabulary('');
@@ -59,9 +65,24 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
       const response = await listVocabularies();
       setAvailableVocabularies(
         response
-          .map(({ human_readable: label, index_id: value }) => ({ label, value }))
+          .map(({ human_readable: label, alias: value }) => ({ label, value }))
           .concat(defaultVocabulary)
       );
+    } catch (error) {
+      setError(handleError(error));
+    }
+  };
+
+  const triggerAutocomplete = async ({ query }) => {
+    // If the user has chosen the default vocabulary (aka free).
+    if (vocabulary === defaultVocabulary.value || vocabulary === '') {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const results = await autocompleteTerm(vocabulary, query);
+      setSuggestions((results?.length > 0 && results) || []);
     } catch (error) {
       setError(handleError(error));
     }
@@ -101,6 +122,10 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
               disabled={mode === 'review'}
               name="keyword"
               value={keyword}
+              minLength="2"
+              completeMethod={triggerAutocomplete}
+              itemTemplate={(item) => item.taxon_name}
+              selectedItemTemplate={(item) => item.taxon_name}
               suggestions={suggestions}
               onChange={(e) => setKeyword(e.value)}
             />
@@ -117,7 +142,13 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
 
   return (
     <Fieldset legend={t('RESOURCE_CLASSIFICATION')} className="p-mb-4">
-      <DataTable emptyMessage={t('NO_ENTRIES_FOUND')} value={keywords} footer={keywordsFooter}>
+      <DataTable
+        sortField="value"
+        sortOrder={1}
+        emptyMessage={t('NO_ENTRIES_FOUND')}
+        value={keywords}
+        footer={keywordsFooter}
+      >
         <Column field="value" header={t('KEYWORD')} />
         <Column
           field="scheme"
