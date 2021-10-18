@@ -209,10 +209,10 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           mode={mode}
           availableLanguages={availableLanguages}
           initialData={{
-            title: metadataRecord.title || fallbackTitle,
-            description: metadataRecord.description || fallbackDescription,
-            resource_language: metadataRecord.resource_language,
-            citation: metadataRecord.citation,
+            title: metadataRecord?.title || fallbackTitle,
+            description: metadataRecord?.description || fallbackDescription,
+            resource_language: metadataRecord?.resource_language,
+            citation: metadataRecord?.citation,
           }}
           setter={(title, description, resourceLanguage, citation) =>
             mainSetter({
@@ -277,19 +277,19 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           mode={mode}
           type={metadataRecord?.resource_type?.type}
           initialData={{
-            title: metadataRecord.title || fallbackTitle,
-            dois: metadataRecord.dois,
-            pids: metadataRecord.other_pids,
+            title: metadataRecord?.title || fallbackTitle,
+            dois: metadataRecord?.dois,
+            pids: metadataRecord?.other_pids,
           }}
           setter={(dois, pids) => mainSetter({ dois, other_pids: pids })}
         />
         <ResourceLifecycle
           mode={mode}
           initialData={{
-            resource_version: metadataRecord.resource_version,
-            resource_version_description: metadataRecord.resource_version_description,
-            release_date: metadataRecord.release_date,
-            embargo_date: metadataRecord.embargo_date,
+            resource_version: metadataRecord?.resource_version,
+            resource_version_description: metadataRecord?.resource_version_description,
+            release_date: metadataRecord?.release_date,
+            embargo_date: metadataRecord?.embargo_date,
           }}
           setter={(rV, rVD, rD, eD) =>
             mainSetter({
@@ -303,10 +303,10 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <OtherResourceInformation
           mode={mode}
           initialData={{
-            authors: metadataRecord.authors,
-            projects: metadataRecord.projects,
-            funding_organisations: metadataRecord.funding_organisations,
-            contact_points: metadataRecord.contact_points,
+            authors: metadataRecord?.authors,
+            projects: metadataRecord?.projects,
+            funding_organisations: metadataRecord?.funding_organisations,
+            contact_points: metadataRecord?.contact_points,
           }}
           setter={(authors, projects, fundingOrganizations, contactPoints) =>
             mainSetter({
@@ -319,25 +319,25 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         />
         <ResourceClassification
           mode={mode}
-          initialData={{ keywords: metadataRecord.keywords }}
+          initialData={{ keywords: metadataRecord?.keywords }}
           setter={(keywords) => mainSetter({ keywords })}
         />
         <ResourceRights
           mode={mode}
-          initialData={{ rights: metadataRecord.rights }}
+          initialData={{ rights: metadataRecord?.rights }}
           setter={(rights) => mainSetter({ rights })}
         />
         <GeospatialCoverage
           mode={mode}
           initialData={{
-            geospatial_coverage: metadataRecord.geospatial_coverage,
+            geospatial_coverage: metadataRecord?.geospatial_coverage,
           }}
           setter={(gsc) => mainSetter({ geospatial_coverage: gsc })}
         />
         <ResourceRelatedResources
           mode={mode}
           initialData={{
-            related_resources: metadataRecord.related_resources,
+            related_resources: metadataRecord?.related_resources,
           }}
           setter={(relatedResources) => mainSetter({ related_resources: relatedResources })}
         />
