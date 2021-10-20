@@ -6,9 +6,14 @@ import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { autocompleteTerm, listVocabularies } from '../../../services/integrations';
+import {
+  autocompleteTerm,
+  extractKeywords,
+  listVocabularies,
+} from '../../../services/integrations';
 import { ToastContext } from '../../../store';
 import { handleError } from '../../../utilities/errors';
+import { getEnglishValue } from '../../../utilities/transformers';
 
 const defaultVocabulary = { label: 'Free', value: 'free' };
 
@@ -19,20 +24,39 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
   const [keywords, setKeywords] = useState(initialData?.keywords || []);
   const [availableVocabularies, setAvailableVocabularies] = useState([defaultVocabulary]);
   const [vocabulary, setVocabulary] = useState('');
-  const [keyword, setKeyword] = useState('');
+  const [kw, setKw] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+
+  const [isExtractLoading, setIsExtractLoading] = useState(false);
 
   const getHumanReadableVocabularyName = (scheme) =>
     availableVocabularies.filter(({ value }) => value === scheme)?.pop()?.label || scheme;
 
-  const addKeyword = () => {
+  const extractKeywordsFromTitleAndDescription = async () => {
+    setIsExtractLoading(true);
+    try {
+      const title = getEnglishValue(initialData?.title);
+      const description = getEnglishValue(initialData?.description);
+      const terms = await extractKeywords(`${title} ${description}`);
+      if (terms?.length > 0) {
+        terms?.forEach((k) => {
+          addKeyword(k);
+        });
+      }
+    } catch (error) {
+      setError(handleError(error));
+    }
+    setIsExtractLoading(false);
+  };
+
+  const addKeyword = (keyword) => {
     setKeywords(
       keywords
         .filter(({ scheme, value }) => {
           // Choose the proper value based on if the keyword has a structure or not.
           // We can only have one keyword with the same value and scheme.
           const s = keyword?.scheme || defaultVocabulary.value;
-          const v = keyword?.taxon_name || keyword;
+          const v = keyword?.taxon_name || keyword?.value || keyword;
           if (s === scheme && v === value) {
             return false;
           }
@@ -40,13 +64,11 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
         })
         .concat({
           scheme: keyword?.scheme || defaultVocabulary?.value,
-          value: keyword?.taxon_name || keyword,
-          frequency: '',
-          code: keyword?.taxon_id || '',
+          value: keyword?.taxon_name || keyword?.value || keyword,
+          frequency: '1',
+          code: keyword?.taxon_id || keyword?.code || '',
         })
     );
-    setKeyword('');
-    setVocabulary('');
   };
 
   const removeKeyword = (s, v) => {
@@ -100,7 +122,9 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        addKeyword();
+        addKeyword(kw);
+        setKw('');
+        setVocabulary('');
       }}
     >
       <div className="p-formgrid p-grid p-fluid">
@@ -121,13 +145,13 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
             <AutoComplete
               disabled={mode === 'review'}
               name="keyword"
-              value={keyword}
+              value={kw}
               minLength="2"
               completeMethod={triggerAutocomplete}
               itemTemplate={(item) => item.taxon_name}
               selectedItemTemplate={(item) => item.taxon_name}
               suggestions={suggestions}
-              onChange={(e) => setKeyword(e.value)}
+              onChange={(e) => setKw(e.value)}
             />
           </div>
         </div>
@@ -142,6 +166,14 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
 
   return (
     <Fieldset legend={t('RESOURCE_CLASSIFICATION')} className="p-mb-4">
+      <div className="p-mb-4 p-mt-0 p-text-right">
+        <Button
+          icon="pi pi-book"
+          label="Extract keywords"
+          loading={isExtractLoading}
+          onClick={() => extractKeywordsFromTitleAndDescription()}
+        />
+      </div>
       <DataTable
         sortField="value"
         sortOrder={1}

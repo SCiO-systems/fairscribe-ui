@@ -319,7 +319,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         />
         <ResourceClassification
           mode={mode}
-          initialData={{ keywords: metadataRecord?.keywords }}
+          initialData={{
+            keywords: metadataRecord?.keywords,
+            title: metadataRecord?.title || fallbackTitle,
+            description: metadataRecord?.description || fallbackDescription,
+          }}
           setter={(keywords) => mainSetter({ keywords })}
         />
         <ResourceRights

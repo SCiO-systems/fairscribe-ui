@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 /* eslint-disable camelcase */
 
 export const transformLanguages = (languages) =>
@@ -7,3 +6,6 @@ export const transformLanguages = (languages) =>
     iso_code_639_1,
     iso_code_639_2,
   }));
+
+export const getEnglishValue = (text) =>
+  text.filter(({ language }) => language?.value === 'English')?.pop()?.value || '';

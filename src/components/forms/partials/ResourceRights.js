@@ -137,7 +137,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
     <Fieldset legend={t('RESOURCE_RIGHTS')} className="p-mb-4">
       <div className="p-fluid">
         <div className="p-formgrid p-grid p-d-flex p-ai-end">
-          <div className="p-field p-col-12 p-md-4">
+          <div className="p-field p-col-12 p-md-5">
             <label htmlFor="accessRights">{t('RESOURCE_ACCESS_RIGHTS')}</label>
             <Dropdown
               id="accessRights"
@@ -148,7 +148,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
               required
             />
           </div>
-          <div className={mode === 'edit' ? 'p-field p-col-8 p-md-4' : 'p-field p-col-12 p-md-8'}>
+          <div className={mode === 'edit' ? 'p-field p-col-8 p-md-5' : 'p-field p-col-12 p-md-7'}>
             <label htmlFor="license">{t('RESOURCE_LICENSE')}</label>
             <Dropdown
               disabled={mode === 'review'}
@@ -160,7 +160,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
             />
           </div>
           {mode === 'edit' && (
-            <div className="p-field p-col-4 p-md-4">
+            <div className="p-field p-col-4 p-md-2">
               <Button
                 label={t('LICENSE_WIZARD')}
                 onClick={() => setLicenseWizardDialog(!licenseWizardDialog)}
