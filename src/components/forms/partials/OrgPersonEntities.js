@@ -1,3 +1,4 @@
+import { AutoComplete } from 'primereact/autocomplete';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -20,7 +21,18 @@ const schemes = [
   },
 ];
 
-const OrgsPersonsEntities = ({ mode, title, entries, setEntries, defaultScheme, className }) => {
+const OrgsPersonsEntities = ({
+  mode,
+  title,
+  entries,
+  setEntries,
+  defaultScheme,
+  className,
+  onAutoComplete,
+  onSelectAutoComplete,
+  itemTemplate,
+  suggestions,
+}) => {
   const { t } = useTranslation();
   const [fullName, setFullName] = useState('');
   const [shortName, setShortName] = useState('');
@@ -90,14 +102,19 @@ const OrgsPersonsEntities = ({ mode, title, entries, setEntries, defaultScheme, 
       </div>
       {scheme !== '' && (
         <div className="p-mt-3 p-formgrid p-grid p-fluid">
-          <div className="p-col-12 p-md-6">
+          <div className="p-col-12 p-md-12">
             <div className="p-field">
               <label htmlFor="fullname">{t('FULLNAME')}</label>
-              <InputText
+              <AutoComplete
                 id="fullname"
                 disabled={mode === 'review'}
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                completeMethod={onAutoComplete}
+                itemTemplate={itemTemplate}
+                selectedItemTemplate={itemTemplate}
+                suggestions={suggestions}
+                onSelect={onSelectAutoComplete}
               />
             </div>
           </div>
@@ -112,7 +129,7 @@ const OrgsPersonsEntities = ({ mode, title, entries, setEntries, defaultScheme, 
               />
             </div>
           </div>
-          <div className="p-col-12 p-md-12">
+          <div className="p-col-12 p-md-6">
             <div className="p-field">
               <label htmlFor="id">{scheme}</label>
               <InputText
