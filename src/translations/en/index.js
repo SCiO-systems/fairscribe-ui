@@ -233,6 +233,7 @@ const t = {
     SHORTNAME: 'Short name',
     URL: 'URL',
     SCHEME: 'Scheme',
+    CRPS_PLATFORMS_INITIATIVES: 'CRPs / Platforms / Initiatives',
   },
 };
 

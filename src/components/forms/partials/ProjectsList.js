@@ -2,13 +2,44 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { listProjects } from '../../../services/integrations';
+import { ToastContext } from '../../../store';
+import { handleError } from '../../../utilities/errors';
 
 const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, className }) => {
   const { t } = useTranslation();
+  const { setError } = useContext(ToastContext);
+
   const [availableProjects, setAvailableProjects] = useState([]);
   const [project, setProject] = useState('');
+
+  const addProject = async (projectFullName) => {
+    const selectedProject = availableProjects.filter((p) => p.full_name === projectFullName)?.pop();
+    setProjectEntries(
+      projectEntries
+        .filter((p) => p.full_name !== projectFullName)
+        .concat({
+          full_name: selectedProject?.full_name || '',
+          short_name: selectedProject?.short_name || '',
+          url: selectedProject?.url || '',
+        })
+    );
+  };
+
+  const loadProjects = async () => {
+    try {
+      const results = await listProjects();
+      setAvailableProjects(results.map((p) => ({ ...p, label: p.full_name, value: p.full_name })));
+    } catch (e) {
+      setError(handleError(e));
+    }
+  };
+
+  useEffect(() => {
+    loadProjects();
+  }, []); // eslint-disable-line
 
   // TODO: Add project entries.
 
@@ -16,6 +47,8 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        addProject(project);
+        setProject('');
       }}
     >
       <div className="p-mt-2 p-formgrid p-grid p-fluid">
@@ -27,7 +60,7 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
             name="type"
             value={project || ''}
             options={availableProjects}
-            placeholder="Choose project"
+            placeholder="Choose CRP / Platform / Initiative."
             onChange={(e) => setProject(e.value)}
           />
         </div>

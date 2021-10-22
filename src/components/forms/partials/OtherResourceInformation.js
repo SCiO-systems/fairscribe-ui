@@ -43,7 +43,7 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
       />
       <ProjectsList
         mode={mode}
-        title={t('PROJECTS')}
+        title={t('CRPS_PLATFORMS_INITIATIVES')}
         projectEntries={projects}
         setProjectEntries={setProjects}
       />

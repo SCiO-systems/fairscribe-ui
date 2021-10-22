@@ -9,11 +9,7 @@ import 'primereact/resources/primereact.min.css';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import getRepositoryTypes from '../services/repositories';
-import {
-  createUserRepository,
-  deleteUserRepository,
-  getUserRepositories,
-} from '../services/users';
+import { createUserRepository, deleteUserRepository, getUserRepositories } from '../services/users';
 import { ToastContext } from '../store';
 import { handleError } from '../utilities/errors';
 
@@ -52,9 +48,7 @@ const UserTargetedRepositories = ({ userId }) => {
       <Button
         icon="pi pi-trash"
         className="p-button p-component p-button-rounded p-button-danger p-button-text p-mr-2 p-mb-2 p-button-icon-only"
-        onClick={() => {
-          deleteRepository(rowData.id);
-        }}
+        onClick={() => deleteRepository(rowData.id)}
       />
     </div>
   );
@@ -93,9 +87,7 @@ const UserTargetedRepositories = ({ userId }) => {
   const fetchRepositoryTypes = async () => {
     try {
       const { data: types } = await getRepositoryTypes();
-      setRepositoryTypes(
-        types.map((type) => ({ label: type.name, value: type.value }))
-      );
+      setRepositoryTypes(types.map(({ name: label, value }) => ({ label, value })));
     } catch (e) {
       setError(handleError(e));
     }
@@ -123,16 +115,8 @@ const UserTargetedRepositories = ({ userId }) => {
             <div className="p-field p-col-12 p-md-12">
               {repositories && repositories.length > 0 ? (
                 <DataTable value={repositories} className="p-mt-2">
-                  <Column
-                    field="name"
-                    header={t('REPOSITORY_NAME')}
-                    body={nameTemplate}
-                  />
-                  <Column
-                    field="type"
-                    header={t('REPOSITORY_TYPE')}
-                    body={typeTemplate}
-                  />
+                  <Column field="name" header={t('REPOSITORY_NAME')} body={nameTemplate} />
+                  <Column field="type" header={t('REPOSITORY_TYPE')} body={typeTemplate} />
                   <Column
                     field="api_endpoint"
                     header={t('REPOSITORY_API_ENDPOINT')}
@@ -183,9 +167,7 @@ const UserTargetedRepositories = ({ userId }) => {
             </div>
             <div className="p-formgrid p-grid p-justify-start">
               <div className="p-field p-col-12 p-md-6">
-                <label htmlFor="repositoryEndpoint">
-                  {t('REPOSITORY_API_ENDPOINT')}
-                </label>
+                <label htmlFor="repositoryEndpoint">{t('REPOSITORY_API_ENDPOINT')}</label>
                 <InputText
                   id="repositoryEndpoint"
                   type="text"
@@ -198,9 +180,7 @@ const UserTargetedRepositories = ({ userId }) => {
             </div>
             <div className="p-formgrid p-grid p-justify-start">
               <div className="p-field p-col-12 p-md-6">
-                <label htmlFor="repositoryClientSecret">
-                  {t('REPOSITORY_CLIENT_SECRET')}
-                </label>
+                <label htmlFor="repositoryClientSecret">{t('REPOSITORY_CLIENT_SECRET')}</label>
                 <InputText
                   id="repositoryClientSecret"
                   type="text"

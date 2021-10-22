@@ -12,3 +12,5 @@ export const autocompleteTerm = async (index, term) =>
 
 export const extractKeywords = async (text) =>
   apiClient.post(`/integrations/vocabularies/terms/extract`, { text });
+
+export const listProjects = async () => apiClient.get(`/integrations/projects`);
