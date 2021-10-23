@@ -52,8 +52,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [unpublished, setUnpublished] = useState(true);
   const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
-  const [deleteResourceDialogOpen, setDeleteResourceDialogOpen] =
-    useState(false);
+  const [deleteResourceDialogOpen, setDeleteResourceDialogOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState(null);
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
@@ -83,9 +82,8 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
     onFilter();
   }, [debouncedGlobalFilter]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { data, isLoading, isFetching } = useQuery(
-    ['resources', teamId, status],
-    () => getResources(teamId, status)
+  const { data, isLoading, isFetching } = useQuery(['resources', teamId, status], () =>
+    getResources(teamId, status)
   );
 
   const queryClient = useQueryClient();
@@ -144,9 +142,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
     </div>
   );
 
-  const titleTemplate = ({ title: resourceTitle }) => (
-    <strong>{resourceTitle || 'N/A'}</strong>
-  );
+  const titleTemplate = ({ title: resourceTitle }) => <strong>{resourceTitle || 'N/A'}</strong>;
 
   const collectionsTemplate = ({ collections_count: count }) => (
     <span>{t('IN_X_COLLECTIONS', { count })}</span>
@@ -161,10 +157,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
 
   const fairScoringTemplate = (rowData) => (
     <div>
-      <FairScoreMiniChart
-        resourceId={rowData.id}
-        data={fairScoreTransformer(rowData)}
-      />
+      <FairScoreMiniChart resourceId={rowData.id} data={fairScoreTransformer(rowData)} />
     </div>
   );
 
@@ -191,38 +184,13 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
         loading={isFetching || isLoading}
         ref={dt}
       >
-        <Column
-          sortable
-          field="created_at"
-          header={t('ISSUE_DATE')}
-          body={formatDate}
-        />
-        <Column
-          sortable
-          field="title"
-          body={titleTemplate}
-          header={t('TITLE')}
-        />
+        <Column sortable field="created_at" header={t('ISSUE_DATE')} body={formatDate} />
+        <Column sortable field="title" body={titleTemplate} header={t('TITLE')} />
         <Column sortable field="type" header={t('TYPE')} />
         <Column sortable field="subtype" header={t('SUBTYPE')} />
-        <Column
-          sortable
-          field="collections"
-          body={collectionsTemplate}
-          header={t('COLLECTIONS')}
-        />
-        <Column
-          sortable
-          field="piiStatus"
-          body={piiStatusTemplate}
-          header={t('PII_STATUS')}
-        />
-        <Column
-          sortable
-          field="fairScore"
-          body={fairScoringTemplate}
-          header={t('FAIR_SCORING')}
-        />
+        <Column sortable field="collections" body={collectionsTemplate} header={t('COLLECTIONS')} />
+        <Column sortable field="piiStatus" body={piiStatusTemplate} header={t('PII_STATUS')} />
+        <Column sortable field="fairScore" body={fairScoringTemplate} header={t('FAIR_SCORING')} />
         <Column
           body={(rowData) => (
             <div className="p-text-right">
@@ -236,18 +204,14 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
                 <Button
                   title="Edit resource"
                   icon="pi pi-pencil"
-                  onClick={() =>
-                    history.push(resourceLink(teamId, rowData.id, 'edit'))
-                  }
+                  onClick={() => history.push(resourceLink(teamId, rowData.id, 'edit'))}
                   className="p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
                 />
               )}
               <Button
                 title="Review resource"
                 icon="pi pi-eye"
-                onClick={() =>
-                  history.push(resourceLink(teamId, rowData.id, 'review'))
-                }
+                onClick={() => history.push(resourceLink(teamId, rowData.id, 'review'))}
                 className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2 p-mb-2"
               />
               {deletableStatuses.includes(rowData.status) && (

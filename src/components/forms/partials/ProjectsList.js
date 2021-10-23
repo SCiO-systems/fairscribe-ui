@@ -28,6 +28,10 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
     );
   };
 
+  const removeProject = async (projectFullName) => {
+    setProjectEntries(projectEntries.filter((p) => p.full_name !== projectFullName));
+  };
+
   const loadProjects = async () => {
     try {
       const results = await listProjects();
@@ -37,11 +41,14 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
     }
   };
 
+  const getAvailableProjects = () => {
+    const existingProjects = projectEntries.map((p) => p.full_name);
+    return availableProjects.filter((p) => !existingProjects.includes(p.full_name));
+  };
+
   useEffect(() => {
     loadProjects();
   }, []); // eslint-disable-line
-
-  // TODO: Add project entries.
 
   const projectsFooterTemplate = mode === 'edit' && (
     <form
@@ -59,7 +66,7 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
             id="type"
             name="type"
             value={project || ''}
-            options={availableProjects}
+            options={getAvailableProjects()}
             placeholder="Choose CRP / Platform / Initiative."
             onChange={(e) => setProject(e.value)}
           />
@@ -87,7 +94,11 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
           <Column
             body={(rowData) => (
               <div className="p-text-right">
-                <Button className="p-button-danger" icon="pi pi-trash" onClick={() => {}} />
+                <Button
+                  className="p-button-danger"
+                  icon="pi pi-trash"
+                  onClick={() => removeProject(rowData.full_name)}
+                />
               </div>
             )}
           />

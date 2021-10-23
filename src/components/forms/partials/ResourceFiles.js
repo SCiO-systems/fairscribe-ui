@@ -44,7 +44,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
           id: data.id,
           filename: data.filename,
           mime_type: response.mime_type,
-          pii_check: data.pii_check,
+          pii_check: data.pii_check_status,
           location: [
             {
               url: data.url,
@@ -171,7 +171,20 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
             <SimpleTextArea mode={mode} text={description} setText={setDescription} />
           )}
         />
-        <Column field="pii_check" header={t('PII_STATUS')} />
+        <Column
+          field="pii_check"
+          header={t('PII_STATUS')}
+          body={({ pii_check: status }) => (
+            <div className="p-mx-1">
+              {status === 'pending' && (
+                <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
+                  <i style={{ fontSize: '1.25rem' }} className="pi pi-spin pi-spinner p-mr-2" />
+                  {status}
+                </span>
+              )}
+            </div>
+          )}
+        />
         <Column
           field="locked"
           header={t('LOCKED')}
