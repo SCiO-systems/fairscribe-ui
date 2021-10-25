@@ -1,5 +1,5 @@
 import { Fieldset } from 'primereact/fieldset';
-import { Tree } from 'primereact/tree';
+import { TreeSelect } from 'primereact/treeselect';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import countryMappings from '../../../data/geospatial/countries.json';
@@ -9,7 +9,6 @@ import regionMappings from '../../../data/geospatial/regions.json';
 const GeospatialCoverage = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
   const [selectedKeys, setSelectedKeys] = useState([]);
-  const [expandedKeys, setExpandedKeys] = useState([]);
 
   const isRegion = (code) => regionMappings[code] !== undefined;
 
@@ -22,7 +21,6 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
       keys[code] = { checked, partialChecked };
     });
     setSelectedKeys(keys);
-    setExpandedKeys(keys);
   }, []); // eslint-disable-line
 
   useEffect(() => {
@@ -42,21 +40,19 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
       }
     });
     setter(regions, countries);
-    setExpandedKeys(selectedKeys);
   }, [selectedKeys]); // eslint-disable-line
 
   return (
     <Fieldset legend={t('GEOSPATIAL_COVERAGE')} className="p-mb-4">
-      <Tree
+      <TreeSelect
+        filter
         disabled={mode !== 'edit'}
+        value={selectedKeys}
+        display="chip"
+        onChange={(e) => setSelectedKeys(e.value)}
         selectionMode="checkbox"
-        selectionKeys={selectedKeys}
-        expandedKeys={expandedKeys}
-        value={geospatialData}
-        onToggle={(e) => setExpandedKeys(e.value)}
-        onSelectionChange={(e) => setSelectedKeys(e.value)}
-        propagateSelectionUp
-        propagateSelectionDown
+        options={geospatialData}
+        placeholder={t('SELECT_REGIONS_COUNTRIES')}
       />
     </Fieldset>
   );

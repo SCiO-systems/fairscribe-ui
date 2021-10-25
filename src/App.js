@@ -11,8 +11,8 @@ import AppMenu from './AppMenu';
 import AppTopBar from './AppTopbar';
 import Footer from './components/Footer';
 import AccountSettings from './pages/AccountSettings';
-import Resource from './pages/Resource';
 import Dashboard from './pages/Dashboard';
+import Resource from './pages/Resource';
 import Team from './pages/Team';
 import { logout, verify } from './services/auth';
 import { ToastContext, UserContext } from './store';
@@ -28,8 +28,7 @@ const App = () => {
   const [menuTheme] = useState('layout-sidebar-darkgray');
   const [overlayMenuActive, setOverlayMenuActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] =
-    useState(false);
+  const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] = useState(false);
   const [staticMenuMobileActive, setStaticMenuMobileActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const [configActive, setConfigActive] = useState(false);
@@ -61,9 +60,7 @@ const App = () => {
       component: AccountSettings,
       exact: true,
       meta: {
-        breadcrumb: [
-          { parent: t('ACCOUNT_SETTINGS'), label: t('ACCOUNT_SETTINGS') },
-        ],
+        breadcrumb: [{ parent: t('ACCOUNT_SETTINGS'), label: t('ACCOUNT_SETTINGS') }],
       },
     },
     {
@@ -101,8 +98,7 @@ const App = () => {
     setMenuActive((prevMenuActive) => !prevMenuActive);
   };
 
-  const isIE = () =>
-    /(MSIE|Trident\/|Edge\/)/i.test(window.navigator.userAgent);
+  const isIE = () => /(MSIE|Trident\/|Edge\/)/i.test(window.navigator.userAgent);
 
   const onSearchHide = () => {
     setSearchActive(false);
@@ -114,10 +110,7 @@ const App = () => {
       document.body.classList.remove('blocked-scroll');
     } else {
       document.body.className = document.body.className.replace(
-        new RegExp(
-          `(^|\\b)${'blocked-scroll'.split(' ').join('|')}(\\b|$)`,
-          'gi'
-        ),
+        new RegExp(`(^|\\b)${'blocked-scroll'.split(' ').join('|')}(\\b|$)`, 'gi'),
         ' '
       );
     }
@@ -161,10 +154,7 @@ const App = () => {
       cloneLinkElement.setAttribute('href', href);
       cloneLinkElement.setAttribute('id', `${id}-clone`);
 
-      linkElement.parentNode.insertBefore(
-        cloneLinkElement,
-        linkElement.nextSibling
-      );
+      linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
 
       cloneLinkElement.addEventListener('load', () => {
         linkElement.remove();
@@ -242,9 +232,7 @@ const App = () => {
         (prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive
       );
     } else {
-      setStaticMenuMobileActive(
-        (prevStaticMenuMobileActive) => !prevStaticMenuMobileActive
-      );
+      setStaticMenuMobileActive((prevStaticMenuMobileActive) => !prevStaticMenuMobileActive);
     }
 
     event.preventDefault();
@@ -270,8 +258,7 @@ const App = () => {
       'layout-sidebar-dark': colorScheme === 'dark',
       'layout-overlay-active': overlayMenuActive,
       'layout-mobile-active': staticMenuMobileActive,
-      'layout-static-inactive':
-        staticMenuDesktopInactive && menuMode === 'static',
+      'layout-static-inactive': staticMenuDesktopInactive && menuMode === 'static',
       'p-input-filled': inputStyle === 'filled',
       'p-ripple-disabled': !ripple,
     },
@@ -295,12 +282,7 @@ const App = () => {
 
   return (
     <>
-      <Toast
-        ref={toast}
-        position="top-right"
-        onHide={toastClear}
-        onRemove={toastClear}
-      />
+      <Toast ref={toast} position="top-right" onHide={toastClear} onRemove={toastClear} />
       <div
         className={containerClassName}
         data-theme={colorScheme}
@@ -320,22 +302,11 @@ const App = () => {
             {routers.map((router) => {
               if (router.exact) {
                 return (
-                  <Route
-                    key={router.path}
-                    path={router.path}
-                    exact
-                    component={router.component}
-                  />
+                  <Route key={router.path} path={router.path} exact component={router.component} />
                 );
               }
 
-              return (
-                <Route
-                  key={router.path}
-                  path={router.path}
-                  component={router.component}
-                />
-              );
+              return <Route key={router.path} path={router.path} component={router.component} />;
             })}
           </div>
           <Footer />

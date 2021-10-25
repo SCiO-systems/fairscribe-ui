@@ -1,5 +1,6 @@
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
 import React, { useEffect } from 'react';
 import { Route, useLocation, withRouter } from 'react-router-dom';
 import App from './App';

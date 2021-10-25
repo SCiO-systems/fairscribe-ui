@@ -195,6 +195,13 @@ ul.limitations li::before {
   position: relative;
 }
 
-.p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler {
-  margin-right: 0.85rem;
+.p-treeselect {
+  width: 30rem;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 640px) {
+  .p-treeselect {
+    width: 100%;
+  }
 }

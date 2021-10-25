@@ -3,7 +3,6 @@
     "key": "UNM49:001",
     "label": "World",
     "icon": "pi pi-globe",
-    "classname": "p-ml-4",
     "children": [
       {
         "key": "UNM49:002",
