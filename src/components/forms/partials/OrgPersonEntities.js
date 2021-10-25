@@ -4,7 +4,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const SCHEME_ORCID = 'ORCID';
@@ -22,6 +22,11 @@ const schemes = [
 ];
 
 const OrgsPersonsEntities = ({
+  initialFullName,
+  initialShortName,
+  initialId,
+  initialUrl,
+  initialEmail,
   mode,
   title,
   entries,
@@ -34,12 +39,20 @@ const OrgsPersonsEntities = ({
   suggestions,
 }) => {
   const { t } = useTranslation();
-  const [fullName, setFullName] = useState('');
-  const [shortName, setShortName] = useState('');
-  const [id, setId] = useState('');
-  const [url, setUrl] = useState('');
-  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState(initialFullName || '');
+  const [shortName, setShortName] = useState(initialShortName || '');
+  const [id, setId] = useState(initialId || '');
+  const [url, setUrl] = useState(initialUrl || '');
+  const [email, setEmail] = useState(initialEmail || '');
   const [scheme, setScheme] = useState(defaultScheme || '');
+
+  useEffect(() => {
+    setFullName(initialFullName || '');
+    setShortName(initialShortName || '');
+    setId(initialId || '');
+    setUrl(initialUrl || '');
+    setEmail(initialEmail || '');
+  }, [initialFullName]); // eslint-disable-line
 
   const getUrlByIdAndScheme = () => {
     if (scheme === SCHEME_ORCID) {

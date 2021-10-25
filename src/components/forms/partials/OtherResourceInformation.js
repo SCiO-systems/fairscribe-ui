@@ -19,21 +19,24 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
   );
   const [contactPoints, setContactPoints] = useState(initialData?.contact_points || []);
   const [fundingOrgSuggestions, setFundingOrgSuggestions] = useState([]);
+  const [fundingOrgData, setFundingOrgData] = useState(null);
 
   const triggerFundingOrgAutocomplete = async ({ query }) => {
     try {
       const results = await autocompleteTerm('funders', query);
-      setFundingOrgSuggestions(results || []);
+      setFundingOrgData(null);
+      if (results.length > 0) {
+        setFundingOrgSuggestions(results);
+      } else {
+        setFundingOrgSuggestions([]);
+      }
     } catch (error) {
       setError(handleError(error));
     }
   };
 
-  const onSelectFundingOrg = async (e) => {
-    console.log(e);
-  };
-
-  const fundingOrgItemTemplate = (item) => item.taxon_name;
+  const onSelectFundingOrg = async (e) => setFundingOrgData(e?.value);
+  const fundingOrgItemTemplate = (item) => item?.full_name;
 
   useEffect(() => {
     setter(authors, projects, fundingOrganizations, contactPoints);
@@ -50,6 +53,11 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
       />
       <OrgsPersonsEntities
         mode={mode}
+        initialFullName={fundingOrgData?.full_name}
+        initialShortName={fundingOrgData?.short_name}
+        initialId={fundingOrgData?.agent_ids[0]?.value}
+        initialEmail={fundingOrgData?.email}
+        initialUrl={fundingOrgData?.url}
         title={t('FUNDING_ORGS')}
         entries={fundingOrganizations}
         setEntries={setFundingOrganizations}
