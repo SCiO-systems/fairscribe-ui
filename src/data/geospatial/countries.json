@@ -1,0 +1,434 @@
+{
+  "UNM49:036": { "name": "Australia", "code_ISO3166_1_a2": "AU", "code_ISO3166_1_a3": "AUS" },
+  "UNM49:162": {
+    "name": "Christmas Island",
+    "code_ISO3166_1_a2": "CX",
+    "code_ISO3166_1_a3": "CXR"
+  },
+  "UNM49:166": {
+    "name": "Cocos (Keeling) Islands",
+    "code_ISO3166_1_a2": "CC",
+    "code_ISO3166_1_a3": "CCK"
+  },
+  "UNM49:334": {
+    "name": "Heard Island and McDonald Islands",
+    "code_ISO3166_1_a2": "HM",
+    "code_ISO3166_1_a3": "HMD"
+  },
+  "UNM49:554": { "name": "New Zealand", "code_ISO3166_1_a2": "NZ", "code_ISO3166_1_a3": "NZL" },
+  "UNM49:574": { "name": "Norfolk Island", "code_ISO3166_1_a2": "NF", "code_ISO3166_1_a3": "NFK" },
+  "UNM49:028": {
+    "name": "Antigua and Barbuda",
+    "code_ISO3166_1_a2": "AG",
+    "code_ISO3166_1_a3": "ATG"
+  },
+  "UNM49:044": { "name": "Bahamas", "code_ISO3166_1_a2": "BS", "code_ISO3166_1_a3": "BHS" },
+  "UNM49:052": { "name": "Barbados", "code_ISO3166_1_a2": "BB", "code_ISO3166_1_a3": "BRB" },
+  "UNM49:092": {
+    "name": "British Virgin Islands",
+    "code_ISO3166_1_a2": "VG",
+    "code_ISO3166_1_a3": "VGB"
+  },
+  "UNM49:136": { "name": "Cayman Islands", "code_ISO3166_1_a2": "KY", "code_ISO3166_1_a3": "CYM" },
+  "UNM49:192": { "name": "Cuba", "code_ISO3166_1_a2": "CU", "code_ISO3166_1_a3": "CUB" },
+  "UNM49:212": { "name": "Dominica", "code_ISO3166_1_a2": "DM", "code_ISO3166_1_a3": "DMA" },
+  "UNM49:214": {
+    "name": "Dominican Republic",
+    "code_ISO3166_1_a2": "DO",
+    "code_ISO3166_1_a3": "DOM"
+  },
+  "UNM49:308": { "name": "Grenada", "code_ISO3166_1_a2": "GD", "code_ISO3166_1_a3": "GRD" },
+  "UNM49:312": { "name": "Guadeloupe", "code_ISO3166_1_a2": "GP", "code_ISO3166_1_a3": "GLP" },
+  "UNM49:332": { "name": "Haiti", "code_ISO3166_1_a2": "HT", "code_ISO3166_1_a3": "HTI" },
+  "UNM49:388": { "name": "Jamaica", "code_ISO3166_1_a2": "JM", "code_ISO3166_1_a3": "JAM" },
+  "UNM49:474": { "name": "Martinique", "code_ISO3166_1_a2": "MQ", "code_ISO3166_1_a3": "MTQ" },
+  "UNM49:500": { "name": "Montserrat", "code_ISO3166_1_a2": "MS", "code_ISO3166_1_a3": "MSR" },
+  "UNM49:531": { "name": "Cura\u00e7ao", "code_ISO3166_1_a2": "CW", "code_ISO3166_1_a3": "CUW" },
+  "UNM49:533": { "name": "Aruba", "code_ISO3166_1_a2": "AW", "code_ISO3166_1_a3": "ABW" },
+  "UNM49:534": {
+    "name": "Sint Maarten (Dutch part)",
+    "code_ISO3166_1_a2": "SX",
+    "code_ISO3166_1_a3": "SXM"
+  },
+  "Sint Eustatius and Saba\"": {
+    "name": "\"Bonaire",
+    "code_ISO3166_1_a2": "UNM49:535",
+    "code_ISO3166_1_a3": "BQ"
+  },
+  "UNM49:630": { "name": "Puerto Rico", "code_ISO3166_1_a2": "PR", "code_ISO3166_1_a3": "PRI" },
+  "UNM49:652": {
+    "name": "Saint Barth\u00e9lemy",
+    "code_ISO3166_1_a2": "BL",
+    "code_ISO3166_1_a3": "BLM"
+  },
+  "UNM49:659": {
+    "name": "Saint Kitts and Nevis",
+    "code_ISO3166_1_a2": "KN",
+    "code_ISO3166_1_a3": "KNA"
+  },
+  "UNM49:660": { "name": "Anguilla", "code_ISO3166_1_a2": "AI", "code_ISO3166_1_a3": "AIA" },
+  "UNM49:662": { "name": "Saint Lucia", "code_ISO3166_1_a2": "LC", "code_ISO3166_1_a3": "LCA" },
+  "UNM49:663": {
+    "name": "Saint Martin (French Part)",
+    "code_ISO3166_1_a2": "MF",
+    "code_ISO3166_1_a3": "MAF"
+  },
+  "UNM49:670": {
+    "name": "Saint Vincent and the Grenadines",
+    "code_ISO3166_1_a2": "VC",
+    "code_ISO3166_1_a3": "VCT"
+  },
+  "UNM49:780": {
+    "name": "Trinidad and Tobago",
+    "code_ISO3166_1_a2": "TT",
+    "code_ISO3166_1_a3": "TTO"
+  },
+  "UNM49:796": {
+    "name": "Turks and Caicos Islands",
+    "code_ISO3166_1_a2": "TC",
+    "code_ISO3166_1_a3": "TCA"
+  },
+  "UNM49:850": {
+    "name": "United States Virgin Islands",
+    "code_ISO3166_1_a2": "VI",
+    "code_ISO3166_1_a3": "VIR"
+  },
+  "UNM49:084": { "name": "Belize", "code_ISO3166_1_a2": "BZ", "code_ISO3166_1_a3": "BLZ" },
+  "UNM49:188": { "name": "Costa Rica", "code_ISO3166_1_a2": "CR", "code_ISO3166_1_a3": "CRI" },
+  "UNM49:222": { "name": "El Salvador", "code_ISO3166_1_a2": "SV", "code_ISO3166_1_a3": "SLV" },
+  "UNM49:320": { "name": "Guatemala", "code_ISO3166_1_a2": "GT", "code_ISO3166_1_a3": "GTM" },
+  "UNM49:340": { "name": "Honduras", "code_ISO3166_1_a2": "HN", "code_ISO3166_1_a3": "HND" },
+  "UNM49:484": { "name": "Mexico", "code_ISO3166_1_a2": "MX", "code_ISO3166_1_a3": "MEX" },
+  "UNM49:558": { "name": "Nicaragua", "code_ISO3166_1_a2": "NI", "code_ISO3166_1_a3": "NIC" },
+  "UNM49:591": { "name": "Panama", "code_ISO3166_1_a2": "PA", "code_ISO3166_1_a3": "PAN" },
+  "UNM49:398": { "name": "Kazakhstan", "code_ISO3166_1_a2": "KZ", "code_ISO3166_1_a3": "KAZ" },
+  "UNM49:417": { "name": "Kyrgyzstan", "code_ISO3166_1_a2": "KG", "code_ISO3166_1_a3": "KGZ" },
+  "UNM49:762": { "name": "Tajikistan", "code_ISO3166_1_a2": "TJ", "code_ISO3166_1_a3": "TJK" },
+  "UNM49:795": { "name": "Turkmenistan", "code_ISO3166_1_a2": "TM", "code_ISO3166_1_a3": "TKM" },
+  "UNM49:860": { "name": "Uzbekistan", "code_ISO3166_1_a2": "UZ", "code_ISO3166_1_a3": "UZB" },
+  "UNM49:831": { "name": "Guernsey", "code_ISO3166_1_a2": "GG", "code_ISO3166_1_a3": "GGY" },
+  "UNM49:832": { "name": "Jersey", "code_ISO3166_1_a2": "JE", "code_ISO3166_1_a3": "JEY" },
+  "UNM49:086": {
+    "name": "British Indian Ocean Territory",
+    "code_ISO3166_1_a2": "IO",
+    "code_ISO3166_1_a3": "IOT"
+  },
+  "UNM49:108": { "name": "Burundi", "code_ISO3166_1_a2": "BI", "code_ISO3166_1_a3": "BDI" },
+  "UNM49:174": { "name": "Comoros", "code_ISO3166_1_a2": "KM", "code_ISO3166_1_a3": "COM" },
+  "UNM49:175": { "name": "Mayotte", "code_ISO3166_1_a2": "YT", "code_ISO3166_1_a3": "MYT" },
+  "UNM49:231": { "name": "Ethiopia", "code_ISO3166_1_a2": "ET", "code_ISO3166_1_a3": "ETH" },
+  "UNM49:232": { "name": "Eritrea", "code_ISO3166_1_a2": "ER", "code_ISO3166_1_a3": "ERI" },
+  "UNM49:260": {
+    "name": "French Southern Territories",
+    "code_ISO3166_1_a2": "TF",
+    "code_ISO3166_1_a3": "ATF"
+  },
+  "UNM49:262": { "name": "Djibouti", "code_ISO3166_1_a2": "DJ", "code_ISO3166_1_a3": "DJI" },
+  "UNM49:404": { "name": "Kenya", "code_ISO3166_1_a2": "KE", "code_ISO3166_1_a3": "KEN" },
+  "UNM49:450": { "name": "Madagascar", "code_ISO3166_1_a2": "MG", "code_ISO3166_1_a3": "MDG" },
+  "UNM49:454": { "name": "Malawi", "code_ISO3166_1_a2": "MW", "code_ISO3166_1_a3": "MWI" },
+  "UNM49:480": { "name": "Mauritius", "code_ISO3166_1_a2": "MU", "code_ISO3166_1_a3": "MUS" },
+  "UNM49:508": { "name": "Mozambique", "code_ISO3166_1_a2": "MZ", "code_ISO3166_1_a3": "MOZ" },
+  "UNM49:638": { "name": "R\u00e9union", "code_ISO3166_1_a2": "RE", "code_ISO3166_1_a3": "REU" },
+  "UNM49:646": { "name": "Rwanda", "code_ISO3166_1_a2": "RW", "code_ISO3166_1_a3": "RWA" },
+  "UNM49:690": { "name": "Seychelles", "code_ISO3166_1_a2": "SC", "code_ISO3166_1_a3": "SYC" },
+  "UNM49:706": { "name": "Somalia", "code_ISO3166_1_a2": "SO", "code_ISO3166_1_a3": "SOM" },
+  "UNM49:716": { "name": "Zimbabwe", "code_ISO3166_1_a2": "ZW", "code_ISO3166_1_a3": "ZWE" },
+  "UNM49:728": { "name": "South Sudan", "code_ISO3166_1_a2": "SS", "code_ISO3166_1_a3": "SSD" },
+  "UNM49:800": { "name": "Uganda", "code_ISO3166_1_a2": "UG", "code_ISO3166_1_a3": "UGA" },
+  "UNM49:834": { "name": "Tanzania", "code_ISO3166_1_a2": "TZ", "code_ISO3166_1_a3": "TZA" },
+  "UNM49:894": { "name": "Zambia", "code_ISO3166_1_a2": "ZM", "code_ISO3166_1_a3": "ZMB" },
+  "UNM49:156": { "name": "China", "code_ISO3166_1_a2": "CN", "code_ISO3166_1_a3": "CHN" },
+  "UNM49:344": { "name": "Hong Kong", "code_ISO3166_1_a2": "HK", "code_ISO3166_1_a3": "HKG" },
+  "UNM49:392": { "name": "Japan", "code_ISO3166_1_a2": "JP", "code_ISO3166_1_a3": "JPN" },
+  "UNM49:408": {
+    "name": "Democratic People's Republic of Korea",
+    "code_ISO3166_1_a2": "KP",
+    "code_ISO3166_1_a3": "PRK"
+  },
+  "UNM49:410": {
+    "name": "Korea (the Republic of)",
+    "code_ISO3166_1_a2": "KR",
+    "code_ISO3166_1_a3": "KOR"
+  },
+  "UNM49:446": { "name": "Macao", "code_ISO3166_1_a2": "MO", "code_ISO3166_1_a3": "MAC" },
+  "UNM49:496": { "name": "Mongolia", "code_ISO3166_1_a2": "MN", "code_ISO3166_1_a3": "MNG" },
+  "UNM49:100": { "name": "Bulgaria", "code_ISO3166_1_a2": "BG", "code_ISO3166_1_a3": "BGR" },
+  "UNM49:112": { "name": "Belarus", "code_ISO3166_1_a2": "BY", "code_ISO3166_1_a3": "BLR" },
+  "UNM49:203": { "name": "Czechia", "code_ISO3166_1_a2": "CZ", "code_ISO3166_1_a3": "CZE" },
+  "UNM49:348": { "name": "Hungary", "code_ISO3166_1_a2": "HU", "code_ISO3166_1_a3": "HUN" },
+  "UNM49:498": { "name": "Moldova", "code_ISO3166_1_a2": "MD", "code_ISO3166_1_a3": "MDA" },
+  "UNM49:616": { "name": "Poland", "code_ISO3166_1_a2": "PL", "code_ISO3166_1_a3": "POL" },
+  "UNM49:642": { "name": "Romania", "code_ISO3166_1_a2": "RO", "code_ISO3166_1_a3": "ROU" },
+  "UNM49:643": { "name": "Russia", "code_ISO3166_1_a2": "RU", "code_ISO3166_1_a3": "RUS" },
+  "UNM49:703": { "name": "Slovakia", "code_ISO3166_1_a2": "SK", "code_ISO3166_1_a3": "SVK" },
+  "UNM49:804": { "name": "Ukraine", "code_ISO3166_1_a2": "UA", "code_ISO3166_1_a3": "UKR" },
+  "UNM49:090": { "name": "Solomon Islands", "code_ISO3166_1_a2": "SB", "code_ISO3166_1_a3": "SLB" },
+  "UNM49:242": { "name": "Fiji", "code_ISO3166_1_a2": "FJ", "code_ISO3166_1_a3": "FJI" },
+  "UNM49:540": { "name": "New Caledonia", "code_ISO3166_1_a2": "NC", "code_ISO3166_1_a3": "NCL" },
+  "UNM49:548": { "name": "Vanuatu", "code_ISO3166_1_a2": "VU", "code_ISO3166_1_a3": "VUT" },
+  "UNM49:598": {
+    "name": "Papua New Guinea",
+    "code_ISO3166_1_a2": "PG",
+    "code_ISO3166_1_a3": "PNG"
+  },
+  "UNM49:296": { "name": "Kiribati", "code_ISO3166_1_a2": "KI", "code_ISO3166_1_a3": "KIR" },
+  "UNM49:316": { "name": "Guam", "code_ISO3166_1_a2": "GU", "code_ISO3166_1_a3": "GUM" },
+  "UNM49:520": { "name": "Nauru", "code_ISO3166_1_a2": "NR", "code_ISO3166_1_a3": "NRU" },
+  "UNM49:580": {
+    "name": "Northern Mariana Islands",
+    "code_ISO3166_1_a2": "MP",
+    "code_ISO3166_1_a3": "MNP"
+  },
+  "UNM49:581": {
+    "name": "United States Minor Outlying Islands",
+    "code_ISO3166_1_a2": "UM",
+    "code_ISO3166_1_a3": "UMI"
+  },
+  "UNM49:583": {
+    "name": "Micronesia (Federated States of)",
+    "code_ISO3166_1_a2": "FM",
+    "code_ISO3166_1_a3": "FSM"
+  },
+  "UNM49:584": {
+    "name": "Marshall Islands",
+    "code_ISO3166_1_a2": "MH",
+    "code_ISO3166_1_a3": "MHL"
+  },
+  "UNM49:585": { "name": "Palau", "code_ISO3166_1_a2": "PW", "code_ISO3166_1_a3": "PLW" },
+  "UNM49:024": { "name": "Angola", "code_ISO3166_1_a2": "AO", "code_ISO3166_1_a3": "AGO" },
+  "UNM49:120": { "name": "Cameroon", "code_ISO3166_1_a2": "CM", "code_ISO3166_1_a3": "CMR" },
+  "UNM49:140": {
+    "name": "Central African Republic",
+    "code_ISO3166_1_a2": "CF",
+    "code_ISO3166_1_a3": "CAF"
+  },
+  "UNM49:148": { "name": "Chad", "code_ISO3166_1_a2": "TD", "code_ISO3166_1_a3": "TCD" },
+  "UNM49:178": { "name": "Congo", "code_ISO3166_1_a2": "CG", "code_ISO3166_1_a3": "COG" },
+  "UNM49:180": {
+    "name": "Democratic Republic of the Congo",
+    "code_ISO3166_1_a2": "CD",
+    "code_ISO3166_1_a3": "COD"
+  },
+  "UNM49:226": {
+    "name": "Equatorial Guinea",
+    "code_ISO3166_1_a2": "GQ",
+    "code_ISO3166_1_a3": "GNQ"
+  },
+  "UNM49:266": { "name": "Gabon", "code_ISO3166_1_a2": "GA", "code_ISO3166_1_a3": "GAB" },
+  "UNM49:678": {
+    "name": "Sao Tome and Principe",
+    "code_ISO3166_1_a2": "ST",
+    "code_ISO3166_1_a3": "STP"
+  },
+  "UNM49:012": { "name": "Algeria", "code_ISO3166_1_a2": "DZ", "code_ISO3166_1_a3": "DZA" },
+  "UNM49:434": { "name": "Libya", "code_ISO3166_1_a2": "LY", "code_ISO3166_1_a3": "LBY" },
+  "UNM49:504": { "name": "Morocco", "code_ISO3166_1_a2": "MA", "code_ISO3166_1_a3": "MAR" },
+  "UNM49:729": { "name": "Sudan", "code_ISO3166_1_a2": "SD", "code_ISO3166_1_a3": "SDN" },
+  "UNM49:732": { "name": "Western Sahara", "code_ISO3166_1_a2": "EH", "code_ISO3166_1_a3": "ESH" },
+  "UNM49:788": { "name": "Tunisia", "code_ISO3166_1_a2": "TN", "code_ISO3166_1_a3": "TUN" },
+  "UNM49:818": { "name": "Egypt", "code_ISO3166_1_a2": "EG", "code_ISO3166_1_a3": "EGY" },
+  "UNM49:060": { "name": "Bermuda", "code_ISO3166_1_a2": "BM", "code_ISO3166_1_a3": "BMU" },
+  "UNM49:124": { "name": "Canada", "code_ISO3166_1_a2": "CA", "code_ISO3166_1_a3": "CAN" },
+  "UNM49:304": { "name": "Greenland", "code_ISO3166_1_a2": "GL", "code_ISO3166_1_a3": "GRL" },
+  "UNM49:666": {
+    "name": "Saint Pierre and Miquelon",
+    "code_ISO3166_1_a2": "PM",
+    "code_ISO3166_1_a3": "SPM"
+  },
+  "UNM49:840": {
+    "name": "United States of America",
+    "code_ISO3166_1_a2": "US",
+    "code_ISO3166_1_a3": "USA"
+  },
+  "UNM49:208": { "name": "Denmark", "code_ISO3166_1_a2": "DK", "code_ISO3166_1_a3": "DNK" },
+  "UNM49:233": { "name": "Estonia", "code_ISO3166_1_a2": "EE", "code_ISO3166_1_a3": "EST" },
+  "UNM49:234": { "name": "Faroe Islands", "code_ISO3166_1_a2": "FO", "code_ISO3166_1_a3": "FRO" },
+  "UNM49:246": { "name": "Finland", "code_ISO3166_1_a2": "FI", "code_ISO3166_1_a3": "FIN" },
+  "UNM49:248": { "name": "Aland Islands", "code_ISO3166_1_a2": "AX", "code_ISO3166_1_a3": "ALA" },
+  "UNM49:352": { "name": "Iceland", "code_ISO3166_1_a2": "IS", "code_ISO3166_1_a3": "ISL" },
+  "UNM49:372": { "name": "Ireland", "code_ISO3166_1_a2": "IE", "code_ISO3166_1_a3": "IRL" },
+  "UNM49:428": { "name": "Latvia", "code_ISO3166_1_a2": "LV", "code_ISO3166_1_a3": "LVA" },
+  "UNM49:440": { "name": "Lithuania", "code_ISO3166_1_a2": "LT", "code_ISO3166_1_a3": "LTU" },
+  "UNM49:578": { "name": "Norway", "code_ISO3166_1_a2": "NO", "code_ISO3166_1_a3": "NOR" },
+  "UNM49:744": {
+    "name": "Svalbard and Jan Mayen Islands",
+    "code_ISO3166_1_a2": "SJ",
+    "code_ISO3166_1_a3": "SJM"
+  },
+  "UNM49:752": { "name": "Sweden", "code_ISO3166_1_a2": "SE", "code_ISO3166_1_a3": "SWE" },
+  "UNM49:826": {
+    "name": "United Kingdom of Great Britain and Northern Ireland",
+    "code_ISO3166_1_a2": "GB",
+    "code_ISO3166_1_a3": "GBR"
+  },
+  "UNM49:833": { "name": "Isle of Man", "code_ISO3166_1_a2": "IM", "code_ISO3166_1_a3": "IMN" },
+  "UNM49:016": { "name": "American Samoa", "code_ISO3166_1_a2": "AS", "code_ISO3166_1_a3": "ASM" },
+  "UNM49:184": { "name": "Cook Islands", "code_ISO3166_1_a2": "CK", "code_ISO3166_1_a3": "COK" },
+  "UNM49:258": {
+    "name": "French Polynesia",
+    "code_ISO3166_1_a2": "PF",
+    "code_ISO3166_1_a3": "PYF"
+  },
+  "UNM49:570": { "name": "Niue", "code_ISO3166_1_a2": "NU", "code_ISO3166_1_a3": "NIU" },
+  "UNM49:612": { "name": "Pitcairn", "code_ISO3166_1_a2": "PN", "code_ISO3166_1_a3": "PCN" },
+  "UNM49:772": { "name": "Tokelau", "code_ISO3166_1_a2": "TK", "code_ISO3166_1_a3": "TKL" },
+  "UNM49:776": { "name": "Tonga", "code_ISO3166_1_a2": "TO", "code_ISO3166_1_a3": "TON" },
+  "UNM49:798": { "name": "Tuvalu", "code_ISO3166_1_a2": "TV", "code_ISO3166_1_a3": "TUV" },
+  "UNM49:876": {
+    "name": "Wallis and Futuna Islands",
+    "code_ISO3166_1_a2": "WF",
+    "code_ISO3166_1_a3": "WLF"
+  },
+  "UNM49:882": { "name": "Samoa", "code_ISO3166_1_a2": "WS", "code_ISO3166_1_a3": "WSM" },
+  "UNM49:032": { "name": "Argentina", "code_ISO3166_1_a2": "AR", "code_ISO3166_1_a3": "ARG" },
+  "UNM49:068": {
+    "name": "Bolivia (Plurinational State of)",
+    "code_ISO3166_1_a2": "BO",
+    "code_ISO3166_1_a3": "BOL"
+  },
+  "UNM49:074": { "name": "Bouvet Island", "code_ISO3166_1_a2": "BV", "code_ISO3166_1_a3": "BVT" },
+  "UNM49:076": { "name": "Brazil", "code_ISO3166_1_a2": "BR", "code_ISO3166_1_a3": "BRA" },
+  "UNM49:152": { "name": "Chile", "code_ISO3166_1_a2": "CL", "code_ISO3166_1_a3": "CHL" },
+  "UNM49:170": { "name": "Colombia", "code_ISO3166_1_a2": "CO", "code_ISO3166_1_a3": "COL" },
+  "UNM49:218": { "name": "Ecuador", "code_ISO3166_1_a2": "EC", "code_ISO3166_1_a3": "ECU" },
+  "UNM49:238": {
+    "name": "Falkland Islands (Malvinas)",
+    "code_ISO3166_1_a2": "FK",
+    "code_ISO3166_1_a3": "FLK"
+  },
+  "UNM49:239": {
+    "name": "South Georgia and the South Sandwich Islands",
+    "code_ISO3166_1_a2": "GS",
+    "code_ISO3166_1_a3": "SGS"
+  },
+  "UNM49:254": { "name": "French Guiana", "code_ISO3166_1_a2": "GF", "code_ISO3166_1_a3": "GUF" },
+  "UNM49:328": { "name": "Guyana", "code_ISO3166_1_a2": "GY", "code_ISO3166_1_a3": "GUY" },
+  "UNM49:600": { "name": "Paraguay", "code_ISO3166_1_a2": "PY", "code_ISO3166_1_a3": "PRY" },
+  "UNM49:604": { "name": "Peru", "code_ISO3166_1_a2": "PE", "code_ISO3166_1_a3": "PER" },
+  "UNM49:740": { "name": "Suriname", "code_ISO3166_1_a2": "SR", "code_ISO3166_1_a3": "SUR" },
+  "UNM49:858": { "name": "Uruguay", "code_ISO3166_1_a2": "UY", "code_ISO3166_1_a3": "URY" },
+  "UNM49:862": {
+    "name": "Venezuela (Bolivarian Republic of)",
+    "code_ISO3166_1_a2": "VE",
+    "code_ISO3166_1_a3": "VEN"
+  },
+  "UNM49:096": {
+    "name": "Brunei Darussalam",
+    "code_ISO3166_1_a2": "BN",
+    "code_ISO3166_1_a3": "BRN"
+  },
+  "UNM49:104": { "name": "Myanmar", "code_ISO3166_1_a2": "MM", "code_ISO3166_1_a3": "MMR" },
+  "UNM49:116": { "name": "Cambodia", "code_ISO3166_1_a2": "KH", "code_ISO3166_1_a3": "KHM" },
+  "UNM49:360": { "name": "Indonesia", "code_ISO3166_1_a2": "ID", "code_ISO3166_1_a3": "IDN" },
+  "UNM49:418": {
+    "name": "Lao People's Democratic Republic",
+    "code_ISO3166_1_a2": "LA",
+    "code_ISO3166_1_a3": "LAO"
+  },
+  "UNM49:458": { "name": "Malaysia", "code_ISO3166_1_a2": "MY", "code_ISO3166_1_a3": "MYS" },
+  "UNM49:608": { "name": "Philippines", "code_ISO3166_1_a2": "PH", "code_ISO3166_1_a3": "PHL" },
+  "UNM49:626": { "name": "Timor-Leste", "code_ISO3166_1_a2": "TL", "code_ISO3166_1_a3": "TLS" },
+  "UNM49:702": { "name": "Singapore", "code_ISO3166_1_a2": "SG", "code_ISO3166_1_a3": "SGP" },
+  "UNM49:704": { "name": "Viet Nam", "code_ISO3166_1_a2": "VN", "code_ISO3166_1_a3": "VNM" },
+  "UNM49:764": { "name": "Thailand", "code_ISO3166_1_a2": "TH", "code_ISO3166_1_a3": "THA" },
+  "UNM49:072": { "name": "Botswana", "code_ISO3166_1_a2": "BW", "code_ISO3166_1_a3": "BWA" },
+  "UNM49:426": { "name": "Lesotho", "code_ISO3166_1_a2": "LS", "code_ISO3166_1_a3": "LSO" },
+  "UNM49:516": { "name": "Namibia", "code_ISO3166_1_a2": "NA", "code_ISO3166_1_a3": "NAM" },
+  "UNM49:710": { "name": "South Africa", "code_ISO3166_1_a2": "ZA", "code_ISO3166_1_a3": "ZAF" },
+  "UNM49:748": { "name": "Eswatini", "code_ISO3166_1_a2": "SZ", "code_ISO3166_1_a3": "SWZ" },
+  "UNM49:004": { "name": "Afghanistan", "code_ISO3166_1_a2": "AF", "code_ISO3166_1_a3": "AFG" },
+  "UNM49:050": { "name": "Bangladesh", "code_ISO3166_1_a2": "BD", "code_ISO3166_1_a3": "BGD" },
+  "UNM49:064": { "name": "Bhutan", "code_ISO3166_1_a2": "BT", "code_ISO3166_1_a3": "BTN" },
+  "UNM49:144": { "name": "Sri Lanka", "code_ISO3166_1_a2": "LK", "code_ISO3166_1_a3": "LKA" },
+  "UNM49:356": { "name": "India", "code_ISO3166_1_a2": "IN", "code_ISO3166_1_a3": "IND" },
+  "UNM49:364": {
+    "name": "Iran (Islamic Republic of)",
+    "code_ISO3166_1_a2": "IR",
+    "code_ISO3166_1_a3": "IRN"
+  },
+  "UNM49:462": { "name": "Maldives", "code_ISO3166_1_a2": "MV", "code_ISO3166_1_a3": "MDV" },
+  "UNM49:524": { "name": "Nepal", "code_ISO3166_1_a2": "NP", "code_ISO3166_1_a3": "NPL" },
+  "UNM49:586": { "name": "Pakistan", "code_ISO3166_1_a2": "PK", "code_ISO3166_1_a3": "PAK" },
+  "UNM49:008": { "name": "Albania", "code_ISO3166_1_a2": "AL", "code_ISO3166_1_a3": "ALB" },
+  "UNM49:020": { "name": "Andorra", "code_ISO3166_1_a2": "AD", "code_ISO3166_1_a3": "AND" },
+  "UNM49:070": {
+    "name": "Bosnia and Herzegovina",
+    "code_ISO3166_1_a2": "BA",
+    "code_ISO3166_1_a3": "BIH"
+  },
+  "UNM49:191": { "name": "Croatia", "code_ISO3166_1_a2": "HR", "code_ISO3166_1_a3": "HRV" },
+  "UNM49:292": { "name": "Gibraltar", "code_ISO3166_1_a2": "GI", "code_ISO3166_1_a3": "GIB" },
+  "UNM49:300": { "name": "Greece", "code_ISO3166_1_a2": "GR", "code_ISO3166_1_a3": "GRC" },
+  "UNM49:336": { "name": "Holy See", "code_ISO3166_1_a2": "VA", "code_ISO3166_1_a3": "VAT" },
+  "UNM49:380": { "name": "Italy", "code_ISO3166_1_a2": "IT", "code_ISO3166_1_a3": "ITA" },
+  "UNM49:470": { "name": "Malta", "code_ISO3166_1_a2": "MT", "code_ISO3166_1_a3": "MLT" },
+  "UNM49:499": { "name": "Montenegro", "code_ISO3166_1_a2": "ME", "code_ISO3166_1_a3": "MNE" },
+  "UNM49:620": { "name": "Portugal", "code_ISO3166_1_a2": "PT", "code_ISO3166_1_a3": "PRT" },
+  "UNM49:674": { "name": "San Marino", "code_ISO3166_1_a2": "SM", "code_ISO3166_1_a3": "SMR" },
+  "UNM49:688": { "name": "Serbia", "code_ISO3166_1_a2": "RS", "code_ISO3166_1_a3": "SRB" },
+  "UNM49:705": { "name": "Slovenia", "code_ISO3166_1_a2": "SI", "code_ISO3166_1_a3": "SVN" },
+  "UNM49:724": { "name": "Spain", "code_ISO3166_1_a2": "ES", "code_ISO3166_1_a3": "ESP" },
+  "UNM49:807": { "name": "North Macedonia", "code_ISO3166_1_a2": "MK", "code_ISO3166_1_a3": "MKD" },
+  "UNM49:132": { "name": "Cabo Verde", "code_ISO3166_1_a2": "CV", "code_ISO3166_1_a3": "CPV" },
+  "UNM49:204": { "name": "Benin", "code_ISO3166_1_a2": "BJ", "code_ISO3166_1_a3": "BEN" },
+  "UNM49:270": { "name": "Gambia", "code_ISO3166_1_a2": "GM", "code_ISO3166_1_a3": "GMB" },
+  "UNM49:288": { "name": "Ghana", "code_ISO3166_1_a2": "GH", "code_ISO3166_1_a3": "GHA" },
+  "UNM49:324": { "name": "Guinea", "code_ISO3166_1_a2": "GN", "code_ISO3166_1_a3": "GIN" },
+  "UNM49:384": {
+    "name": "C\u00f4te d\u2019Ivoire",
+    "code_ISO3166_1_a2": "CI",
+    "code_ISO3166_1_a3": "CIV"
+  },
+  "UNM49:430": { "name": "Liberia", "code_ISO3166_1_a2": "LR", "code_ISO3166_1_a3": "LBR" },
+  "UNM49:466": { "name": "Mali", "code_ISO3166_1_a2": "ML", "code_ISO3166_1_a3": "MLI" },
+  "UNM49:478": { "name": "Mauritania", "code_ISO3166_1_a2": "MR", "code_ISO3166_1_a3": "MRT" },
+  "UNM49:562": { "name": "Niger", "code_ISO3166_1_a2": "NE", "code_ISO3166_1_a3": "NER" },
+  "UNM49:566": { "name": "Nigeria", "code_ISO3166_1_a2": "NG", "code_ISO3166_1_a3": "NGA" },
+  "UNM49:624": { "name": "Guinea-Bissau", "code_ISO3166_1_a2": "GW", "code_ISO3166_1_a3": "GNB" },
+  "UNM49:654": { "name": "Saint Helena", "code_ISO3166_1_a2": "SH", "code_ISO3166_1_a3": "SHN" },
+  "UNM49:686": { "name": "Senegal", "code_ISO3166_1_a2": "SN", "code_ISO3166_1_a3": "SEN" },
+  "UNM49:694": { "name": "Sierra Leone", "code_ISO3166_1_a2": "SL", "code_ISO3166_1_a3": "SLE" },
+  "UNM49:768": { "name": "Togo", "code_ISO3166_1_a2": "TG", "code_ISO3166_1_a3": "TGO" },
+  "UNM49:854": { "name": "Burkina Faso", "code_ISO3166_1_a2": "BF", "code_ISO3166_1_a3": "BFA" },
+  "UNM49:031": { "name": "Azerbaijan", "code_ISO3166_1_a2": "AZ", "code_ISO3166_1_a3": "AZE" },
+  "UNM49:048": { "name": "Bahrain", "code_ISO3166_1_a2": "BH", "code_ISO3166_1_a3": "BHR" },
+  "UNM49:051": { "name": "Armenia", "code_ISO3166_1_a2": "AM", "code_ISO3166_1_a3": "ARM" },
+  "UNM49:196": { "name": "Cyprus", "code_ISO3166_1_a2": "CY", "code_ISO3166_1_a3": "CYP" },
+  "UNM49:268": { "name": "Georgia", "code_ISO3166_1_a2": "GE", "code_ISO3166_1_a3": "GEO" },
+  "UNM49:275": {
+    "name": "State of Palestine",
+    "code_ISO3166_1_a2": "PS",
+    "code_ISO3166_1_a3": "PSE"
+  },
+  "UNM49:368": { "name": "Iraq", "code_ISO3166_1_a2": "IQ", "code_ISO3166_1_a3": "IRQ" },
+  "UNM49:376": { "name": "Israel", "code_ISO3166_1_a2": "IL", "code_ISO3166_1_a3": "ISR" },
+  "UNM49:400": { "name": "Jordan", "code_ISO3166_1_a2": "JO", "code_ISO3166_1_a3": "JOR" },
+  "UNM49:414": { "name": "Kuwait", "code_ISO3166_1_a2": "KW", "code_ISO3166_1_a3": "KWT" },
+  "UNM49:422": { "name": "Lebanon", "code_ISO3166_1_a2": "LB", "code_ISO3166_1_a3": "LBN" },
+  "UNM49:512": { "name": "Oman", "code_ISO3166_1_a2": "OM", "code_ISO3166_1_a3": "OMN" },
+  "UNM49:634": { "name": "Qatar", "code_ISO3166_1_a2": "QA", "code_ISO3166_1_a3": "QAT" },
+  "UNM49:682": { "name": "Saudi Arabia", "code_ISO3166_1_a2": "SA", "code_ISO3166_1_a3": "SAU" },
+  "UNM49:760": {
+    "name": "Syrian Arab Republic",
+    "code_ISO3166_1_a2": "SY",
+    "code_ISO3166_1_a3": "SYR"
+  },
+  "UNM49:784": {
+    "name": "United Arab Emirates",
+    "code_ISO3166_1_a2": "AE",
+    "code_ISO3166_1_a3": "ARE"
+  },
+  "UNM49:792": { "name": "Turkey", "code_ISO3166_1_a2": "TR", "code_ISO3166_1_a3": "TUR" },
+  "UNM49:887": { "name": "Yemen", "code_ISO3166_1_a2": "YE", "code_ISO3166_1_a3": "YEM" },
+  "UNM49:040": { "name": "Austria", "code_ISO3166_1_a2": "AT", "code_ISO3166_1_a3": "AUT" },
+  "UNM49:056": { "name": "Belgium", "code_ISO3166_1_a2": "BE", "code_ISO3166_1_a3": "BEL" },
+  "UNM49:250": { "name": "France", "code_ISO3166_1_a2": "FR", "code_ISO3166_1_a3": "FRA" },
+  "UNM49:276": { "name": "Germany", "code_ISO3166_1_a2": "DE", "code_ISO3166_1_a3": "DEU" },
+  "UNM49:438": { "name": "Liechtenstein", "code_ISO3166_1_a2": "LI", "code_ISO3166_1_a3": "LIE" },
+  "UNM49:442": { "name": "Luxembourg", "code_ISO3166_1_a2": "LU", "code_ISO3166_1_a3": "LUX" },
+  "UNM49:492": { "name": "Monaco", "code_ISO3166_1_a2": "MC", "code_ISO3166_1_a3": "MCO" },
+  "UNM49:528": { "name": "Netherlands", "code_ISO3166_1_a2": "NL", "code_ISO3166_1_a3": "NLD" },
+  "UNM49:756": { "name": "Switzerland", "code_ISO3166_1_a2": "CH", "code_ISO3166_1_a3": "CHE" },
+  "": { "name": "", "code_ISO3166_1_a2": "", "code_ISO3166_1_a3": "" }
+}

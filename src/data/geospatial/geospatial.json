@@ -1,0 +1,640 @@
+[
+  {
+    "key": "UNM49:001",
+    "label": "World",
+    "icon": "pi pi-globe",
+    "classname": "p-ml-4",
+    "children": [
+      {
+        "key": "UNM49:002",
+        "label": "Africa",
+        "icon": "pi pi-globe",
+        "children": [
+          {
+            "key": "UNM49:015",
+            "label": "Northern Africa",
+            "children": [
+              { "key": "UNM49:012", "label": "Algeria", "icon": "pi pi-flag" },
+              { "key": "UNM49:818", "label": "Egypt", "icon": "pi pi-flag" },
+              { "key": "UNM49:434", "label": "Libya", "icon": "pi pi-flag" },
+              { "key": "UNM49:504", "label": "Morocco", "icon": "pi pi-flag" },
+              { "key": "UNM49:729", "label": "Sudan", "icon": "pi pi-flag" },
+              { "key": "UNM49:788", "label": "Tunisia", "icon": "pi pi-flag" },
+              { "key": "UNM49:732", "label": "Western Sahara", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:202",
+            "label": "Sub-Saharan Africa",
+            "children": [
+              {
+                "key": "UNM49:014",
+                "label": "Eastern Africa",
+                "children": [
+                  {
+                    "key": "UNM49:086",
+                    "label": "British Indian Ocean Territory",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:108", "label": "Burundi", "icon": "pi pi-flag" },
+                  { "key": "UNM49:174", "label": "Comoros", "icon": "pi pi-flag" },
+                  { "key": "UNM49:262", "label": "Djibouti", "icon": "pi pi-flag" },
+                  { "key": "UNM49:232", "label": "Eritrea", "icon": "pi pi-flag" },
+                  { "key": "UNM49:231", "label": "Ethiopia", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:260",
+                    "label": "French Southern Territories",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:404", "label": "Kenya", "icon": "pi pi-flag" },
+                  { "key": "UNM49:450", "label": "Madagascar", "icon": "pi pi-flag" },
+                  { "key": "UNM49:454", "label": "Malawi", "icon": "pi pi-flag" },
+                  { "key": "UNM49:480", "label": "Mauritius", "icon": "pi pi-flag" },
+                  { "key": "UNM49:175", "label": "Mayotte", "icon": "pi pi-flag" },
+                  { "key": "UNM49:508", "label": "Mozambique", "icon": "pi pi-flag" },
+                  { "key": "UNM49:638", "label": "Réunion", "icon": "pi pi-flag" },
+                  { "key": "UNM49:646", "label": "Rwanda", "icon": "pi pi-flag" },
+                  { "key": "UNM49:690", "label": "Seychelles", "icon": "pi pi-flag" },
+                  { "key": "UNM49:706", "label": "Somalia", "icon": "pi pi-flag" },
+                  { "key": "UNM49:728", "label": "South Sudan", "icon": "pi pi-flag" },
+                  { "key": "UNM49:800", "label": "Uganda", "icon": "pi pi-flag" },
+                  { "key": "UNM49:834", "label": "Tanzania", "icon": "pi pi-flag" },
+                  { "key": "UNM49:894", "label": "Zambia", "icon": "pi pi-flag" },
+                  { "key": "UNM49:716", "label": "Zimbabwe", "icon": "pi pi-flag" }
+                ]
+              },
+              {
+                "key": "UNM49:017",
+                "label": "Middle Africa",
+                "children": [
+                  { "key": "UNM49:024", "label": "Angola", "icon": "pi pi-flag" },
+                  { "key": "UNM49:120", "label": "Cameroon", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:140",
+                    "label": "Central African Republic",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:148", "label": "Chad", "icon": "pi pi-flag" },
+                  { "key": "UNM49:178", "label": "Congo", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:180",
+                    "label": "Democratic Republic of the Congo",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:226",
+                    "label": "Equatorial Guinea",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:266", "label": "Gabon", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:678",
+                    "label": "Sao Tome and Principe",
+                    "icon": "pi pi-flag"
+                  }
+                ]
+              },
+              {
+                "key": "UNM49:018",
+                "label": "Southern Africa",
+                "children": [
+                  { "key": "UNM49:072", "label": "Botswana", "icon": "pi pi-flag" },
+                  { "key": "UNM49:748", "label": "Eswatini", "icon": "pi pi-flag" },
+                  { "key": "UNM49:426", "label": "Lesotho", "icon": "pi pi-flag" },
+                  { "key": "UNM49:516", "label": "Namibia", "icon": "pi pi-flag" },
+                  { "key": "UNM49:710", "label": "South Africa", "icon": "pi pi-flag" }
+                ]
+              },
+              {
+                "key": "UNM49:011",
+                "label": "Western Africa",
+                "children": [
+                  { "key": "UNM49:204", "label": "Benin", "icon": "pi pi-flag" },
+                  { "key": "UNM49:854", "label": "Burkina Faso", "icon": "pi pi-flag" },
+                  { "key": "UNM49:132", "label": "Cabo Verde", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:384",
+                    "label": "Côte d’Ivoire",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:270", "label": "Gambia", "icon": "pi pi-flag" },
+                  { "key": "UNM49:288", "label": "Ghana", "icon": "pi pi-flag" },
+                  { "key": "UNM49:324", "label": "Guinea", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:624",
+                    "label": "Guinea-Bissau",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:430", "label": "Liberia", "icon": "pi pi-flag" },
+                  { "key": "UNM49:466", "label": "Mali", "icon": "pi pi-flag" },
+                  { "key": "UNM49:478", "label": "Mauritania", "icon": "pi pi-flag" },
+                  { "key": "UNM49:562", "label": "Niger", "icon": "pi pi-flag" },
+                  { "key": "UNM49:566", "label": "Nigeria", "icon": "pi pi-flag" },
+                  { "key": "UNM49:654", "label": "Saint Helena", "icon": "pi pi-flag" },
+                  { "key": "UNM49:686", "label": "Senegal", "icon": "pi pi-flag" },
+                  { "key": "UNM49:694", "label": "Sierra Leone", "icon": "pi pi-flag" },
+                  { "key": "UNM49:768", "label": "Togo", "icon": "pi pi-flag" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "UNM49:019",
+        "label": "Americas",
+        "icon": "pi pi-globe",
+        "children": [
+          {
+            "key": "UNM49:419",
+            "label": "Latin America and the Caribbean",
+            "children": [
+              {
+                "key": "UNM49:029",
+                "label": "Caribbean",
+                "children": [
+                  { "key": "UNM49:660", "label": "Anguilla", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:028",
+                    "label": "Antigua and Barbuda",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:533", "label": "Aruba", "icon": "pi pi-flag" },
+                  { "key": "UNM49:044", "label": "Bahamas", "icon": "pi pi-flag" },
+                  { "key": "UNM49:052", "label": "Barbados", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:535",
+                    "label": "Bonaire, Sint Eustatius and Saba",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:092",
+                    "label": "British Virgin Islands",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:136",
+                    "label": "Cayman Islands",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:192", "label": "Cuba", "icon": "pi pi-flag" },
+                  { "key": "UNM49:531", "label": "Curaçao", "icon": "pi pi-flag" },
+                  { "key": "UNM49:212", "label": "Dominica", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:214",
+                    "label": "Dominican Republic",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:308", "label": "Grenada", "icon": "pi pi-flag" },
+                  { "key": "UNM49:312", "label": "Guadeloupe", "icon": "pi pi-flag" },
+                  { "key": "UNM49:332", "label": "Haiti", "icon": "pi pi-flag" },
+                  { "key": "UNM49:388", "label": "Jamaica", "icon": "pi pi-flag" },
+                  { "key": "UNM49:474", "label": "Martinique", "icon": "pi pi-flag" },
+                  { "key": "UNM49:500", "label": "Montserrat", "icon": "pi pi-flag" },
+                  { "key": "UNM49:630", "label": "Puerto Rico", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:652",
+                    "label": "Saint Barthélemy",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:659",
+                    "label": "Saint Kitts and Nevis",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:662", "label": "Saint Lucia", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:663",
+                    "label": "Saint Martin (French Part)",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:670",
+                    "label": "Saint Vincent and the Grenadines",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:534",
+                    "label": "Sint Maarten (Dutch part)",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:780",
+                    "label": "Trinidad and Tobago",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:796",
+                    "label": "Turks and Caicos Islands",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:850",
+                    "label": "United States Virgin Islands",
+                    "icon": "pi pi-flag"
+                  }
+                ]
+              },
+              {
+                "key": "UNM49:013",
+                "label": "Central America",
+                "children": [
+                  { "key": "UNM49:084", "label": "Belize", "icon": "pi pi-flag" },
+                  { "key": "UNM49:188", "label": "Costa Rica", "icon": "pi pi-flag" },
+                  { "key": "UNM49:222", "label": "El Salvador", "icon": "pi pi-flag" },
+                  { "key": "UNM49:320", "label": "Guatemala", "icon": "pi pi-flag" },
+                  { "key": "UNM49:340", "label": "Honduras", "icon": "pi pi-flag" },
+                  { "key": "UNM49:484", "label": "Mexico", "icon": "pi pi-flag" },
+                  { "key": "UNM49:558", "label": "Nicaragua", "icon": "pi pi-flag" },
+                  { "key": "UNM49:591", "label": "Panama", "icon": "pi pi-flag" }
+                ]
+              },
+              {
+                "key": "UNM49:005",
+                "label": "South America",
+                "children": [
+                  { "key": "UNM49:032", "label": "Argentina", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:068",
+                    "label": "Bolivia (Plurinational State of)",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:074",
+                    "label": "Bouvet Island",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:076", "label": "Brazil", "icon": "pi pi-flag" },
+                  { "key": "UNM49:152", "label": "Chile", "icon": "pi pi-flag" },
+                  { "key": "UNM49:170", "label": "Colombia", "icon": "pi pi-flag" },
+                  { "key": "UNM49:218", "label": "Ecuador", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:238",
+                    "label": "Falkland Islands (Malvinas)",
+                    "icon": "pi pi-flag"
+                  },
+                  {
+                    "key": "UNM49:254",
+                    "label": "French Guiana",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:328", "label": "Guyana", "icon": "pi pi-flag" },
+                  { "key": "UNM49:600", "label": "Paraguay", "icon": "pi pi-flag" },
+                  { "key": "UNM49:604", "label": "Peru", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:239",
+                    "label": "South Georgia and the South Sandwich Islands",
+                    "icon": "pi pi-flag"
+                  },
+                  { "key": "UNM49:740", "label": "Suriname", "icon": "pi pi-flag" },
+                  { "key": "UNM49:858", "label": "Uruguay", "icon": "pi pi-flag" },
+                  {
+                    "key": "UNM49:862",
+                    "label": "Venezuela (Bolivarian Republic of)",
+                    "icon": "pi pi-flag"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "UNM49:021",
+            "label": "Northern America",
+            "children": [
+              { "key": "UNM49:060", "label": "Bermuda", "icon": "pi pi-flag" },
+              { "key": "UNM49:124", "label": "Canada", "icon": "pi pi-flag" },
+              { "key": "UNM49:304", "label": "Greenland", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:666",
+                "label": "Saint Pierre and Miquelon",
+                "icon": "pi pi-flag"
+              },
+              {
+                "key": "UNM49:840",
+                "label": "United States of America",
+                "icon": "pi pi-flag"
+              }
+            ]
+          }
+        ]
+      },
+      { "key": "UNM49:010", "label": "Antarctica", "icon": "pi pi-globe" },
+      {
+        "key": "UNM49:142",
+        "label": "Asia",
+        "icon": "pi pi-globe",
+        "children": [
+          {
+            "key": "UNM49:143",
+            "label": "Central Asia",
+            "children": [
+              { "key": "UNM49:398", "label": "Kazakhstan", "icon": "pi pi-flag" },
+              { "key": "UNM49:417", "label": "Kyrgyzstan", "icon": "pi pi-flag" },
+              { "key": "UNM49:762", "label": "Tajikistan", "icon": "pi pi-flag" },
+              { "key": "UNM49:795", "label": "Turkmenistan", "icon": "pi pi-flag" },
+              { "key": "UNM49:860", "label": "Uzbekistan", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:030",
+            "label": "Eastern Asia",
+            "children": [
+              { "key": "UNM49:156", "label": "China", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:344",
+                "label": "China, Hong Kong Special Administrative Region",
+                "icon": "pi pi-flag"
+              },
+              {
+                "key": "UNM49:446",
+                "label": "China, Macao Special Administrative Region",
+                "icon": "pi pi-flag"
+              },
+              {
+                "key": "UNM49:408",
+                "label": "Democratic People's Republic of Korea",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:392", "label": "Japan", "icon": "pi pi-flag" },
+              { "key": "UNM49:496", "label": "Mongolia", "icon": "pi pi-flag" },
+              { "key": "UNM49:410", "label": "Republic of Korea", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:035",
+            "label": "South-eastern Asia",
+            "children": [
+              {
+                "key": "UNM49:096",
+                "label": "Brunei Darussalam",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:116", "label": "Cambodia", "icon": "pi pi-flag" },
+              { "key": "UNM49:360", "label": "Indonesia", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:418",
+                "label": "Lao People's Democratic Republic",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:458", "label": "Malaysia", "icon": "pi pi-flag" },
+              { "key": "UNM49:104", "label": "Myanmar", "icon": "pi pi-flag" },
+              { "key": "UNM49:608", "label": "Philippines", "icon": "pi pi-flag" },
+              { "key": "UNM49:702", "label": "Singapore", "icon": "pi pi-flag" },
+              { "key": "UNM49:764", "label": "Thailand", "icon": "pi pi-flag" },
+              { "key": "UNM49:626", "label": "Timor-Leste", "icon": "pi pi-flag" },
+              { "key": "UNM49:704", "label": "Viet Nam", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:034",
+            "label": "Southern Asia",
+            "children": [
+              { "key": "UNM49:004", "label": "Afghanistan", "icon": "pi pi-flag" },
+              { "key": "UNM49:050", "label": "Bangladesh", "icon": "pi pi-flag" },
+              { "key": "UNM49:064", "label": "Bhutan", "icon": "pi pi-flag" },
+              { "key": "UNM49:356", "label": "India", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:364",
+                "label": "Iran (Islamic Republic of)",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:462", "label": "Maldives", "icon": "pi pi-flag" },
+              { "key": "UNM49:524", "label": "Nepal", "icon": "pi pi-flag" },
+              { "key": "UNM49:586", "label": "Pakistan", "icon": "pi pi-flag" },
+              { "key": "UNM49:144", "label": "Sri Lanka", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:145",
+            "label": "Western Asia",
+            "children": [
+              { "key": "UNM49:051", "label": "Armenia", "icon": "pi pi-flag" },
+              { "key": "UNM49:031", "label": "Azerbaijan", "icon": "pi pi-flag" },
+              { "key": "UNM49:048", "label": "Bahrain", "icon": "pi pi-flag" },
+              { "key": "UNM49:196", "label": "Cyprus", "icon": "pi pi-flag" },
+              { "key": "UNM49:268", "label": "Georgia", "icon": "pi pi-flag" },
+              { "key": "UNM49:368", "label": "Iraq", "icon": "pi pi-flag" },
+              { "key": "UNM49:376", "label": "Israel", "icon": "pi pi-flag" },
+              { "key": "UNM49:400", "label": "Jordan", "icon": "pi pi-flag" },
+              { "key": "UNM49:414", "label": "Kuwait", "icon": "pi pi-flag" },
+              { "key": "UNM49:422", "label": "Lebanon", "icon": "pi pi-flag" },
+              { "key": "UNM49:512", "label": "Oman", "icon": "pi pi-flag" },
+              { "key": "UNM49:634", "label": "Qatar", "icon": "pi pi-flag" },
+              { "key": "UNM49:682", "label": "Saudi Arabia", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:275",
+                "label": "State of Palestine",
+                "icon": "pi pi-flag"
+              },
+              {
+                "key": "UNM49:760",
+                "label": "Syrian Arab Republic",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:792", "label": "Turkey", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:784",
+                "label": "United Arab Emirates",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:887", "label": "Yemen", "icon": "pi pi-flag" }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "UNM49:150",
+        "label": "Europe",
+        "icon": "pi pi-globe",
+        "children": [
+          {
+            "key": "UNM49:151",
+            "label": "Eastern Europe",
+            "children": [
+              { "key": "UNM49:112", "label": "Belarus", "icon": "pi pi-flag" },
+              { "key": "UNM49:100", "label": "Bulgaria", "icon": "pi pi-flag" },
+              { "key": "UNM49:203", "label": "Czechia", "icon": "pi pi-flag" },
+              { "key": "UNM49:348", "label": "Hungary", "icon": "pi pi-flag" },
+              { "key": "UNM49:616", "label": "Poland", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:498",
+                "label": "Republic of Moldova",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:642", "label": "Romania", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:643",
+                "label": "Russian Federation",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:703", "label": "Slovakia", "icon": "pi pi-flag" },
+              { "key": "UNM49:804", "label": "Ukraine", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:154",
+            "label": "Northern Europe",
+            "children": [
+              { "key": "UNM49:248", "label": "Aland Islands", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:830",
+                "label": "Channel Islands",
+                "children": [
+                  { "key": "UNM49:831", "label": "Guernsey", "icon": "pi pi-flag" },
+                  { "key": "UNM49:832", "label": "Jersey", "icon": "pi pi-flag" },
+                  { "key": "UNM49:680", "label": "Sark", "icon": "pi pi-flag" }
+                ]
+              },
+              { "key": "UNM49:208", "label": "Denmark", "icon": "pi pi-flag" },
+              { "key": "UNM49:233", "label": "Estonia", "icon": "pi pi-flag" },
+              { "key": "UNM49:234", "label": "Faroe Islands", "icon": "pi pi-flag" },
+              { "key": "UNM49:246", "label": "Finland", "icon": "pi pi-flag" },
+              { "key": "UNM49:352", "label": "Iceland", "icon": "pi pi-flag" },
+              { "key": "UNM49:372", "label": "Ireland", "icon": "pi pi-flag" },
+              { "key": "UNM49:833", "label": "Isle of Man", "icon": "pi pi-flag" },
+              { "key": "UNM49:428", "label": "Latvia", "icon": "pi pi-flag" },
+              { "key": "UNM49:440", "label": "Lithuania", "icon": "pi pi-flag" },
+              { "key": "UNM49:578", "label": "Norway", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:744",
+                "label": "Svalbard and Jan Mayen Islands",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:752", "label": "Sweden", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:826",
+                "label": "United Kingdom of Great Britain and Northern Ireland",
+                "icon": "pi pi-flag"
+              }
+            ]
+          },
+          {
+            "key": "UNM49:039",
+            "label": "Southern Europe",
+            "children": [
+              { "key": "UNM49:008", "label": "Albania", "icon": "pi pi-flag" },
+              { "key": "UNM49:020", "label": "Andorra", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:070",
+                "label": "Bosnia and Herzegovina",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:191", "label": "Croatia", "icon": "pi pi-flag" },
+              { "key": "UNM49:292", "label": "Gibraltar", "icon": "pi pi-flag" },
+              { "key": "UNM49:300", "label": "Greece", "icon": "pi pi-flag" },
+              { "key": "UNM49:336", "label": "Holy See", "icon": "pi pi-flag" },
+              { "key": "UNM49:380", "label": "Italy", "icon": "pi pi-flag" },
+              { "key": "UNM49:470", "label": "Malta", "icon": "pi pi-flag" },
+              { "key": "UNM49:499", "label": "Montenegro", "icon": "pi pi-flag" },
+              { "key": "UNM49:807", "label": "North Macedonia", "icon": "pi pi-flag" },
+              { "key": "UNM49:620", "label": "Portugal", "icon": "pi pi-flag" },
+              { "key": "UNM49:674", "label": "San Marino", "icon": "pi pi-flag" },
+              { "key": "UNM49:688", "label": "Serbia", "icon": "pi pi-flag" },
+              { "key": "UNM49:705", "label": "Slovenia", "icon": "pi pi-flag" },
+              { "key": "UNM49:724", "label": "Spain", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:155",
+            "label": "Western Europe",
+            "children": [
+              { "key": "UNM49:040", "label": "Austria", "icon": "pi pi-flag" },
+              { "key": "UNM49:056", "label": "Belgium", "icon": "pi pi-flag" },
+              { "key": "UNM49:250", "label": "France", "icon": "pi pi-flag" },
+              { "key": "UNM49:276", "label": "Germany", "icon": "pi pi-flag" },
+              { "key": "UNM49:438", "label": "Liechtenstein", "icon": "pi pi-flag" },
+              { "key": "UNM49:442", "label": "Luxembourg", "icon": "pi pi-flag" },
+              { "key": "UNM49:492", "label": "Monaco", "icon": "pi pi-flag" },
+              { "key": "UNM49:528", "label": "Netherlands", "icon": "pi pi-flag" },
+              { "key": "UNM49:756", "label": "Switzerland", "icon": "pi pi-flag" }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "UNM49:009",
+        "label": "Oceania",
+        "icon": "pi pi-globe",
+        "children": [
+          {
+            "key": "UNM49:053",
+            "label": "Australia and New Zealand",
+            "children": [
+              { "key": "UNM49:036", "label": "Australia", "icon": "pi pi-flag" },
+              { "key": "UNM49:162", "label": "Christmas Island", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:166",
+                "label": "Cocos (Keeling) Islands",
+                "icon": "pi pi-flag"
+              },
+              {
+                "key": "UNM49:334",
+                "label": "Heard Island and McDonald Islands",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:554", "label": "New Zealand", "icon": "pi pi-flag" },
+              { "key": "UNM49:574", "label": "Norfolk Island", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:054",
+            "label": "Melanesia",
+            "children": [
+              { "key": "UNM49:242", "label": "Fiji", "icon": "pi pi-flag" },
+              { "key": "UNM49:540", "label": "New Caledonia", "icon": "pi pi-flag" },
+              { "key": "UNM49:598", "label": "Papua New Guinea", "icon": "pi pi-flag" },
+              { "key": "UNM49:090", "label": "Solomon Islands", "icon": "pi pi-flag" },
+              { "key": "UNM49:548", "label": "Vanuatu", "icon": "pi pi-flag" }
+            ]
+          },
+          {
+            "key": "UNM49:057",
+            "label": "Micronesia",
+            "children": [
+              { "key": "UNM49:316", "label": "Guam", "icon": "pi pi-flag" },
+              { "key": "UNM49:296", "label": "Kiribati", "icon": "pi pi-flag" },
+              { "key": "UNM49:584", "label": "Marshall Islands", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:583",
+                "label": "Micronesia (Federated States of)",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:520", "label": "Nauru", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:580",
+                "label": "Northern Mariana Islands",
+                "icon": "pi pi-flag"
+              },
+              { "key": "UNM49:585", "label": "Palau", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:581",
+                "label": "United States Minor Outlying Islands",
+                "icon": "pi pi-flag"
+              }
+            ]
+          },
+          {
+            "key": "UNM49:061",
+            "label": "Polynesia",
+            "children": [
+              { "key": "UNM49:016", "label": "American Samoa", "icon": "pi pi-flag" },
+              { "key": "UNM49:184", "label": "Cook Islands", "icon": "pi pi-flag" },
+              { "key": "UNM49:258", "label": "French Polynesia", "icon": "pi pi-flag" },
+              { "key": "UNM49:570", "label": "Niue", "icon": "pi pi-flag" },
+              { "key": "UNM49:612", "label": "Pitcairn", "icon": "pi pi-flag" },
+              { "key": "UNM49:882", "label": "Samoa", "icon": "pi pi-flag" },
+              { "key": "UNM49:772", "label": "Tokelau", "icon": "pi pi-flag" },
+              { "key": "UNM49:776", "label": "Tonga", "icon": "pi pi-flag" },
+              { "key": "UNM49:798", "label": "Tuvalu", "icon": "pi pi-flag" },
+              {
+                "key": "UNM49:876",
+                "label": "Wallis and Futuna Islands",
+                "icon": "pi pi-flag"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

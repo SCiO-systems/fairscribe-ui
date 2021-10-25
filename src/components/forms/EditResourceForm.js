@@ -334,9 +334,10 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <GeospatialCoverage
           mode={mode}
           initialData={{
-            geospatial_coverage: metadataRecord?.geospatial_coverage,
+            regions: metadataRecord?.geography?.regions,
+            countries: metadataRecord?.geography?.countries,
           }}
-          setter={(gsc) => mainSetter({ geospatial_coverage: gsc })}
+          setter={(regions, countries) => mainSetter({ geography: { regions, countries } })}
         />
         <ResourceRelatedResources
           mode={mode}
