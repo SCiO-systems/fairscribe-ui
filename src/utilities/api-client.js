@@ -19,13 +19,11 @@ class ApiClient {
     }
 
     // eslint-disable-next-line
-    console.log(
-      `Initialized API client for: ${process.env.REACT_APP_API_BASE_URL}`
-    );
+    console.log(`Initialized API client for: ${process.env.REACT_APP_API_BASE_URL}`);
 
     this.session = axios.create({
       baseURL: process.env.REACT_APP_API_BASE_URL,
-      timeout: 5000,
+      timeout: process.env.REACT_APP_REQUEST_TIMEOUT * 1000,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -94,37 +92,27 @@ class ApiClient {
 
   get = (...params) =>
     this.session.get(...params, {
-      cancelToken: this.cancellationSource
-        ? this.cancellationSource.token
-        : null,
+      cancelToken: this.cancellationSource ? this.cancellationSource.token : null,
     });
 
   post = (...params) =>
     this.session.post(...params, {
-      cancelToken: this.cancellationSource
-        ? this.cancellationSource.token
-        : null,
+      cancelToken: this.cancellationSource ? this.cancellationSource.token : null,
     });
 
   put = (...params) =>
     this.session.put(...params, {
-      cancelToken: this.cancellationSource
-        ? this.cancellationSource.token
-        : null,
+      cancelToken: this.cancellationSource ? this.cancellationSource.token : null,
     });
 
   patch = (...params) =>
     this.session.patch(...params, {
-      cancelToken: this.cancellationSource
-        ? this.cancellationSource.token
-        : null,
+      cancelToken: this.cancellationSource ? this.cancellationSource.token : null,
     });
 
   remove = (...params) =>
     this.session.delete(...params, {
-      cancelToken: this.cancellationSource
-        ? this.cancellationSource.token
-        : null,
+      cancelToken: this.cancellationSource ? this.cancellationSource.token : null,
     });
 }
 
