@@ -326,11 +326,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           }}
           setter={(keywords) => mainSetter({ keywords })}
         />
-        <ResourceRights
-          mode={mode}
-          initialData={{ rights: metadataRecord?.rights }}
-          setter={(rights) => mainSetter({ rights })}
-        />
         <GeospatialCoverage
           mode={mode}
           initialData={{
@@ -338,6 +333,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             countries: metadataRecord?.geography?.countries,
           }}
           setter={(regions, countries) => mainSetter({ geography: { regions, countries } })}
+        />
+        <ResourceRights
+          mode={mode}
+          initialData={{ rights: metadataRecord?.rights }}
+          setter={(rights) => mainSetter({ rights })}
         />
         <ResourceRelatedResources
           mode={mode}
