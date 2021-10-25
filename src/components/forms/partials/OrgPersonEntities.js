@@ -82,20 +82,22 @@ const OrgsPersonsEntities = ({
         addEntry();
       }}
     >
-      <div className="p-mt-2 p-formgrid p-grid p-fluid">
-        <div className="p-col-10">
-          <Dropdown
-            filter
-            filterBy="label"
-            id="type"
-            name="type"
-            disabled={defaultScheme !== undefined}
-            value={defaultScheme || scheme || ''}
-            options={schemes}
-            placeholder="Choose individual or organisation"
-            onChange={(e) => setScheme(e.value)}
-          />
-        </div>
+      <div className="p-mt-2 p-grid p-formgrid p-fluid p-d-flex p-jc-end">
+        {defaultScheme === undefined && (
+          <div className="p-col-10">
+            <Dropdown
+              filter
+              filterBy="label"
+              id="type"
+              name="type"
+              disabled={defaultScheme !== undefined}
+              value={defaultScheme || scheme || ''}
+              options={schemes}
+              placeholder="Choose individual or organisation"
+              onChange={(e) => setScheme(e.value)}
+            />
+          </div>
+        )}
         <div className="p-col-2">
           <Button label={t('ADD')} type="submit" icon="pi pi-plus" />
         </div>
