@@ -7,12 +7,12 @@ import MultipleTextEntriesTable from '../../tables/MultipleTextEntriesTable';
 
 const DataCollectionMethodology = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [unitsOfAnalysis, setUnitsOfAnalysis] = useState([]);
-  const [universe, setUniverse] = useState([]);
-  const [frequency, setFrequency] = useState('');
-  const [method, setMethod] = useState('');
-  const [instrument, setInstrument] = useState('');
-  const [samplingProcedure, setSamplingProcedure] = useState('');
+  const [unitsOfAnalysis, setUnitsOfAnalysis] = useState(initialData?.units || []);
+  const [universe, setUniverse] = useState(initialData?.universe || []);
+  const [frequency, setFrequency] = useState(initialData?.frequency || '');
+  const [method, setMethod] = useState(initialData?.collectionMode || '');
+  const [instrument, setInstrument] = useState(initialData?.instrument || '');
+  const [samplingProcedure, setSamplingProcedure] = useState(initialData?.process || '');
 
   useEffect(() => {
     setter(unitsOfAnalysis, universe, frequency, method, instrument, samplingProcedure);
