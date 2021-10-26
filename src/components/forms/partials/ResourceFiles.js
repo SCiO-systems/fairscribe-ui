@@ -182,6 +182,18 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
                   {status}
                 </span>
               )}
+              {status === 'fail' && (
+                <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
+                  <i className="pi pi-times text-red bg-red rounded-full p-p-1 p-mr-2" />
+                  {status}
+                </span>
+              )}
+              {status === 'pass' && (
+                <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
+                  <i className="pi pi-check text-green bg-green rounded-full p-p-1 p-mr-2" />
+                  {status}
+                </span>
+              )}
             </div>
           )}
         />
