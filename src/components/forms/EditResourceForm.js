@@ -29,7 +29,9 @@ import TemporalCoverage from './partials/TemporalCoverage';
 const EditResourceForm = ({ resource, teamId, mode }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const { resourceId } = useParams();
   const { setError, setSuccess } = useContext(ToastContext);
+
   const [quickSaveStyles, setQuickSaveStyles] = useState({});
   const [fairScoreDialogOpen, setFairScoreDialogOpen] = useState(false);
   const [rightOffset, setRightOffset] = useState('30px');
@@ -37,7 +39,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const [metadataRecord, setMetadataRecord] = useState(resource?.metadata_record || {});
   const [comments, setComments] = useState(resource.comments || '');
   const [availableLanguages, setAvailableLanguages] = useState([]);
-  const { resourceId } = useParams();
   const { type, subtype } = resource;
 
   useScrollPosition(({ currPos }) => {

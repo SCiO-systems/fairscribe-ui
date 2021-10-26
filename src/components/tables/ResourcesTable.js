@@ -157,7 +157,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
 
   const fairScoringTemplate = (rowData) => (
     <div>
-      <FairScoreMiniChart resourceId={rowData.id} data={fairScoreTransformer(rowData)} />
+      <FairScoreMiniChart resourceId={rowData?.id} data={fairScoreTransformer(rowData)} />
     </div>
   );
 

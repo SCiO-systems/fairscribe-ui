@@ -2,11 +2,18 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 import * as am4core from '@amcharts/amcharts4/core';
 // eslint-disable-next-line
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
 const FairScoreMiniChart = ({ resourceId, data }) => {
   const chart = useRef(null);
   const chartId = `chart-${resourceId}`;
+
+  useEffect(() => {
+    // Load data into chart
+    if (chart.current) {
+      chart.current.data = data;
+    }
+  }, [data]); // eslint-disable-line
 
   useLayoutEffect(() => {
     am4core.useTheme(am4themes_animated);
@@ -30,10 +37,7 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     categoryAxis.renderer.labels.template.fontWeight = 500;
     categoryAxis.renderer.labels.template.fillOpacity = 0;
     categoryAxis.renderer.labels.template.fontSize = '0px';
-    categoryAxis.renderer.labels.template.adapter.add(
-      'fill',
-      (fill, target) => '#08429e'
-    );
+    categoryAxis.renderer.labels.template.adapter.add('fill', (fill, target) => '#08429e');
     categoryAxis.renderer.minGridDistance = 10;
 
     const label = c.createChild(am4core.Label);
@@ -56,9 +60,7 @@ const FairScoreMiniChart = ({ resourceId, data }) => {
     series1.dataFields.valueX = 'full';
     series1.dataFields.categoryY = 'category';
     series1.clustered = false;
-    series1.columns.template.fill = new am4core.InterfaceColorSet().getFor(
-      'alternativeBackground'
-    );
+    series1.columns.template.fill = new am4core.InterfaceColorSet().getFor('alternativeBackground');
     series1.columns.template.fillOpacity = 0.08;
     series1.columns.template.cornerRadiusTopLeft = 20;
     series1.columns.template.strokeWidth = 0;
