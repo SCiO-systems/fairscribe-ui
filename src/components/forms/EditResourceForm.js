@@ -350,7 +350,8 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       <FairScoreDialog
         dialogOpen={fairScoreDialogOpen}
         setDialogOpen={setFairScoreDialogOpen}
-        metadataRecord={metadataRecord}
+        teamId={teamId}
+        resourceId={resource?.id}
       />
     </>
   );
