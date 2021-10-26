@@ -21,6 +21,25 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
   const [fundingOrgSuggestions, setFundingOrgSuggestions] = useState([]);
   const [fundingOrgData, setFundingOrgData] = useState(null);
 
+  const [orgSuggestions, setOrgSuggestions] = useState([]);
+  const [orgData, setOrgData] = useState(null);
+
+  // TODO: Refactor this completely.
+
+  const triggerOrgAutocomplete = async ({ query }) => {
+    try {
+      const results = await autocompleteTerm('ror', query);
+      setOrgData(null);
+      if (results.length > 0) {
+        setOrgSuggestions(results);
+      } else {
+        setOrgSuggestions([]);
+      }
+    } catch (error) {
+      setError(handleError(error));
+    }
+  };
+
   const triggerFundingOrgAutocomplete = async ({ query }) => {
     try {
       const results = await autocompleteTerm('funders', query);
@@ -36,7 +55,13 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
   };
 
   const onSelectFundingOrg = async (e) => setFundingOrgData(e?.value);
+  const onSelectOrg = async (e) => {
+    const id = e?.value?.id?.replace('https://ror.org/', '');
+    setOrgData({ ...e.value, id });
+  };
+
   const fundingOrgItemTemplate = (item) => item?.full_name;
+  const orgItemTemplate = (item) => item?.name;
 
   useEffect(() => {
     setter(authors, projects, fundingOrganizations, contactPoints);
@@ -46,9 +71,18 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
     <Fieldset legend={t('OTHER_RESOURCE_INFORMATION')} className="p-mb-4">
       <OrgsPersonsEntities
         mode={mode}
+        initialFullName={orgData?.name || ''}
+        initialShortName={orgData?.acronyms[0] || ''}
+        initialId={orgData?.id || ''}
+        initialEmail={orgData?.email || ''}
+        initialUrl={orgData?.links[0] || ''}
         title={t('AUTHORS')}
         entries={authors}
         setEntries={setAuthors}
+        onAutoComplete={triggerOrgAutocomplete}
+        onSelectAutoComplete={onSelectOrg}
+        suggestions={orgSuggestions}
+        itemTemplate={orgItemTemplate}
         className="p-mb-5"
       />
       <OrgsPersonsEntities

@@ -54,6 +54,14 @@ const OrgsPersonsEntities = ({
     setEmail(initialEmail || '');
   }, [initialFullName]); // eslint-disable-line
 
+  useEffect(() => {
+    setFullName('');
+    setShortName('');
+    setId('');
+    setUrl('');
+    setEmail('');
+  }, [scheme]); // eslint-disable-line
+
   const getUrlByIdAndScheme = () => {
     if (scheme === SCHEME_ORCID) {
       return `https://orcid.org/${id}`;
@@ -120,17 +128,27 @@ const OrgsPersonsEntities = ({
           <div className="p-col-12 p-md-12">
             <div className="p-field">
               <label htmlFor="fullname">{t('FULLNAME')}</label>
-              <AutoComplete
-                id="fullname"
-                disabled={mode === 'review'}
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                completeMethod={onAutoComplete}
-                itemTemplate={itemTemplate}
-                selectedItemTemplate={itemTemplate}
-                suggestions={suggestions}
-                onSelect={onSelectAutoComplete}
-              />
+              {scheme === SCHEME_ROR ? (
+                <AutoComplete
+                  id="fullname"
+                  disabled={mode === 'review'}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  completeMethod={onAutoComplete}
+                  itemTemplate={itemTemplate}
+                  selectedItemTemplate={itemTemplate}
+                  suggestions={suggestions}
+                  onSelect={onSelectAutoComplete}
+                />
+              ) : (
+                <InputText
+                  id="fullname"
+                  autoComplete={false}
+                  disabled={mode === 'review'}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              )}
             </div>
           </div>
           <div className="p-col-12 p-md-6">
