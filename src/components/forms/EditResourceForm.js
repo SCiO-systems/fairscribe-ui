@@ -86,7 +86,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     },
   ];
 
-  const saveChanges = async (sendForReview) => {
+  const saveChanges = async (sendForReview, showMessage = false) => {
     try {
       const status = sendForReview ? 'under_review' : 'under_preparation';
       const record = {
@@ -103,7 +103,9 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         console.log('Generated metadata record:', record); // eslint-disable-line
       }
       await updateResource(teamId, resourceId, { status, metadata_record: record });
-      setSuccess('Resource', 'Resource changes have been saved!');
+      if (showMessage) {
+        setSuccess('Resource', 'Resource changes have been saved!');
+      }
     } catch (error) {
       setError(handleError(error));
     }
@@ -127,6 +129,8 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     listLanguages()
       .then((data) => setAvailableLanguages(transformLanguages(data)))
       .catch((error) => setError(handleError(error)));
+
+    saveChanges(false, false);
   }, []); // eslint-disable-line
 
   return (
@@ -167,9 +171,9 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                     <Button
                       className="p-mr-2"
                       label={t('SEND_FOR_REVIEW')}
-                      onClick={() => saveChanges(true)}
+                      onClick={() => saveChanges(true, true)}
                     />
-                    <Button label={t('SAVE_CHANGES')} onClick={() => saveChanges(false)} />
+                    <Button label={t('SAVE_CHANGES')} onClick={() => saveChanges(false, true)} />
                   </>
                 )}
               </div>
