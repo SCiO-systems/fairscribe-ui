@@ -47,8 +47,6 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
       <div className="p-grid">
         <div className="p-col-12">
           <TreeSelect
-            style={{ maxWidth: '100%', width: '100%' }}
-            filter
             disabled={mode !== 'edit'}
             value={selectedKeys}
             display="chip"
