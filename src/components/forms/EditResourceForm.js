@@ -60,10 +60,38 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     }
   });
 
+  const fallbackTitle = [
+    {
+      language: {
+        name: 'English',
+        label: 'English',
+        value: 'English',
+        iso_code_639_1: 'en',
+        iso_code_639_2: 'eng',
+      },
+      value: resource.title,
+    },
+  ];
+
+  const fallbackDescription = [
+    {
+      language: {
+        name: 'English',
+        label: 'English',
+        value: 'English',
+        iso_code_639_1: 'en',
+        iso_code_639_2: 'eng',
+      },
+      value: resource.description,
+    },
+  ];
+
   const saveChanges = async (sendForReview) => {
     try {
       const status = sendForReview ? 'under_review' : 'under_preparation';
       const record = {
+        title: fallbackTitle,
+        description: fallbackDescription,
         ...metadataRecord,
         dataCORE_version: '1.0',
         dataNODE_id: '',
@@ -100,32 +128,6 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       .then((data) => setAvailableLanguages(transformLanguages(data)))
       .catch((error) => setError(handleError(error)));
   }, []); // eslint-disable-line
-
-  const fallbackTitle = [
-    {
-      language: {
-        name: 'English',
-        label: 'English',
-        value: 'English',
-        iso_code_639_1: 'en',
-        iso_code_639_2: 'eng',
-      },
-      value: resource.title,
-    },
-  ];
-
-  const fallbackDescription = [
-    {
-      language: {
-        name: 'English',
-        label: 'English',
-        value: 'English',
-        iso_code_639_1: 'en',
-        iso_code_639_2: 'eng',
-      },
-      value: resource.description,
-    },
-  ];
 
   return (
     <>

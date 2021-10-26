@@ -44,6 +44,7 @@ const ResourceGeneralInformation = ({ initialData, setter, mode, availableLangua
         setTeamCollections(data);
       });
     }
+    setter(title, description, resourceLanguage, citation);
   }, []);
 
   return (
