@@ -44,16 +44,21 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
 
   return (
     <Fieldset legend={t('GEOSPATIAL_COVERAGE')} className="p-mb-4">
-      <TreeSelect
-        filter
-        disabled={mode !== 'edit'}
-        value={selectedKeys}
-        display="chip"
-        onChange={(e) => setSelectedKeys(e.value)}
-        selectionMode="checkbox"
-        options={geospatialData}
-        placeholder={t('SELECT_REGIONS_COUNTRIES')}
-      />
+      <div className="p-grid">
+        <div className="p-col-12">
+          <TreeSelect
+            style={{ maxWidth: '100%', width: '100%' }}
+            filter
+            disabled={mode !== 'edit'}
+            value={selectedKeys}
+            display="chip"
+            onChange={(e) => setSelectedKeys(e.value)}
+            selectionMode="checkbox"
+            options={geospatialData}
+            placeholder={t('SELECT_REGIONS_COUNTRIES')}
+          />
+        </div>
+      </div>
     </Fieldset>
   );
 };

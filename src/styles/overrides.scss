@@ -196,8 +196,20 @@ ul.limitations li::before {
 }
 
 .p-treeselect {
-  width: 30rem;
+  width: 100%;
   max-width: 100%;
+}
+
+.p-treeselect-label {
+  white-space: normal;
+}
+
+.p-treeselect.p-treeselect-chip .p-treeselect-token {
+  margin-bottom: 0.5rem;
+}
+
+.p-inputwrapper-filled.p-treeselect.p-treeselect-chip .p-treeselect-label {
+  padding: 1rem 1rem 0.5rem 1rem;
 }
 
 @media screen and (max-width: 640px) {
