@@ -1,24 +1,21 @@
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { calculateFairScore } from '../../services/resources';
-import { ToastContext } from '../../store';
-import { handleError } from '../../utilities/errors';
 
 const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
   const { t } = useTranslation();
 
   const [fairScore, setFairScore] = useState({});
-  const { setError } = useContext(ToastContext);
 
   const loadFairScore = async () => {
     try {
       const response = await calculateFairScore(teamId, resourceId);
       setFairScore(response);
     } catch (error) {
-      setError(handleError(error));
+      console.error(error); // eslint-disable-line
     }
   };
 
