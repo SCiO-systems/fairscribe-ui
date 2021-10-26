@@ -28,6 +28,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
   const [suggestions, setSuggestions] = useState([]);
 
   const [isExtractLoading, setIsExtractLoading] = useState(false);
+  const [extractedTerms, setExtractedTerms] = useState([]);
 
   const getHumanReadableVocabularyName = (scheme) =>
     availableVocabularies.filter(({ value }) => value === scheme)?.pop()?.label || scheme;
@@ -38,10 +39,10 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
       const title = getEnglishValue(initialData?.title);
       const description = getEnglishValue(initialData?.description);
       const terms = await extractKeywords(`${title} ${description}`);
-      if (terms?.length > 0) {
-        terms?.forEach((k) => {
-          addKeyword(k);
-        });
+      if (terms.length > 1) {
+        setExtractedTerms(
+          terms.map(({ scheme, term, id }) => ({ scheme, value: term, code: id, frequency: '1' }))
+        );
       }
     } catch (error) {
       setError(handleError(error));
@@ -50,25 +51,25 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
   };
 
   const addKeyword = (keyword) => {
-    setKeywords(
-      keywords
-        .filter(({ scheme, value }) => {
-          // Choose the proper value based on if the keyword has a structure or not.
-          // We can only have one keyword with the same value and scheme.
-          const s = keyword?.scheme || defaultVocabulary.value;
-          const v = keyword?.taxon_name || keyword?.value || keyword;
-          if (s === scheme && v === value) {
-            return false;
-          }
-          return true;
-        })
-        .concat({
-          scheme: keyword?.scheme || defaultVocabulary?.value,
-          value: keyword?.taxon_name || keyword?.value || keyword,
-          frequency: '1',
-          code: keyword?.taxon_id || keyword?.code || '',
-        })
-    );
+    const filtered = keywords.filter(({ scheme, value }) => {
+      // Choose the proper value based on if the keyword has a structure or not.
+      // We can only have one keyword with the same value and scheme.
+      const s = keyword?.scheme || defaultVocabulary.value;
+      const v = keyword?.taxon_name || keyword?.value || keyword?.term || keyword;
+      if (s === scheme && v === value) {
+        return false;
+      }
+      return true;
+    });
+    setKeywords([
+      ...filtered,
+      {
+        scheme: keyword?.scheme || defaultVocabulary?.value,
+        value: keyword?.taxon_name || keyword?.value || keyword?.term || keyword,
+        frequency: '1',
+        code: keyword?.taxon_id || keyword?.code || keyword?.id || '',
+      },
+    ]);
   };
 
   const removeKeyword = (s, v) => {
@@ -117,6 +118,19 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
   useEffect(() => {
     setter(keywords);
   }, [keywords]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (extractedTerms?.length > 0) {
+      const filtered = extractedTerms.filter(({ scheme, value }) => {
+        if (keywords.some((k) => k.value === value && k.scheme === scheme)) {
+          return false;
+        }
+        return true;
+      });
+      setKeywords([...keywords, ...filtered]);
+      setExtractedTerms([]);
+    }
+  }, [extractedTerms]); // eslint-disable-line
 
   const keywordsFooter = mode === 'edit' && (
     <form
