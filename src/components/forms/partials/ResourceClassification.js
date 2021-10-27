@@ -139,7 +139,6 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
         e.preventDefault();
         addKeyword(kw);
         setKw('');
-        setVocabulary('');
       }}
     >
       <div className="p-formgrid p-grid p-fluid">
