@@ -44,7 +44,7 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
         className="p-mb-4"
       />
       <div className="p-fluid p-formgrid p-grid">
-        <div className="p-field p-col-12 p-md-6">
+        <div id="resource-issued-date" className="p-field p-col-12 p-md-6">
           <label htmlFor="releaseDate">{t('RELEASE_DATE')}</label>
           <Calendar
             dateFormat="yy-mm-dd"

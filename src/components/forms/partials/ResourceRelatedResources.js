@@ -73,7 +73,7 @@ const ResourceRelatedResources = ({ initialData, setter, mode }) => {
   );
 
   return (
-    <Fieldset legend={t('RELATED_RESOURCES')} className="p-mb-4">
+    <Fieldset id="resource-related-resources" legend={t('RELATED_RESOURCES')} className="p-mb-4">
       <DataTable emptyMessage={t('NO_ENTRIES_FOUND')} value={dois} footer={doiFooterTemplate}>
         <Column header="DOI" body={({ DOI }) => DOI} />
         <Column field="verified" header={t('VERIFIED')} body={verifiedTemplate} />

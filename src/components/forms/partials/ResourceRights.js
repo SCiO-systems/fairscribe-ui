@@ -150,7 +150,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
 
   return (
     <Fieldset legend={t('RESOURCE_RIGHTS')} className="p-mb-4">
-      <div className="p-fluid">
+      <div id="resource-rights" className="p-fluid">
         <div className="p-formgrid p-grid p-d-flex p-ai-end">
           <div className="p-field p-col-12 p-md-5">
             <label htmlFor="accessRights">{t('RESOURCE_ACCESS_RIGHTS')}</label>

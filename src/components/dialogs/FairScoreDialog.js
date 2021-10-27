@@ -25,6 +25,17 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
     }
   }, [dialogOpen]); // eslint-disable-line
 
+  const handleAnchorClick = (e, anchor) => {
+    e.preventDefault();
+    setDialogOpen(false);
+    setTimeout(() => {
+      const element = document.getElementById(anchor);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 500);
+  };
+
   const meetsConditionTemplate = ({ meetsCondition }) => (
     <div className="p-text-center">
       {meetsCondition ? (
@@ -51,7 +62,7 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
     return (
       <span>
         {anchor ? (
-          <a onClick={() => setDialogOpen(false)} href={`${url}#${anchor}`}>
+          <a onClick={(e) => handleAnchorClick(e, anchor)} href={`${url}#${anchor}`}>
             {recommendation}
           </a>
         ) : (
@@ -103,7 +114,11 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
             <Column field="metadataCondition" header={t('METADATA_PROPERTY_CONDITION')} />
             <Column style={{ textAlign: 'center' }} field="scoring" header={t('SCORING_IN_FAIR')} />
             <Column body={meetsConditionTemplate} header={t('RESOURCE_MEETS_CONDITION')} />
-            <Column field="recommendation" header={t('RECOMMENDATION')} />
+            <Column
+              field="recommendation"
+              header={t('RECOMMENDATION')}
+              body={recommendationTemplate}
+            />
           </DataTable>
           <DataTable
             className="fairscore-dt p-mb-5"
@@ -117,7 +132,11 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
             <Column field="metadataCondition" header={t('METADATA_PROPERTY_CONDITION')} />
             <Column style={{ textAlign: 'center' }} field="scoring" header={t('SCORING_IN_FAIR')} />
             <Column body={meetsConditionTemplate} header={t('RESOURCE_MEETS_CONDITION')} />
-            <Column field="recommendation" header={t('RECOMMENDATION')} />
+            <Column
+              field="recommendation"
+              header={t('RECOMMENDATION')}
+              body={recommendationTemplate}
+            />
           </DataTable>
           <DataTable
             className="fairscore-dt p-mb-5"
@@ -131,7 +150,11 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
             <Column field="metadataCondition" header={t('METADATA_PROPERTY_CONDITION')} />
             <Column style={{ textAlign: 'center' }} field="scoring" header={t('SCORING_IN_FAIR')} />
             <Column body={meetsConditionTemplate} header={t('RESOURCE_MEETS_CONDITION')} />
-            <Column field="recommendation" header={t('RECOMMENDATION')} />
+            <Column
+              field="recommendation"
+              header={t('RECOMMENDATION')}
+              body={recommendationTemplate}
+            />
           </DataTable>
         </div>
       </div>

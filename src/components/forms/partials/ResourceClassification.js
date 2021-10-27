@@ -179,7 +179,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
   );
 
   return (
-    <Fieldset legend={t('RESOURCE_CLASSIFICATION')} className="p-mb-4">
+    <Fieldset id="resource-keywords" legend={t('RESOURCE_CLASSIFICATION')} className="p-mb-4">
       <div className="p-mb-4 p-mt-0 p-text-right">
         <Button
           icon="pi pi-book"

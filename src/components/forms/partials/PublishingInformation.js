@@ -16,7 +16,14 @@ const PublishingInformation = ({ initialData, setter, mode, type }) => {
 
   return (
     <Fieldset legend={t('PUBLISHING_INFORMATION')} className="p-mb-4">
-      <DOIs mode={mode} title={getEnglishValue(initialData?.title)} dois={dois} setDois={setDois} />
+      <div id="resource-dois">
+        <DOIs
+          mode={mode}
+          title={getEnglishValue(initialData?.title)}
+          dois={dois}
+          setDois={setDois}
+        />
+      </div>
       {type === 'document' && <PIDs mode={mode} pids={pids} setPids={setPids} />}
     </Fieldset>
   );

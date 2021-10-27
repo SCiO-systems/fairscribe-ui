@@ -156,6 +156,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
         </div>
       </div>
       <DataTable
+        id="resource-files"
         header={t('PHYSICAL_FILES')}
         emptyMessage={t('NO_ENTRIES_FOUND')}
         value={resourceFiles}

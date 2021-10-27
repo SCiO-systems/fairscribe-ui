@@ -45,7 +45,7 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
   return (
     <Fieldset legend={t('GEOSPATIAL_COVERAGE')} className="p-mb-4">
       <div className="p-grid">
-        <div className="p-col-12">
+        <div id="resource-spatial-coverage" className="p-col-12">
           <TreeSelect
             disabled={mode !== 'edit'}
             value={selectedKeys}

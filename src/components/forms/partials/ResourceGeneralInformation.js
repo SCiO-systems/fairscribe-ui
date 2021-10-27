@@ -47,26 +47,30 @@ const ResourceGeneralInformation = ({
 
   return (
     <Fieldset legend={t('RESOURCE_GENERAL_INFORMATION')} className="p-mb-4">
-      <MultilingualEntriesTable
-        mode={mode}
-        data={title}
-        availableLanguages={availableLanguages}
-        header={t('RESOURCE_TITLE')}
-        onDeleteItem={(l) => setTitle(title.filter(({ language }) => language.value !== l))}
-        onAddItem={({ language, value }) => addTitleLanguage(language, value)}
-      />
-      <MultilingualEntriesTable
-        mode={mode}
-        data={description}
-        availableLanguages={availableLanguages}
-        className="p-mt-4"
-        header={t('RESOURCE_DESCRIPTION')}
-        onDeleteItem={(l) =>
-          setDescription(description.filter(({ language: { value } }) => value !== l))
-        }
-        onAddItem={({ language, value }) => addDescriptionLanguage(language, value)}
-        multipleLines
-      />
+      <div id="resource-title">
+        <MultilingualEntriesTable
+          mode={mode}
+          data={title}
+          availableLanguages={availableLanguages}
+          header={t('RESOURCE_TITLE')}
+          onDeleteItem={(l) => setTitle(title.filter(({ language }) => language.value !== l))}
+          onAddItem={({ language, value }) => addTitleLanguage(language, value)}
+        />
+      </div>
+      <div id="resource-description">
+        <MultilingualEntriesTable
+          mode={mode}
+          data={description}
+          availableLanguages={availableLanguages}
+          className="p-mt-4"
+          header={t('RESOURCE_DESCRIPTION')}
+          onDeleteItem={(l) =>
+            setDescription(description.filter(({ language: { value } }) => value !== l))
+          }
+          onAddItem={({ language, value }) => addDescriptionLanguage(language, value)}
+          multipleLines
+        />
+      </div>
       <ResourceCollectionsPicker
         mode={mode}
         setSelectedCollections={setSelectedCollections}
