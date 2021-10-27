@@ -13,11 +13,7 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
   const [notificationMenuVisible, setNotificationMenuVisible] = useState(false);
   const [invitations, setInvitations] = useState([]);
   const [loadingInvitation, setLoadingInvitation] = useState(0);
-  const {
-    id: userId,
-    avatar_url: avatarUrl,
-    setUser,
-  } = useContext(UserContext);
+  const { id: userId, avatar_url: avatarUrl, setUser } = useContext(UserContext);
 
   useEffect(() => {
     getMyInvites(userId).then((resp) => setInvitations(resp.data));
@@ -25,44 +21,39 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
 
   const setLoading = async (id) => Promise.resolve(setLoadingInvitation(id));
 
+  // TODO: Refactor this.
   const refreshInvites = () =>
     getMyInvites(userId)
       .then((resp) => setInvitations(resp.data))
       .finally(setLoadingInvitation(0));
+
   const reject = (invId) =>
-    setLoading(invId).then(rejectInvite(userId, invId)).then(refreshInvites);
+    setLoading(invId)
+      .then(rejectInvite(userId, invId))
+      .then(refreshInvites)
+      .then(setNotificationMenuVisible(false));
+
   const accept = (invId) =>
     setLoading(invId)
       .then(acceptInvite(userId, invId))
       .then(getSharedTeams)
       .then((str) => setUser({ sharedTeams: [...str.data] }))
-      .then(refreshInvites);
+      .then(refreshInvites)
+      .then(setNotificationMenuVisible(false));
 
   return (
     <div className="layout-topbar">
       <div className="topbar-left">
-        <button
-          type="button"
-          className="menu-button p-link"
-          onClick={onMenuButtonClick}
-        >
+        <button type="button" className="menu-button p-link" onClick={onMenuButtonClick}>
           <i className="pi pi-chevron-left" />
         </button>
         <span className="topbar-separator" />
 
-        <div
-          className="layout-breadcrumb viewname"
-          style={{ textTransform: 'uppercase' }}
-        >
+        <div className="layout-breadcrumb viewname" style={{ textTransform: 'uppercase' }}>
           <AppBreadcrumb routers={routers} />
         </div>
 
-        <img
-          id="logo-mobile"
-          className="mobile-logo"
-          src={MiniLogo}
-          alt="FAIRscribe"
-        />
+        <img id="logo-mobile" className="mobile-logo" src={MiniLogo} alt="FAIRscribe" />
       </div>
 
       <div className="topbar-right">
@@ -95,19 +86,14 @@ const AppTopbar = ({ onMenuButtonClick, routers, displayName, signOut }) => {
               )}
             </button>
             {notificationMenuVisible && (
-              <ul
-                className="notifications-menu fade-in-up p-pt-2"
-                style={{ zIndex: '9999' }}
-              >
+              <ul className="notifications-menu fade-in-up p-pt-2" style={{ zIndex: '9999' }}>
                 {invitations &&
                   invitations.map((i) => (
                     <li key={i.id} role="menuitem" className="p-mb-2">
                       <div className="p-d-flex p-jc-between">
                         <div style={{ paddingRight: '.5rem' }}>
-                          {t('INVITED_TEXT')} <strong>{i.team.name}</strong>{' '}
-                          {t('BY')}{' '}
-                          <strong>{`${i.inviter.firstname} ${i.inviter.lastname}`}</strong>
-                          .
+                          {t('INVITED_TEXT')} <strong>{i.team.name}</strong> {t('BY')}{' '}
+                          <strong>{`${i.inviter.firstname} ${i.inviter.lastname}`}</strong>.
                         </div>
                         <div className="actionable-buttons">
                           <Button

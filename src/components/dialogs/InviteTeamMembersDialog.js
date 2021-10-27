@@ -1,10 +1,9 @@
 import { AutoComplete } from 'primereact/autocomplete';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { inviteEmails } from '../../services/teams';
+import { inviteUsers } from '../../services/teams';
 import { searchUsers } from '../../services/users';
 import { ToastContext } from '../../store';
 import { handleError } from '../../utilities/errors';
@@ -15,7 +14,6 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
   const { setError, setSuccess } = useContext(ToastContext);
   const [members, setMembers] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
-  const [inviteEmailRecipient, setInviteEmailRecipient] = useState('');
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
 
@@ -25,24 +23,19 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
     }
   }, [debouncedSearch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onSearch = (event) => {
-    if (event.query.length < 4) return;
-    setSearch(event.query);
+  const onSearch = ({ query }) => {
+    if (query?.length < 3) return;
+    setSearch(query);
   };
 
   const sendInvites = async (e) => {
     e.preventDefault();
-    const emailAddresses =
-      selectedMembers && selectedMembers.map((m) => m.email);
-    if (inviteEmailRecipient && inviteEmailRecipient.length > 0) {
-      emailAddresses.push(inviteEmailRecipient);
-    }
+    const users = selectedMembers?.map(({ id }) => id) || [];
     try {
-      await inviteEmails(team.id, emailAddresses);
-      setSuccess('Invites', 'The email invitations were sent!');
+      await inviteUsers(team.id, users);
+      setSuccess('Invites', 'The invitations were sent!');
       setSelectedMembers([]);
       setMembers([]);
-      setInviteEmailRecipient('');
       setDialogOpen(false);
     } catch (error) {
       setError(handleError(error));
@@ -58,10 +51,12 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
     }
   };
 
-  const itemTemplate = ({ email, firstname, lastname }) =>
-    `${firstname} ${lastname} (${email})`;
-
-  const selectedItemTemplate = ({ email }) => email || '';
+  const itemTemplate = ({ firstname, lastname, identity_provider: idp, email }) => {
+    if (idp === 'scribe') {
+      return `${firstname} ${lastname} (${email})`;
+    }
+    return `${firstname} ${lastname} (${idp.toString().toUpperCase()})`;
+  };
 
   return (
     <Dialog
@@ -83,17 +78,9 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
                   suggestions={members}
                   completeMethod={onSearch}
                   itemTemplate={itemTemplate}
-                  selectedItemTemplate={selectedItemTemplate}
+                  selectedItemTemplate={itemTemplate}
                   multiple
                   onChange={(e) => setSelectedMembers(e.value)}
-                />
-              </div>
-              <div className="p-mt-2 p-field">
-                <label htmlFor="invite_by_email">{t('INVITE_BY_EMAIL')}</label>
-                <InputText
-                  id="invite_by_email"
-                  value={inviteEmailRecipient}
-                  onChange={(e) => setInviteEmailRecipient(e.target.value)}
                 />
               </div>
             </div>
@@ -104,7 +91,6 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
                   icon="pi pi-send"
                   type="submit"
                   className="p-mr-2 p-mb-2"
-                  onClick={sendInvites}
                 />
               </div>
             </div>
