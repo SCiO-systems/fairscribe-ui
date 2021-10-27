@@ -89,6 +89,15 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     },
   ];
 
+  const updateStatus = async (status, successMessage) => {
+    try {
+      await updateResource(teamId, resourceId, { status });
+      setSuccess('Resource', successMessage || 'Changes were saved!');
+    } catch (error) {
+      setError(handleError(error));
+    }
+  };
+
   const saveChanges = async (sendForReview, showMessage = false) => {
     try {
       const status = sendForReview ? 'under_review' : resource?.status;
@@ -179,7 +188,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
                 {quickSaveVisibility && (
                   <>
                     <Button
-                      label={t('CANCEL')}
+                      label={t('BACK')}
                       onClick={() => history.push(`/teams/${teamId}`)}
                       className="p-button-secondary p-mr-2"
                     />
@@ -200,19 +209,62 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             </Sticky>
           )}
           {mode === 'review' && (
-            <div className="review-comments">
-              <form onSubmit={saveResourceComments}>
-                <h5>{t('COMMENTS')}</h5>
-                <InputTextarea
-                  style={{ width: '100%', overflowY: 'scroll', resize: 'none' }}
-                  value={comments}
-                  onChange={(e) => setComments(e.target.value)}
-                  autoResize={false}
-                  rows={5}
-                />
-                <Button type="submit" className="p-my-2" label={t('SAVE_CHANGES')} />
-              </form>
-            </div>
+            <>
+              <Sticky rightOffset={rightOffset}>
+                <div style={quickSaveStyles}>
+                  {rightOffset === '-1px' && (
+                    <Button
+                      label=""
+                      className={classNames(
+                        'p-button-secondary',
+                        'p-button-rounded',
+                        'p-button-text',
+                        'p-button-icon-only',
+                        { 'p-mr-2': quickSaveVisibility }
+                      )}
+                      icon={quickSaveVisibility ? 'pi pi-angle-right' : 'pi pi-angle-left'}
+                      onClick={() => setQuickSaveVisibility(!quickSaveVisibility)}
+                    />
+                  )}
+                  {quickSaveVisibility && (
+                    <>
+                      <Button
+                        label={t('BACK')}
+                        onClick={() => history.push(`/teams/${teamId}`)}
+                        className="p-button-secondary p-mr-2"
+                      />
+                      <Button
+                        className="p-mr-2"
+                        label={t('SEND_FOR_REEDITING')}
+                        onClick={() =>
+                          updateStatus('under_preparation', 'Resource was sent for re-editing!')
+                        }
+                      />
+                      <Button
+                        className="p-button-success"
+                        label={t('APPROVE')}
+                        onClick={() =>
+                          updateStatus('approved', 'Resource is approved and ready for publishing!')
+                        }
+                      />
+                    </>
+                  )}
+                </div>
+              </Sticky>
+              <div className="review-comments">
+                <form onSubmit={saveResourceComments}>
+                  <h5>{t('COMMENTS')}</h5>
+                  <InputTextarea
+                    style={{ width: '100%', overflowY: 'scroll', resize: 'none' }}
+                    value={comments}
+                    onChange={(e) => setComments(e.target.value)}
+                    autoResize={false}
+                    rows={5}
+                  />
+                  <Button type="submit" className="p-my-2" label={t('SAVE_CHANGES')} />
+                </form>
+              </div>
+            </>
           )}
         </div>
         {mode === 'edit' && resource?.comments && (

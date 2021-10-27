@@ -235,6 +235,9 @@ const t = {
     SCHEME: 'Scheme',
     CRPS_PLATFORMS_INITIATIVES: 'CRPs / Platforms / Initiatives',
     SELECT_REGIONS_COUNTRIES: 'Select regions and countries',
+    BACK: 'Back',
+    SEND_FOR_REEDITING: 'Send for re-editing',
+    APPROVE: 'Approve',
   },
 };
 

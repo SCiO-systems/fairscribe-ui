@@ -1,7 +1,6 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { InputSwitch } from 'primereact/inputswitch';
 import { InputText } from 'primereact/inputtext';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +48,6 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
   const history = useHistory();
   const [globalFilter, setGlobalFilter] = useState('');
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
-  const [unpublished, setUnpublished] = useState(true);
   const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
   const [deleteResourceDialogOpen, setDeleteResourceDialogOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState(null);
@@ -124,19 +122,6 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
             icon="pi pi-plus"
           />
         )}
-        {type === 'unpublished' && (
-          <span className="p-d-flex p-flex-row p-ai-center">
-            <InputSwitch
-              id="published"
-              className="p-my-0 p-py-0 p-mr-2"
-              checked={unpublished}
-              onChange={(e) => setUnpublished(e.value)}
-            />
-            <label htmlFor="published" style={{ minWidth: '90px' }}>
-              {unpublished ? t('UNPUBLISHED') : t('PUBLISHED')}
-            </label>
-          </span>
-        )}
       </div>
     </div>
   );
@@ -188,13 +173,17 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
         <Column
           body={(rowData) => (
             <div className="p-text-right">
-              {type === 'unpublished' ? (
+              {rowData.status === 'approved' && (
                 <Button
                   icon="pi pi-upload"
                   className="p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
-                  onClick={() => setUploadToRepoDialog(true)}
+                  onClick={() => {
+                    setSelectedResource(rowData);
+                    setUploadToRepoDialog(true);
+                  }}
                 />
-              ) : (
+              )}
+              {rowData?.status === 'under_preparation' && (
                 <Button
                   title="Edit resource"
                   icon="pi pi-pencil"
@@ -202,13 +191,15 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
                   className="p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
                 />
               )}
-              <Button
-                title="Review resource"
-                icon="pi pi-eye"
-                onClick={() => history.push(resourceLink(teamId, rowData.id, 'review'))}
-                className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2 p-mb-2"
-              />
-              {deletableStatuses.includes(rowData.status) && (
+              {rowData?.status === 'under_review' && (
+                <Button
+                  title="Review resource"
+                  icon="pi pi-eye"
+                  onClick={() => history.push(resourceLink(teamId, rowData.id, 'review'))}
+                  className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2 p-mb-2"
+                />
+              )}
+              {deletableStatuses?.includes(rowData?.status) && (
                 <Button
                   title="Delete resource"
                   icon="pi pi-trash"
@@ -226,6 +217,9 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
       <UploadToRepoDialog
         dialogOpen={uploadToRepoDialogOpen}
         setDialogOpen={setUploadToRepoDialog}
+        resourceId={selectedResource?.id}
+        teamId={teamId}
+        onFilter={onFilter}
       />
       <DeleteResourceDialog
         dialogOpen={deleteResourceDialogOpen}

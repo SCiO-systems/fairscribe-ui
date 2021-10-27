@@ -1,17 +1,32 @@
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { updateResource } from '../../services/resources';
+import { ToastContext } from '../../store';
+import { handleError } from '../../utilities/errors';
 
 const sampleRepos = [
   { label: 'CG Space', value: 123 },
   { label: 'Dataverse (Harvard)', value: 425 },
 ];
 
-const UploadToRepoDialog = ({ dialogOpen, setDialogOpen }) => {
+// TODO: Refactor (onFilter) in the future.
+const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId, onFilter }) => {
   const { t } = useTranslation();
   const [selectedRepo, setSelectedRepo] = useState(null);
+  const { setError, setSuccess } = useContext(ToastContext);
+
+  const updateStatus = async (status) => {
+    try {
+      await updateResource(teamId, resourceId, { status });
+      setSuccess('Resource', 'Resource has been published!');
+    } catch (error) {
+      setError(handleError(error));
+    }
+    if (onFilter) onFilter();
+  };
 
   return (
     <Dialog
@@ -41,7 +56,10 @@ const UploadToRepoDialog = ({ dialogOpen, setDialogOpen }) => {
                 label={t('PUBLISH_RESOURCE')}
                 icon="pi pi-upload"
                 className="p-mr-2 p-mb-2"
-                onClick={() => setDialogOpen(false)}
+                onClick={() => {
+                  updateStatus('published');
+                  setDialogOpen(false);
+                }}
               />
             </div>
           </div>
