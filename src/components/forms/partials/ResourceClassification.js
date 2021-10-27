@@ -55,7 +55,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
       // Choose the proper value based on if the keyword has a structure or not.
       // We can only have one keyword with the same value and scheme.
       const s = keyword?.scheme || defaultVocabulary.value;
-      const v = keyword?.taxon_name || keyword?.value || keyword?.term || keyword;
+      const v = keyword?.term || keyword;
       if (s === scheme && v === value) {
         return false;
       }
@@ -65,9 +65,9 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
       ...filtered,
       {
         scheme: keyword?.scheme || defaultVocabulary?.value,
-        value: keyword?.taxon_name || keyword?.value || keyword?.term || keyword,
+        value: keyword?.term || keyword,
         frequency: '1',
-        code: keyword?.taxon_id || keyword?.code || keyword?.id || '',
+        code: keyword?.code || keyword?.id || '',
       },
     ]);
   };
@@ -162,8 +162,8 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
               value={kw}
               minLength="2"
               completeMethod={triggerAutocomplete}
-              itemTemplate={(item) => item?.taxon_name}
-              selectedItemTemplate={(item) => item?.taxon_name}
+              itemTemplate={(item) => item?.term}
+              selectedItemTemplate={(item) => item?.term}
               suggestions={suggestions}
               onChange={(e) => setKw(e?.value)}
             />

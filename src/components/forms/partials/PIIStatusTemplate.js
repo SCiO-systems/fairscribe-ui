@@ -4,8 +4,7 @@ const PIIStatusTemplate = ({ status }) => (
   <div className="p-mx-1">
     {!status && (
       <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
-        <i style={{ fontSize: '1.25rem' }} className="pi pi-spin pi-spinner p-mr-2" />
-        Pending
+        N/A
       </span>
     )}
     {status === 'pending' && (
