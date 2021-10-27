@@ -24,13 +24,14 @@ const ResourceCollectionsPicker = ({
         <div className="p-field ">
           <label htmlFor="resourceCollections">{t('RESOURCE_COLLECTIONS_TITLE')}</label>
           <div className="relative">
-            {(mode === 'review' || mode === 'view') && (
+            {(mode === 'view' || mode === 'review') && (
               <div
                 style={{
                   position: 'absolute',
                   height: '100%',
                   width: '100%',
                   background: 'rgba(255,255,255,0.25)',
+                  zIndex: 999999,
                 }}
               />
             )}
