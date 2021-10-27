@@ -91,7 +91,10 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
 
   const updateStatus = async (status, successMessage) => {
     try {
-      await updateResource(teamId, resourceId, { status });
+      await updateResource(teamId, resourceId, {
+        status,
+        collections: selectedCollections.map(({ id }) => id),
+      });
       setSuccess('Resource', successMessage || 'Changes were saved!');
       history.push(`/teams/${teamId}`);
     } catch (error) {
