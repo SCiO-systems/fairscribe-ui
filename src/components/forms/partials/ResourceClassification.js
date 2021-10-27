@@ -184,6 +184,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
         <Button
           icon="pi pi-book"
           label="Extract keywords"
+          disabled={mode === 'review'}
           loading={isExtractLoading}
           onClick={() => extractKeywordsFromTitleAndDescription()}
         />
