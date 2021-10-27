@@ -35,16 +35,18 @@ const OtherResourceInformation = ({ initialData, setter, mode }) => {
 
   return (
     <Fieldset legend={t('OTHER_RESOURCE_INFORMATION')} className="p-mb-4">
-      <OrgsPersonsEntities
-        mode={mode}
-        title={t('AUTHORS')}
-        entries={authors}
-        setEntries={setAuthors}
-        onAutoComplete={(e, setSuggestions) => triggerAutocomplete(e, 'ror', setSuggestions)}
-        onSelectAutoComplete={(e, setAutocomplete) => setAutocomplete(transformOrgValue(e))}
-        itemTemplate={(item) => item?.name}
-        className="p-mb-5"
-      />
+      <div id="resource-authors">
+        <OrgsPersonsEntities
+          mode={mode}
+          title={t('AUTHORS')}
+          entries={authors}
+          setEntries={setAuthors}
+          onAutoComplete={(e, setSuggestions) => triggerAutocomplete(e, 'ror', setSuggestions)}
+          onSelectAutoComplete={(e, setAutocomplete) => setAutocomplete(transformOrgValue(e))}
+          itemTemplate={(item) => item?.name}
+          className="p-mb-5"
+        />
+      </div>
       <OrgsPersonsEntities
         mode={mode}
         title={t('FUNDING_ORGS')}

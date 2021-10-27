@@ -46,6 +46,21 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
     </div>
   );
 
+  const recommendationTemplate = ({ recommendation, anchor }) => {
+    const url = window.location.href.replace(`#${anchor}`, '');
+    return (
+      <span>
+        {anchor ? (
+          <a onClick={() => setDialogOpen(false)} href={`${url}#${anchor}`}>
+            {recommendation}
+          </a>
+        ) : (
+          recommendation
+        )}
+      </span>
+    );
+  };
+
   return (
     <Dialog
       header={t('FAIR_SCORING')}
@@ -70,7 +85,11 @@ const FairScoreDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId }) => {
             <Column field="metadataCondition" header={t('METADATA_PROPERTY_CONDITION')} />
             <Column style={{ textAlign: 'center' }} field="scoring" header={t('SCORING_IN_FAIR')} />
             <Column body={meetsConditionTemplate} header={t('RESOURCE_MEETS_CONDITION')} />
-            <Column field="recommendation" header={t('RECOMMENDATION')} />
+            <Column
+              field="recommendation"
+              header={t('RECOMMENDATION')}
+              body={recommendationTemplate}
+            />
           </DataTable>
           <DataTable
             className="fairscore-dt p-mb-5"
