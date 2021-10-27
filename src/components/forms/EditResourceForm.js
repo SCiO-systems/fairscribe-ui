@@ -215,18 +215,18 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
             </div>
           )}
         </div>
-        {mode === 'edit' && resource.comments && (
+        {mode === 'edit' && resource?.comments && (
           <Message
             severity="warn"
-            className="p-mb-4"
+            className="p-mb-5 p-d-flex p-jc-start p-ai-start"
             content={() => (
               <>
-                <div className="p-mr-3 p-pl-2">
-                  <i className="pi pi-book" />
+                <div className="p-mx-3 p-py-4">
+                  <i className="pi pi-book" style={{ fontSize: '2rem' }} />
                 </div>
-                <div className="p-pt-2">
-                  <h5>{t('REVIEW_COMMENTS')}</h5>
-                  <p className="p-pb-2 p-pr-2">{resource.comments}</p>
+                <div className="p-py-4 p-pr-4">
+                  <h5 className="p-mb-2">{t('REVIEW_COMMENTS')}</h5>
+                  <p className="p-text-justify">{resource?.comments}</p>
                 </div>
               </>
             )}
