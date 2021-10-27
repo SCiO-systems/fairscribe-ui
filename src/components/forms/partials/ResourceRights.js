@@ -156,7 +156,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
             <label htmlFor="accessRights">{t('RESOURCE_ACCESS_RIGHTS')}</label>
             <Dropdown
               id="accessRights"
-              disabled={license !== '' || mode === 'review'}
+              disabled={license !== '' || mode === 'review' || mode === 'view'}
               options={rights}
               value={accessRights}
               onChange={(e) => setAccessRights(e.target.value)}
@@ -166,7 +166,7 @@ const ResourceRights = ({ initialData, setter, mode }) => {
           <div className={mode === 'edit' ? 'p-field p-col-8 p-md-5' : 'p-field p-col-12 p-md-7'}>
             <label htmlFor="license">{t('RESOURCE_LICENSE')}</label>
             <Dropdown
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               id="license"
               options={licenses}
               value={license}

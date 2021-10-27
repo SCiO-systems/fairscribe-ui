@@ -15,16 +15,19 @@ const sampleRepos = [
 // TODO: Refactor (onFilter) in the future.
 const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId, onFilter }) => {
   const { t } = useTranslation();
-  const [selectedRepo, setSelectedRepo] = useState(null);
+  const [selectedRepo, setSelectedRepo] = useState('');
   const { setError, setSuccess } = useContext(ToastContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateStatus = async (status) => {
+    setIsLoading(true);
     try {
       await updateResource(teamId, resourceId, { status });
       setSuccess('Resource', 'Resource has been published!');
     } catch (error) {
       setError(handleError(error));
     }
+    setIsLoading(false);
     if (onFilter) onFilter();
   };
 
@@ -35,7 +38,10 @@ const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId, onF
       style={{ width: '500px' }}
       draggable={false}
       modal
-      onHide={() => setDialogOpen(false)}
+      onHide={() => {
+        setSelectedRepo('');
+        setDialogOpen(false);
+      }}
     >
       <div className="p-fluid">
         <div className="p-formgrid p-grid">
@@ -56,7 +62,10 @@ const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId, onF
                 label={t('PUBLISH_RESOURCE')}
                 icon="pi pi-upload"
                 className="p-mr-2 p-mb-2"
+                loading={isLoading}
+                disabled={selectedRepo === ''}
                 onClick={() => {
+                  setSelectedRepo('');
                   updateStatus('published');
                   setDialogOpen(false);
                 }}

@@ -191,6 +191,14 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
                   className="p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
                 />
               )}
+              {rowData?.status === 'published' && (
+                <Button
+                  title="View resource"
+                  icon="pi pi-eye"
+                  onClick={() => history.push(resourceLink(teamId, rowData.id, 'view'))}
+                  className="p-button-icon-only p-button-rounded p-button-secondary p-mr-2 p-mb-2"
+                />
+              )}
               {rowData?.status === 'under_review' && (
                 <Button
                   title="Review resource"

@@ -93,6 +93,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     try {
       await updateResource(teamId, resourceId, { status });
       setSuccess('Resource', successMessage || 'Changes were saved!');
+      history.push(`/teams/${teamId}`);
     } catch (error) {
       setError(handleError(error));
     }
@@ -121,6 +122,9 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       });
       if (showMessage) {
         setSuccess('Resource', 'Resource changes have been saved!');
+      }
+      if (sendForReview) {
+        history.push(`/teams/${teamId}`);
       }
     } catch (error) {
       setError(handleError(error));
@@ -159,7 +163,9 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       )
       .catch((error) => setError(handleError(error)));
 
-    saveChanges(false, false);
+    if (mode === 'edit') {
+      saveChanges(false, false);
+    }
   }, []); // eslint-disable-line
 
   return (

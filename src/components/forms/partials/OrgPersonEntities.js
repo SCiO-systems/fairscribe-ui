@@ -128,7 +128,7 @@ const OrgsPersonsEntities = ({
               {scheme === SCHEME_ROR ? (
                 <AutoComplete
                   id="fullname"
-                  disabled={mode === 'review'}
+                  disabled={mode === 'review' || mode === 'view'}
                   value={fullName || ''}
                   autoComplete="off"
                   onChange={(e) => setFullName(e.target.value)}
@@ -142,7 +142,7 @@ const OrgsPersonsEntities = ({
                 <InputText
                   id="fullname"
                   autoComplete="off"
-                  disabled={mode === 'review'}
+                  disabled={mode === 'review' || mode === 'view'}
                   value={fullName || ''}
                   onChange={(e) => setFullName(e.target.value)}
                 />
@@ -154,7 +154,7 @@ const OrgsPersonsEntities = ({
               <label htmlFor="shortname">{t('SHORTNAME')}</label>
               <InputText
                 id="shortname"
-                disabled={mode === 'review' || scheme === SCHEME_ORCID}
+                disabled={mode === 'review' || mode === 'view' || scheme === SCHEME_ORCID}
                 value={shortName}
                 onChange={(e) => setShortName(e.target.value)}
               />
@@ -165,7 +165,7 @@ const OrgsPersonsEntities = ({
               <label htmlFor="id">{scheme}</label>
               <InputText
                 id="id"
-                disabled={mode === 'review'}
+                disabled={mode === 'review' || mode === 'view'}
                 value={id}
                 onChange={(e) => setId(e.target.value)}
               />
@@ -176,7 +176,7 @@ const OrgsPersonsEntities = ({
               <label htmlFor="url">{t('URL')}</label>
               <InputText
                 id="url"
-                disabled={mode === 'review'}
+                disabled={mode === 'review' || mode === 'view'}
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
@@ -187,7 +187,7 @@ const OrgsPersonsEntities = ({
               <label htmlFor="email">{t('EMAIL')}</label>
               <InputText
                 id="email"
-                disabled={mode === 'review'}
+                disabled={mode === 'review' || mode === 'view'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

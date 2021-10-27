@@ -23,7 +23,7 @@ const SimpleTextField = ({ mode, title, text, setText, helpText, className }) =>
             )}
           </label>
           <InputText
-            disabled={mode === 'review'}
+            disabled={mode === 'review' || mode === 'view'}
             id={`${title}-field`}
             type="text"
             value={text || ''}

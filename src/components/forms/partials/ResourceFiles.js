@@ -183,7 +183,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
           header={t('LOCKED')}
           body={({ id, locked }) => (
             <InputSwitch
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               className="p-my-0 p-py-0"
               checked={locked || false}
               onChange={(e) => setLocked(id, e.value)}

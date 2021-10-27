@@ -45,7 +45,7 @@ const TemporalCoverage = ({ initialData, setter, mode }) => {
             <label htmlFor="from_date">{t('FROM_DATE')}</label>
             <Calendar
               dateFormat="yy-mm-dd"
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               showIcon
               showButtonBar
               id="from_date"
@@ -57,7 +57,7 @@ const TemporalCoverage = ({ initialData, setter, mode }) => {
             <label htmlFor="to_date">{t('TO_DATE')}</label>
             <Calendar
               dateFormat="yy-mm-dd"
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               showIcon
               showButtonBar
               id="to_date"
@@ -74,7 +74,7 @@ const TemporalCoverage = ({ initialData, setter, mode }) => {
             <label htmlFor="from_date">{t('FROM_DATE')}</label>
             <Calendar
               dateFormat="yy-mm-dd"
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               showIcon
               showButtonBar
               id="from_date"
@@ -86,7 +86,7 @@ const TemporalCoverage = ({ initialData, setter, mode }) => {
             <label htmlFor="to_date">{t('TO_DATE')}</label>
             <Calendar
               dateFormat="yy-mm-dd"
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               showIcon
               showButtonBar
               id="to_date"

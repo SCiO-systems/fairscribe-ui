@@ -24,7 +24,7 @@ const ResourceCollectionsPicker = ({
         <div className="p-field ">
           <label htmlFor="resourceCollections">{t('RESOURCE_COLLECTIONS_TITLE')}</label>
           <div className="relative">
-            {mode === 'review' && (
+            {(mode === 'review' || mode === 'view') && (
               <div
                 style={{
                   position: 'absolute',

@@ -35,7 +35,7 @@ const SimpleNumberField = ({
             mode={numberMode}
             minFractionDigits={numberDecimalDigits}
             maxFractionDigits={numberDecimalDigits}
-            disabled={mode === 'review'}
+            disabled={mode === 'review' || mode === 'view'}
             id={`${title}-number`}
             value={number || 1.0}
             onChange={(e) => setNumber(e.value)}

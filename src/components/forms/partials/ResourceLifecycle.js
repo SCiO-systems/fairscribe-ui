@@ -48,7 +48,7 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
           <label htmlFor="releaseDate">{t('RELEASE_DATE')}</label>
           <Calendar
             dateFormat="yy-mm-dd"
-            disabled={mode === 'review'}
+            disabled={mode === 'review' || mode === 'view' || mode === 'view'}
             showIcon
             showButtonBar
             id="releaseDate"
@@ -60,7 +60,7 @@ const ResourceLifecycle = ({ initialData, setter, mode }) => {
           <label htmlFor="embargoDate">{t('EMBARGO_DATE')}</label>
           <Calendar
             dateFormat="yy-mm-dd"
-            disabled={mode === 'review'}
+            disabled={mode === 'review' || mode === 'view' || mode === 'view'}
             showIcon
             showButtonBar
             id="embargoDate"

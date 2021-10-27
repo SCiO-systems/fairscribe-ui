@@ -157,7 +157,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
         <div className="p-col-7">
           <div className="p-field">
             <AutoComplete
-              disabled={mode === 'review'}
+              disabled={mode === 'review' || mode === 'view'}
               name="keyword"
               value={kw}
               minLength="2"
@@ -184,7 +184,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
         <Button
           icon="pi pi-book"
           label="Extract keywords"
-          disabled={mode === 'review'}
+          disabled={mode === 'review' || mode === 'view'}
           loading={isExtractLoading}
           onClick={() => extractKeywordsFromTitleAndDescription()}
         />

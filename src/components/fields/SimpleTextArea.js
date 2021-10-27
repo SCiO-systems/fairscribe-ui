@@ -30,7 +30,7 @@ const SimpleTextArea = ({ mode, title, text, setText, helpText, className }) => 
             )}
           </label>
           <InputTextarea
-            disabled={mode === 'review'}
+            disabled={mode === 'review' || mode === 'view'}
             id={`${title}-field`}
             autoResize
             type="text"
