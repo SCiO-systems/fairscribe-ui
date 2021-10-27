@@ -2,8 +2,12 @@
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Fieldset } from 'primereact/fieldset';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { autocompleteTerm } from '../../../services/integrations';
+import { ToastContext } from '../../../store';
+import { handleError } from '../../../utilities/errors';
+import { transformOrgValue } from '../../../utilities/transformers';
 import LicenseWizardDialog from '../../dialogs/LicenseWizardDialog';
 import SimpleTextArea from '../../fields/SimpleTextArea';
 import OrgsPersonsEntities from './OrgPersonEntities';
@@ -91,12 +95,23 @@ const rights = [
 
 const ResourceRights = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
+  const { setError } = useContext(ToastContext);
+
   const [license, setLicense] = useState(initialData?.rights?.license || '');
   const [licenseWizardDialog, setLicenseWizardDialog] = useState(false);
   const [accessRights, setAccessRights] = useState(initialData?.rights?.access_right || '');
   const [termsOfUse, setTermsOfUse] = useState(initialData?.rights?.terms_of_use[0]?.value || '');
   const [disclaimer, setDisclaimer] = useState(initialData?.rights?.disclaimer[0]?.value || '');
   const [rightsHolders, setRightsHolders] = useState(initialData?.rights?.rights_holders || []);
+
+  const triggerAutocomplete = async ({ query }, term, setSuggestions) => {
+    try {
+      const results = await autocompleteTerm(term, query);
+      setSuggestions(results.length > 0 ? results : []);
+    } catch (error) {
+      setError(handleError(error));
+    }
+  };
 
   useEffect(() => {
     if (license !== '') {
@@ -187,6 +202,9 @@ const ResourceRights = ({ initialData, setter, mode }) => {
           title={t('RIGHTS_HOLDERS')}
           entries={rightsHolders}
           setEntries={setRightsHolders}
+          onAutoComplete={(e, setSuggestions) => triggerAutocomplete(e, 'ror', setSuggestions)}
+          onSelectAutoComplete={(e, setAutocomplete) => setAutocomplete(transformOrgValue(e))}
+          itemTemplate={(item) => item?.name}
         />
       </div>
       {mode === 'edit' && (

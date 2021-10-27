@@ -22,11 +22,6 @@ const schemes = [
 ];
 
 const OrgsPersonsEntities = ({
-  initialFullName,
-  initialShortName,
-  initialId,
-  initialUrl,
-  initialEmail,
   mode,
   title,
   entries,
@@ -36,23 +31,26 @@ const OrgsPersonsEntities = ({
   onAutoComplete,
   onSelectAutoComplete,
   itemTemplate,
-  suggestions,
 }) => {
   const { t } = useTranslation();
-  const [fullName, setFullName] = useState(initialFullName || '');
-  const [shortName, setShortName] = useState(initialShortName || '');
-  const [id, setId] = useState(initialId || '');
-  const [url, setUrl] = useState(initialUrl || '');
-  const [email, setEmail] = useState(initialEmail || '');
+  const [fullName, setFullName] = useState('');
+  const [shortName, setShortName] = useState('');
+  const [id, setId] = useState('');
+  const [url, setUrl] = useState('');
+  const [email, setEmail] = useState('');
   const [scheme, setScheme] = useState(defaultScheme || '');
+  const [autocomplete, setAutocomplete] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
-    setFullName(initialFullName || '');
-    setShortName(initialShortName || '');
-    setId(initialId || '');
-    setUrl(initialUrl || '');
-    setEmail(initialEmail || '');
-  }, [initialFullName]); // eslint-disable-line
+    if (autocomplete) {
+      setFullName(autocomplete?.fullname);
+      setShortName(autocomplete?.shortname);
+      setEmail(autocomplete?.email);
+      setUrl(autocomplete?.url);
+      setId(autocomplete?.id);
+    }
+  }, [autocomplete]);
 
   useEffect(() => {
     setFullName('');
@@ -85,7 +83,6 @@ const OrgsPersonsEntities = ({
       },
     ]);
     setId('');
-    setScheme(defaultScheme || '');
     setFullName('');
     setShortName('');
     setEmail('');
@@ -132,20 +129,21 @@ const OrgsPersonsEntities = ({
                 <AutoComplete
                   id="fullname"
                   disabled={mode === 'review'}
-                  value={fullName}
+                  value={fullName || ''}
+                  autoComplete="off"
                   onChange={(e) => setFullName(e.target.value)}
-                  completeMethod={onAutoComplete}
+                  completeMethod={(e) => onAutoComplete(e, setSuggestions)}
                   itemTemplate={itemTemplate}
                   selectedItemTemplate={itemTemplate}
                   suggestions={suggestions}
-                  onSelect={onSelectAutoComplete}
+                  onSelect={(e) => onSelectAutoComplete(e, setAutocomplete)}
                 />
               ) : (
                 <InputText
                   id="fullname"
-                  autoComplete={false}
+                  autoComplete="off"
                   disabled={mode === 'review'}
-                  value={fullName}
+                  value={fullName || ''}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               )}
