@@ -43,9 +43,9 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
   }, [selectedKeys]); // eslint-disable-line
 
   return (
-    <Fieldset legend={t('GEOSPATIAL_COVERAGE')} className="p-mb-4">
+    <Fieldset id="resource-spatial-coverage" legend={t('GEOSPATIAL_COVERAGE')} className="p-mb-4">
       <div className="p-grid">
-        <div id="resource-spatial-coverage" className="p-col-12">
+        <div className="p-col-12">
           <TreeSelect
             disabled={mode !== 'edit'}
             value={selectedKeys}
