@@ -1,5 +1,3 @@
-import { faCertificate } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -14,6 +12,7 @@ import { useDebounce } from '../../utilities/hooks';
 import FairScoreMiniChart from '../charts/FairScoreMini';
 import DeleteResourceDialog from '../dialogs/DeleteResourceDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
+import PIIStatusTemplate from '../forms/partials/PIIStatusTemplate';
 
 const fairScoreTransformer = (data) => [
   {
@@ -148,12 +147,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
     <span>{t('IN_X_COLLECTIONS', { count })}</span>
   );
 
-  const piiStatusTemplate = ({ pii_check: piiCheck }) => (
-    <div className="p-d-flex p-jc-start p-ai-center">
-      <FontAwesomeIcon className="p-mr-3" icon={faCertificate} size="2x" />
-      {piiCheck === 'pass' ? t('CERTIFIED') : t('PENDING')}
-    </div>
-  );
+  const piiStatusTemplate = ({ pii_check: piiCheck }) => <PIIStatusTemplate status={piiCheck} />;
 
   const fairScoringTemplate = (rowData) => (
     <div>

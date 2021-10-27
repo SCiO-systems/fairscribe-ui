@@ -105,7 +105,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
 
     try {
       const results = await autocompleteTerm(vocabulary, query);
-      setSuggestions((results?.length > 0 && results) || []);
+      setSuggestions(results?.length > 0 ? results : []);
     } catch (error) {
       setError(handleError(error));
     }
@@ -121,8 +121,8 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
 
   useEffect(() => {
     if (extractedTerms?.length > 0) {
-      const filtered = extractedTerms.filter(({ scheme, value }) => {
-        if (keywords.some((k) => k.value === value && k.scheme === scheme)) {
+      const filtered = extractedTerms?.filter(({ scheme, value }) => {
+        if (keywords.some((k) => k?.value === value && k?.scheme === scheme)) {
           return false;
         }
         return true;
@@ -162,10 +162,10 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
               value={kw}
               minLength="2"
               completeMethod={triggerAutocomplete}
-              itemTemplate={(item) => item.taxon_name}
-              selectedItemTemplate={(item) => item.taxon_name}
+              itemTemplate={(item) => item?.taxon_name}
+              selectedItemTemplate={(item) => item?.taxon_name}
               suggestions={suggestions}
-              onChange={(e) => setKw(e.value)}
+              onChange={(e) => setKw(e?.value)}
             />
           </div>
         </div>

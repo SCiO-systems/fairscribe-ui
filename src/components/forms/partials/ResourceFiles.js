@@ -17,6 +17,7 @@ import {
 import { ToastContext } from '../../../store/toast';
 import { handleError } from '../../../utilities/errors';
 import SimpleTextArea from '../../fields/SimpleTextArea';
+import PIIStatusTemplate from './PIIStatusTemplate';
 
 const ResourceFiles = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
@@ -174,28 +175,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
         <Column
           field="pii_check"
           header={t('PII_STATUS')}
-          body={({ pii_check: status }) => (
-            <div className="p-mx-1">
-              {status === 'pending' && (
-                <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
-                  <i style={{ fontSize: '1.25rem' }} className="pi pi-spin pi-spinner p-mr-2" />
-                  {status}
-                </span>
-              )}
-              {status === 'fail' && (
-                <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
-                  <i className="pi pi-times text-red bg-red rounded-full p-p-1 p-mr-2" />
-                  {status}
-                </span>
-              )}
-              {status === 'pass' && (
-                <span className="p-d-flex p-ai-center" style={{ textTransform: 'capitalize' }}>
-                  <i className="pi pi-check text-green bg-green rounded-full p-p-1 p-mr-2" />
-                  {status}
-                </span>
-              )}
-            </div>
-          )}
+          body={({ pii_check: status }) => <PIIStatusTemplate status={status} />}
         />
         <Column
           field="locked"
