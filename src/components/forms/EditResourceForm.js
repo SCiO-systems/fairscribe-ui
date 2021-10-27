@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
 import { listLanguages } from '../../services/integrations';
 import { updateResource, updateResourceComments } from '../../services/resources';
+import { getAllCollections } from '../../services/teams';
 import { ToastContext } from '../../store';
 import { isDevelopmentEnvironment } from '../../utilities/environment';
 import { handleError } from '../../utilities/errors';
@@ -39,6 +40,8 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   const [metadataRecord, setMetadataRecord] = useState(resource?.metadata_record || {});
   const [comments, setComments] = useState(resource.comments || '');
   const [availableLanguages, setAvailableLanguages] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [selectedCollections, setSelectedCollections] = useState(resource?.collections);
   const { type, subtype } = resource;
 
   useScrollPosition(({ currPos }) => {
@@ -102,7 +105,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       if (isDevelopmentEnvironment()) {
         console.log('Generated metadata record:', record); // eslint-disable-line
       }
-      await updateResource(teamId, resourceId, { status, metadata_record: record });
+      await updateResource(teamId, resourceId, {
+        collections: selectedCollections.map(({ id }) => id),
+        status,
+        metadata_record: record,
+      });
       if (showMessage) {
         setSuccess('Resource', 'Resource changes have been saved!');
       }
@@ -128,6 +135,19 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
   useEffect(() => {
     listLanguages()
       .then((data) => setAvailableLanguages(transformLanguages(data)))
+      .catch((error) => setError(handleError(error)));
+
+    getAllCollections(teamId)
+      .then(({ data }) =>
+        setCollections(
+          data.filter((c) => {
+            if (selectedCollections.some((sc) => sc.id === c.id)) {
+              return false;
+            }
+            return true;
+          })
+        )
+      )
       .catch((error) => setError(handleError(error)));
 
     saveChanges(false, false);
@@ -215,6 +235,10 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
         <ResourceGeneralInformation
           mode={mode}
           availableLanguages={availableLanguages}
+          teamCollections={collections}
+          setTeamCollections={setCollections}
+          selectedCollections={selectedCollections}
+          setSelectedCollections={setSelectedCollections}
           initialData={{
             title: metadataRecord?.title || fallbackTitle,
             description: metadataRecord?.description || fallbackDescription,

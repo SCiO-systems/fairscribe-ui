@@ -2,21 +2,25 @@
 import { Fieldset } from 'primereact/fieldset';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { getAllCollections } from '../../../services/teams';
 import ResourceCollectionsPicker from '../../pickers/ResourceCollectionsPicker';
 import MultilingualEntriesTable from '../../tables/MultilingualEntries';
 import Citation from './Citation';
 import ResourceLanguage from './ResourceLanguages';
 
-const ResourceGeneralInformation = ({ initialData, setter, mode, availableLanguages }) => {
+const ResourceGeneralInformation = ({
+  initialData,
+  setter,
+  mode,
+  availableLanguages,
+  teamCollections,
+  selectedCollections,
+  setTeamCollections,
+  setSelectedCollections,
+}) => {
   const { t } = useTranslation();
-  const { teamId } = useParams();
   const [title, setTitle] = useState(initialData?.title || []);
   const [description, setDescription] = useState(initialData?.description || []);
   const [citation, setCitation] = useState(initialData?.citation || '');
-  const [teamCollections, setTeamCollections] = useState([]);
-  const [selectedCollections, setSelectedCollections] = useState(initialData?.collections || []);
   const [resourceLanguage, setResourceLanguage] = useState(initialData?.resource_language || []);
 
   const addTitleLanguage = (language, value) => {
@@ -38,12 +42,6 @@ const ResourceGeneralInformation = ({ initialData, setter, mode, availableLangua
   }, [title, description, resourceLanguage, citation]);
 
   useEffect(() => {
-    // Get the collections that are available to the team.
-    if (teamId) {
-      getAllCollections(teamId).then(({ data }) => {
-        setTeamCollections(data);
-      });
-    }
     setter(title, description, resourceLanguage, citation);
   }, []);
 
