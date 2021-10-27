@@ -13,7 +13,7 @@ const sampleRepos = [
 ];
 
 // TODO: Refactor (onFilter) in the future.
-const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId, onFilter }) => {
+const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resource, onFilter }) => {
   const { t } = useTranslation();
   const [selectedRepo, setSelectedRepo] = useState('');
   const { setError, setSuccess } = useContext(ToastContext);
@@ -22,7 +22,11 @@ const UploadToRepoDialog = ({ dialogOpen, setDialogOpen, teamId, resourceId, onF
   const updateStatus = async (status) => {
     setIsLoading(true);
     try {
-      await updateResource(teamId, resourceId, { status });
+      const { collections } = resource;
+      await updateResource(teamId, resource?.id, {
+        status,
+        collections: collections.map(({ id }) => id),
+      });
       setSuccess('Resource', 'Resource has been published!');
     } catch (error) {
       setError(handleError(error));

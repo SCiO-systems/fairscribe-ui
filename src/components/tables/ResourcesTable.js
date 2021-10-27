@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
+import { getTeamCollectionResources } from '../../services/resources';
 import { getResources } from '../../services/teams';
 import { useDebounce } from '../../utilities/hooks';
 import FairScoreMiniChart from '../charts/FairScoreMini';
@@ -42,7 +43,7 @@ const fairScoreTransformer = (data) => [
 
 const deletableStatuses = ['under_preparation', 'under_review', 'draft'];
 
-const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
+const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId, collectionId }) => {
   const { t } = useTranslation();
 
   const history = useHistory();
@@ -79,9 +80,12 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
     onFilter();
   }, [debouncedGlobalFilter]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { data, isLoading, isFetching } = useQuery(['resources', teamId, status], () =>
-    getResources(teamId, status)
-  );
+  const { data, isLoading, isFetching } = useQuery(['resources', teamId, status], () => {
+    if (collectionId) {
+      return getTeamCollectionResources(teamId, collectionId, 'published');
+    }
+    return getResources(teamId, status);
+  });
 
   const queryClient = useQueryClient();
 
@@ -225,7 +229,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId }) => {
       <UploadToRepoDialog
         dialogOpen={uploadToRepoDialogOpen}
         setDialogOpen={setUploadToRepoDialog}
-        resourceId={selectedResource?.id}
+        resource={selectedResource}
         teamId={teamId}
         onFilter={onFilter}
       />

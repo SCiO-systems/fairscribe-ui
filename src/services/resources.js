@@ -5,6 +5,9 @@ export const getResourceTypes = async () => import('../data/resourcetypes/types.
 export const getResourceFiles = async (teamId, resourceId) =>
   apiClient.get(`/teams/${teamId}/resources/${resourceId}/files`);
 
+export const getTeamCollectionResources = async (teamId, collectionId, status) =>
+  apiClient.get(`/teams/${teamId}/collections/${collectionId}/resources?status=${status}`);
+
 export const uploadFile = async (teamId, resourceId, data) =>
   apiClient.post(`/teams/${teamId}/resources/${resourceId}/files`, data, {
     'Content-Type': 'multipart/form-data',

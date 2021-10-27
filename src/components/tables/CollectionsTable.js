@@ -20,10 +20,8 @@ const CollectionsTable = ({ team }) => {
   const [collections, setCollections] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
-  const [deleteCollectionDialogOpen, setDeleteCollectionDialogOpen] =
-    useState(false);
-  const [editCollectionDialogOpen, setEditCollectionDialogOpen] =
-    useState(false);
+  const [deleteCollectionDialogOpen, setDeleteCollectionDialogOpen] = useState(false);
+  const [editCollectionDialogOpen, setEditCollectionDialogOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [expandedRows, setExpandedRows] = useState(null);
   const dt = useRef(null);
@@ -71,10 +69,7 @@ const CollectionsTable = ({ team }) => {
   const loadLazyData = async () => {
     setLoading(true);
     try {
-      const { data, meta } = await getTeamCollections(
-        team.id,
-        lazyParams.page + 1
-      );
+      const { data, meta } = await getTeamCollections(team.id, lazyParams.page + 1);
       setCollections(data);
       setTotalRecords(meta.total);
     } catch (e) {
@@ -105,7 +100,9 @@ const CollectionsTable = ({ team }) => {
     setCollections(collectionsFiltered);
   };
 
-  const rowExpansionTemplate = (data) => <ResourcesTable team={data.id} />;
+  const rowExpansionTemplate = (teamId, collectionId) => (
+    <ResourcesTable team={teamId} collectionId={collectionId} />
+  );
 
   const toggleExpandRow = (id) => {
     const exp = expandedRows == null ? [] : [...expandedRows];
@@ -167,19 +164,14 @@ const CollectionsTable = ({ team }) => {
         totalRecords={totalRecords}
         dataKey="id"
         expandedRows={expandedRows}
-        rowExpansionTemplate={rowExpansionTemplate}
+        rowExpansionTemplate={(rowData) => rowExpansionTemplate(team.id, rowData.id)}
         emptyMessage="No collections were found."
         value={collections}
         className="p-mt-2"
         loading={loading}
         ref={dt}
       >
-        <Column
-          sortable
-          field="title"
-          header={t('COLLECTION_TITLE')}
-          body={titleTemplate}
-        />
+        <Column sortable field="title" header={t('COLLECTION_TITLE')} body={titleTemplate} />
         <Column
           sortable
           field="resources"
@@ -205,11 +197,7 @@ const CollectionsTable = ({ team }) => {
                 }}
               />
               <Button
-                icon={
-                  expandedRows && expandedRows[rowData.id]
-                    ? 'pi pi-eye-slash'
-                    : 'pi pi-eye'
-                }
+                icon={expandedRows && expandedRows[rowData.id] ? 'pi pi-eye-slash' : 'pi pi-eye'}
                 title="View collection resources"
                 className="p-button-secondary p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
                 onClick={() => toggleExpandRow(rowData.id)}
