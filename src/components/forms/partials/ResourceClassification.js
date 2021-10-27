@@ -54,8 +54,9 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     const filtered = keywords.filter(({ scheme, value }) => {
       // Choose the proper value based on if the keyword has a structure or not.
       // We can only have one keyword with the same value and scheme.
-      const s = keyword?.scheme || defaultVocabulary.value;
-      const v = keyword?.term || keyword;
+      const s =
+        keyword?.scheme || getHumanReadableVocabularyName(vocabulary) || defaultVocabulary.value;
+      const v = keyword?.value || keyword?.term || keyword;
       if (s === scheme && v === value) {
         return false;
       }
@@ -64,7 +65,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
     setKeywords([
       ...filtered,
       {
-        scheme: keyword?.scheme || defaultVocabulary?.value,
+        scheme: getHumanReadableVocabularyName(vocabulary) || defaultVocabulary?.value,
         value: keyword?.term || keyword,
         frequency: '1',
         code: keyword?.code || keyword?.id || '',
