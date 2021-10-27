@@ -42,8 +42,7 @@ const Register = () => {
       toast.current.show({
         severity: 'success',
         summary: 'Registration',
-        detail:
-          'Your new account has been created! You will be redirected to the login screen.',
+        detail: 'Your new account has been created! You will be redirected to the login screen.',
       });
       setTimeout(() => {
         window.location.href = '/';
@@ -60,9 +59,6 @@ const Register = () => {
   };
 
   useEffect(() => {
-    // Consider the form valid before invalidating.
-    setFormValid(true);
-
     // Basic form validation.
     if (
       !validatePassword(password, passwordConfirm) ||
@@ -70,6 +66,8 @@ const Register = () => {
       !validateName(lastname)
     ) {
       setFormValid(false);
+    } else {
+      setFormValid(true);
     }
   }, [firstname, lastname, password, passwordConfirm, email, emailConfirm]);
 
@@ -99,9 +97,7 @@ const Register = () => {
                       className={firstname.length === 0 && 'p-invalid'}
                     />
                     {firstname.length === 0 && (
-                      <small className="p-error p-d-block">
-                        Please fill in your first name.
-                      </small>
+                      <small className="p-error p-d-block">Please fill in your first name.</small>
                     )}
                   </div>
                   <div className="p-field p-col-12 p-md-6">
@@ -115,9 +111,7 @@ const Register = () => {
                       className={lastname.length === 0 && 'p-invalid'}
                     />
                     {lastname.length === 0 && (
-                      <small className="p-error p-d-block">
-                        Please fill in your last name.
-                      </small>
+                      <small className="p-error p-d-block">Please fill in your last name.</small>
                     )}
                   </div>
                   <div className="p-field p-col-12 p-md-6">
@@ -127,10 +121,7 @@ const Register = () => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className={
-                        (email.length === 0 || email.indexOf('@') === -1) &&
-                        'p-invalid'
-                      }
+                      className={(email.length === 0 || email.indexOf('@') === -1) && 'p-invalid'}
                       required
                     />
                     {email.length === 0 && (
@@ -139,9 +130,7 @@ const Register = () => {
                       </small>
                     )}
                     {email.indexOf('@') === -1 && email.length > 0 && (
-                      <small className="p-error p-d-block">
-                        The email address is invalid.
-                      </small>
+                      <small className="p-error p-d-block">The email address is invalid.</small>
                     )}
                   </div>
                   <div className="p-field p-col-12 p-md-6">
@@ -170,18 +159,16 @@ const Register = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
-                      className={(password.length < 8 && 'p-invalid') || ''}
+                      className={(password.length <= 8 && 'p-invalid') || ''}
                     />
-                    {password.length < 8 && (
+                    {password.length <= 8 && (
                       <small className="p-error p-d-block">
                         The password must be more than 8 characters in length.
                       </small>
                     )}
                   </div>
                   <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="passwordConfirm">
-                      {t('REPEAT_PASSWORD')}
-                    </label>
+                    <label htmlFor="passwordConfirm">{t('REPEAT_PASSWORD')}</label>
                     <Password
                       feedback
                       toggleMask
@@ -190,14 +177,10 @@ const Register = () => {
                       id="passwordConfirm"
                       onChange={(e) => setPasswordConfirm(e.target.value)}
                       type="password"
-                      className={
-                        (password !== passwordConfirm && 'p-invalid') || ''
-                      }
+                      className={(password !== passwordConfirm && 'p-invalid') || ''}
                     />
                     {password !== passwordConfirm && (
-                      <small className="p-error p-d-block">
-                        The two passwords do not match.
-                      </small>
+                      <small className="p-error p-d-block">The two passwords do not match.</small>
                     )}
                   </div>
                 </div>
@@ -211,9 +194,7 @@ const Register = () => {
                 name="option"
                 value="Chicago"
                 checked={acceptedTerms}
-                onChange={() => {
-                  setAcceptedTerms(!acceptedTerms);
-                }}
+                onChange={() => setAcceptedTerms(!acceptedTerms)}
               />
               <label className="p-ml-2" style={{ cursor: 'pointer' }}>
                 {t('TERMS_ACCEPT')}
