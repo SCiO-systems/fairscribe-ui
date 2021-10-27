@@ -61,6 +61,9 @@ const OrgsPersonsEntities = ({
   }, [scheme]); // eslint-disable-line
 
   const getUrlByIdAndScheme = () => {
+    if (id === '') {
+      return '';
+    }
     if (scheme === SCHEME_ORCID) {
       return `https://orcid.org/${id}`;
     }
@@ -71,7 +74,12 @@ const OrgsPersonsEntities = ({
   };
 
   const addEntry = () => {
-    const filtered = entries.filter((e) => e.agent_ids[0].value !== id);
+    const filtered = entries.filter((e) => {
+      if (id === '') {
+        return true;
+      }
+      return e.agent_ids[0].value !== id;
+    });
     setEntries([
       ...filtered,
       {
