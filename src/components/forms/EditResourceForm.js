@@ -91,7 +91,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
 
   const saveChanges = async (sendForReview, showMessage = false) => {
     try {
-      const status = sendForReview ? 'under_review' : 'under_preparation';
+      const status = sendForReview ? 'under_review' : resource?.status;
       const record = {
         title: fallbackTitle,
         description: fallbackDescription,
@@ -377,6 +377,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           }}
           setter={(relatedResources) => mainSetter({ related_resources: relatedResources })}
         />
+        {mode === 'review' && <div style={{ height: '150px' }}>&nbsp;</div>}
       </div>
       <FairScoreDialog
         dialogOpen={fairScoreDialogOpen}
