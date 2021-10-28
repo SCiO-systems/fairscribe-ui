@@ -8,8 +8,8 @@ import { ToastContext } from '../../store';
 import { handleError } from '../../utilities/errors';
 
 const sampleRepos = [
-  { label: 'CG Space', value: 123 },
-  { label: 'Dataverse (Harvard)', value: 425 },
+  { label: 'Dspace', value: 123 },
+  { label: 'Dataverse', value: 425 },
 ];
 
 // TODO: Refactor (onFilter) in the future.
