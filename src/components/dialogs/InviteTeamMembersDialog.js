@@ -18,15 +18,12 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
   const debouncedSearch = useDebounce(search, 300);
 
   useEffect(() => {
-    if (search && search.length) {
+    if (search?.length > 0) {
       searchMembers();
     }
   }, [debouncedSearch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onSearch = ({ query }) => {
-    if (query?.length < 3) return;
-    setSearch(query);
-  };
+  const onSearch = ({ query }) => setSearch(query);
 
   const sendInvites = async (e) => {
     e.preventDefault();
