@@ -79,19 +79,12 @@ const Team = () => {
           <h1 className="p-mb-0">{team?.name || 'Team'}</h1>
         </div>
         <div className="p-col-12">
-          <TabView
-            activeIndex={activeIndex}
-            onTabChange={(e) => setActiveIndex(e.index)}
-          >
+          <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
             <TabPanel header="Collections">
               <CollectionsTable team={team} />
             </TabPanel>
-            <TabPanel header="Resources">
-              <ResourcesTable
-                team={id}
-                type="resources"
-                title={t('PUBLISHED_RESOURCES')}
-              />
+            <TabPanel header={t('PUBLISHED_RESOURCES')}>
+              <ResourcesTable team={id} type="resources" title={t('PUBLISHED_RESOURCES')} />
             </TabPanel>
             <TabPanel header="My Tasks">
               {taskFormOpen ? (
@@ -106,18 +99,10 @@ const Team = () => {
               )}
             </TabPanel>
             <TabPanel header="My Reviews">
-              <ResourcesTable
-                team={id}
-                type="reviews"
-                title={t('RESOURCES_UNDER_REVIEW')}
-              />
+              <ResourcesTable team={id} type="reviews" title={t('RESOURCES_UNDER_REVIEW')} />
             </TabPanel>
             <TabPanel header="Publish">
-              <ResourcesTable
-                team={id}
-                type="unpublished"
-                title={t('UNPUBLISHED_RESOURCES')}
-              />
+              <ResourcesTable team={id} type="unpublished" title={t('UNPUBLISHED_RESOURCES')} />
             </TabPanel>
           </TabView>
         </div>
