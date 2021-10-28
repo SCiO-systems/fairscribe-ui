@@ -161,7 +161,8 @@ const t = {
     RESOURCE_FILES: 'Resource Files',
     UPLOAD_THUMBNAIL: 'Upload Thumbnail',
     NO_ENTRIES_FOUND: 'No entries were found.',
-    PHYSICAL_FILES: 'Physical File(s)',
+    PHYSICAL_FILES:
+      'Physical File(s) relevant to metadata (i.e., dataset, publication, protocol, image, etc.)',
     FILE_NAME: 'File Name',
     UPLOAD_FILES: 'Upload File(s)',
     PUBLISHING_INFORMATION: 'Publishing Information',
