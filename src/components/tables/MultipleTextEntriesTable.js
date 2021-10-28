@@ -67,7 +67,7 @@ const MultipleTextEntriesTable = ({
     <>
       <DataTable
         header={headerTemplate(header)}
-        emptyMessage={t('NO_ENTRIES_FOUND')}
+        emptyMessage=""
         value={data}
         footer={footerTemplate}
         className={classNames([className])}

@@ -158,7 +158,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       <DataTable
         id="resource-files"
         header={t('PHYSICAL_FILES')}
-        emptyMessage={t('NO_ENTRIES_FOUND')}
+        emptyMessage=""
         value={resourceFiles}
         className="p-mt-4"
         showGridlines

@@ -216,7 +216,7 @@ const OrgsPersonsEntities = ({
     <div className={className || 'p-mb-4'}>
       <DataTable
         header={title}
-        emptyMessage={t('NO_ENTRIES_FOUND')}
+        emptyMessage=""
         value={entries}
         footer={orgPersonFooterTemplate}
         style={{ wordBreak: 'break-word' }}

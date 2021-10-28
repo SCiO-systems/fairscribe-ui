@@ -73,12 +73,7 @@ const DOIs = ({ mode, title, dois, setDois }) => {
   );
 
   return (
-    <DataTable
-      emptyMessage={t('NO_ENTRIES_FOUND')}
-      value={dois}
-      footer={doiFooterTemplate}
-      className="p-mb-4"
-    >
+    <DataTable emptyMessage="" value={dois} footer={doiFooterTemplate} className="p-mb-4">
       <Column field="value" header={t('DOI_TITLE')} />
       <Column field="verified" header={t('VERIFIED')} body={verifiedTemplate} />
       <Column

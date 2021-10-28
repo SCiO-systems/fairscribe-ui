@@ -96,7 +96,7 @@ const MultilingualEntriesTable = ({
   return (
     <DataTable
       header={header}
-      emptyMessage={t('NO_ENTRIES_FOUND')}
+      emptyMessage=""
       value={data}
       dataKey="language"
       className={classNames([className])}

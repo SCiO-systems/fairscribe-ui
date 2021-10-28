@@ -82,7 +82,7 @@ const ProjectsList = ({ mode, title, projectEntries, setProjectEntries, classNam
     <div className={className || 'p-mb-4'}>
       <DataTable
         header={title}
-        emptyMessage={t('NO_ENTRIES_FOUND')}
+        emptyMessage=""
         value={projectEntries}
         footer={projectsFooterTemplate}
         style={{ wordBreak: 'break-word' }}

@@ -192,7 +192,7 @@ const ResourceClassification = ({ initialData, setter, mode }) => {
       <DataTable
         sortField="value"
         sortOrder={1}
-        emptyMessage={t('NO_ENTRIES_FOUND')}
+        emptyMessage=""
         value={keywords}
         footer={keywordsFooter}
       >

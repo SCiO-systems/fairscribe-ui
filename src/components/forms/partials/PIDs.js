@@ -67,12 +67,7 @@ const PIDs = ({ mode, pids, setPids }) => {
   );
 
   return (
-    <DataTable
-      header={t('PIDS')}
-      emptyMessage={t('NO_ENTRIES_FOUND')}
-      value={pids}
-      footer={pidFooterTemplate}
-    >
+    <DataTable header={t('PIDS')} emptyMessage="" value={pids} footer={pidFooterTemplate}>
       <Column field="value" header={t('PID_VALUE')} />
       <Column field="scheme" header={t('PID_SCHEME')} />
       {mode === 'edit' && (
