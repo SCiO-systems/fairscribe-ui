@@ -104,7 +104,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
 
   const saveChanges = async (sendForReview, showMessage = false) => {
     try {
-      const status = sendForReview ? 'under_review' : resource?.status;
+      let status = sendForReview ? 'under_review' : resource?.status;
+      // TODO: Fix this asap.
+      if (status === 'published') {
+        status = 'under_preparation';
+      }
       const record = {
         title: fallbackTitle,
         description: fallbackDescription,

@@ -11,6 +11,7 @@ import { getResources } from '../../services/teams';
 import { useDebounce } from '../../utilities/hooks';
 import FairScoreMiniChart from '../charts/FairScoreMini';
 import DeleteResourceDialog from '../dialogs/DeleteResourceDialog';
+import EditResourceDialog from '../dialogs/EditResourceDialog';
 import UploadToRepoDialog from '../dialogs/UploadToRepoDialog';
 import PIIStatusTemplate from '../forms/partials/PIIStatusTemplate';
 
@@ -51,6 +52,7 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId, collection
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
   const [uploadToRepoDialogOpen, setUploadToRepoDialog] = useState(false);
   const [deleteResourceDialogOpen, setDeleteResourceDialogOpen] = useState(false);
+  const [editResourceDialogOpen, setEditResourceDialogOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState(null);
   const dt = useRef(null);
   const [lazyParams, setLazyParams] = useState({
@@ -197,6 +199,17 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId, collection
               )}
               {rowData?.status === 'published' && (
                 <Button
+                  title="Update resource"
+                  icon="pi pi-pencil"
+                  onClick={() => {
+                    setSelectedResource(rowData);
+                    setEditResourceDialogOpen(true);
+                  }}
+                  className="p-button-icon-only p-button-rounded p-mr-2 p-mb-2"
+                />
+              )}
+              {rowData?.status === 'published' && (
+                <Button
                   title="View resource"
                   icon="pi pi-eye"
                   onClick={() => history.push(resourceLink(teamId, rowData.id, 'view'))}
@@ -241,6 +254,12 @@ const ResourcesTable = ({ type, title, setTaskFormOpen, team: teamId, collection
         onSuccess={() => {
           queryClient.invalidateQueries(['resources', teamId, status]);
         }}
+      />
+      <EditResourceDialog
+        dialogOpen={editResourceDialogOpen}
+        setDialogOpen={setEditResourceDialogOpen}
+        resource={selectedResource}
+        teamId={teamId}
       />
     </>
   );

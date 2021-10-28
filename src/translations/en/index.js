@@ -132,6 +132,7 @@ const t = {
     TEMPORAL_ENTER_DESCRIPTION: 'Enter a description for the time period.',
     NEW_RESOURCE: 'New Resource',
     EDIT_RESOURCE: 'Edit Resource',
+    UPDATE_RESOURCE: 'Update Resource',
     RESOURCE_TITLE: 'Resource Title',
     RESOURCE_LANGUAGES_TITLE: 'Resource Language(s)',
     RESOURCE_DESCRIPTION: 'Resource Description',
