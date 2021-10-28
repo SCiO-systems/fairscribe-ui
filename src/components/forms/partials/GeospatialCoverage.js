@@ -8,7 +8,7 @@ import regionMappings from '../../../data/geospatial/regions.json';
 
 const GeospatialCoverage = ({ initialData, setter, mode }) => {
   const { t } = useTranslation();
-  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState(null);
 
   const isRegion = (code) => regionMappings[code] !== undefined;
 
@@ -26,19 +26,21 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
   useEffect(() => {
     const countries = [];
     const regions = [];
-    Object.keys(selectedKeys).forEach((code) => {
-      if (isRegion(code)) {
-        regions.push({ ...selectedKeys[code], value: regionMappings[code], code });
-      } else {
-        countries.push({
-          ...selectedKeys[code],
-          value: countryMappings[code]?.name,
-          code_ISO3166_1_a2: countryMappings[code]?.code_ISO3166_1_a2,
-          code_ISO3166_1_a3: countryMappings[code]?.code_ISO3166_1_a3,
-          code_UNM49: code,
-        });
-      }
-    });
+    if (selectedKeys) {
+      Object.keys(selectedKeys).forEach((code) => {
+        if (isRegion(code)) {
+          regions.push({ ...selectedKeys[code], value: regionMappings[code], code });
+        } else {
+          countries.push({
+            ...selectedKeys[code],
+            value: countryMappings[code]?.name,
+            code_ISO3166_1_a2: countryMappings[code]?.code_ISO3166_1_a2,
+            code_ISO3166_1_a3: countryMappings[code]?.code_ISO3166_1_a3,
+            code_UNM49: code,
+          });
+        }
+      });
+    }
     setter(regions, countries);
   }, [selectedKeys]); // eslint-disable-line
 
@@ -48,10 +50,11 @@ const GeospatialCoverage = ({ initialData, setter, mode }) => {
         <div className="p-col-12">
           <TreeSelect
             disabled={mode !== 'edit'}
+            selectionMode="multiple"
+            filter
+            metaKeySelection={false}
             value={selectedKeys}
-            display="chip"
             onChange={(e) => setSelectedKeys(e.value)}
-            selectionMode="checkbox"
             options={geospatialData}
             placeholder={t('SELECT_REGIONS_COUNTRIES')}
           />
