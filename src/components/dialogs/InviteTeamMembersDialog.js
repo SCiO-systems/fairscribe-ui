@@ -60,7 +60,7 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
 
   return (
     <Dialog
-      header={t('INVITE_MEMBERS_TO_TEAM', { teamName: team ? team.name : '' })}
+      header={t('INVITE_MEMBERS_TO_TEAM', { teamName: team?.name || '' })}
       visible={dialogOpen}
       style={{ width: '500px' }}
       draggable={false}
@@ -90,6 +90,7 @@ const InviteTeamMembersDialog = ({ team, dialogOpen, setDialogOpen }) => {
                   label={t('SEND_INVITES')}
                   icon="pi pi-send"
                   type="submit"
+                  disabled={selectedMembers?.length === 0}
                   className="p-mr-2 p-mb-2"
                 />
               </div>
