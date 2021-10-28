@@ -32,7 +32,7 @@ const SimpleTextArea = ({ mode, title, text, setText, helpText, className }) => 
           <InputTextarea
             disabled={mode === 'review' || mode === 'view'}
             id={`${title}-field`}
-            autoResize
+            rows={5}
             type="text"
             value={localText || ''}
             onChange={(e) => setLocalText(e.target.value)}
