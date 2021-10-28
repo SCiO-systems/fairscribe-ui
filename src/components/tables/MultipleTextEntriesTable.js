@@ -66,14 +66,13 @@ const MultipleTextEntriesTable = ({
   return (
     <>
       <DataTable
-        header={headerTemplate(header)}
         emptyMessage=""
         value={data}
         footer={footerTemplate}
         className={classNames([className])}
         dataKey="value"
       >
-        <Column header={t('TEXT')} field="value" />
+        <Column header={headerTemplate(header)} field="value" />
         {mode === 'edit' && (
           <Column
             body={(e) => (
