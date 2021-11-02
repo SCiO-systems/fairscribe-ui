@@ -148,9 +148,7 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
     }
   };
 
-  const mainSetter = (data) => {
-    setMetadataRecord(() => ({ ...metadataRecord, ...data }));
-  };
+  const mainSetter = (data) => setMetadataRecord(() => ({ ...metadataRecord, ...data }));
 
   useEffect(() => {
     listLanguages()
@@ -174,6 +172,11 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
       saveChanges(false, false);
     }
   }, []); // eslint-disable-line
+
+  // Save changes when files change.
+  useEffect(() => {
+    saveChanges(false, false);
+  }, [metadataRecord?.resource_files, metadataRecord?.thumbnails]); // eslint-disable-line
 
   return (
     <>
@@ -360,14 +363,16 @@ const EditResourceForm = ({ resource, teamId, mode }) => {
           />
         )}
         <ResourceFiles
+          teamId={teamId}
+          resourceId={resourceId}
           mode={mode}
           initialData={{
             thumbnails: metadataRecord.thumbnails,
             resource_files: metadataRecord.resource_files,
           }}
-          setter={(thumbnails, resourceFiles) =>
-            mainSetter({ thumbnails, resource_files: resourceFiles })
-          }
+          setter={(thumbnails, resourceFiles) => {
+            mainSetter({ thumbnails, resource_files: resourceFiles });
+          }}
         />
         <PublishingInformation
           mode={mode}

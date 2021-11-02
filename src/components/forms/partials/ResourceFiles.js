@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -5,10 +6,10 @@ import { Fieldset } from 'primereact/fieldset';
 import { InputSwitch } from 'primereact/inputswitch';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import placeholderImage from '../../../assets/img/placeholder.png';
 import { getMimetype } from '../../../services/integrations';
 import {
+  acceptPIITerms,
   deleteFile,
   getThumbnailURL,
   uploadFile,
@@ -19,7 +20,7 @@ import { handleError } from '../../../utilities/errors';
 import SimpleTextArea from '../../fields/SimpleTextArea';
 import PIIStatusTemplate from './PIIStatusTemplate';
 
-const ResourceFiles = ({ initialData, setter, mode }) => {
+const ResourceFiles = ({ initialData, setter, mode, teamId, resourceId, onSave }) => {
   const { t } = useTranslation();
   const { setError, setSuccess } = useContext(ToastContext);
   const thumbnailFile = useRef(null);
@@ -27,10 +28,10 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   const [resourceFiles, setResourceFiles] = useState(initialData?.resource_files || []);
   const [thumbnails, setThumbnails] = useState(initialData?.thumbnails || []);
   const [thumbnailUrl, setThumbnailUrl] = useState(placeholderImage);
-  const { teamId, resourceId } = useParams();
   const [uploadThumbPending, setUploadThumbPending] = useState(false);
   const [uploadFilePending, setUploadFilePending] = useState(false);
   const [deleteFilePending, setDeleteFilePending] = useState(false);
+  const [deleteFileId, setDeleteFileId] = useState(null);
 
   const uploadResourceFile = async (file) => {
     setUploadFilePending(true);
@@ -60,6 +61,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
   };
 
   const deleteResourceFile = async (id) => {
+    setDeleteFileId(id);
     setDeleteFilePending(true);
     try {
       await deleteFile(teamId, resourceId, id);
@@ -69,6 +71,7 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       setError(handleError(error));
     }
     setDeleteFilePending(false);
+    setDeleteFileId(null);
   };
 
   const uploadResourceThumbnail = async (thumbnail) => {
@@ -114,6 +117,21 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
       return item;
     });
     setResourceFiles(f);
+  };
+
+  const acceptTerms = async (id) => {
+    try {
+      const { data } = await acceptPIITerms(teamId, resourceId, id);
+      const f = resourceFiles.map((item) => {
+        if (item.id === id) {
+          return { ...item, pii_terms_accepted_at: data.pii_terms_accepted_at };
+        }
+        return item;
+      });
+      setResourceFiles(f);
+    } catch (error) {
+      setError(handleError(error));
+    }
   };
 
   useEffect(() => {
@@ -169,14 +187,23 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
         <Column
           field="description"
           header={t('DESCRIPTION')}
-          body={({ id, description }) => (
+          body={({ description }) => (
             <SimpleTextArea mode={mode} text={description} setText={setDescription} />
           )}
         />
         <Column
           field="pii_check"
           header={t('PII_STATUS')}
-          body={({ pii_check: status }) => <PIIStatusTemplate status={status} />}
+          body={({ id, pii_check: status, pii_terms_accepted_at: acceptedAt }) => (
+            <PIIStatusTemplate
+              status={status}
+              termsAccepted={typeof acceptedAt === 'string'}
+              setTermsAccepted={() => acceptTerms(id)}
+              teamId={teamId}
+              resourceId={resourceId}
+              fileId={id}
+            />
+          )}
         />
         <Column
           field="locked"
@@ -193,13 +220,16 @@ const ResourceFiles = ({ initialData, setter, mode }) => {
         {mode === 'edit' && (
           <Column
             header={t('ACTIONS')}
-            body={(rowData) => (
+            body={({ id }) => (
               <div className="p-text-right">
                 <Button
                   icon="pi pi-trash"
-                  loading={deleteFilePending}
+                  loading={deleteFilePending && id === deleteFileId}
                   className="p-button p-component p-button-danger p-button-icon-only"
-                  onClick={() => deleteResourceFile(rowData.id)}
+                  onClick={() => {
+                    setDeleteFileId(id);
+                    deleteResourceFile(id);
+                  }}
                 />
               </div>
             )}

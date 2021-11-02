@@ -240,6 +240,12 @@ const t = {
     BACK: 'Back',
     SEND_FOR_REEDITING: 'Send for re-editing',
     APPROVE: 'Approve',
+    VIEW_REPORT: 'View report',
+    PII_REPORT: 'PII Report',
+    PERSONS: 'Persons',
+    GEOCOORDINATES: 'Geocoordinates',
+    LEMMA: 'Lemma',
+    CLASS: 'Class',
   },
 };
 

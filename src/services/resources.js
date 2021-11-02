@@ -38,3 +38,11 @@ export const deleteTeamResource = async (teamId, resourceId) =>
 
 export const calculateFairScore = async (teamId, resourceId) =>
   apiClient.post(`teams/${teamId}/resources/${resourceId}/fairscore`);
+
+export const acceptPIITerms = async (teamId, resourceId, resourceFileId) =>
+  apiClient.post(
+    `teams/${teamId}/resources/${resourceId}/files/${resourceFileId}/accept_pii_terms`
+  );
+
+export const getPIIReport = async (teamId, resourceId, resourceFileId) =>
+  apiClient.get(`teams/${teamId}/resources/${resourceId}/files/${resourceFileId}/pii_report`);

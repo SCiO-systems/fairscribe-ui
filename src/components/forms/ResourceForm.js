@@ -19,21 +19,12 @@ const ResourceForm = ({ setTaskFormOpen }) => {
   const [subtype, setSubtype] = useState('');
   const [resourceTypes, setResourceTypes] = useState([]);
   const [resourceSubtypes, setResourceSubtypes] = useState([]);
-  const {
-    firstname,
-    lastname,
-    email,
-    currentlyViewingTeam,
-    id: userId,
-  } = useContext(UserContext);
+  const { firstname, lastname, email, currentlyViewingTeam, id: userId } = useContext(UserContext);
   const { setWarn, setError, setSuccess } = useContext(ToastContext);
   const [authoringTeamMembers, setAuthoringTeamMembers] = useState([]);
-  const [selectedAuthoringTeamMembers, setSelectedAuthoringTeamMembers] =
-    useState([]);
+  const [selectedAuthoringTeamMembers, setSelectedAuthoringTeamMembers] = useState([]);
   const [reviewTeamMembers, setReviewTeamMembers] = useState([]);
-  const [selectedReviewTeamMembers, setSelectedReviewTeamMembers] = useState(
-    []
-  );
+  const [selectedReviewTeamMembers, setSelectedReviewTeamMembers] = useState([]);
 
   const handleSubmit = async () => {
     const payload = {
@@ -77,9 +68,7 @@ const ResourceForm = ({ setTaskFormOpen }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const subtypes =
-      resourceTypes.filter(({ value }) => value === type)?.pop()?.subtypes ||
-      [];
+    const subtypes = resourceTypes.filter(({ value }) => value === type)?.pop()?.subtypes || [];
     const defaultSubtypeValue = subtypes[0]?.value || '';
     setResourceSubtypes(subtypes || []);
     setSubtype(defaultSubtypeValue);
@@ -106,13 +95,11 @@ const ResourceForm = ({ setTaskFormOpen }) => {
   };
 
   return (
-    <Fieldset className="p-my-2 p-col-8" legend={t('NEW_RESOURCE')}>
+    <Fieldset className="p-my-2 p-col-12 p-md-12" legend={t('NEW_RESOURCE')}>
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-12">
+        <div className="p-col-12 p-md-12 p-lg-12">
           <div className="p-field">
-            <label htmlFor="resource-title">
-              {t('RESOURCE_TITLE')} (in English)
-            </label>
+            <label htmlFor="resource-title">{t('RESOURCE_TITLE')} (in English)</label>
             <InputText
               id="resource-title"
               value={title}
@@ -122,11 +109,9 @@ const ResourceForm = ({ setTaskFormOpen }) => {
         </div>
       </div>
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-12">
+        <div className="p-col-12 p-md-12 p-lg-12">
           <div className="p-field">
-            <label htmlFor="resource-description">
-              {t('RESOURCE_DESCRIPTION')} (in English)
-            </label>
+            <label htmlFor="resource-description">{t('RESOURCE_DESCRIPTION')} (in English)</label>
             <InputTextarea
               id="resource-description"
               rows={5}
@@ -137,7 +122,7 @@ const ResourceForm = ({ setTaskFormOpen }) => {
         </div>
       </div>
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-12">
+        <div className="p-col-12 p-md-12 p-lg-12">
           <div className="p-field">
             <label htmlFor="resource-type">{t('RESOURCE_TYPE')}</label>
             <Dropdown
@@ -173,11 +158,9 @@ const ResourceForm = ({ setTaskFormOpen }) => {
         </div>
       </div>
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-12">
+        <div className="p-col-12 p-md-12 p-lg-12">
           <div className="p-field">
-            <label htmlFor="authoring-team">
-              {t('RESOURCE_METADATA_AUTHORING_TEAM')}
-            </label>
+            <label htmlFor="authoring-team">{t('RESOURCE_METADATA_AUTHORING_TEAM')}</label>
             <PickList
               id="authoring-team"
               source={authoringTeamMembers}
@@ -193,11 +176,9 @@ const ResourceForm = ({ setTaskFormOpen }) => {
         </div>
       </div>
       <div className="p-fluid p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-12">
+        <div className="p-col-12 p-md-12 p-lg-12">
           <div className="p-field">
-            <label htmlFor="review-team">
-              {t('RESOURCE_METADATA_REVIEW_TEAM')}
-            </label>
+            <label htmlFor="review-team">{t('RESOURCE_METADATA_REVIEW_TEAM')}</label>
             <PickList
               id="review-team"
               source={reviewTeamMembers}
@@ -213,7 +194,7 @@ const ResourceForm = ({ setTaskFormOpen }) => {
         </div>
       </div>
       <div className="p-grid p-justify-start">
-        <div className="p-col-12 p-md-6 p-lg-12">
+        <div className="p-col-12 p-md-12 p-lg-12">
           <div className="p-d-flex">
             <Button
               className="p-button-secondary p-mr-2"
