@@ -1,4 +1,4 @@
-# SCiO - DataScribe
+# SCiO - fairSCRIBE
 
 This dashboard has been developed using [Diamond-React](https://www.primefaces.org/layouts/diamond-react) application framework.
 
@@ -53,11 +53,11 @@ To test the project locally:
 
 Build a new Docker image for the project:
 
-    docker build . -t scio-datascribe
+    docker build . -t scio-fairscribe
 
 Run the project using Docker:
 
-    docker run -d -p 3000:3000 scio-datascribe
+    docker run -d -p 3000:3000 scio-fairscribe
 
 ### Production
 

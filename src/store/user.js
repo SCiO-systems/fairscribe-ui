@@ -22,12 +22,9 @@ const initialState = {
 export const UserContext = createContext(initialState);
 
 export const UserProvider = ({ children }) => {
-  // md5sum: scio-datascribe-v1.1.0
+  // md5sum: scio-fairscribe-v1.1.0
   const localStorageKey = 'user-35d0c79fd3a72c59350dc4b1f4ffe786';
-  const [userData, setUserData] = useLocalStorage(
-    localStorageKey,
-    initialState
-  );
+  const [userData, setUserData] = useLocalStorage(localStorageKey, initialState);
 
   if (userData.access_token !== null) {
     axiosInstance.setup(() => {
