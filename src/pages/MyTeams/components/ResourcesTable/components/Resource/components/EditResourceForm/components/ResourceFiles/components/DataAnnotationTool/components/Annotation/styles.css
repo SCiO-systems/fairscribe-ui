@@ -1,0 +1,47 @@
+.annotation {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+	min-height: calc(90vh - 196.2px - 4rem);
+	gap: 24px;
+}
+
+.annotation .annotation-table {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.annotation .annotation-table  .dropdown {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.annotation .annotation-table  .dropdown p {
+	margin: 0;
+	font-weight: bold;
+}
+
+.annotation .sheet {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.annotation .sheet .header-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 24px;
+}
+
+.annotation .sheet .header-row p {
+	margin: 0;
+}
+
+.annotation .p-button {
+	width: fit-content;
+}

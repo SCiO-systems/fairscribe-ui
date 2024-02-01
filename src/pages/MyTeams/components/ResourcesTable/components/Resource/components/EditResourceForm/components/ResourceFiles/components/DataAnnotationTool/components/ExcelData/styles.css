@@ -1,0 +1,48 @@
+.annotation-widget .excel {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 100%;
+	gap: 12px;
+}
+
+.annotation-widget .excel .content {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.annotation-widget .excel .sheets {
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.annotation-widget .excel .sheets .p-picklist {
+	display: flex;
+	/*flex-direction: row;*/
+	width: 100%;
+}
+
+.annotation-widget .excel .sheets .p-picklist .p-picklist-buttons {
+	display: flex;
+	/*flex-direction: column;*/
+	gap: 12px;
+}
+
+.annotation-widget .excel .sheets .p-picklist .p-picklist-buttons .p-button {
+	margin: 0;
+	padding: 8px;
+}
+
+.annotation-widget .excel .sheets .p-picklist .p-picklist-list-wrapper {
+	width: 100%;
+}
+
+.annotation-widget .excel .p-button {
+	width: fit-content;
+	/*padding: 16px;*/
+}

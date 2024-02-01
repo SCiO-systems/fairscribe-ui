@@ -1,0 +1,27 @@
+.p-dialog .repository-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 100%;
+}
+
+.p-dialog .repository-fields .field {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.p-dialog .repository-fields .column {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 0;
+}
+
+.p-dialog .repository-fields .container {
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+}

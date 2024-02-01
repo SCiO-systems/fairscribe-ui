@@ -1,0 +1,294 @@
+[
+	{
+		"repository":"CKAN (IITA)",
+		"repository-code": "iita-ckan",
+		"api":[
+			{
+				"id": "unique id",
+				"label": "Api Endpoint (to trailing slash)",
+				"mandatory": "true",
+				"type": "text",
+				"placeholder": "https://example.com/api"
+			},
+			{
+				"id": "unique id",
+				"label": "Api Key",
+				"mandatory": "true",
+				"type": "text"
+			},
+			{
+				"id": "unique id",
+				"label": "Organization ID",
+				"mandatory": "true",
+				"type": "text"
+			}
+		],
+		"resource":{
+			"title":{
+				"mandatory": true,
+				"maps_to":"title"
+			},
+			"description":{
+				"mandatory": true,
+				"maps_to":"notes"
+			},
+			"collections":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_language":{
+				"mandatory": true,
+				"maps_to":"language"
+			},
+			"citation":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"units":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"universe":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"frequency":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"collectionMode":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"instrument":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"process":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"data_temporal_coverage":{
+				"mandatory": true,
+				"maps_to":"coverage_start_date + coverage_end_date"
+			},
+			"data_collection_period":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"thumbnails":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_files":{
+				"mandatory": true,
+				"maps_to":"content_type"
+			},
+			"dois":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"pids":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_version":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_version_description":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"release_date":{
+				"mandatory": true,
+				"maps_to":"creation_date"
+			},
+			"embargo_date":{
+				"mandatory": true,
+				"maps_to":"embargo_end_date"
+			},
+			"projects":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"funding_organisations":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"contact_points":{
+				"mandatory": true,
+				"maps_to":"contact"
+			},
+			"authors":{
+				"mandatory": true,
+				"maps_to":"creator"
+			},
+			"keywords":{
+				"mandatory": true,
+				"maps_to":"subject_vocab"
+			},
+			"geography":{
+				"mandatory": true,
+				"maps_to":"coverage_country"
+			},
+			"rights":{
+				"mandatory": true,
+				"maps_to":"oa_status"
+			},
+			"related_resources":{
+				"mandatory": true,
+				"maps_to":"relation"
+			}
+		}
+	},
+	{
+		"repository":"Dataverse",
+		"repository-code": "dataverse",
+		"api":[
+			{
+				"id": "unique id",
+				"label": "Name",
+				"mandatory": "true",
+				"type": "text"
+			},
+			{
+				"id": "unique id",
+				"label": "Api Endpoint (to trailing slash)",
+				"mandatory": "true",
+				"type": "text"
+			},
+			{
+				"id": "unique id",
+				"label": "Client Secret",
+				"mandatory": "true",
+				"type": "text"
+			},
+			{
+				"id": "unique id",
+				"label": "Dataverse Collections",
+				"mandatory": "true",
+				"type": "table"
+			}
+		],
+		"resource":{
+			"title":{
+				"mandatory": false,
+				"maps_to":"title"
+			},
+			"description":{
+				"mandatory": false,
+				"maps_to":"notes"
+			},
+			"collections":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_language":{
+				"mandatory": false,
+				"maps_to":"language"
+			},
+			"citation":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"units":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"universe":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"frequency":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"collectionMode":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"instrument":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"process":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"data_temporal_coverage":{
+				"mandatory": false,
+				"maps_to":"coverage_start_date + coverage_end_date"
+			},
+			"data_collection_period":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"thumbnails":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_files":{
+				"mandatory": false,
+				"maps_to":"content_type"
+			},
+			"dois":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"pids":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_version":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"resource_version_description":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"release_date":{
+				"mandatory": false,
+				"maps_to":"creation_date"
+			},
+			"embargo_date":{
+				"mandatory": false,
+				"maps_to":"embargo_end_date"
+			},
+			"projects":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"funding_organisations":{
+				"mandatory": false,
+				"maps_to":""
+			},
+			"contact_points":{
+				"mandatory": false,
+				"maps_to":"contact"
+			},
+			"authors":{
+				"mandatory": false,
+				"maps_to":"creator"
+			},
+			"keywords":{
+				"mandatory": false,
+				"maps_to":"subject_vocab"
+			},
+			"geography":{
+				"mandatory": false,
+				"maps_to":"coverage_country"
+			},
+			"rights":{
+				"mandatory": false,
+				"maps_to":"oa_status"
+			},
+			"related_resources":{
+				"mandatory": false,
+				"maps_to":"relation"
+			}
+		}
+	}
+
+]

@@ -1,0 +1,36 @@
+.annotation-widget .tabular {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	/*height: 100%;*/
+	min-height: calc(90vh - 196.2px - 4rem);
+	gap: 24px;
+}
+
+.annotation-widget .configuration {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 24px;
+}
+
+.annotation-widget .tabular .p-button {
+	width: fit-content;
+}
+
+.annotation-widget .tabular .fields {
+	display: flex;
+	flex-direction: row;
+	gap: 24px;
+}
+
+.annotation-widget .tabular .section {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.annotation-widget .tabular .section p {
+	margin: 0;
+}

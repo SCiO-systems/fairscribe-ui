@@ -1,0 +1,60 @@
+.login-pages .home {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 80%;
+	padding: 24px;
+	gap: 24px;
+}
+
+.login-pages .home .upper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.login-pages .home .upper h2 {
+	width: 40%;
+}
+.login-pages .home .upper img {
+	width: 60%;
+}
+
+.login-pages .home .down {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.login-pages .home .down .cards {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.login-pages .home .down .cards .home-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	width: 20%;
+}
+
+.login-pages .home .down .cards .home-card img {
+	height: 60px;
+}
+
+.login-pages .home .down .cards .home-card .title {
+	color: #B0D451;
+}
+.login-pages .home .down .cards .home-card p {
+	text-align: center;
+}
+

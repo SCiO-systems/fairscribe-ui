@@ -1,0 +1,17 @@
+.login-pages .menu-bar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid silver;
+	width: 100%;
+}
+
+.login-pages .menu-bar img {
+	height: 60px;
+	width: 70px;
+}
+
+.login-pages .menu-bar .p-button-label {
+	font-weight: 800;
+}

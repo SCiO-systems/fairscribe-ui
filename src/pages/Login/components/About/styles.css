@@ -1,0 +1,15 @@
+.login-pages .about {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 24px;
+	gap: 12px;
+}
+.login-pages .about h2 {
+	color: #0070C0;
+	text-align: center;
+	width: 100%;
+}
+.login-pages .about .footer-text {
+	text-align: center;
+}

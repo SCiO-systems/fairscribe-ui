@@ -1,13 +1,20 @@
-FROM node:14.17.0-alpine
+FROM node:14.18.0 as build
 
 WORKDIR /app
 
-COPY . .
+COPY .npmrc ./
+COPY package.json ./
 
 RUN npm install
-RUN npm install -g npm@7.13.0
-RUN npm rebuild node-sass
 
-EXPOSE 3000
+COPY . .
 
-CMD ["npm", "start"]
+RUN npm run build
+
+FROM nginx:stable-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

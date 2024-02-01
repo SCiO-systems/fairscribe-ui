@@ -1,0 +1,51 @@
+.edit-resource-form {
+	width: 100%;
+}
+
+.layout-content {
+	width: 100%;
+}
+
+.p-fieldset {
+	width: 100%;
+}
+
+.p-toggleable-content {
+	width: 100%;
+}
+
+.p-fieldset-content {
+	width: 100%;
+}
+
+.p-datatable-wrapper, .p-datatable-tbody, .p-datatable-thead {
+	width: 100%;
+}
+
+.upload-table {
+	width: 100%;
+}
+.p-resizable-column {
+	width: 33%;
+}
+
+.filename-template {
+	display: flex;
+	width: 200px;
+	overflow-wrap: break-word;
+	/*word-wrap: break-word;*/
+	/*white-space: unset !important;*/
+	/*white-space-collapse: unset;*/
+	/*text-wrap: balance;*/
+}
+
+.filename-template p {
+	width: 100%;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.upload-table .p-datatable-resizable-table>.p-datatable-tbody>tr>td {
+	overflow: unset;
+	white-space: unset;
+}

@@ -1,0 +1,24 @@
+[
+	{
+		"name": "First",
+		"data": [
+			{
+				"name": "name"
+			},
+			{
+				"name": "year"
+			}
+		]
+	},
+	{
+		"name": "Second",
+		"data": [
+			{
+				"surname": "vasilopoulos",
+			},
+			{
+				"surname": "sourgounis",
+			}
+		]
+	}
+]
